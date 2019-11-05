@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
@@ -22,11 +16,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="983.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DietasController">
+<StackPane prefHeight="983.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DietasController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="983.0" prefWidth="449.0" spacing="10.0" styleClass="nada">
+      <VBox alignment="TOP_CENTER" onMouseClicked="#updated" prefHeight="983.0" prefWidth="449.0" spacing="10.0" styleClass="nada">
          <children>
-            <VBox>
+            <VBox onMouseClicked="#updated">
                <children>
                   <HBox alignment="TOP_CENTER" spacing="5.0">
                      <children>
@@ -54,7 +48,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox>
+            <VBox onMouseClicked="#updated">
                <children>
                   <Label text="Información de la dieta" textFill="#757575">
                      <VBox.margin>
@@ -117,7 +111,7 @@
                   </FlowPane>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Distribución porcentual de kcalorias x macronutrientes (%)" textFill="#757575" />
                   <HBox alignment="CENTER">
@@ -129,7 +123,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textProteinas" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Proteinas" />
+                              <TextField fx:id="textProteinas" onKeyReleased="#porcentajeProteinas" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Proteinas" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -139,7 +133,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textCarbohidratos" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Carbohidratos" />
+                              <TextField fx:id="textCarbohidratos" onKeyReleased="#porcentajeCarbos" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Carbohidratos" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -149,7 +143,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textGrasas" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Grasas" />
+                              <TextField fx:id="textGrasas" onKeyReleased="#porcentajeGrasas" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Grasas" />
                            </children>
                         </VBox>
                      </children>
@@ -157,31 +151,31 @@
                   <Label text="Valores necesarios para el ciente segun las medidas" textFill="#757575" />
                   <HBox alignment="BOTTOM_CENTER" spacing="30.0">
                      <children>
-                        <VBox alignment="TOP_CENTER" styleClass="title">
+                        <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="KCal (K)" />
                               <Label fx:id="tKcalCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" styleClass="title">
+                        <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Gramos (G)" />
                               <Label fx:id="tGramsCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" styleClass="title">
+                        <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Carbs (C)" />
                               <Label fx:id="tCarbsCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" styleClass="title">
+                        <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Proteina (P)" />
                               <Label fx:id="tProteinCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" styleClass="title">
+                        <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Grasa/Fat (F)" />
                               <Label fx:id="tFatCliente" alignment="BASELINE_CENTER" text="0" />
@@ -191,7 +185,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Alimentos de la dieta" textFill="#757575" />
                   <HBox alignment="TOP_CENTER" spacing="5.0">
@@ -239,7 +233,7 @@
                               </Label>
                               <FlowPane hgap="10.0" styleClass="flowpane" vgap="10.0">
                                  <children>
-                                    <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" onAction="#getDomingo" text="Domingo">
+                                    <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" onAction="#getDomingo" onScroll="#updated" onSwipeDown="#updated" onSwipeUp="#updated" text="Domingo">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="dia" />
                                        </toggleGroup>
@@ -278,7 +272,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Valores en este plan de alimentacion" textFill="#757575" />
                   <HBox alignment="BOTTOM_CENTER" spacing="30.0">
@@ -324,14 +318,14 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ListView fx:id="listDesayuno" prefHeight="125.0" />
+                              <ListView fx:id="listDesayuno" onMouseClicked="#selectDesayuno" prefHeight="125.0" />
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>
-                                    <Label fx:id="gramosDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="kcalDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="carbDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="proteDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="fatDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="gramosDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="kcalDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="carbDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="proteDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="fatDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
                                  </children>
                               </HBox>
                               <JFXButton onAction="#deleteDesayuno" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
@@ -352,14 +346,14 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ListView fx:id="listAlmuerzo" prefHeight="125.0" />
+                              <ListView fx:id="listAlmuerzo" onMouseClicked="#selectAlmuerzo" prefHeight="125.0" />
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>
-                                    <Label fx:id="gramosAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="kcalAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="carbAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="proteAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="fatAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="gramosAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="kcalAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="carbAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="proteAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="fatAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
                                  </children>
                               </HBox>
                               <JFXButton onAction="#deleteAlmuerzo" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
@@ -380,14 +374,14 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ListView fx:id="listCena" prefHeight="125.0" />
+                              <ListView fx:id="listCena" onMouseClicked="#selectCena" prefHeight="125.0" />
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>
-                                    <Label fx:id="gramosCena" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="kcalCena" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="carbCena" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="proteCena" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="fatCena" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="gramosCena" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="kcalCena" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="carbCena" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="proteCena" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="fatCena" alignment="CENTER" text="0" textAlignment="CENTER" />
                                  </children>
                               </HBox>
                               <JFXButton onAction="#deleteCena" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
@@ -408,14 +402,14 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ListView fx:id="listPre" prefHeight="125.0" />
+                              <ListView fx:id="listPre" onMouseClicked="#selectPre" prefHeight="125.0" />
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>
-                                    <Label fx:id="gramosPre" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="kcalPre" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="carbPre" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="protePre" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="fatPre" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="gramosPre" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="kcalPre" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="carbPre" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="protePre" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="fatPre" alignment="CENTER" text="0" textAlignment="CENTER" />
                                  </children>
                               </HBox>
                               <JFXButton onAction="#deletePre" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
@@ -436,14 +430,14 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ListView fx:id="listPost" prefHeight="125.0" />
+                              <ListView fx:id="listPost" onMouseClicked="#selectPost" prefHeight="125.0" />
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>
-                                    <Label fx:id="gramosPost" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="kcalPost" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="carbPost" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="protePost" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="fatPost" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="gramosPost" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="kcalPost" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="carbPost" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="protePost" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="fatPost" alignment="CENTER" text="0" textAlignment="CENTER" />
                                  </children>
                               </HBox>
                               <JFXButton onAction="#deletePost" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
@@ -464,14 +458,14 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ListView fx:id="listMerienda" prefHeight="125.0" />
+                              <ListView fx:id="listMerienda" onMouseClicked="#selectMerienda" prefHeight="125.0" />
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>
-                                    <Label fx:id="gramosMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="kcalMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="carbMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="proteMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="fatMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="gramosMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="kcalMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="carbMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="proteMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="fatMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
                                  </children>
                               </HBox>
                               <JFXButton onAction="#deleteMerienda" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
@@ -492,14 +486,14 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ListView fx:id="listExtra" prefHeight="125.0" />
+                              <ListView fx:id="listExtra" onMouseClicked="#selectExtra" prefHeight="125.0" />
                               <HBox alignment="CENTER" spacing="5.0">
                                  <children>
-                                    <Label fx:id="gramosExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="kcalExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="carbExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="proteExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
-                                    <Label fx:id="fatExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="gramosExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="kcalExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="carbExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="proteExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <Label fx:id="fatExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
                                  </children>
                               </HBox>
                               <JFXButton onAction="#deleteExtra" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
@@ -517,7 +511,7 @@
                   </FlowPane>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="413.0" spacing="10.0">
                      <children>

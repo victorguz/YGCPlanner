@@ -7,7 +7,6 @@ package controlador;
 
 import DAO.DAOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +19,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.KeyEvent;
 import modelo.cliente.Medida;
 import modelo.plan.AlxDiet;
 import modelo.plan.Plan;
@@ -265,27 +263,8 @@ public class DietasController extends Controller<Plan> {
 
     @Override
     public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        datosDieta();
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
+        setKCalCliente();
+        porcentajesVacios();
     }
 
     @Override
@@ -473,12 +452,7 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    public void datosDieta() {
-        double g = 0;
-        double p = 0;
-        double c = 0;
-        double f = 0;
-        double k = 0;
+    public void selectDesayuno() {
         if (listDesayuno.getSelectionModel().getSelectedIndex() != -1) {
             carbDesayuno.setText("Carbs:\n" + listDesayuno.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
             proteDesayuno.setText("Protein:\n" + listDesayuno.getSelectionModel().getSelectedItem().getProteinasxpeso());
@@ -486,12 +460,15 @@ public class DietasController extends Controller<Plan> {
             kcalDesayuno.setText("KCal:\n" + listDesayuno.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
             gramosDesayuno.setText("Grams:\n" + listDesayuno.getSelectionModel().getSelectedItem().getPeso());
         } else {
-            carbDesayuno.setText("Carbs:\n----");
-            proteDesayuno.setText("Protein:\n----");
-            fatDesayuno.setText("Fat:\n----");
-            kcalDesayuno.setText("KCal:\n----");
-            gramosDesayuno.setText("Grams:\n----");
+            carbDesayuno.setText("Carbs:\n0.0");
+            proteDesayuno.setText("Protein:\n0.0");
+            fatDesayuno.setText("Fat:\n0.0");
+            kcalDesayuno.setText("KCal:\n0.0");
+            gramosDesayuno.setText("Grams:\n0.0");
         }
+    }
+
+    public void selectAlmuerzo() {
         if (listAlmuerzo.getSelectionModel().getSelectedIndex() != -1) {
             carbAlmuerzo.setText("Carbs:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
             proteAlmuerzo.setText("Protein:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getProteinasxpeso());
@@ -499,12 +476,15 @@ public class DietasController extends Controller<Plan> {
             kcalAlmuerzo.setText("KCal:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
             gramosAlmuerzo.setText("Grams:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getPeso());
         } else {
-            carbAlmuerzo.setText("Carbs:\n----");
-            proteAlmuerzo.setText("Protein:\n----");
-            fatAlmuerzo.setText("Fat:\n----");
-            kcalAlmuerzo.setText("KCal:\n----");
-            gramosAlmuerzo.setText("Grams:\n----");
+            carbAlmuerzo.setText("Carbs:\n0.0");
+            proteAlmuerzo.setText("Protein:\n0.0");
+            fatAlmuerzo.setText("Fat:\n0.0");
+            kcalAlmuerzo.setText("KCal:\n0.0");
+            gramosAlmuerzo.setText("Grams:\n0.0");
         }
+    }
+
+    public void selectCena() {
         if (listCena.getSelectionModel().getSelectedIndex() != -1) {
             carbCena.setText("Carbs:\n" + listCena.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
             proteCena.setText("Protein:\n" + listCena.getSelectionModel().getSelectedItem().getProteinasxpeso());
@@ -512,12 +492,15 @@ public class DietasController extends Controller<Plan> {
             kcalCena.setText("KCal:\n" + listCena.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
             gramosCena.setText("Grams:\n" + listCena.getSelectionModel().getSelectedItem().getPeso());
         } else {
-            carbCena.setText("Carbs:\n----");
-            proteCena.setText("Protein:\n----");
-            fatCena.setText("Fat:\n----");
-            kcalCena.setText("KCal:\n----");
-            gramosCena.setText("Grams:\n----");
+            carbCena.setText("Carbs:\n0.0");
+            proteCena.setText("Protein:\n0.0");
+            fatCena.setText("Fat:\n0.0");
+            kcalCena.setText("KCal:\n0.0");
+            gramosCena.setText("Grams:\n0.0");
         }
+    }
+
+    public void selectPre() {
         if (listPre.getSelectionModel().getSelectedIndex() != -1) {
             carbPre.setText("Carbs:\n" + listPre.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
             protePre.setText("Protein:\n" + listPre.getSelectionModel().getSelectedItem().getProteinasxpeso());
@@ -525,12 +508,15 @@ public class DietasController extends Controller<Plan> {
             kcalPre.setText("KCal:\n" + listPre.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
             gramosPre.setText("Grams:\n" + listPre.getSelectionModel().getSelectedItem().getPeso());
         } else {
-            carbPre.setText("Carbs:\n----");
-            protePre.setText("Protein:\n----");
-            fatPre.setText("Fat:\n----");
-            kcalPre.setText("KCal:\n----");
-            gramosPre.setText("Grams:\n----");
+            carbPre.setText("Carbs:\n0.0");
+            protePre.setText("Protein:\n0.0");
+            fatPre.setText("Fat:\n0.0");
+            kcalPre.setText("KCal:\n0.0");
+            gramosPre.setText("Grams:\n0.0");
         }
+    }
+
+    public void selectPost() {
         if (listPost.getSelectionModel().getSelectedIndex() != -1) {
             carbPost.setText("Carbs:\n" + listPost.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
             protePost.setText("Protein:\n" + listPost.getSelectionModel().getSelectedItem().getProteinasxpeso());
@@ -538,12 +524,15 @@ public class DietasController extends Controller<Plan> {
             kcalPost.setText("KCal:\n" + listPost.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
             gramosPost.setText("Grams:\n" + listPost.getSelectionModel().getSelectedItem().getPeso());
         } else {
-            carbPost.setText("Carbs:\n----");
-            protePost.setText("Protein:\n----");
-            fatPost.setText("Fat:\n----");
-            kcalPost.setText("KCal:\n----");
-            gramosPost.setText("Grams:\n----");
+            carbPost.setText("Carbs:\n0.0");
+            protePost.setText("Protein:\n0.0");
+            fatPost.setText("Fat:\n0.0");
+            kcalPost.setText("KCal:\n0.0");
+            gramosPost.setText("Grams:\n0.0");
         }
+    }
+
+    public void selectMerienda() {
         if (listMerienda.getSelectionModel().getSelectedIndex() != -1) {
             carbMerienda.setText("Carbs:\n" + listMerienda.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
             proteMerienda.setText("Protein:\n" + listMerienda.getSelectionModel().getSelectedItem().getProteinasxpeso());
@@ -551,12 +540,15 @@ public class DietasController extends Controller<Plan> {
             kcalMerienda.setText("KCal:\n" + listMerienda.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
             gramosMerienda.setText("Grams:\n" + listMerienda.getSelectionModel().getSelectedItem().getPeso());
         } else {
-            carbMerienda.setText("Carbs:\n----");
-            proteMerienda.setText("Protein:\n----");
-            fatMerienda.setText("Fat:\n----");
-            kcalMerienda.setText("KCal:\n----");
-            gramosMerienda.setText("Grams:\n----");
+            carbMerienda.setText("Carbs:\n0.0");
+            proteMerienda.setText("Protein:\n0.0");
+            fatMerienda.setText("Fat:\n0.0");
+            kcalMerienda.setText("KCal:\n0.0");
+            gramosMerienda.setText("Grams:\n0.0");
         }
+    }
+
+    public void selectExtra() {
         if (listExtra.getSelectionModel().getSelectedIndex() != -1) {
             carbExtra.setText("Carbs:\n" + listExtra.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
             proteExtra.setText("Protein:\n" + listExtra.getSelectionModel().getSelectedItem().getProteinasxpeso());
@@ -564,12 +556,21 @@ public class DietasController extends Controller<Plan> {
             kcalExtra.setText("KCal:\n" + listExtra.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
             gramosExtra.setText("Grams:\n" + listExtra.getSelectionModel().getSelectedItem().getPeso());
         } else {
-            carbExtra.setText("Carbs:\n----");
-            proteExtra.setText("Protein:\n----");
-            fatExtra.setText("Fat:\n----");
-            kcalExtra.setText("KCal:\n----");
-            gramosExtra.setText("Grams:\n----");
+            carbExtra.setText("Carbs:\n0.0");
+            proteExtra.setText("Protein:\n0.0");
+            fatExtra.setText("Fat:\n0.0");
+            kcalExtra.setText("KCal:\n0.0");
+            gramosExtra.setText("Grams:\n0.0");
         }
+    }
+
+    public void datosDieta() {
+        double g = 0;
+        double p = 0;
+        double c = 0;
+        double f = 0;
+        double k = 0;
+
         for (AlxDiet item : listDesayuno.getItems()) {
             g += item.getPeso();
             c += item.getCarbohidratosxpeso();
@@ -627,38 +628,81 @@ public class DietasController extends Controller<Plan> {
 
     }
 
-    public void macroPorcentajes() {
+    public void setKCalCliente() {
         if (!getMedida().isEmpty()) {
-            double cal = getMedida().getSuperavitODeficit();
-            tKcalCliente.setText("" + cal);
+            tKcalCliente.setText("" + getMedida().getSuperavitODeficit());
+        }
+    }
+
+    public void porcentajesVacios() {
+        if (textProteinas.getText().isEmpty()) {
+            if (!textProteinas.isFocused()) {
+                textProteinas.setText("40");
+            }
+        }
+                porcentajeProteinas();
+    if (textGrasas.getText().isEmpty()) {
+            if (!textGrasas.isFocused()) {
+                textGrasas.setText("30");
+            }
+        }
+                  porcentajeGrasas();
+  if (textCarbohidratos.getText().isEmpty()) {
+            if (!textCarbohidratos.isFocused()) {
+                textCarbohidratos.setText("30");
+            }
+        }
+            porcentajeCarbos();
+    }
+
+    public void porcentajeProteinas() {
+        if (!tKcalCliente.getText().isEmpty()) {
+            double cal = Double.parseDouble(tKcalCliente.getText());
             double porc;
-            if (textProteinas.getText().isEmpty()) {
-                if (!textProteinas.isFocused()) {
-                    textProteinas.setText("40");
-                    //   tProteinCliente.setText("" + Medida.redondear(cal * 0.4 / 4));
-                }
-            } else {
+            if (!textProteinas.getText().isEmpty()) {
                 porc = Double.parseDouble(textProteinas.getText()) / 100;
                 tProteinCliente.setText("" + Medida.redondear(cal * porc / 4));
             }
+        }
+        porcentajeGramos();
+    }
+
+    public void porcentajeGrasas() {
+        if (!tKcalCliente.getText().isEmpty()) {
+            double cal = Double.parseDouble(tKcalCliente.getText());
+            double porc;
+            if (textGrasas.getText().isEmpty()) {
+                if (!textGrasas.isFocused()) {
+                    textGrasas.setText("30");
+                    tFatCliente.setText("" + Medida.redondear(cal * 0.3 / 9));
+                }
+            } else {
+                porc = Double.parseDouble(textGrasas.getText()) / 100;
+                tFatCliente.setText("" + Medida.redondear(cal * porc / 9));
+            }
+        }
+        porcentajeGramos();
+    }
+
+    public void porcentajeCarbos() {
+        if (!tKcalCliente.getText().isEmpty()) {
+            double cal = Double.parseDouble(tKcalCliente.getText());
+            double porc;
             if (textCarbohidratos.getText().isEmpty()) {
                 if (!textCarbohidratos.isFocused()) {
                     textCarbohidratos.setText("30");
-                    //   tCarbsCliente.setText("" + Medida.redondear(cal * 0.3 / 4));
+                    tCarbsCliente.setText("" + Medida.redondear(cal * 0.3 / 4));
                 }
             } else {
                 porc = Double.parseDouble(textCarbohidratos.getText()) / 100;
                 tCarbsCliente.setText("" + Medida.redondear(cal * porc / 4));
             }
-            if (textGrasas.getText().isEmpty()) {
-                if (!textGrasas.isFocused()) {
-                    textGrasas.setText("30");
-                    //    tFatCliente.setText("" + Medida.redondear(cal * 0.3 / 4));
-                }
-            } else {
-                porc = Double.parseDouble(textGrasas.getText()) / 100;
-                tFatCliente.setText("" + Medida.redondear(cal * porc / 4));
-            }
+        }
+        porcentajeGramos();
+    }
+
+    public void porcentajeGramos() {
+        if (!tKcalCliente.getText().isEmpty()) {
             double grams = Double.parseDouble(tFatCliente.getText()) + Double.parseDouble(tCarbsCliente.getText()) + Double.parseDouble(tProteinCliente.getText());
             tGramsCliente.setText(Medida.redondear(grams) + "");
         }
@@ -709,8 +753,9 @@ public class DietasController extends Controller<Plan> {
             listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.POSTENTRENO));
             listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.MERIENDA));
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.EXTRA));
+            datosDieta();
         } catch (DAOException ex) {
-            Logger.getLogger(DietasController.class.getName()).log(Level.SEVERE, null, ex);
+                            mensaje("Condición", "error", ex);
         }
     }
 
@@ -723,8 +768,9 @@ public class DietasController extends Controller<Plan> {
             listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.POSTENTRENO));
             listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.MERIENDA));
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.EXTRA));
+            datosDieta();
         } catch (DAOException ex) {
-            Logger.getLogger(DietasController.class.getName()).log(Level.SEVERE, null, ex);
+                            mensaje("Condición", "error", ex);
         }
     }
 
@@ -737,8 +783,9 @@ public class DietasController extends Controller<Plan> {
             listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.POSTENTRENO));
             listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.MERIENDA));
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.EXTRA));
+            datosDieta();
         } catch (DAOException ex) {
-            Logger.getLogger(DietasController.class.getName()).log(Level.SEVERE, null, ex);
+                            mensaje("Condición", "error", ex);
         }
     }
 
@@ -751,8 +798,9 @@ public class DietasController extends Controller<Plan> {
             listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.POSTENTRENO));
             listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.MERIENDA));
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.EXTRA));
+            datosDieta();
         } catch (DAOException ex) {
-            Logger.getLogger(DietasController.class.getName()).log(Level.SEVERE, null, ex);
+                            mensaje("Condición", "error", ex);
         }
     }
 
@@ -765,8 +813,9 @@ public class DietasController extends Controller<Plan> {
             listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.POSTENTRENO));
             listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.MERIENDA));
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.EXTRA));
+            datosDieta();
         } catch (DAOException ex) {
-            Logger.getLogger(DietasController.class.getName()).log(Level.SEVERE, null, ex);
+                            mensaje("Condición", "error", ex);
         }
     }
 
@@ -779,8 +828,9 @@ public class DietasController extends Controller<Plan> {
             listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.POSTENTRENO));
             listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.MERIENDA));
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.EXTRA));
+            datosDieta();
         } catch (DAOException ex) {
-            Logger.getLogger(DietasController.class.getName()).log(Level.SEVERE, null, ex);
+                            mensaje("Condición", "error", ex);
         }
     }
 
@@ -793,8 +843,9 @@ public class DietasController extends Controller<Plan> {
             listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.POSTENTRENO));
             listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.MERIENDA));
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.EXTRA));
+            datosDieta();
         } catch (DAOException ex) {
-            Logger.getLogger(DietasController.class.getName()).log(Level.SEVERE, null, ex);
+                            mensaje("Condición", "error", ex);
         }
     }
 
@@ -806,6 +857,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.DESAYUNO);
                 getAlxdiets().insertar(a);
                 listDesayuno.getItems().add(a);
+                datosDieta();
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
@@ -821,6 +873,7 @@ public class DietasController extends Controller<Plan> {
                 mensaje("Condición", "error", ex);
             }
             listDesayuno.getItems().remove(listDesayuno.getSelectionModel().getSelectedItem());
+            datosDieta();
         } else {
             mensaje("Seleccione un alimento", "aviso", null);
 
@@ -834,6 +887,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.ALMUERZO);
                 getAlxdiets().insertar(a);
                 listAlmuerzo.getItems().add(a);
+                datosDieta();
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
@@ -849,6 +903,7 @@ public class DietasController extends Controller<Plan> {
                 mensaje("Condición", "error", ex);
             }
             listAlmuerzo.getItems().remove(listAlmuerzo.getSelectionModel().getSelectedItem());
+            datosDieta();
         } else {
             mensaje("Seleccione un alimento", "aviso", null);
 
@@ -862,7 +917,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.CENA);
                 getAlxdiets().insertar(a);
                 listCena.getItems().add(a);
-
+                datosDieta();
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
@@ -878,6 +933,7 @@ public class DietasController extends Controller<Plan> {
                 mensaje("Condición", "error", ex);
             }
             listCena.getItems().remove(listCena.getSelectionModel().getSelectedItem());
+            datosDieta();
         } else {
             mensaje("Seleccione un alimento", "aviso", null);
 
@@ -891,7 +947,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.EXTRA);
                 getAlxdiets().insertar(a);
                 listExtra.getItems().add(a);
-
+                datosDieta();
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
@@ -907,6 +963,7 @@ public class DietasController extends Controller<Plan> {
                 mensaje("Condición", "error", ex);
             }
             listExtra.getItems().remove(listExtra.getSelectionModel().getSelectedItem());
+            datosDieta();
         } else {
             mensaje("Seleccione un alimento", "aviso", null);
 
@@ -920,7 +977,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.MERIENDA);
                 getAlxdiets().insertar(a);
                 listMerienda.getItems().add(a);
-
+                datosDieta();
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
@@ -936,6 +993,7 @@ public class DietasController extends Controller<Plan> {
                 mensaje("Condición", "error", ex);
             }
             listMerienda.getItems().remove(listMerienda.getSelectionModel().getSelectedItem());
+            datosDieta();
         } else {
             mensaje("Seleccione un alimento", "aviso", null);
 
@@ -949,7 +1007,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.POSTENTRENO);
                 getAlxdiets().insertar(a);
                 listPost.getItems().add(a);
-
+                datosDieta();
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
@@ -965,6 +1023,7 @@ public class DietasController extends Controller<Plan> {
                 mensaje("Condición", "error", ex);
             }
             listPost.getItems().remove(listPost.getSelectionModel().getSelectedItem());
+            datosDieta();
         } else {
             mensaje("Seleccione un alimento", "aviso", null);
 
@@ -978,6 +1037,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.PREENTRENO);
                 getAlxdiets().insertar(a);
                 listPre.getItems().add(a);
+                datosDieta();
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
@@ -993,6 +1053,7 @@ public class DietasController extends Controller<Plan> {
                 mensaje("Condición", "error", ex);
             }
             listPre.getItems().remove(listPre.getSelectionModel().getSelectedItem());
+            datosDieta();
         } else {
             mensaje("Seleccione un alimento", "aviso", null);
 
