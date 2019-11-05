@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="983.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DietasController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="983.0" prefWidth="449.0" spacing="10.0" styleClass="nada">
+         <children>
+            <VBox>
+               <children>
+                  <HBox alignment="TOP_CENTER" spacing="5.0">
+                     <children>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Buscar plan" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textBuscarDieta" onAction="#buscar" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar plan" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Seleccionar plan" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboDieta" minWidth="150.0" onAction="#mostrar" prefHeight="40.0" promptText="PLAN" visibleRowCount="5" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Información de la dieta" textFill="#757575">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <FlowPane alignment="CENTER" styleClass="flowpane">
+                     <children>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Nombre" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textNombre" prefHeight="40.0" prefWidth="130.0" promptText="Nombre" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Objetivo" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboObjetivo" prefHeight="40.0" promptText="OBJETIVO" visibleRowCount="5" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Sexo" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboSexo" prefHeight="40.0" promptText="SEXO" visibleRowCount="5" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Edad" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textEdad" prefHeight="40.0" prefWidth="40.0" promptText="Edad" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Descripción del plan" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextArea fx:id="textDescripcion" prefHeight="70.0" prefWidth="377.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </FlowPane>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Distribución porcentual de kcalorias x macronutrientes (%)" textFill="#757575" />
+                  <HBox alignment="CENTER">
+                     <children>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="\% Proteinas" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textProteinas" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Proteinas" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="\% Carbohidratos" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textCarbohidratos" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Carbohidratos" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="\% Grasas" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textGrasas" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Grasas" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Label text="Valores necesarios para el ciente segun las medidas" textFill="#757575" />
+                  <HBox alignment="BOTTOM_CENTER" spacing="30.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" styleClass="title">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="KCal (K)" />
+                              <Label fx:id="tKcalCliente" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" styleClass="title">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="Gramos (G)" />
+                              <Label fx:id="tGramsCliente" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" styleClass="title">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="Carbs (C)" />
+                              <Label fx:id="tCarbsCliente" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" styleClass="title">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="Proteina (P)" />
+                              <Label fx:id="tProteinCliente" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" styleClass="title">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="Grasa/Fat (F)" />
+                              <Label fx:id="tFatCliente" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Alimentos de la dieta" textFill="#757575" />
+                  <HBox alignment="TOP_CENTER" spacing="5.0">
+                     <children>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Buscar alimento" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textBuscar" onAction="#buscarAlimento" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar alimento" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Seleccionar alimento" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboAlimentos" minWidth="150.0" prefHeight="40.0" promptText="ALIMENTOS" visibleRowCount="5" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Gramos" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textCantidad" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Gramos" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox styleClass="nada">
+                           <children>
+                              <Label text="Dia de la semana" textFill="#757575">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <FlowPane hgap="10.0" styleClass="flowpane" vgap="10.0">
+                                 <children>
+                                    <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" onAction="#getDomingo" text="Domingo">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="dia" />
+                                       </toggleGroup>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" onAction="#getLunes" text="Lunes" toggleGroup="$dia" />
+                                    <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" onAction="#getMartes" text="Martes" toggleGroup="$dia" />
+                                    <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" onAction="#getMiercoles" text="Miercoles" toggleGroup="$dia" />
+                                    <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" onAction="#getJueves" text="Jueves" toggleGroup="$dia" />
+                                    <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" onAction="#getViernes" text="Viernes" toggleGroup="$dia" />
+                                    <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" onAction="#getSabado" text="Sábado" toggleGroup="$dia" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </VBox>
+                        <VBox styleClass="nada">
+                           <children>
+                              <Label text="Momento del día" textFill="#757575">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <FlowPane hgap="10.0" styleClass="flowpane" vgap="10.0">
+                                 <children>
+                                    <JFXButton onAction="#addDesayuno" text="Desayuno" />
+                                    <JFXButton onAction="#addAlmuerzo" text="Almuerzo" />
+                                    <JFXButton onAction="#addCena" text="Cena" />
+                                    <JFXButton onAction="#addPre" text="Pre-entreno" />
+                                    <JFXButton onAction="#addPost" text="Post-entreno" />
+                                    <JFXButton onAction="#addMerienda" text="Merienda" />
+                                    <JFXButton onAction="#addExtra" text="Extra" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Valores en este plan de alimentacion" textFill="#757575" />
+                  <HBox alignment="BOTTOM_CENTER" spacing="30.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" styleClass="x">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="KCal (K)" />
+                              <Label fx:id="tKcal" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" styleClass="x">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="Gramos (G)" />
+                              <Label fx:id="tGrams" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" styleClass="x">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="Carbs (C)" />
+                              <Label fx:id="tCarbs" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" styleClass="x">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="Proteina (P)" />
+                              <Label fx:id="tProtein" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" styleClass="x">
+                           <children>
+                              <Label alignment="BASELINE_CENTER" text="Grasa/Fat (F)" />
+                              <Label fx:id="tFat" alignment="BASELINE_CENTER" text="0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <FlowPane hgap="5.0" styleClass="flowpane">
+                     <children>
+                        <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
+                           <children>
+                              <Label text="Desayuno" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ListView fx:id="listDesayuno" prefHeight="125.0" />
+                              <HBox alignment="CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="gramosDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="kcalDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="carbDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="proteDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="fatDesayuno" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                              <JFXButton onAction="#deleteDesayuno" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox prefWidth="200.0" styleClass="x">
+                           <children>
+                              <Label text="Almuerzo" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ListView fx:id="listAlmuerzo" prefHeight="125.0" />
+                              <HBox alignment="CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="gramosAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="kcalAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="carbAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="proteAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="fatAlmuerzo" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                              <JFXButton onAction="#deleteAlmuerzo" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox prefWidth="200.0" styleClass="x">
+                           <children>
+                              <Label text="Cena" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ListView fx:id="listCena" prefHeight="125.0" />
+                              <HBox alignment="CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="gramosCena" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="kcalCena" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="carbCena" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="proteCena" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="fatCena" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                              <JFXButton onAction="#deleteCena" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox prefWidth="200.0" styleClass="x">
+                           <children>
+                              <Label text="Pre-Entreno" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ListView fx:id="listPre" prefHeight="125.0" />
+                              <HBox alignment="CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="gramosPre" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="kcalPre" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="carbPre" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="protePre" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="fatPre" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                              <JFXButton onAction="#deletePre" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox prefWidth="200.0" styleClass="x">
+                           <children>
+                              <Label text="Post-Entreno" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ListView fx:id="listPost" prefHeight="125.0" />
+                              <HBox alignment="CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="gramosPost" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="kcalPost" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="carbPost" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="protePost" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="fatPost" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                              <JFXButton onAction="#deletePost" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox prefWidth="200.0" styleClass="x">
+                           <children>
+                              <Label text="Merienda" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ListView fx:id="listMerienda" prefHeight="125.0" />
+                              <HBox alignment="CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="gramosMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="kcalMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="carbMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="proteMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="fatMerienda" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                              <JFXButton onAction="#deleteMerienda" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox prefWidth="200.0" styleClass="x">
+                           <children>
+                              <Label text="Extra" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ListView fx:id="listExtra" prefHeight="125.0" />
+                              <HBox alignment="CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="gramosExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="kcalExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="carbExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="proteExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                    <Label fx:id="fatExtra" alignment="CENTER" text="----" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                              <JFXButton onAction="#deleteExtra" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                     </children>
+                  </FlowPane>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="413.0" spacing="10.0">
+                     <children>
+                        <JFXButton contentDisplay="CENTER" pickOnBounds="false" text="Guardar" />
+                        <JFXButton contentDisplay="CENTER" pickOnBounds="false" text="Limpiar" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

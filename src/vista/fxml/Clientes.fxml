@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ClienteController">
+   <children>
+      <VBox alignment="TOP_CENTER" styleClass="nada">
+         <children>
+            <VBox>
+               <children>
+                  <FlowPane alignment="CENTER" prefHeight="111.0" styleClass="flowpane">
+                     <children>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Nombre" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textNombre" onKeyTyped="#consumeLetters" prefHeight="40.0" prefWidth="130.0" promptText="Nombre" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Apellido" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textApellido" onKeyTyped="#consumeLetters" prefHeight="40.0" prefWidth="130.0" promptText="Apellido" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Tipo de documento" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboTipoDoc" prefHeight="40.0" promptText="Tipo de documento" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Numero de documento" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="130.0" promptText="Numero de documento" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Edad" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textEdad" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="40.0" promptText="Edad" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Sexo" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboSexo" prefHeight="40.0" promptText="Sexo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </FlowPane>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Ver PDFs" textFill="#757575" />
+                  <HBox alignment="BASELINE_CENTER" spacing="10.0">
+                     <children>
+                        <ToggleButton mnemonicParsing="false" text="Alimentación">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="PDFs" />
+                           </toggleGroup></ToggleButton>
+                        <ToggleButton mnemonicParsing="false" text="Entrenamiento" toggleGroup="$PDFs" />
+                        <ToggleButton mnemonicParsing="false" text="Todo" toggleGroup="$PDFs" />
+                     </children>
+                  </HBox>
+                  <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

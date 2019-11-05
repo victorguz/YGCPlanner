@@ -1,0 +1,103 @@
+/*
+* Style css
+*/
+.back{
+    font-family: serif;
+    -fx-font-size:12px;
+    -fx-background-color: rgb(240,240,240);
+    -fx-padding: 7;
+}
+
+.jfx-button, .toggle-button{
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 4;
+    -fx-text-fill: black;
+    -fx-pref-height: 33;
+}
+.toggle-button:selected{
+    -fx-background-color: rgb(240,240,240);
+}
+.toggle-button:pressed{
+    -fx-background-color: rgb(230,230,230);
+}
+.text-field:hover,.text-field:focused,.jfx-button:hover,.jfx-button:focused, .toggle-button:hover, .toggle-button:focused, .text-area:hover, .text-area:focused, .combo-box:hover, .combo-box:focused, .date-picker:focused,.date-picker:hover{
+    -fx-border-color:  #630eb8;
+}
+.scroll-pane, .date-picker, .list-view, TextArea{
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane:focused, .date-picker:focused{
+    -fx-background-insets: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-insets: 0;
+}
+.date-picker{
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 4;  
+    -fx-text-fill: black;
+}
+.text-field, .text-area,.combo-box, .list-view{
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 4;
+    -fx-border-insets: 2.5 5 2.5 5;    
+    -fx-text-fill: black;
+
+
+}
+.flowpane{
+    -fx-row-valignment: center;
+    -fx-vgap: 17;
+    -fx-alignment: CENTER;
+}
+VBox{
+    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-spacing: 17;
+    -fx-padding: 15;
+    -fx-alignment: TOP_CENTER;
+}
+
+.footer{
+    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-spacing: 10;
+    -fx-padding: 10;
+    -fx-alignment: TOP_CENTER;
+}
+
+.nada{
+    -fx-effect: null;
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-spacing: 10;
+    -fx-padding: 0;
+    -fx-alignment: null;
+}
+.title{
+    -fx-effect: null;
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-spacing: 0;
+    -fx-padding: 0;
+    -fx-alignment: null;
+}
+.x{
+    -fx-effect: null;
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-spacing: 0;
+    -fx-padding: 0;
+    -fx-alignment: center;
+}
