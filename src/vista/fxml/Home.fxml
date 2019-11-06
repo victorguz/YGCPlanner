@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ToggleButton?>
@@ -102,67 +101,6 @@
         </StackPane>
     </left>
     <right>
-        <StackPane styleClass="back" BorderPane.alignment="CENTER">
-            <children>
-                <VBox prefHeight="554.0" prefWidth="65.0">
-                    <children>
-                        <JFXButton id="sidebuttons" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" onAction="#registrar" prefHeight="50.0" text="Registrar" textFill="#757575">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../imagen/icono/baseline_assignment_black_18.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
-                        <JFXButton id="sidebuttons" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" onAction="#modificar" prefHeight="50.0" text="Modificar" textFill="#757575">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../imagen/icono/baseline_refresh_black_18dp.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
-                        <JFXButton id="sidebuttons" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" onAction="#buscar" prefHeight="50.0" text="Limpiar" textFill="#757575">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../imagen/icono/baseline_pan_tool_black_18.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
-                        <JFXButton id="sidebuttons" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" onAction="#eliminar" prefHeight="50.0" text="Eliminar" textFill="#757575">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
-                        <JFXButton id="sidebuttons" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" onAction="#limpiar" prefHeight="50.0" textFill="#757575">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../imagen/icono/baseline_fastfood_black_18.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
-                        <JFXButton id="sidebuttons" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" onAction="#imprimir" prefHeight="50.0" textFill="#757575">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../imagen/icono/baseline_fitness_center_black_18.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
-                    </children>
-                </VBox>
-            </children>
-        </StackPane>
+        <StackPane styleClass="back" BorderPane.alignment="CENTER" />
     </right>
 </BorderPane>

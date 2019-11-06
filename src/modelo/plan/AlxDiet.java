@@ -79,7 +79,10 @@ public class AlxDiet extends BasePlan {
 
     @Override
     public String toString() {
-        return getAlimento().toString();
+        return getPeso() + "g DE " + getAlimento() 
+                + ", CARBS: " + getCarbohidratosxpeso() 
+                + "g, PROTEIN: " + getProteinasxpeso()
+                + "g FAT: " + getGrasasxpeso() + "g";
     }
 
     @Override

@@ -9,6 +9,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -360,6 +361,14 @@
                                       </VBox>
                            </children>
                         </FlowPane>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <JFXButton onAction="#eliminar" text="Eliminar" />
+                              <JFXButton onAction="#limpiar" text="Limpiar" />
+                              <JFXButton onAction="#modificar" text="Modificar" />
+                              <JFXButton onAction="#registrar" text="Registrar" />
+                           </children>
+                        </HBox>
                           </children>
                       </VBox>
                </content>

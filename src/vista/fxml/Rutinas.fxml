@@ -127,16 +127,16 @@
                               <TextArea fx:id="textDescripcion" prefHeight="70.0" prefWidth="377.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" />
                            </children>
                         </VBox>
-                        <HBox fx:id="botones" alignment="CENTER" spacing="10.0">
-                           <children>
-                              <JFXButton contentDisplay="CENTER" onAction="#registrar" pickOnBounds="false" text="Registrar" />
-                              <JFXButton contentDisplay="CENTER" onAction="#modificar" pickOnBounds="false" text="Modificar" />
-                              <JFXButton contentDisplay="CENTER" onAction="#limpiar" pickOnBounds="false" text="Limpiar" />
-                              <JFXButton contentDisplay="CENTER" onAction="#eliminar" pickOnBounds="false" style="-fx-background-color: #FF5B60; -fx-text-fill: white;" text="Eliminar" textFill="WHITE" />
-                           </children>
-                        </HBox>
                      </children>
                   </FlowPane>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton onAction="#eliminar" text="Eliminar" />
+                        <JFXButton onAction="#limpiar" text="Limpiar" />
+                        <JFXButton onAction="#modificar" text="Modificar" />
+                        <JFXButton onAction="#registrar" text="Registrar" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <HBox prefHeight="114.0" prefWidth="2000.0" spacing="10.0">

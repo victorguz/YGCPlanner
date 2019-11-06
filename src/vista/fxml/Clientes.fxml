@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
@@ -16,9 +12,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ClienteController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ClienteController">
    <children>
       <VBox alignment="TOP_CENTER" styleClass="nada">
          <children>
@@ -88,6 +83,14 @@
                         </VBox>
                      </children>
                   </FlowPane>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton onAction="#eliminar" text="Eliminar" />
+                        <JFXButton onAction="#limpiar" text="Limpiar" />
+                        <JFXButton onAction="#modificar" text="Modificar" />
+                        <JFXButton onAction="#registrar" text="Registrar" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <VBox>
