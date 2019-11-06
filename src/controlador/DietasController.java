@@ -8,9 +8,6 @@ package controlador;
 import DAO.DAOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -640,19 +637,19 @@ public class DietasController extends Controller<Plan> {
                 textProteinas.setText("40");
             }
         }
-                porcentajeProteinas();
-    if (textGrasas.getText().isEmpty()) {
+        porcentajeProteinas();
+        if (textGrasas.getText().isEmpty()) {
             if (!textGrasas.isFocused()) {
                 textGrasas.setText("30");
             }
         }
-                  porcentajeGrasas();
-  if (textCarbohidratos.getText().isEmpty()) {
+        porcentajeGrasas();
+        if (textCarbohidratos.getText().isEmpty()) {
             if (!textCarbohidratos.isFocused()) {
                 textCarbohidratos.setText("30");
             }
         }
-            porcentajeCarbos();
+        porcentajeCarbos();
     }
 
     public void porcentajeProteinas() {
@@ -755,7 +752,7 @@ public class DietasController extends Controller<Plan> {
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.EXTRA));
             datosDieta();
         } catch (DAOException ex) {
-                            mensaje("Condición", "error", ex);
+            mensaje("Condición", "error", ex);
         }
     }
 
@@ -770,7 +767,7 @@ public class DietasController extends Controller<Plan> {
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.EXTRA));
             datosDieta();
         } catch (DAOException ex) {
-                            mensaje("Condición", "error", ex);
+            mensaje("Condición", "error", ex);
         }
     }
 
@@ -785,7 +782,7 @@ public class DietasController extends Controller<Plan> {
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.EXTRA));
             datosDieta();
         } catch (DAOException ex) {
-                            mensaje("Condición", "error", ex);
+            mensaje("Condición", "error", ex);
         }
     }
 
@@ -800,7 +797,7 @@ public class DietasController extends Controller<Plan> {
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.EXTRA));
             datosDieta();
         } catch (DAOException ex) {
-                            mensaje("Condición", "error", ex);
+            mensaje("Condición", "error", ex);
         }
     }
 
@@ -815,7 +812,7 @@ public class DietasController extends Controller<Plan> {
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.EXTRA));
             datosDieta();
         } catch (DAOException ex) {
-                            mensaje("Condición", "error", ex);
+            mensaje("Condición", "error", ex);
         }
     }
 
@@ -830,7 +827,7 @@ public class DietasController extends Controller<Plan> {
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.EXTRA));
             datosDieta();
         } catch (DAOException ex) {
-                            mensaje("Condición", "error", ex);
+            mensaje("Condición", "error", ex);
         }
     }
 
@@ -845,7 +842,7 @@ public class DietasController extends Controller<Plan> {
             listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.EXTRA));
             datosDieta();
         } catch (DAOException ex) {
-                            mensaje("Condición", "error", ex);
+            mensaje("Condición", "error", ex);
         }
     }
 

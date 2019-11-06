@@ -611,50 +611,30 @@ public class MedidaController extends Controller<Medida> {
      */
     @Override
     public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isMedidaUpdated()) {
-                            mostrar();
-                            setMedidaUpdated(false);
-                        }
-                        calcular();
-                        disable();
-                        if (datePicker.getValue() == null) {
-                            datePicker.setValue(LocalDate.now());
-                        }
-                        if (isButtonsMedidas()) {
-                            if (isOnRegistrar()) {
-                                setOnRegistrar(false);
-                                registrar();
-                            } else if (isOnModificar()) {
-                                setOnModificar(false);
-                                modificar();
-                            } else if (isOnEliminar()) {
-                                setOnEliminar(false);
-                                eliminar();
-                            } else if (isOnLimpiar()) {
-                                setOnLimpiar(false);
-                                limpiar();
-                            }
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
+        if (isMedidaUpdated()) {
+            mostrar();
+            setMedidaUpdated(false);
+        }
+        calcular();
+        disable();
+        if (datePicker.getValue() == null) {
+            datePicker.setValue(LocalDate.now());
+        }
+        if (isButtonsMedidas()) {
+            if (isOnRegistrar()) {
+                setOnRegistrar(false);
+                registrar();
+            } else if (isOnModificar()) {
+                setOnModificar(false);
+                modificar();
+            } else if (isOnEliminar()) {
+                setOnEliminar(false);
+                eliminar();
+            } else if (isOnLimpiar()) {
+                setOnLimpiar(false);
+                limpiar();
             }
-        });
-        t.setDaemon(true);
-        t.start();
+        }
     }
 
     public void selectObjetivo() {
