@@ -54,41 +54,6 @@ public class AlimentosController extends Controller<Alimento> {
 
     @Override
     public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isButtonsClientes()) {
-                            if (isOnRegistrar()) {
-                                setOnRegistrar(false);
-                                registrar();
-                            } else if (isOnModificar()) {
-                                setOnModificar(false);
-                                modificar();
-                            } else if (isOnEliminar()) {
-                                setOnEliminar(false);
-                                eliminar();
-                            } else if (isOnLimpiar()) {
-                                setOnLimpiar(false);
-                                limpiar();
-                            }
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
     }
 
     @Override

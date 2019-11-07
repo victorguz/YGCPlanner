@@ -82,16 +82,8 @@ public class Ejercicio {
     }
 
     public boolean isEmpty() {
-        if (getEjerciciokey() < 0) {
-            return false;
-        }
-        if (getNombre().isEmpty()) {
-            return false;
-        }
-        if (getDescripcion().isEmpty()) {
-            return false;
-        }
-        return !getComentarios().isEmpty();
+        return getNombre().isEmpty()
+        ||getDescripcion().isEmpty()||getComentarios().isEmpty();
     }
 
     @Override

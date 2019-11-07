@@ -94,9 +94,9 @@ public class ClienteController extends Controller<Cliente> {
                 c.setNombre(nombres.get(new Random().nextInt(20)));
                 c.setApellido(nombres.get(new Random().nextInt(20)));
                 c.setSexo("HOMBRE");
-                c.setEdad(new Random().nextInt(30)+7);
+                c.setEdad(new Random().nextInt(30) + 7);
                 c.setTipoIdentificacion("CEDULA DE CIUDADANIA");
-                c.setIdentificacion(""+(new Random().nextInt(9999999)+1000000));
+                c.setIdentificacion("" + (new Random().nextInt(9999999) + 1000000));
                 getClientes().insertar(c);
             }
 
@@ -157,7 +157,7 @@ public class ClienteController extends Controller<Cliente> {
             Cliente c = captar();
             if (c != null) {
                 if (c.isEmpty()) {
-                            crear();
+                    crear();
                     mensaje("A este cliente le faltan datos", "aviso", null);
                 } else {
                     getClientes().insertar(c);
@@ -217,45 +217,10 @@ public class ClienteController extends Controller<Cliente> {
      */
     @Override
     public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isClienteUpdated()) {
-                            mostrar();
-                            setClienteUpdated(false);
-                        }
-                        if (isButtonsClientes()) {
-                            if (isOnRegistrar()) {
-                                setOnRegistrar(false);
-                                registrar();
-                            } else if (isOnModificar()) {
-                                setOnModificar(false);
-                                modificar();
-                            } else if (isOnEliminar()) {
-                                setOnEliminar(false);
-                                eliminar();
-                            } else if (isOnLimpiar()) {
-                                setOnLimpiar(false);
-                                limpiar();
-                            }
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
+        if (isClienteUpdated()) {
+            mostrar();
+            setClienteUpdated(false);
+        }
     }
 
     @Override

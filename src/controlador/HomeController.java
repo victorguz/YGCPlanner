@@ -91,26 +91,6 @@ public class HomeController extends Controller<StackPane> {
      */
     @Override
     public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
     }
 
     public void mostrar(StackPane node) {

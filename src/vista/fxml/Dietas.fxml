@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="983.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DietasController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DietasController">
    <children>
       <VBox alignment="TOP_CENTER" onMouseClicked="#updated" spacing="10.0" styleClass="nada">
          <children>
@@ -133,7 +133,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textProteinas" onInputMethodTextChanged="#porcentajeProteinas" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Proteinas" />
+                              <TextField fx:id="textProteinas" onKeyReleased="#porcentajeProteinas" onKeyTyped="#consumeIntegers" prefHeight="40.0" prefWidth="110.0" promptText="\% Proteinas" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -195,7 +195,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
+            <VBox onMouseClicked="#updated">
                <children>
                   <Label text="Alimentos de la dieta" textFill="#757575" />
                   <HBox alignment="TOP_CENTER" spacing="5.0">
@@ -282,44 +282,44 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
+            <VBox onMouseClicked="#updated">
                <children>
-                  <Label text="Gramos de makronutrientes en este plan de alimentacion" textFill="#757575" />
+                  <Label text="Gramos de macronutrientes en este plan de alimentacion" textFill="#757575" />
                   <HBox alignment="BOTTOM_CENTER" spacing="30.0">
                      <children>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="KCal (K)" />
-                              <Label fx:id="tKcal" alignment="BASELINE_CENTER" text="0" />
+                              <Label alignment="BASELINE_CENTER" text="KCal" />
+                              <Label fx:id="tKcal" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Total" />
-                              <Label fx:id="tGrams" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="tGrams" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Carbos" />
-                              <Label fx:id="tCarbs" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="tCarbs" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Proteinas" />
-                              <Label fx:id="tProtein" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="tProtein" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Grasas" />
-                              <Label fx:id="tFat" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="tFat" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="223.0" prefWidth="459.0">
+                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0">
                      <tabs>
                         <Tab text="Desayuno">
                            <content>
@@ -448,7 +448,7 @@
                            <content>
                               <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <ListView fx:id="listExtra" prefHeight="125.0" />
+                                    <ListView fx:id="listExtra" />
                                     <JFXButton onAction="#deleteExtra" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

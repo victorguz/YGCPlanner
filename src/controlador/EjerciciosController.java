@@ -6,24 +6,12 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.isButtonsClientes;
-import static controlador.Controller.isOnEliminar;
-import static controlador.Controller.isOnLimpiar;
-import static controlador.Controller.isOnModificar;
-import static controlador.Controller.isOnRegistrar;
 import static controlador.Controller.mensaje;
-import static controlador.Controller.setOnEliminar;
-import static controlador.Controller.setOnLimpiar;
-import static controlador.Controller.setOnModificar;
-import static controlador.Controller.setOnRegistrar;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import modelo.plan.Ejercicio;
 import modelo.plan.Ejercicio;
 
 public class EjerciciosController extends Controller<Ejercicio> {
@@ -38,41 +26,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
     private TextArea textComentarios;
     @Override
     public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isButtonsClientes()) {
-                            if (isOnRegistrar()) {
-                                setOnRegistrar(false);
-                                registrar();
-                            } else if (isOnModificar()) {
-                                setOnModificar(false);
-                                modificar();
-                            } else if (isOnEliminar()) {
-                                setOnEliminar(false);
-                                eliminar();
-                            } else if (isOnLimpiar()) {
-                                setOnLimpiar(false);
-                                limpiar();
-                            }
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
     }
 
     @Override

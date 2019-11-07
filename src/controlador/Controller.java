@@ -283,6 +283,8 @@ public abstract class Controller<T> implements Initializable {
         int noSuchTable = ex_getMessage.indexOf("no such table: ");
         int noSuchColumn = ex_getMessage.indexOf("no such column: ");
         int uniqueAlxdiet = ex_getMessage.indexOf("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento");
+        int uniqueEjercicio = ex_getMessage.indexOf("ejercicios.nombre");
+        int uniqueAlimento = ex_getMessage.indexOf("alimentos.nombre");
         if (uniqueMedida != -1) {
             return "Este cliente ya tiene medidas en esta fecha";
         } else if (uniqueCliente != -1) {
@@ -291,6 +293,10 @@ public abstract class Controller<T> implements Initializable {
             return "Ya existe un plan con este nombre";
         } else if (uniqueAlxdiet != -1) {
             return "Ya añadiste este alimento para este momento";
+        }else if (uniqueEjercicio != -1) {
+            return "Ya existe un ejercicio con este nombre";
+        }else if (uniqueAlimento != -1) {
+            return "Ya existe un alimento con este nombre";
         } else if (notNull != -1) {
             String i = ex_getMessage.substring(notNull);
             return "Digite un " + i.substring(i.indexOf(".") + 1, i.indexOf(")"));
@@ -660,7 +666,7 @@ public abstract class Controller<T> implements Initializable {
             comboEjercicios.getItems().clear();
             if (!ejercicios.isEmpty()) {
                 comboEjercicios.setItems(ejercicios);
-                selectAlimento(0);
+                selectEjercicio(0);
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
