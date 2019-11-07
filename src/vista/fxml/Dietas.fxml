@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
@@ -18,7 +20,7 @@
 
 <StackPane prefHeight="983.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DietasController">
    <children>
-      <VBox alignment="TOP_CENTER" onMouseClicked="#updated" prefHeight="983.0" prefWidth="449.0" spacing="10.0" styleClass="nada">
+      <VBox alignment="TOP_CENTER" onMouseClicked="#updated" spacing="10.0" styleClass="nada">
          <children>
             <VBox onMouseClicked="#updated">
                <children>
@@ -119,7 +121,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
+            <VBox onMouseClicked="#updated">
                <children>
                   <Label text="Distribución porcentual de kcalorias x macronutrientes (%)" textFill="#757575" />
                   <HBox alignment="CENTER">
@@ -317,216 +319,154 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <FlowPane hgap="5.0" styleClass="flowpane">
-                     <children>
-                        <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
-                           <children>
-                              <Label text="Desayuno" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ListView fx:id="listDesayuno" onMouseClicked="#selectDesayuno" prefHeight="125.0" />
-                              <HBox alignment="CENTER" spacing="5.0">
+                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="223.0" prefWidth="459.0">
+                     <tabs>
+                        <Tab text="Desayuno">
+                           <content>
+                              <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <Label fx:id="gramosDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="kcalDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="carbDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="proteDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="fatDesayuno" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <ListView fx:id="listDesayuno" />
+                                    <JFXButton onAction="#deleteDesayuno" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
                                  </children>
-                              </HBox>
-                              <JFXButton onAction="#deleteDesayuno" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                        <VBox prefWidth="200.0" styleClass="x">
-                           <children>
-                              <Label text="Almuerzo" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ListView fx:id="listAlmuerzo" onMouseClicked="#selectAlmuerzo" prefHeight="125.0" />
-                              <HBox alignment="CENTER" spacing="5.0">
+                              </VBox>
+                           </content>
+                        </Tab>
+                        <Tab text="Almuerzo">
+                           <content>
+                              <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <Label fx:id="gramosAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="kcalAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="carbAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="proteAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="fatAlmuerzo" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <ListView fx:id="listAlmuerzo" />
+                                    <JFXButton onAction="#deleteAlmuerzo" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
                                  </children>
-                              </HBox>
-                              <JFXButton onAction="#deleteAlmuerzo" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                        <VBox prefWidth="200.0" styleClass="x">
-                           <children>
-                              <Label text="Cena" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ListView fx:id="listCena" onMouseClicked="#selectCena" prefHeight="125.0" />
-                              <HBox alignment="CENTER" spacing="5.0">
+                              </VBox>
+                           </content>
+                        </Tab>
+                        <Tab text="Cena">
+                           <content>
+                              <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <Label fx:id="gramosCena" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="kcalCena" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="carbCena" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="proteCena" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="fatCena" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <ListView fx:id="listCena" />
+                                    <JFXButton onAction="#deleteCena" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
                                  </children>
-                              </HBox>
-                              <JFXButton onAction="#deleteCena" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                        <VBox prefWidth="200.0" styleClass="x">
-                           <children>
-                              <Label text="Pre-Entreno" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ListView fx:id="listPre" onMouseClicked="#selectPre" prefHeight="125.0" />
-                              <HBox alignment="CENTER" spacing="5.0">
+                              </VBox>
+                           </content>
+                        </Tab>
+                        <Tab text="Preentreno">
+                           <content>
+                              <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <Label fx:id="gramosPre" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="kcalPre" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="carbPre" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="protePre" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="fatPre" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <ListView fx:id="listPre" />
+                                    <JFXButton onAction="#deletePre" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
                                  </children>
-                              </HBox>
-                              <JFXButton onAction="#deletePre" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                        <VBox prefWidth="200.0" styleClass="x">
-                           <children>
-                              <Label text="Post-Entreno" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ListView fx:id="listPost" onMouseClicked="#selectPost" prefHeight="125.0" />
-                              <HBox alignment="CENTER" spacing="5.0">
+                              </VBox>
+                           </content>
+                        </Tab>
+                        <Tab text="Postentreno">
+                           <content>
+                              <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <Label fx:id="gramosPost" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="kcalPost" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="carbPost" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="protePost" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="fatPost" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <ListView fx:id="listPost" />
+                                    <JFXButton onAction="#deletePost" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
                                  </children>
-                              </HBox>
-                              <JFXButton onAction="#deletePost" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                        <VBox prefWidth="200.0" styleClass="x">
-                           <children>
-                              <Label text="Merienda" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ListView fx:id="listMerienda" onMouseClicked="#selectMerienda" prefHeight="125.0" />
-                              <HBox alignment="CENTER" spacing="5.0">
+                              </VBox>
+                           </content>
+                        </Tab>
+                        <Tab text="Merienda">
+                           <content>
+                              <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <Label fx:id="gramosMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="kcalMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="carbMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="proteMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="fatMerienda" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <ListView fx:id="listMerienda" />
+                                    <JFXButton onAction="#deleteMerienda" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
                                  </children>
-                              </HBox>
-                              <JFXButton onAction="#deleteMerienda" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                        <VBox prefWidth="200.0" styleClass="x">
-                           <children>
-                              <Label text="Extra" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ListView fx:id="listExtra" onMouseClicked="#selectExtra" prefHeight="125.0" />
-                              <HBox alignment="CENTER" spacing="5.0">
+                              </VBox>
+                           </content>
+                        </Tab>
+                        <Tab text="Extra">
+                           <content>
+                              <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <Label fx:id="gramosExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="kcalExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="carbExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="proteExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
-                                    <Label fx:id="fatExtra" alignment="CENTER" text="0" textAlignment="CENTER" />
+                                    <ListView fx:id="listExtra" prefHeight="125.0" />
+                                    <JFXButton onAction="#deleteExtra" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXButton>
                                  </children>
-                              </HBox>
-                              <JFXButton onAction="#deleteExtra" pickOnBounds="false" prefWidth="160.0" text="Eliminar">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                     </children>
-                  </FlowPane>
-               </children>
-            </VBox>
-            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="413.0" spacing="10.0">
-                     <children>
-                        <JFXButton contentDisplay="CENTER" pickOnBounds="false" text="Guardar" />
-                        <JFXButton contentDisplay="CENTER" pickOnBounds="false" text="Limpiar" />
-                     </children>
-                  </HBox>
+                              </VBox>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </JFXTabPane>
                </children>
             </VBox>
          </children>

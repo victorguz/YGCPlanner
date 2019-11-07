@@ -156,6 +156,9 @@ public abstract class Controller<T> implements Initializable {
 
     @FXML
     protected ComboBox<Alimento> comboAlimentos;
+    
+    @FXML
+    protected ComboBox<Ejercicio> comboEjercicios;
 
     protected static ObservableList<Cliente> clientes;
 
@@ -626,6 +629,44 @@ public abstract class Controller<T> implements Initializable {
     public void selectAlimento(int i) {
         if (!comboAlimentos.getItems().isEmpty()) {
             comboAlimentos.getSelectionModel().select(i);
+        }
+    }
+    public void buscarEjercicio() {
+        if (textBuscar.getText().isEmpty()) {
+            obtenerEjercicios();
+        } else {
+            try {
+                ejercicios = getEjercicios().obtenerTodos(textBuscar.getText());
+                comboEjercicios.getItems().clear();
+                if (ejercicios.isEmpty()) {
+                    mensaje("No se encontraron ejercicios con este nombre", "aviso", null);
+                    limpiar();
+                } else {
+                    comboEjercicios.setItems(ejercicios);
+                    mensaje("Se encontraron " + ejercicios.size() + " ejercicios", "exito", null);
+                    selectEjercicio(0);
+                }
+            } catch (DAOException ex) {
+                mensaje("Condición", "error", ex);
+            }
+        }
+    }
+    public void obtenerEjercicios() {
+        try {
+            ejercicios = getEjercicios().obtenerTodos();
+            comboEjercicios.getItems().clear();
+            if (!ejercicios.isEmpty()) {
+                comboEjercicios.setItems(ejercicios);
+                selectAlimento(0);
+            }
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
+
+    public void selectEjercicio(int i) {
+        if (!comboEjercicios.getItems().isEmpty()) {
+            comboEjercicios.getSelectionModel().select(i);
         }
     }
 }

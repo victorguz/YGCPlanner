@@ -6,8 +6,11 @@
 package controlador;
 
 import DAO.DAOException;
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -18,6 +21,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import modelo.plan.Alimento;
+import modelo.plan.AlxDiet;
+import modelo.plan.EjxRut;
 import modelo.plan.Plan;
 
 /**
@@ -27,10 +32,10 @@ import modelo.plan.Plan;
 public class RutinasController extends Controller<Plan> {
 
     @FXML
-    protected ComboBox<Plan> comboRutina;
+    private TextField textBuscarRutina;
 
     @FXML
-    private TextField textBuscarRutina;
+    private ComboBox<Plan> comboRutina;
 
     @FXML
     private TextField textNombre;
@@ -39,225 +44,37 @@ public class RutinasController extends Controller<Plan> {
     private TextArea textDescripcion;
 
     @FXML
-    private HBox botones;
+    private TextField textRepeticiones;
 
     @FXML
-    private TextField textBuscarAlimento;
+    private ListView<EjxRut> listDomingo;
 
     @FXML
-    private ComboBox<Alimento> comboAlimento;
+    private ListView<EjxRut> listLunes;
 
     @FXML
-    private TextField textCantidad;
+    private ListView<EjxRut> listMartes;
 
     @FXML
-    private Label tGrams;
+    private ListView<EjxRut> listMiercoles;
 
     @FXML
-    private Label tKca;
+    private ListView<EjxRut> listJueves;
 
     @FXML
-    private Label tCarbs;
+    private ListView<EjxRut> listViernes;
 
     @FXML
-    private Label tProtein;
-
-    @FXML
-    private Label tFat;
-
-    @FXML
-    private ListView<Alimento> listDesayuno;
-
-    @FXML
-    private Label gramosDesayuno;
-
-    @FXML
-    private Label kcalDesayuno;
-
-    @FXML
-    private Label carbDesayuno;
-
-    @FXML
-    private Label proteDesayuno;
-
-    @FXML
-    private Label fatDesayuno;
-
-    @FXML
-    private TextArea textDesayuno;
-
-    @FXML
-    private ListView<Alimento> listAlmuerzo;
-
-    @FXML
-    private Label gramosAlmuerzo;
-
-    @FXML
-    private Label kcalAlmuerzo;
-
-    @FXML
-    private Label carbAlmuerzo;
-
-    @FXML
-    private Label proteAlmuerzo;
-
-    @FXML
-    private Label fatAlmuerzo;
-
-    @FXML
-    private TextArea texAlmuerzo;
-
-    @FXML
-    private ListView<Alimento> listCena;
-
-    @FXML
-    private Label gramosCena;
-
-    @FXML
-    private Label kcalCena;
-
-    @FXML
-    private Label carbCena;
-
-    @FXML
-    private Label proteCena;
-
-    @FXML
-    private Label fatCena;
-
-    @FXML
-    private TextArea textCena;
-
-    @FXML
-    private ListView<Alimento> listPre;
-
-    @FXML
-    private Label gramosPre;
-
-    @FXML
-    private Label kcalPre;
-
-    @FXML
-    private Label carbPre;
-
-    @FXML
-    private Label protePre;
-
-    @FXML
-    private Label fatPre;
-
-    @FXML
-    private TextArea textPre;
-
-    @FXML
-    private ListView<Alimento> listPost;
-
-    @FXML
-    private Label gramosPost;
-
-    @FXML
-    private Label kcalPost;
-
-    @FXML
-    private Label carbPost;
-
-    @FXML
-    private Label protePost;
-
-    @FXML
-    private Label fatPost;
-
-    @FXML
-    private TextArea textPost;
-
-    @FXML
-    private ListView<Alimento> listMerienda;
-
-    @FXML
-    private Label gramosMerienda;
-
-    @FXML
-    private Label kcalMerienda;
-
-    @FXML
-    private Label carbMerienda;
-
-    @FXML
-    private Label proteMerienda;
-
-    @FXML
-    private Label fatMerienda;
-
-    @FXML
-    private TextArea textMerienda;
-
-    @FXML
-    private ListView<Alimento> listExtra;
-
-    @FXML
-    private Label gramosExtra;
-
-    @FXML
-    private Label kcalExtra;
-
-    @FXML
-    private Label carbExtra;
-
-    @FXML
-    private Label proteExtra;
-
-    @FXML
-    private Label fatExtra;
-
-    @FXML
-    private TextArea textExtra;
-
-    @FXML
-    void deleteAlmuerzo(ActionEvent event) {
-
-    }
-
-    @FXML
-    void deleteCena(ActionEvent event) {
-
-    }
-
-    @FXML
-    void deleteDesayuno(ActionEvent event) {
-
-    }
-
-    @FXML
-    void deleteExtra(ActionEvent event) {
-
-    }
-
-    @FXML
-    void deleteMerienda(ActionEvent event) {
-
-    }
-
-    @FXML
-    void deletePost(ActionEvent event) {
-
-    }
-
-    @FXML
-    void deletePre(ActionEvent event) {
-
-    }
+    private ListView<EjxRut> listSabado;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         obtenerObjetivos();
+        obtenerEjercicios();
         obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
         updated();
-    }
-
-    @Override
-    public void updated() {
     }
 
     @Override
@@ -345,11 +162,13 @@ public class RutinasController extends Controller<Plan> {
     @Override
     public void buscar() {
         if (textBuscarRutina.getText().isEmpty()) {
+            obtener();
+        } else {
             try {
                 rutinas = getRutinas().obtenerTodos(textBuscarRutina.getText());
-                //comboRutina.getItems().clear();
+                comboRutina.getItems().clear();
                 if (rutinas.isEmpty()) {
-                    mensaje("No se encontraron planes de entrenamiento", "aviso", null);
+                    mensaje("No se encontraron planes de alimentación", "aviso", null);
                 } else {
                     comboRutina.setItems(rutinas);
                     select(0);
@@ -363,66 +182,6 @@ public class RutinasController extends Controller<Plan> {
 
     @Override
     public void limpiar() {
-        textBuscarRutina.setText("");
-        textNombre.setText("");
-        textDescripcion.setText("");
-        textBuscarAlimento.setText("");
-        comboAlimento.getItems().clear();
-        textCantidad.setText("");
-        tGrams.setText("");
-        tKca.setText("");
-        tCarbs.setText("");
-        tProtein.setText("");
-        tFat.setText("");
-        listDesayuno.getItems().clear();
-        gramosDesayuno.setText("");
-        kcalDesayuno.setText("");
-        carbDesayuno.setText("");
-        proteDesayuno.setText("");
-        fatDesayuno.setText("");
-        textDesayuno.setText("");
-        listAlmuerzo.getItems().clear();
-        gramosAlmuerzo.setText("");
-        kcalAlmuerzo.setText("");
-        carbAlmuerzo.setText("");
-        proteAlmuerzo.setText("");
-        fatAlmuerzo.setText("");
-        texAlmuerzo.setText("");
-        listCena.getItems().clear();
-        gramosCena.setText("");
-        kcalCena.setText("");
-        carbCena.setText("");
-        proteCena.setText("");
-        fatCena.setText("");
-        textCena.setText("");
-        listPre.getItems().clear();
-        gramosPre.setText("");
-        kcalPre.setText("");
-        carbPre.setText("");
-        protePre.setText("");
-        fatPre.setText("");
-        textPre.setText("");
-        listPost.getItems().clear();
-        gramosPost.setText("");
-        kcalPost.setText("");
-        carbPost.setText("");
-        protePost.setText("");
-        fatPost.setText("");
-        textPost.setText("");
-        listMerienda.getItems().clear();
-        gramosMerienda.setText("");
-        kcalMerienda.setText("");
-        carbMerienda.setText("");
-        proteMerienda.setText("");
-        fatMerienda.setText("");
-        textMerienda.setText("");
-        listExtra.getItems().clear();
-        gramosExtra.setText("");
-        kcalExtra.setText("");
-        carbExtra.setText("");
-        proteExtra.setText("");
-        fatExtra.setText("");
-        textExtra.setText("");
     }
 
     @Override
@@ -444,4 +203,214 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
+    @Override
+    public void updated() {
+    }
+
+    public Plan getRutina() {
+        return comboRutina.getSelectionModel().getSelectedItem();
+    }
+
+    public EjxRut getEjxRut() throws DAOException {
+        if (!comboRutina.getItems().isEmpty()) {
+            EjxRut a = new EjxRut();
+            a.setPlan(getRutina());
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            if (textRepeticiones.getText().isEmpty()) {
+                throw new DAOException("Digite un numero de repeticiones");
+            } else {
+                a.setPeso(Double.parseDouble(textRepeticiones.getText()));
+            }
+            a.setDia(AlxDiet.LUNES);
+            a.setDia(AlxDiet.MARTES);
+            a.setDia(AlxDiet.MIERCOLES);
+            a.setDia(AlxDiet.JUEVES);
+            a.setDia(AlxDiet.VIERNES);
+            a.setDia(AlxDiet.SABADO);
+            return a;
+        }
+        return null;
+    }
+
+    @FXML
+    void getDomingo(ActionEvent event) {
+        try {
+            EjxRut a = getEjxRut();
+            a.setDia(EjxRut.DOMINGO);
+            a.setMomento(EjxRut.ENTRENO);
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            getEjxruts().insertar(a);
+            listDomingo.getItems().add(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
+
+    @FXML
+    void deleteDomingo(ActionEvent event) {
+        if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
+            try {
+                getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
+                listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
+            } catch (DAOException ex) {
+                mensaje("Condición", "error", ex);
+            }
+        }
+    }
+
+    @FXML
+    void getLunes(ActionEvent event) {
+        try {
+            EjxRut a = getEjxRut();
+            a.setDia(EjxRut.DOMINGO);
+            a.setMomento(EjxRut.ENTRENO);
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            getEjxruts().insertar(a);
+            listDomingo.getItems().add(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
+
+    @FXML
+    void deleteLunes(ActionEvent event) {
+        if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
+            try {
+                getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
+                listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
+            } catch (DAOException ex) {
+                mensaje("Condición", "error", ex);
+            }
+        }
+    }
+
+    @FXML
+    void getMartes(ActionEvent event) {
+        try {
+            EjxRut a = getEjxRut();
+            a.setDia(EjxRut.DOMINGO);
+            a.setMomento(EjxRut.ENTRENO);
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            getEjxruts().insertar(a);
+            listDomingo.getItems().add(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
+
+    @FXML
+    void deleteMartes(ActionEvent event) {
+        if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
+            try {
+                getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
+                listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
+            } catch (DAOException ex) {
+                mensaje("Condición", "error", ex);
+            }
+        }
+    }
+
+    @FXML
+    void getMiercoles(ActionEvent event) {
+        try {
+            EjxRut a = getEjxRut();
+            a.setDia(EjxRut.DOMINGO);
+            a.setMomento(EjxRut.ENTRENO);
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            getEjxruts().insertar(a);
+            listDomingo.getItems().add(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
+
+    @FXML
+    void deleteMiercoles(ActionEvent event) {
+        if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
+            try {
+                getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
+                listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
+            } catch (DAOException ex) {
+                mensaje("Condición", "error", ex);
+            }
+        }
+    }
+
+    @FXML
+    void getJueves(ActionEvent event) {
+        try {
+            EjxRut a = getEjxRut();
+            a.setDia(EjxRut.DOMINGO);
+            a.setMomento(EjxRut.ENTRENO);
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            getEjxruts().insertar(a);
+            listDomingo.getItems().add(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
+
+    @FXML
+    void deleteJueves(ActionEvent event) {
+        if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
+            try {
+                getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
+                listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
+            } catch (DAOException ex) {
+                mensaje("Condición", "error", ex);
+            }
+        }
+    }
+
+    @FXML
+    void getViernes(ActionEvent event) {
+        try {
+            EjxRut a = getEjxRut();
+            a.setDia(EjxRut.DOMINGO);
+            a.setMomento(EjxRut.ENTRENO);
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            getEjxruts().insertar(a);
+            listDomingo.getItems().add(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
+
+    @FXML
+    void deleteViernes(ActionEvent event) {
+        if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
+            try {
+                getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
+                listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
+            } catch (DAOException ex) {
+                mensaje("Condición", "error", ex);
+            }
+        }
+    }
+
+    @FXML
+    void getSabado(ActionEvent event) {
+        try {
+            EjxRut a = getEjxRut();
+            a.setDia(EjxRut.DOMINGO);
+            a.setMomento(EjxRut.ENTRENO);
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            getEjxruts().insertar(a);
+            listDomingo.getItems().add(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
+
+    @FXML
+    void deleteSabado(ActionEvent event) {
+        if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
+            try {
+                getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
+                listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
+            } catch (DAOException ex) {
+                mensaje("Condición", "error", ex);
+            }
+        }
+    }
 }

@@ -15,11 +15,11 @@
 
 <StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.MedidaController">
     <children>
-      <SplitPane dividerPositions="0.5" StackPane.alignment="BOTTOM_CENTER">
+      <SplitPane dividerPositions="0.5707196029776674" StackPane.alignment="BOTTOM_CENTER">
         <items>
             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER">
                <content>
-                      <VBox onKeyReleased="#updated" onMouseEntered="#updated" onMouseExited="#updated">
+                      <VBox onKeyReleased="#updated">
                           <children>
                               <Label text="Medidas antropométricas cm-Kg" textFill="#757575" />
                               <FlowPane styleClass="flowpane">
@@ -77,7 +77,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textPeso" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                                              <TextField fx:id="textPeso" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -90,7 +90,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textAltura" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Altura" text="176" />
+                                              <TextField fx:id="textAltura" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Altura" text="176" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -103,7 +103,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textMuneca" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Muñeca" text="17" />
+                                              <TextField fx:id="textMuneca" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Muñeca" text="17" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -116,7 +116,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textCuello" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cuello" text="34" />
+                                              <TextField fx:id="textCuello" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cuello" text="34" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -129,7 +129,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textCinturaAlta" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cintura Alta" text="92" />
+                                              <TextField fx:id="textCinturaAlta" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cintura Alta" text="92" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -142,7 +142,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textCinturaMedia" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cintura Media" text="90" />
+                                              <TextField fx:id="textCinturaMedia" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cintura Media" text="90" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -155,7 +155,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textCinturaBaja" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cintura Baja" text="93" />
+                                              <TextField fx:id="textCinturaBaja" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cintura Baja" text="93" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -168,7 +168,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textCadera" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cadera" text="87" />
+                                              <TextField fx:id="textCadera" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cadera" text="87" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -181,7 +181,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textPectorales" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Pectorales/Busto" text="92" />
+                                              <TextField fx:id="textPectorales" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Pectorales/Busto" text="92" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -194,7 +194,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textBicepIzq" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Bicep Izq" text="31" />
+                                              <TextField fx:id="textBicepIzq" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Bicep Izq" text="31" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -207,7 +207,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textBicepDer" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Bicep Der" text="31.5" />
+                                              <TextField fx:id="textBicepDer" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Bicep Der" text="31.5" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -220,7 +220,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textCuadricepIzq" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cuadricep Izq" text="49.5" />
+                                              <TextField fx:id="textCuadricepIzq" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cuadricep Izq" text="49.5" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -233,7 +233,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textCuadricepDer" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cuadriceps Der" text="49" />
+                                              <TextField fx:id="textCuadricepDer" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Cuadriceps Der" text="49" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -246,7 +246,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textPantorrillaIzq" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Pantorrilla Izq" text="34.5" />
+                                              <TextField fx:id="textPantorrillaIzq" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Pantorrilla Izq" text="34.5" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -259,7 +259,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textPantorrillaDer" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Pantorrilla Der" text="35" />
+                                              <TextField fx:id="textPantorrillaDer" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Pantorrilla Der" text="35" />
                                           </children>
                                       </VBox>
                                   </children>
@@ -277,7 +277,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textTricipital" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Tricipital" text="20" />
+                                              <TextField fx:id="textTricipital" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Tricipital" text="20" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -290,7 +290,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textBicipital" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Bicipital" text="20" />
+                                              <TextField fx:id="textBicipital" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Bicipital" text="20" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -303,7 +303,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textSubescapular" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Subescapular" text="20" />
+                                              <TextField fx:id="textSubescapular" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Subescapular" text="20" />
                                           </children>
                                       </VBox>
                                       <VBox styleClass="title">
@@ -316,7 +316,7 @@
                                                       <Insets left="6.0" />
                                                   </padding>
                                               </Label>
-                                              <TextField fx:id="textSuprailiaco" onKeyReleased="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Suprailiaco" text="20" />
+                                              <TextField fx:id="textSuprailiaco" onInputMethodTextChanged="#updated" onKeyTyped="#consumeDouble" prefHeight="40.0" prefWidth="130.0" promptText="Suprailiaco" text="20" />
                                           </children>
                                       </VBox>
                                   </children>
@@ -377,7 +377,7 @@
                <content>
                       <VBox>
                           <children>
-                              <FlowPane columnHalignment="CENTER" hgap="10.0" onKeyReleased="#updated" onMouseEntered="#updated" onMouseExited="#updated" styleClass="flowpane" vgap="10.0">
+                              <FlowPane columnHalignment="CENTER" hgap="10.0" onKeyReleased="#updated" styleClass="flowpane" vgap="10.0">
                                   <children>
                                       <VBox styleClass="title">
                                           <children>

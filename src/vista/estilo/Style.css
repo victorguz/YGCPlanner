@@ -1,6 +1,10 @@
 /*
 * Style css
 */
+.root{
+    -fx-font-size: 16pt;
+    -fx-font-family: "Arial";
+}
 .back{
     font-family: serif;
     -fx-font-size:12px;
@@ -16,10 +20,10 @@
     -fx-text-fill: black;
     -fx-pref-height: 33;
 }
-.toggle-button:selected{
+.tab:selected,.toggle-button:selected{
     -fx-background-color: rgb(240,240,240);
 }
-.toggle-button:pressed{
+.tab:pressed,.toggle-button:pressed{
     -fx-background-color: rgb(230,230,230);
 }
 .text-field:hover,.text-field:focused,.jfx-button:hover,.jfx-button:focused, .toggle-button:hover, .toggle-button:focused, .text-area:hover, .text-area:focused, .combo-box:hover, .combo-box:focused, .date-picker:focused,.date-picker:hover{
@@ -100,4 +104,23 @@ VBox{
     -fx-spacing: 0;
     -fx-padding: 0;
     -fx-alignment: center;
+}
+
+
+/*
+    The tab bar
+*/
+.tab .tab-label{
+    -fx-text-fill: black;
+    -fx-background-radius: 4;
+}
+.jfx-tab-pane .headers-region {
+    -fx-background-color: white;    
+}
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: rgb(99,14,194);
+    -fx-background-radius: 5;
+}
+.jfx-tab-pane .tab-selected-line {
+    -fx-stroke: #630eb8;
 }

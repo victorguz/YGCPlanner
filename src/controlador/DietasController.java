@@ -251,7 +251,6 @@ public class DietasController extends Controller<Plan> {
     public void initialize(URL location, ResourceBundle resources) {
         obtenerObjetivos();
         obtenerAlimentos();
-        comboAlimentos.getSelectionModel().select(0);
         obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
@@ -446,118 +445,6 @@ public class DietasController extends Controller<Plan> {
         if (!comboDieta.getItems().isEmpty()) {
             comboDieta.getSelectionModel().select(i);
             mostrar();
-        }
-    }
-
-    public void selectDesayuno() {
-        if (listDesayuno.getSelectionModel().getSelectedIndex() != -1) {
-            carbDesayuno.setText("Carbs:\n" + listDesayuno.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
-            proteDesayuno.setText("Protein:\n" + listDesayuno.getSelectionModel().getSelectedItem().getProteinasxpeso());
-            fatDesayuno.setText("Fat:\n" + listDesayuno.getSelectionModel().getSelectedItem().getGrasasxpeso());
-            kcalDesayuno.setText("KCal:\n" + listDesayuno.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
-            gramosDesayuno.setText("Grams:\n" + listDesayuno.getSelectionModel().getSelectedItem().getPeso());
-        } else {
-            carbDesayuno.setText("Carbs:\n0.0");
-            proteDesayuno.setText("Protein:\n0.0");
-            fatDesayuno.setText("Fat:\n0.0");
-            kcalDesayuno.setText("KCal:\n0.0");
-            gramosDesayuno.setText("Grams:\n0.0");
-        }
-    }
-
-    public void selectAlmuerzo() {
-        if (listAlmuerzo.getSelectionModel().getSelectedIndex() != -1) {
-            carbAlmuerzo.setText("Carbs:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
-            proteAlmuerzo.setText("Protein:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getProteinasxpeso());
-            fatAlmuerzo.setText("Fat:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getGrasasxpeso());
-            kcalAlmuerzo.setText("KCal:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
-            gramosAlmuerzo.setText("Grams:\n" + listAlmuerzo.getSelectionModel().getSelectedItem().getPeso());
-        } else {
-            carbAlmuerzo.setText("Carbs:\n0.0");
-            proteAlmuerzo.setText("Protein:\n0.0");
-            fatAlmuerzo.setText("Fat:\n0.0");
-            kcalAlmuerzo.setText("KCal:\n0.0");
-            gramosAlmuerzo.setText("Grams:\n0.0");
-        }
-    }
-
-    public void selectCena() {
-        if (listCena.getSelectionModel().getSelectedIndex() != -1) {
-            carbCena.setText("Carbs:\n" + listCena.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
-            proteCena.setText("Protein:\n" + listCena.getSelectionModel().getSelectedItem().getProteinasxpeso());
-            fatCena.setText("Fat:\n" + listCena.getSelectionModel().getSelectedItem().getGrasasxpeso());
-            kcalCena.setText("KCal:\n" + listCena.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
-            gramosCena.setText("Grams:\n" + listCena.getSelectionModel().getSelectedItem().getPeso());
-        } else {
-            carbCena.setText("Carbs:\n0.0");
-            proteCena.setText("Protein:\n0.0");
-            fatCena.setText("Fat:\n0.0");
-            kcalCena.setText("KCal:\n0.0");
-            gramosCena.setText("Grams:\n0.0");
-        }
-    }
-
-    public void selectPre() {
-        if (listPre.getSelectionModel().getSelectedIndex() != -1) {
-            carbPre.setText("Carbs:\n" + listPre.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
-            protePre.setText("Protein:\n" + listPre.getSelectionModel().getSelectedItem().getProteinasxpeso());
-            fatPre.setText("Fat:\n" + listPre.getSelectionModel().getSelectedItem().getGrasasxpeso());
-            kcalPre.setText("KCal:\n" + listPre.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
-            gramosPre.setText("Grams:\n" + listPre.getSelectionModel().getSelectedItem().getPeso());
-        } else {
-            carbPre.setText("Carbs:\n0.0");
-            protePre.setText("Protein:\n0.0");
-            fatPre.setText("Fat:\n0.0");
-            kcalPre.setText("KCal:\n0.0");
-            gramosPre.setText("Grams:\n0.0");
-        }
-    }
-
-    public void selectPost() {
-        if (listPost.getSelectionModel().getSelectedIndex() != -1) {
-            carbPost.setText("Carbs:\n" + listPost.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
-            protePost.setText("Protein:\n" + listPost.getSelectionModel().getSelectedItem().getProteinasxpeso());
-            fatPost.setText("Fat:\n" + listPost.getSelectionModel().getSelectedItem().getGrasasxpeso());
-            kcalPost.setText("KCal:\n" + listPost.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
-            gramosPost.setText("Grams:\n" + listPost.getSelectionModel().getSelectedItem().getPeso());
-        } else {
-            carbPost.setText("Carbs:\n0.0");
-            protePost.setText("Protein:\n0.0");
-            fatPost.setText("Fat:\n0.0");
-            kcalPost.setText("KCal:\n0.0");
-            gramosPost.setText("Grams:\n0.0");
-        }
-    }
-
-    public void selectMerienda() {
-        if (listMerienda.getSelectionModel().getSelectedIndex() != -1) {
-            carbMerienda.setText("Carbs:\n" + listMerienda.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
-            proteMerienda.setText("Protein:\n" + listMerienda.getSelectionModel().getSelectedItem().getProteinasxpeso());
-            fatMerienda.setText("Fat:\n" + listMerienda.getSelectionModel().getSelectedItem().getGrasasxpeso());
-            kcalMerienda.setText("KCal:\n" + listMerienda.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
-            gramosMerienda.setText("Grams:\n" + listMerienda.getSelectionModel().getSelectedItem().getPeso());
-        } else {
-            carbMerienda.setText("Carbs:\n0.0");
-            proteMerienda.setText("Protein:\n0.0");
-            fatMerienda.setText("Fat:\n0.0");
-            kcalMerienda.setText("KCal:\n0.0");
-            gramosMerienda.setText("Grams:\n0.0");
-        }
-    }
-
-    public void selectExtra() {
-        if (listExtra.getSelectionModel().getSelectedIndex() != -1) {
-            carbExtra.setText("Carbs:\n" + listExtra.getSelectionModel().getSelectedItem().getCarbohidratosxpeso());
-            proteExtra.setText("Protein:\n" + listExtra.getSelectionModel().getSelectedItem().getProteinasxpeso());
-            fatExtra.setText("Fat:\n" + listExtra.getSelectionModel().getSelectedItem().getGrasasxpeso());
-            kcalExtra.setText("KCal:\n" + listExtra.getSelectionModel().getSelectedItem().getKilocaloriasxpeso());
-            gramosExtra.setText("Grams:\n" + listExtra.getSelectionModel().getSelectedItem().getPeso());
-        } else {
-            carbExtra.setText("Carbs:\n0.0");
-            proteExtra.setText("Protein:\n0.0");
-            fatExtra.setText("Fat:\n0.0");
-            kcalExtra.setText("KCal:\n0.0");
-            gramosExtra.setText("Grams:\n0.0");
         }
     }
 

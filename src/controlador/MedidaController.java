@@ -620,21 +620,6 @@ public class MedidaController extends Controller<Medida> {
         if (datePicker.getValue() == null) {
             datePicker.setValue(LocalDate.now());
         }
-        if (isButtonsMedidas()) {
-            if (isOnRegistrar()) {
-                setOnRegistrar(false);
-                registrar();
-            } else if (isOnModificar()) {
-                setOnModificar(false);
-                modificar();
-            } else if (isOnEliminar()) {
-                setOnEliminar(false);
-                eliminar();
-            } else if (isOnLimpiar()) {
-                setOnLimpiar(false);
-                limpiar();
-            }
-        }
     }
 
     public void selectObjetivo() {
