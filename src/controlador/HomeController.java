@@ -17,7 +17,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -53,105 +52,42 @@ public class HomeController extends Controller<StackPane> {
 
     @FXML
     private void switchClientes() {
-        //Forms
-        setOnClientes(true);
-        //Buttons
-        setButtonsMedidas(false);
-        setButtonsDietas(false);
-        setButtonsRutinas(false);
-        setButtonsAlimentos(false);
-        setButtonsEjercicios(false);
-        setButtonsConfig(false);
-        setButtonsClientes(true);
+        mostrar(Clientes);
     }
 
     @FXML
     private void switchMedidas() {
-        //Forms
-        setOnMedidas(true);
-        //Buttons
-        setButtonsClientes(false);
-        setButtonsDietas(false);
-        setButtonsRutinas(false);
-        setButtonsAlimentos(false);
-        setButtonsEjercicios(false);
-        setButtonsConfig(false);
-        setButtonsMedidas(true);
+        mostrar(Medidas);
     }
 
     @FXML
     private void switchDietas() {
-        //Forms
-        setOnDietas(true);
-        //Buttons
-        setButtonsClientes(false);
-        setButtonsMedidas(false);
-        setButtonsRutinas(false);
-        setButtonsAlimentos(false);
-        setButtonsEjercicios(false);
-        setButtonsConfig(false);
-        setButtonsDietas(true);
+        mostrar(Dietas);
     }
 
     @FXML
     private void switchRutinas() {
-        //Forms
-        setOnRutinas(true);
-        //Buttons
-        setButtonsClientes(false);
-        setButtonsMedidas(false);
-        setButtonsDietas(false);
-        setButtonsAlimentos(false);
-        setButtonsEjercicios(false);
-        setButtonsConfig(false);
-        setButtonsRutinas(true);
+        mostrar(Rutinas);
     }
 
     @FXML
     private void switchAlimentos() {
-        //Forms
-        setOnAlimentos(true);
-        //Buttons
-        setButtonsMedidas(false);
-        setButtonsClientes(false);
-        setButtonsDietas(false);
-        setButtonsRutinas(false);
-        setButtonsEjercicios(false);
-        setButtonsConfig(false);
-        setButtonsAlimentos(true);
+        mostrar(Alimentos);
     }
 
     @FXML
     private void switchEjercicios() {
-        //Forms
-        setOnEjercicios(true);
-        //Buttons
-        setButtonsMedidas(false);
-        setButtonsClientes(false);
-        setButtonsDietas(false);
-        setButtonsRutinas(false);
-        setButtonsAlimentos(false);
-        setButtonsConfig(false);
-        setButtonsEjercicios(true);
+        mostrar(Ejercicios);
     }
 
     @FXML
     private void switchConfig() {
-        //Forms
-        setOnConfig(true);
-        //Buttons
-        setButtonsEjercicios(false);
-        setButtonsMedidas(false);
-        setButtonsClientes(false);
-        setButtonsDietas(false);
-        setButtonsRutinas(false);
-        setButtonsAlimentos(false);
-        setButtonsConfig(true);
+        mostrar(Config);
     }
 
     /**
      * Si se presiona un botón del home, actualiza el estado correspondiente
-     * para que los otros formularios respondan
+     * para que los otros formularddios respondan
      */
     @Override
     public void updated() {
@@ -161,28 +97,6 @@ public class HomeController extends Controller<StackPane> {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
-                        if (isOnClientes()) {
-                            mostrar(Clientes);
-                            setOnClientes(false);
-                        } else if (isOnMedidas()) {
-                            mostrar(Medidas);
-                            setOnMedidas(false);
-                        } else if (isOnDietas()) {
-                            mostrar(Dietas);
-                            setOnDietas(false);
-                        } else if (isOnRutinas()) {
-                            mostrar(Rutinas);
-                            setOnRutinas(false);
-                        } else if (isOnAlimentos()) {
-                            mostrar(Alimentos);
-                            setOnAlimentos(false);
-                        } else if (isOnEjercicios()) {
-                            mostrar(Ejercicios);
-                            setOnEjercicios(false);
-                        } else if (isOnConfig()) {
-                            mostrar(Config);
-                            setOnConfig(false);
-                        }
                     }
                 };
                 while (true) {
@@ -200,8 +114,8 @@ public class HomeController extends Controller<StackPane> {
     }
 
     public void mostrar(StackPane node) {
-        if(node==null){
-            node=new StackPane();
+        if (node == null) {
+            node = new StackPane();
         }
         holderPane.getChildren().clear();
         holderPane.getChildren().add((Node) node);
@@ -222,7 +136,7 @@ public class HomeController extends Controller<StackPane> {
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
             Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
-            Ejercicios = new StackPane();
+            Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
             Config = new StackPane();
             setFooter(FooterClientes);
         } catch (MalformedURLException ex) {
@@ -237,30 +151,23 @@ public class HomeController extends Controller<StackPane> {
 
     @Override
     public void registrar() {
-        setOnRegistrar(true);
     }
 
     @Override
     public void modificar() {
-        setOnModificar(true);
     }
 
     @Override
     public void eliminar() {
-        setOnEliminar(true);
     }
 
     @Override
     public void limpiar() {
-        setOnLimpiar(true);
     }
 
     @Override
     public void buscar() {
         mensaje("Hola, soy el método buscar del formulario Home", "aviso", null);
-    }
-
-    public void imprimir() {
     }
 
     @Override

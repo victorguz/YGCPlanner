@@ -180,7 +180,8 @@ public class MedidaController extends Controller<Medida> {
         obtenerRutinas();
         obtenerDietas();
         updated();
-    }
+            calcular();
+}
 
     private void obtenerRutinas() {
         try {
