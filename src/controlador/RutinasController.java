@@ -6,21 +6,15 @@
 package controlador;
 
 import DAO.DAOException;
-import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
-import modelo.plan.Alimento;
 import modelo.plan.AlxDiet;
 import modelo.plan.EjxRut;
 import modelo.plan.Plan;
@@ -36,6 +30,9 @@ public class RutinasController extends Controller<Plan> {
 
     @FXML
     private ComboBox<Plan> comboRutina;
+
+    @FXML
+    private ComboBox<Integer> comboSeries;
 
     @FXML
     private TextField textNombre;
@@ -74,6 +71,7 @@ public class RutinasController extends Controller<Plan> {
         obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
+        comboSeries.getItems().addAll(1,2,3,4,5,6,7,8,9,10);
         updated();
     }
 
@@ -217,10 +215,11 @@ public class RutinasController extends Controller<Plan> {
             a.setPlan(getRutina());
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             if (textRepeticiones.getText().isEmpty()) {
-                throw new DAOException("Digite un numero de repeticiones");
+                a.setRepeticiones(0);
             } else {
-                a.setPeso(Double.parseDouble(textRepeticiones.getText()));
+                a.setRepeticiones(Integer.parseInt(textRepeticiones.getText()));
             }
+            a.setSeries(comboSeries.getSelectionModel().getSelectedItem());
             a.setDia(AlxDiet.LUNES);
             a.setDia(AlxDiet.MARTES);
             a.setDia(AlxDiet.MIERCOLES);

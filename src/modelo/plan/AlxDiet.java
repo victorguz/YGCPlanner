@@ -17,26 +17,22 @@ public class AlxDiet extends BasePlan {
 
     private int alxdietkey;
     private Alimento alimento;
+    private double cantidad;
 
     public AlxDiet() {
     }
 
-    public AlxDiet(Alimento alimento, Plan plan, String momento, String dia, double peso) throws DAOException {
-        super(plan, momento, dia, peso);
+    public AlxDiet(Alimento alimento, Plan plan, String momento, String dia, double cantidad) throws DAOException {
+        super(plan, momento, dia);
         setAlimento(alimento);
+        setCantidad(cantidad);
     }
 
-    public AlxDiet(int alxdietkey, Alimento alimento, Plan plan, String momento, String dia, double peso) throws DAOException {
-        super(plan, momento, dia, peso);
+    public AlxDiet(int alxdietkey, Alimento alimento, Plan plan, String momento, String dia, double cantidad) throws DAOException {
+        super(plan, momento, dia);
         setAlxdietkey(alxdietkey);
         setAlimento(alimento);
-    }
-
-    public void setMomento(String momento) throws DAOException {
-        if (momento.isEmpty()) {
-            throw new DAOException("Seleccione el momento del día");
-        }
-        super.momento = momento;
+        setCantidad(cantidad);
     }
 
     public int getAlxdietkey() {
@@ -61,26 +57,37 @@ public class AlxDiet extends BasePlan {
         this.alimento = alimento;
     }
 
+    public double getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(double cantidad) throws DAOException {
+        if (cantidad <= 0) {
+            throw new DAOException("Digite una cantidad válida");
+        }
+        this.cantidad = cantidad;
+    }
+
     public double getKilocaloriasxpeso() {
-        return getAlimento().getKilocalorias() * getPeso() / 100;
+        return getAlimento().getKilocalorias() * getCantidad() / 100;
     }
 
     public double getProteinasxpeso() {
-        return getAlimento().getProteinas() * getPeso() / 100;
+        return getAlimento().getProteinas() * getCantidad() / 100;
     }
 
     public double getGrasasxpeso() {
-        return getAlimento().getGrasas() * getPeso() / 100;
+        return getAlimento().getGrasas() * getCantidad() / 100;
     }
 
     public double getCarbohidratosxpeso() {
-        return getAlimento().getCarbohidratos() * getPeso() / 100;
+        return getAlimento().getCarbohidratos() * getCantidad() / 100;
     }
 
     @Override
     public String toString() {
-        return getPeso() + "g DE " + getAlimento() 
-                + ", CARBS: " + getCarbohidratosxpeso() 
+        return getCantidad() + "g DE " + getAlimento()
+                + ", CARBS: " + getCarbohidratosxpeso()
                 + "g, PROTEIN: " + getProteinasxpeso()
                 + "g FAT: " + getGrasasxpeso() + "g";
     }

@@ -21,15 +21,15 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     private Connection conex;
 
     private final String INSERT = "INSERT INTO EjercicioS(nombre, "
-            + "descripcion, comentarios) values (?, ?, ?)";
+            + "descripcion, comentario) values (?, ?, ?)";
     private final String SELECTALL = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentarios FROM EjercicioS";
+            + "descripcion, comentario FROM EjercicioS";
     private final String SELECTWHERE = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentarios FROM EjercicioS WHERE NOMBRE LIKE ?";
+            + "descripcion, comentario FROM EjercicioS WHERE NOMBRE LIKE ?";
     private final String SELECTONE = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentarios FROM EjercicioS WHERE NOMBRE = ?";
+            + "descripcion, comentario FROM EjercicioS WHERE NOMBRE = ?";
     private final String UPDATE = "UPDATE EjercicioS SET  nombre = ? , "
-            + "descripcion = ? , comentarios  = ? WHERE ejerciciokey = ? ";
+            + "descripcion = ? , comentario  = ? WHERE ejerciciokey = ? ";
     private final String DELETE = "DELETE FROM EjercicioS WHERE NOMBRE = ?";
 
     public SQLiteEjerciciosDAO(Connection conex) {
@@ -118,17 +118,12 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     public ObservableList<Ejercicio> obtenerTodos() throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
-        ObservableList<Ejercicio> Ejercicios = FXCollections.observableArrayList();
+        ObservableList<Ejercicio> ejercicios = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(SELECTALL);
             rs = s.executeQuery();
-            int x = 0;
             while (rs.next()) {
-                Ejercicios.add(convertir(rs));
-                x++;
-            }
-            if (x == 0) {
-                //throw new DAOException("No se encontró ningún Ejercicio");
+                ejercicios.add(convertir(rs));
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -148,7 +143,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
                 }
             }
         }
-        return Ejercicios;
+        return ejercicios;
     }
 
     @Override
@@ -230,7 +225,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
             c.setEjerciciokey(rs.getInt("Ejerciciokey"));
             c.setNombre(rs.getString("nombre"));
             c.setDescripcion(rs.getString("descripcion"));
-            c.setComentarios(rs.getString("comentarios"));
+            c.setComentarios(rs.getString("comentario"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

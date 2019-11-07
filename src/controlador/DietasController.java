@@ -456,49 +456,49 @@ public class DietasController extends Controller<Plan> {
         double k = 0;
 
         for (AlxDiet item : listDesayuno.getItems()) {
-            g += item.getPeso();
+            g += item.getCantidad();
             c += item.getCarbohidratosxpeso();
             p += item.getProteinasxpeso();
             f += item.getGrasasxpeso();
             k += item.getKilocaloriasxpeso();
         }
         for (AlxDiet item : listAlmuerzo.getItems()) {
-            g += item.getPeso();
+            g += item.getCantidad();
             c += item.getCarbohidratosxpeso();
             p += item.getProteinasxpeso();
             f += item.getGrasasxpeso();
             k += item.getKilocaloriasxpeso();
         }
         for (AlxDiet item : listCena.getItems()) {
-            g += item.getPeso();
+            g += item.getCantidad();
             c += item.getCarbohidratosxpeso();
             p += item.getProteinasxpeso();
             f += item.getGrasasxpeso();
             k += item.getKilocaloriasxpeso();
         }
         for (AlxDiet item : listPre.getItems()) {
-            g += item.getPeso();
+            g += item.getCantidad();
             c += item.getCarbohidratosxpeso();
             p += item.getProteinasxpeso();
             f += item.getGrasasxpeso();
             k += item.getKilocaloriasxpeso();
         }
         for (AlxDiet item : listPost.getItems()) {
-            g += item.getPeso();
+            g += item.getCantidad();
             c += item.getCarbohidratosxpeso();
             p += item.getProteinasxpeso();
             f += item.getGrasasxpeso();
             k += item.getKilocaloriasxpeso();
         }
         for (AlxDiet item : listMerienda.getItems()) {
-            g += item.getPeso();
+            g += item.getCantidad();
             c += item.getCarbohidratosxpeso();
             p += item.getProteinasxpeso();
             f += item.getGrasasxpeso();
             k += item.getKilocaloriasxpeso();
         }
         for (AlxDiet item : listExtra.getItems()) {
-            g += item.getPeso();
+            g += item.getCantidad();
             c += item.getCarbohidratosxpeso();
             p += item.getProteinasxpeso();
             f += item.getGrasasxpeso();
@@ -598,9 +598,9 @@ public class DietasController extends Controller<Plan> {
             a.setPlan(getDieta());
             a.setAlimento(comboAlimentos.getSelectionModel().getSelectedItem());
             if (textCantidad.getText().isEmpty()) {
-                throw new DAOException("Digite una cantidad");
+                a.setCantidad(0);
             } else {
-                a.setPeso(Double.parseDouble(textCantidad.getText()));
+                a.setCantidad(Double.parseDouble(textCantidad.getText()));
             }
             if (buttonDomingo.isSelected()) {
                 a.setDia(AlxDiet.DOMINGO);
@@ -617,7 +617,7 @@ public class DietasController extends Controller<Plan> {
             } else if (buttonSabado.isSelected()) {
                 a.setDia(AlxDiet.SABADO);
             } else {
-                throw new DAOException("Seleccione un día de la semana");
+                a.setDia("");
             }
             return a;
         }

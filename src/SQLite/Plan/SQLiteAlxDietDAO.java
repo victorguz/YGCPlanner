@@ -41,7 +41,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             s.setInt(2, a.getAlimento().getAlimentoKey());
             s.setString(3, a.getMomento());
             s.setString(4, a.getDia());
-            s.setDouble(5, a.getPeso());
+            s.setDouble(5, a.getCantidad());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar AlxDiet");
             }
@@ -172,7 +172,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             c.setAlimento(Controller.getAlimentos().obtener(""+rs.getInt("alimentokey")));
             c.setMomento(rs.getString("momento"));
             c.setDia(rs.getString("dia"));
-            c.setPeso(rs.getDouble("peso"));
+            c.setCantidad(rs.getDouble("peso"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

@@ -398,62 +398,6 @@ public class MedidaController extends Controller<Medida> {
         comboObjetivo.getSelectionModel().select(0);
     }
 
-    public void disable() {
-        if (getCliente().isEmpty()) {
-            textPeso.setDisable(true);
-            textAltura.setDisable(true);
-            textCuello.setDisable(true);
-            textCinturaAlta.setDisable(true);
-            textCinturaMedia.setDisable(true);
-            textCinturaBaja.setDisable(true);
-            textCadera.setDisable(true);
-            textMuneca.setDisable(true);
-            textPectorales.setDisable(true);
-            textBicepIzq.setDisable(true);
-            textBicepDer.setDisable(true);
-            textCuadricepIzq.setDisable(true);
-            textCuadricepDer.setDisable(true);
-            textPantorrillaIzq.setDisable(true);
-            textPantorrillaDer.setDisable(true);
-            comboActividad.setDisable(true);
-            comboObjetivo.setDisable(true);
-            comboRutina.setDisable(true);
-            comboDieta.setDisable(true);
-            datePicker.setDisable(true);
-            textSubescapular.setDisable(true);
-            textBicipital.setDisable(true);
-            textSuprailiaco.setDisable(true);
-            textTricipital.setDisable(true);
-            datePicker.setDisable(true);
-            limpiar();
-        } else {
-            datePicker.setDisable(false);
-            textPeso.setDisable(false);
-            textAltura.setDisable(false);
-            textCuello.setDisable(false);
-            textMuneca.setDisable(false);
-            textCinturaAlta.setDisable(false);
-            textCinturaMedia.setDisable(false);
-            textCinturaBaja.setDisable(false);
-            textCadera.setDisable(false);
-            textPectorales.setDisable(false);
-            textBicepIzq.setDisable(false);
-            textBicepDer.setDisable(false);
-            textCuadricepIzq.setDisable(false);
-            textCuadricepDer.setDisable(false);
-            textPantorrillaIzq.setDisable(false);
-            textPantorrillaDer.setDisable(false);
-            comboActividad.setDisable(false);
-            comboObjetivo.setDisable(false);
-            comboRutina.setDisable(false);
-            comboDieta.setDisable(false);
-            textSubescapular.setDisable(false);
-            textBicipital.setDisable(false);
-            textSuprailiaco.setDisable(false);
-            textTricipital.setDisable(false);
-        }
-    }
-
     @Override
     public void mostrar() {
         if (!getMedida().isEmpty()) {
@@ -615,8 +559,6 @@ public class MedidaController extends Controller<Medida> {
             mostrar();
             setMedidaUpdated(false);
         }
-        calcular();
-        disable();
         if (datePicker.getValue() == null) {
             datePicker.setValue(LocalDate.now());
         }

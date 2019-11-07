@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo.plan; 
+package modelo.plan;
 
 import DAO.DAOException;
-
 
 /**
  * Esta clase enlaza la Plan con los ejercicios, teniendo en cuenta que la
@@ -17,26 +16,29 @@ import DAO.DAOException;
 public class EjxRut extends BasePlan {
 
     private int ejxrutkey;
-    private Plan Plan;
-    private Ejercicio ejercicio;
+    private Plan Plan = new Plan();
+    private Ejercicio ejercicio = new Ejercicio();
     private int repeticiones;
+    private int series;
 
     public EjxRut() {
 
     }
 
-    public EjxRut(Plan Plan, Ejercicio ejercicio, int repeticiones, String momento, String dia, double peso) throws DAOException {
-        super(Plan, momento, dia, peso); 
+    public EjxRut(Plan Plan, Ejercicio ejercicio, int repeticiones, int series, String momento, String dia) throws DAOException {
+        super(Plan, momento, dia);
         setEjercicio(ejercicio);
         setRepeticiones(repeticiones);
+        setSeries(series);
     }
 
-    public EjxRut(int ejxrutkey, Plan Plan, Ejercicio ejercicio, int repeticiones, String momento, String dia, double peso) throws DAOException {
-        super(Plan, momento, dia, peso);
+    public EjxRut(int ejxrutkey, Plan Plan, Ejercicio ejercicio, int repeticiones, int series, String momento, String dia, double peso) throws DAOException {
+        super(Plan, momento, dia);
         setEjxrutkey(ejxrutkey);
         setPlan(Plan);
         setEjercicio(ejercicio);
         setRepeticiones(repeticiones);
+        setSeries(series);
     }
 
     public int getEjxrutkey() {
@@ -91,7 +93,7 @@ public class EjxRut extends BasePlan {
     }
 
     public void setRepeticiones(int repeticiones) throws DAOException {
-        if (repeticiones < 0) {
+        if (repeticiones <= 0) {
             throw new DAOException("Digite un numero de repeticiones valido");
         }
         this.repeticiones = repeticiones;
@@ -101,11 +103,23 @@ public class EjxRut extends BasePlan {
         return repeticiones;
     }
 
+    public void setSeries(int series) throws DAOException {
+        if (series < 0) {
+            throw new DAOException("Digite un numero de series valido");
+        }
+        this.series = series;
+    }
+
+    public int getSeries() {
+        return series;
+    }
+
     @Override
     public boolean isEmpty() {
         return getPlan().isEmpty()
                 || getEjercicio().isEmpty()
-                || getRepeticiones() < 0
+                || getRepeticiones() <= 0
+                || getSeries() <= 0
                 || super.isEmpty();
     }
 

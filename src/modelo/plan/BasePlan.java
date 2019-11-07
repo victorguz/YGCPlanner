@@ -15,7 +15,6 @@ public abstract class BasePlan {
 
     protected String momento = "";
     private String dia = "";
-    private double peso;
     private Plan plan;
     public static final String DOMINGO = "DOMINGO";
     public static final String LUNES = "LUNES";
@@ -37,18 +36,22 @@ public abstract class BasePlan {
     public BasePlan() {
     }
 
-    public BasePlan(Plan plan, String momento, String dia, double peso) throws DAOException {
+    public BasePlan(Plan plan, String momento, String dia) throws DAOException {
         setPlan(plan);
         setMomento(momento);
         setDia(dia);
-        setPeso(peso);
     }
 
     public String getMomento() {
         return momento;
     }
 
-    public abstract void setMomento(String momento) throws DAOException;
+    public void setMomento(String momento) throws DAOException {
+        if (momento.isEmpty()) {
+            throw new DAOException("Seleccione el momento del día");
+        }
+        this.momento = momento;
+    }
 
     public String getDia() {
         return dia;
@@ -58,22 +61,12 @@ public abstract class BasePlan {
         if (dia.isEmpty()) {
             throw new DAOException("Seleccione un dia de la semana");
         }
-                this.dia = dia;
-    }
-
-    public double getPeso() {
-        return peso;
-    }
-
-    public void setPeso(double peso) throws DAOException {
-        if (peso <= 0) {
-            throw new DAOException("Digite un peso valido");
-        }
-        this.peso = peso;
+        this.dia = dia;
     }
 
     public boolean isEmpty() {
-        return getMomento().isEmpty() || getDia().isEmpty() || getPeso() <= 0;
+        return getPlan().isEmpty() || getMomento().isEmpty()
+                || getDia().isEmpty();
     }
 
     public Plan getPlan() {

@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modelo.plan.EjxRut;
-import vista.YGCPlanner;
 
 public class SQLiteEjxRutDAO implements EjxRutDAO {
 
@@ -23,9 +22,9 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
     private Connection conex;
 
     private final String INSERT = "INSERT INTO EjxRut(plankey, Ejerciciokey, "
-            + "momento, dia, peso, repeticiones) values (?, ?, ?, ?, ?, ?)";
+            + "momento, dia, peso, repeticiones, series) values (?, ?, ?, ?, ?, ?)";
     private final String WHERE = "SELECT ejxrutkey, plankey, Ejerciciokey, "
-            + "momento, dia, peso, repeticiones FROM EjxRut WHERE plankey = ?";
+            + "momento, dia, peso, repeticiones, series FROM EjxRut WHERE plankey = ?";
     private final String DELETE = "DELETE FROM EjxRut WHERE ejxrutkey = ?";
 
     public SQLiteEjxRutDAO(Connection conex) {
@@ -41,8 +40,8 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             s.setInt(2, a.getEjercicio().getEjerciciokey());
             s.setString(3, a.getMomento());
             s.setString(4, a.getDia());
-            s.setDouble(5, a.getPeso());
-            s.setDouble(6, a.getRepeticiones());
+            s.setInt(5, a.getSeries());
+            s.setInt(6, a.getRepeticiones());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar EjxRut");
             }
@@ -69,9 +68,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
-            s.setInt(1, a.getPlan().getPlankey());
-            s.setInt(2, a.getEjercicio().getEjerciciokey());
-            s.setString(3, a.getMomento());
+            s.setInt(1, a.getEjxrutkey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al eliminar EjxRut");
             }
@@ -149,7 +146,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             c.setEjercicio(Controller.getEjercicios().obtener(""+rs.getInt("Ejerciciokey")));
             c.setMomento(rs.getString("momento"));
             c.setDia(rs.getString("dia"));
-            c.setPeso(rs.getDouble("peso"));
+            c.setSeries(rs.getInt("series"));
             c.setRepeticiones(rs.getInt("repeticiones"));
             return c;
         } catch (SQLException ex) {
