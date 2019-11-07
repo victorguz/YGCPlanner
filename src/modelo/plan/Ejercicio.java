@@ -7,7 +7,6 @@ package modelo.plan;
 
 import DAO.DAOException;
 
-
 /**
  * En esta clase se registrarán todos los posibles ejercicios que el instructor
  * pondrá a sus clientes.
@@ -17,9 +16,10 @@ import DAO.DAOException;
 public class Ejercicio {
 
     private int ejerciciokey;
-    private String nombre="";
-    private String descripcion="";
-    private String comentarios="";
+    private String nombre = "";
+    private String descripcion = "";
+    private String comentarios = "";
+    private int uso;
 
     public Ejercicio() {
     }
@@ -93,8 +93,28 @@ public class Ejercicio {
         }
         return !getComentarios().isEmpty();
     }
+
     @Override
     public String toString() {
         return getNombre();
+    }
+
+    public void usar() {
+        this.uso++;
+    }
+
+    public void reiniciarUso() {
+        this.uso = 0;
+    }
+
+    public int getUso() {
+        return uso;
+    }
+
+    public void setUso(int uso) throws DAOException {
+        if (uso < 0) {
+            throw new DAOException("Este valor de uso es inválido");
+        }
+        this.uso = uso;
     }
 }

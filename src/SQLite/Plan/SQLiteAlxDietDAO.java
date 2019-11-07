@@ -21,11 +21,11 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
     private Connection conex;
 
     private final String INSERT = "INSERT INTO AlxDiet(plankey, alimentokey, "
-            + "momento, dia, peso) values (?, ?, ?, ?, ?)";
+            + "momento, dia, cantidad) values (?, ?, ?, ?, ?)";
     private final String ALL = "SELECT alxdietkey, alimentokey, "
-            + "momento, dia, peso FROM AlxDiet WHERE plankey = ?";
+            + "momento, dia, cantidad FROM AlxDiet WHERE plankey = ?";
     private final String WHERE = "SELECT alxdietkey, alimentokey, "
-            + "momento, dia, peso FROM AlxDiet WHERE plankey = ? and dia = ? and momento = ?";
+            + "momento, dia, cantidad FROM AlxDiet WHERE plankey = ? and dia = ? and momento = ?";
     private final String DELETE = "DELETE FROM AlxDiet WHERE alxdietkey = ?";
 
     public SQLiteAlxDietDAO(Connection conex) {
@@ -172,7 +172,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             c.setAlimento(Controller.getAlimentos().obtener(""+rs.getInt("alimentokey")));
             c.setMomento(rs.getString("momento"));
             c.setDia(rs.getString("dia"));
-            c.setCantidad(rs.getDouble("peso"));
+            c.setCantidad(rs.getDouble("cantidad"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

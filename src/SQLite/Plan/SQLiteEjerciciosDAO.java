@@ -23,13 +23,13 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     private final String INSERT = "INSERT INTO EjercicioS(nombre, "
             + "descripcion, comentario) values (?, ?, ?)";
     private final String SELECTALL = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentario FROM EjercicioS";
+            + "descripcion, comentario, uso FROM EjercicioS";
     private final String SELECTWHERE = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentario FROM EjercicioS WHERE NOMBRE LIKE ?";
+            + "descripcion, comentario, uso FROM EjercicioS WHERE NOMBRE LIKE ?";
     private final String SELECTONE = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentario FROM EjercicioS WHERE NOMBRE = ?";
+            + "descripcion, comentario, uso FROM EjercicioS WHERE NOMBRE = ?";
     private final String UPDATE = "UPDATE EjercicioS SET  nombre = ? , "
-            + "descripcion = ? , comentario  = ? WHERE ejerciciokey = ? ";
+            + "descripcion = ? , comentario  = ?, uso = ? WHERE ejerciciokey = ? ";
     private final String DELETE = "DELETE FROM EjercicioS WHERE NOMBRE = ?";
 
     public SQLiteEjerciciosDAO(Connection conex) {
@@ -75,7 +75,8 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
             s.setString(1, a.getNombre().toUpperCase());
             s.setString(2, a.getDescripcion().toUpperCase());
             s.setString(3, a.getComentarios().toUpperCase());
-            s.setInt(4, a.getEjerciciokey());
+            s.setInt(4, a.getUso());
+            s.setInt(5, a.getEjerciciokey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar Ejercicio");
             }

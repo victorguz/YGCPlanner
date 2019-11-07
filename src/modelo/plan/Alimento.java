@@ -7,7 +7,6 @@ package modelo.plan;
 
 import DAO.DAOException;
 
-
 /**
  *
  * @author Victor
@@ -15,14 +14,15 @@ import DAO.DAOException;
 public class Alimento {
 
     private int alimentoKey;
-    private String nombre="";
-    private String unidadDeMedida="";
+    private String nombre = "";
+    private String unidadDeMedida = "";
     private double proteinas;
     private double grasas;
     private double carbohidratos;
+    private int uso;
 
     public Alimento() {
-        
+
     }
 
     public Alimento(String nombre, double proteinas, double grasas, double carbohidratos) throws DAOException {
@@ -61,7 +61,7 @@ public class Alimento {
         }
         this.nombre = nombre;
     }
-    
+
     public String getUnidadDeMedida() {
         return unidadDeMedida;
     }
@@ -74,7 +74,7 @@ public class Alimento {
     }
 
     public double getKilocalorias() {
-        return getProteinas()*4+getGrasas()*9+getCarbohidratos()*4;
+        return getProteinas() * 4 + getGrasas() * 9 + getCarbohidratos() * 4;
     }
 
     public double getProteinas() {
@@ -117,5 +117,23 @@ public class Alimento {
                 || getProteinas() < 0
                 || getGrasas() < 0
                 || getCarbohidratos() < 0;
+    }
+
+    public int getUso() {
+        return uso;
+    }
+
+    public void setUso(int uso) throws DAOException {
+        if(uso<0){
+            throw new DAOException("Este valor de uso es inválido");
+        }
+        this.uso = uso;
+    }
+    
+    public void usar(){
+        this.uso++;
+    }
+    public void reiniciarUso(){
+        this.uso=0;
     }
 }

@@ -6,8 +6,11 @@
 package controlador;
 
 import DAO.DAOException;
+import static controlador.Controller.getAlimentos;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -17,6 +20,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import modelo.cliente.Medida;
+import modelo.plan.Alimento;
 import modelo.plan.AlxDiet;
 import modelo.plan.Plan;
 
@@ -741,6 +745,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.DESAYUNO);
                 getAlxdiets().insertar(a);
                 listDesayuno.getItems().add(a);
+                actualizarUso(a.getAlimento());
                 datosDieta();
             }
         } catch (DAOException ex) {
@@ -771,6 +776,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.ALMUERZO);
                 getAlxdiets().insertar(a);
                 listAlmuerzo.getItems().add(a);
+                actualizarUso(a.getAlimento());
                 datosDieta();
             }
         } catch (DAOException ex) {
@@ -801,6 +807,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.CENA);
                 getAlxdiets().insertar(a);
                 listCena.getItems().add(a);
+                actualizarUso(a.getAlimento());
                 datosDieta();
             }
         } catch (DAOException ex) {
@@ -831,6 +838,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.EXTRA);
                 getAlxdiets().insertar(a);
                 listExtra.getItems().add(a);
+                actualizarUso(a.getAlimento());
                 datosDieta();
             }
         } catch (DAOException ex) {
@@ -861,6 +869,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.MERIENDA);
                 getAlxdiets().insertar(a);
                 listMerienda.getItems().add(a);
+                actualizarUso(a.getAlimento());
                 datosDieta();
             }
         } catch (DAOException ex) {
@@ -891,6 +900,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.POSTENTRENO);
                 getAlxdiets().insertar(a);
                 listPost.getItems().add(a);
+                actualizarUso(a.getAlimento());
                 datosDieta();
             }
         } catch (DAOException ex) {
@@ -921,6 +931,7 @@ public class DietasController extends Controller<Plan> {
                 a.setMomento(AlxDiet.PREENTRENO);
                 getAlxdiets().insertar(a);
                 listPre.getItems().add(a);
+                actualizarUso(a.getAlimento());
                 datosDieta();
             }
         } catch (DAOException ex) {
@@ -944,4 +955,12 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
+    public void actualizarUso(Alimento a) {
+        a.usar();
+        try {
+            getAlimentos().modificar(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
+    }
 }

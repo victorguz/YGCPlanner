@@ -22,6 +22,8 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.animation.FadeTransition;
@@ -631,6 +633,7 @@ public abstract class Controller<T> implements Initializable {
             comboAlimentos.getSelectionModel().select(i);
         }
     }
+     
     public void buscarEjercicio() {
         if (textBuscar.getText().isEmpty()) {
             obtenerEjercicios();

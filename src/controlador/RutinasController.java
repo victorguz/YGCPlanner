@@ -6,16 +6,15 @@
 package controlador;
 
 import DAO.DAOException;
+import static controlador.Controller.mensaje;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import modelo.plan.AlxDiet;
+import modelo.plan.Ejercicio;
 import modelo.plan.EjxRut;
 import modelo.plan.Plan;
 
@@ -71,7 +70,8 @@ public class RutinasController extends Controller<Plan> {
         obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
-        comboSeries.getItems().addAll(1,2,3,4,5,6,7,8,9,10);
+        comboSeries.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        comboSeries.getSelectionModel().select(0);
         updated();
     }
 
@@ -220,33 +220,26 @@ public class RutinasController extends Controller<Plan> {
                 a.setRepeticiones(Integer.parseInt(textRepeticiones.getText()));
             }
             a.setSeries(comboSeries.getSelectionModel().getSelectedItem());
-            a.setDia(AlxDiet.LUNES);
-            a.setDia(AlxDiet.MARTES);
-            a.setDia(AlxDiet.MIERCOLES);
-            a.setDia(AlxDiet.JUEVES);
-            a.setDia(AlxDiet.VIERNES);
-            a.setDia(AlxDiet.SABADO);
             return a;
         }
         return null;
     }
 
-    @FXML
-    void getDomingo(ActionEvent event) {
+    public void getDomingo() {
         try {
             EjxRut a = getEjxRut();
             a.setDia(EjxRut.DOMINGO);
             a.setMomento(EjxRut.ENTRENO);
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             getEjxruts().insertar(a);
+            actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }
 
-    @FXML
-    void deleteDomingo(ActionEvent event) {
+    public void deleteDomingo() {
         if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
@@ -257,22 +250,21 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @FXML
-    void getLunes(ActionEvent event) {
+    public void getLunes() {
         try {
             EjxRut a = getEjxRut();
             a.setDia(EjxRut.DOMINGO);
             a.setMomento(EjxRut.ENTRENO);
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             getEjxruts().insertar(a);
+            actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }
 
-    @FXML
-    void deleteLunes(ActionEvent event) {
+    public void deleteLunes() {
         if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
@@ -283,22 +275,21 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @FXML
-    void getMartes(ActionEvent event) {
+    public void getMartes() {
         try {
             EjxRut a = getEjxRut();
             a.setDia(EjxRut.DOMINGO);
             a.setMomento(EjxRut.ENTRENO);
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             getEjxruts().insertar(a);
+            actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }
 
-    @FXML
-    void deleteMartes(ActionEvent event) {
+    public void deleteMartes() {
         if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
@@ -309,22 +300,21 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @FXML
-    void getMiercoles(ActionEvent event) {
+    public void getMiercoles() {
         try {
             EjxRut a = getEjxRut();
             a.setDia(EjxRut.DOMINGO);
             a.setMomento(EjxRut.ENTRENO);
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             getEjxruts().insertar(a);
+            actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }
 
-    @FXML
-    void deleteMiercoles(ActionEvent event) {
+    public void deleteMiercoles() {
         if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
@@ -335,22 +325,21 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @FXML
-    void getJueves(ActionEvent event) {
+    public void getJueves() {
         try {
             EjxRut a = getEjxRut();
             a.setDia(EjxRut.DOMINGO);
             a.setMomento(EjxRut.ENTRENO);
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             getEjxruts().insertar(a);
+            actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }
 
-    @FXML
-    void deleteJueves(ActionEvent event) {
+    public void deleteJueves() {
         if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
@@ -361,22 +350,21 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @FXML
-    void getViernes(ActionEvent event) {
+    public void getViernes() {
         try {
             EjxRut a = getEjxRut();
             a.setDia(EjxRut.DOMINGO);
             a.setMomento(EjxRut.ENTRENO);
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             getEjxruts().insertar(a);
+            actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }
 
-    @FXML
-    void deleteViernes(ActionEvent event) {
+    public void deleteViernes() {
         if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
@@ -387,22 +375,21 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @FXML
-    void getSabado(ActionEvent event) {
+    public void getSabado() {
         try {
             EjxRut a = getEjxRut();
             a.setDia(EjxRut.DOMINGO);
             a.setMomento(EjxRut.ENTRENO);
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             getEjxruts().insertar(a);
+            actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }
 
-    @FXML
-    void deleteSabado(ActionEvent event) {
+    public void deleteSabado() {
         if (listDomingo.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
@@ -410,6 +397,15 @@ public class RutinasController extends Controller<Plan> {
             } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
+        }
+    }
+
+    public void actualizarUso(Ejercicio a) {
+        a.usar();
+        try {
+            getEjercicios().modificar(a);
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
         }
     }
 }
