@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.KeyEvent;
 import modelo.cliente.Medida;
 
 /**

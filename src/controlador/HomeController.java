@@ -6,14 +6,11 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.isOnEjercicios;
-import static controlador.Controller.setOnClientes;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -44,9 +41,9 @@ public class HomeController extends Controller<StackPane> {
         setFooter(FooterClientes);
     }
 
-    protected void setFooter(Node node) {
+    protected void setFooter(StackPane node) {
         footer.getChildren().clear();
-        footer.getChildren().add((Node) node);
+        footer.getChildren().add(node);
         fadeTransition(node, 700);
     }
 
@@ -110,15 +107,15 @@ public class HomeController extends Controller<StackPane> {
     @Override
     public void obtener() {
         try {
-            Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
             FooterClientes = FXMLLoader.load(new File("src/vista/fxml/FooterClientes.fxml").toURL());
+            setFooter(FooterClientes);
+            Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
             Medidas = FXMLLoader.load(new File("src/vista/fxml/Medidas.fxml").toURL());
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
             Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
             Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
             Config = new StackPane();
-            setFooter(FooterClientes);
         } catch (MalformedURLException ex) {
             mensaje("Condición", "error", new DAOException(ex));
         } catch (IOException ex) {

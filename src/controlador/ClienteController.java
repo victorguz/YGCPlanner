@@ -6,22 +6,14 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.isOnRegistrar;
-import static controlador.Controller.setOnRegistrar;
 import modelo.cliente.Cliente;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -41,6 +33,13 @@ public class ClienteController extends Controller<Cliente> {
     @FXML
     private ComboBox<String> comboTipoDoc;
 
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        setCombos();
+        updated();
+    }
+    
     private void setCombos() {
         if (comboSexo.getItems().isEmpty()) {
             comboSexo.setItems(sexos);
@@ -56,52 +55,6 @@ public class ClienteController extends Controller<Cliente> {
             );
             comboTipoDoc.setItems(tiposDeDocumentos);
             comboTipoDoc.getSelectionModel().select(0);
-        }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        setCombos();
-        updated();
-    }
-
-    public void crear() {
-        ArrayList<String> nombres = new ArrayList<>();
-        nombres.add("ANTONIO");
-        nombres.add("JOSE");
-        nombres.add("MANUEL");
-        nombres.add("FRANCISCO");
-        nombres.add("DAVID");
-        nombres.add("JUAN");
-        nombres.add("JOSE ANTONIO");
-        nombres.add("JAVIER");
-        nombres.add("DANIEL");
-        nombres.add("JOSE LUIS");
-        nombres.add("FRANCISCO JAVIER");
-        nombres.add("CARLOS");
-        nombres.add("JESUS");
-        nombres.add("ALEJANDRO");
-        nombres.add("MIGUEL");
-        nombres.add("JOSE MANUEL");
-        nombres.add("RAFAEL");
-        nombres.add("MIGUEL ANGEL");
-        nombres.add("PEDRO");
-        nombres.add("ANGEL");
-        try {
-
-            Cliente c = new Cliente();
-            for (int i = 0; i < 1000; i++) {
-                c.setNombre(nombres.get(new Random().nextInt(20)));
-                c.setApellido(nombres.get(new Random().nextInt(20)));
-                c.setSexo("HOMBRE");
-                c.setEdad(new Random().nextInt(30) + 7);
-                c.setTipoIdentificacion("CEDULA DE CIUDADANIA");
-                c.setIdentificacion("" + (new Random().nextInt(9999999) + 1000000));
-                getClientes().insertar(c);
-            }
-
-        } catch (DAOException ex) {
-            Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -137,7 +90,6 @@ public class ClienteController extends Controller<Cliente> {
     /**
      * Llena los campos de la vista con los datos del cliente
      *
-     * @param c Objeto de la clase cliente.
      */
     @Override
     public void mostrar() {
@@ -155,16 +107,13 @@ public class ClienteController extends Controller<Cliente> {
     public void registrar() {
         try {
             Cliente c = captar();
-            if (c != null) {
                 if (c.isEmpty()) {
-                    crear();
                     mensaje("A este cliente le faltan datos", "aviso", null);
                 } else {
                     getClientes().insertar(c);
                     setClientesUpdated(true);
                     mensaje("Cliente registrado", "exito", null);
                 }
-            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }

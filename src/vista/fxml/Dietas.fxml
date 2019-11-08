@@ -319,7 +319,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0">
+                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="532.0">
                      <tabs>
                         <Tab text="Desayuno">
                            <content>

@@ -13,7 +13,7 @@
 
 <StackPane prefHeight="1090.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.MedidaController">
     <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="x">
+      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="nada">
          <children>
             <VBox onMouseEntered="#updated" onMouseExited="#updated">
                <children>
