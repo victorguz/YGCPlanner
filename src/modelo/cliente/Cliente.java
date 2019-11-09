@@ -114,7 +114,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return getNombre() + " " + getApellido() + ", " + getSexo() + ", " + getEdad() + " AÑOS";
+        return getNombre() + " " + getApellido() + ", " + getEdad() + " AÑOS";
     }
 
     public boolean isEmpty() {

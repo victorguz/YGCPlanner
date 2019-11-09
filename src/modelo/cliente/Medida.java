@@ -9,6 +9,8 @@ import DAO.DAOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import modelo.plan.Plan;
 
 /**
@@ -408,7 +410,7 @@ public class Medida {
 
     @Override
     public String toString() {
-        return "MEDIDA DEL " + getFecha().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)).toUpperCase();
+        return "MEDIDA DEL " + getFecha().format(DateTimeFormatter.ofPattern("d MMM")).toUpperCase();
     }
 
     public String getComplexionText() {

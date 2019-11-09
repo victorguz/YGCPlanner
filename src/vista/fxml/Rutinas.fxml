@@ -190,7 +190,7 @@
             </VBox>
             <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="223.0" prefWidth="459.0">
+                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                      <tabs>
                         <Tab text="Domingo">
                            <content>

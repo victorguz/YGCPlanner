@@ -11,23 +11,23 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="1090.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.MedidaController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.MedidaController">
     <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="nada">
+      <VBox styleClass="nada">
          <children>
             <VBox onMouseEntered="#updated" onMouseExited="#updated">
                <children>
                   <Label text="Medidas antropométricas cm-Kg" textFill="#757575" />
                   <FlowPane styleClass="flowpane">
                      <children>
-                        <VBox prefHeight="22.0" prefWidth="176.0" styleClass="title">
+                        <VBox styleClass="title">
                            <children>
                               <Label text="Fecha de medida" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <DatePicker fx:id="datePicker" onAction="#updated" prefHeight="0.0" prefWidth="176.0" promptText="Fecha de medida">
+                              <DatePicker fx:id="datePicker" onAction="#updated" prefWidth="140.0" promptText="Fecha de medida">
                                  <VBox.margin>
                                     <Insets top="2.0" />
                                  </VBox.margin>
@@ -51,7 +51,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboObjetivo" onAction="#selectObjetivo" onMouseClicked="#calcular" prefHeight="40.0" promptText="OBJETIVO" />
+                              <ComboBox fx:id="comboObjetivo" onAction="#selectObjetivo" onMouseClicked="#calcular" prefHeight="40.0" prefWidth="90.0" promptText="OBJETIVO" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -275,7 +275,7 @@
                         </VBox>
                      </children>
                   </FlowPane>
-                  <HBox alignment="CENTER">
+                  <HBox alignment="CENTER" spacing="10.0">
                      <children>
                         <JFXButton onAction="#eliminar" text="Eliminar" />
                         <JFXButton onAction="#limpiar" text="Limpiar" />

@@ -148,7 +148,7 @@ public abstract class Controller<T> implements Initializable {
     protected StackPane holderPane;
 
     @FXML
-    protected ListView<Cliente> listView;
+    protected ListView<Medida> listView;
 
     @FXML
     protected TextField textEdad;

@@ -6,12 +6,20 @@
     -fx-font-family: "Arial";
 }
 .back{
-    font-family: serif;
+    -fx-font-size:12px;
+    -fx-background-color: rgb(240,240,240);
+    -fx-padding: 7 7 3 7;
+}
+.backfoot{
     -fx-font-size:12px;
     -fx-background-color: rgb(240,240,240);
     -fx-padding: 7;
 }
-
+.backside{
+    -fx-font-size:12px;
+    -fx-background-color: rgb(240,240,240);
+    -fx-padding: 7 3.5 3.5 7;
+}
 .jfx-button, .toggle-button{
     -fx-background-color: white;
     -fx-background-radius: 4;
@@ -71,11 +79,11 @@ VBox{
     -fx-padding: 15;
     -fx-alignment: TOP_CENTER;
 }
-
 .footer{
     -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
     -fx-background-color: white;
-    -fx-spacing: 10;
+        -fx-background-radius: 4;
+-fx-spacing: 10;
     -fx-padding: 10;
     -fx-alignment: TOP_CENTER;
 }

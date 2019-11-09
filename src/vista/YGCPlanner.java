@@ -5,17 +5,8 @@
  */
 package vista;
 
-import DAO.ObjetivosDAO;
-import DAO.ReferenciasDAO;
-import DAO.cliente.ClientesDAO;
-import DAO.cliente.MedidasDAO;
-import DAO.plan.AlxDietDAO;
-import DAO.plan.EjxRutDAO;
-import DAO.plan.PlanDAO;
-import SQLite.SQLiteDAOManager;
 import java.io.File;
 import java.net.URL;
-import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,7 +26,8 @@ public class YGCPlanner extends Application {
     public void start(Stage stage) throws Exception {
         stagestatic = stage;
         URL url = new File("src/vista/fxml/Home.fxml").toURL();
-        Parent root = FXMLLoader.load(url);
+        System.out.println(getClass().getResource("fxml/Home.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/Home.fxml"));
         Scene scene = new Scene(root);
         //stage.setResizable(false);
         stage.setTitle("YGC Planner - Planificador Yezid Guzman Coach");

@@ -5,7 +5,6 @@ package archivo;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
@@ -25,12 +24,40 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import modelo.cliente.Medida;
 
 /**
  *
  * @author 201621279487
  */
 public class PDF {
+
+    private Medida medida = new Medida();
+    private String file = "";
+
+    public PDF(Medida medida, String url) {
+        setMedida(medida);
+        setFile(url);
+    }
+
+    public String getFile() {
+        if (file.isEmpty()) {
+            file = System.getProperty("user.home") + "\\Desktop\\" + getMedida().getCliente().getNombre() + "_" + getMedida().getCliente().getApellido() + ".pdf";
+        }
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public Medida getMedida() {
+        return medida;
+    }
+
+    public void setMedida(Medida medida) {
+        this.medida = medida;
+    }
 
     //Fonts
     private static Font fTitulo
@@ -50,11 +77,10 @@ public class PDF {
 
     private static String userHome;
     Document document;
-       private File file;
 
     public void createPDF(String plan, String nombreCliente, int edad, String sexo) throws FileNotFoundException, DocumentException, IOException {
         document = new Document(PageSize.LETTER, 50, 22, 50, 50);
-        userHome = System.getProperty("user.home") + "\\Desktop\\"+nombreCliente+".pdf";
+        userHome = System.getProperty("user.home") + "\\Desktop\\" + nombreCliente + ".pdf";
         file = new File(userHome);
 
         if (!file.exists()) {
@@ -92,31 +118,31 @@ public class PDF {
         Paragraph pPlan = new Paragraph();
         pPlan.add(tPlan);
         pPlan.setFont(fParrafoGris);
-        pPlan.add("\n"+plan);
+        pPlan.add("\n" + plan);
         pPlan.setAlignment(Element.ALIGN_CENTER);
         pPlan.setIndentationLeft(345);
         pPlan.setSpacingAfter(2);
-        
+
         Paragraph pNombre = new Paragraph();
         pNombre.setFont(fParrafoGris);
         pNombre.add(tNombre);
-        pNombre.add("\n"+nombreCliente);
+        pNombre.add("\n" + nombreCliente);
         pNombre.setAlignment(Element.ALIGN_CENTER);
         pNombre.setIndentationLeft(345);
         pNombre.setSpacingAfter(2);
-        
+
         Paragraph pSexo = new Paragraph();
         pSexo.setFont(fParrafoGris);
         pSexo.add(tSexo);
-        pSexo.add("\n"+sexo);
+        pSexo.add("\n" + sexo);
         pSexo.setAlignment(Element.ALIGN_CENTER);
         pSexo.setIndentationLeft(345);
         pSexo.setSpacingAfter(2);
-        
+
         Paragraph pEdad = new Paragraph();
         pEdad.setFont(fParrafoGris);
         pEdad.add(tEdad);
-        pEdad.add("\n"+edad);
+        pEdad.add("\n" + edad);
         pEdad.setAlignment(Element.ALIGN_CENTER);
         pEdad.setIndentationLeft(345);
 
@@ -124,7 +150,7 @@ public class PDF {
         chapter.add(pNombre);
         chapter.add(pSexo);
         chapter.add(pEdad);
-        
+
         Paragraph subComo = new Paragraph("Importante", fSubTitulo);
         subComo.setAlignment(Element.ALIGN_CENTER);
         subComo.setIndentationLeft(345);
@@ -165,8 +191,9 @@ public class PDF {
         document.add(chapter);
     }
 //Te guiaré en los dias de entrenamiento que escogiste.
-public void addPage() throws DocumentException, MalformedURLException, BadElementException, IOException{
-    Chapter chapter = new Chapter(2);
+
+    public void addPage() throws DocumentException, MalformedURLException, BadElementException, IOException {
+        Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;
         page = Image.getInstance(new File("src/Images/page.png").toURL());
@@ -185,9 +212,10 @@ public void addPage() throws DocumentException, MalformedURLException, BadElemen
         parrafoNutricion.setSpacingAfter(37);
         chapter.add(parrafoNutricion);
         //End example
-            document.add(chapter);
+        document.add(chapter);
 
-}
+    }
+
     public void close() throws IOException {
         document.close();
         Desktop.getDesktop().open(file);

@@ -6,6 +6,8 @@
 package controlador;
 
 import DAO.DAOException;
+import archivo.PDF;
+import java.awt.Desktop;
 import modelo.cliente.Cliente;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -100,6 +102,7 @@ public class ClienteController extends Controller<Cliente> {
             textDocumento.setText(getCliente().getIdentificacion());
             textEdad.setText(getCliente().getEdad() + "");
             setSexo(getCliente().getSexo());
+            obtener();
         }
     }
 
@@ -174,9 +177,21 @@ public class ClienteController extends Controller<Cliente> {
 
     @Override
     public void obtener() {
+        if(medidas.isEmpty()){
+        listView.getItems().clear();
+        }else{
+        listView.setItems(medidas);
+        }
     }
 
     @Override
     public void buscar() {
+    }
+    
+    public void select(){
+        if(listView.getSelectionModel().getSelectedIndex()!=-1){
+            PDF pdf = new PDF(listView.getSelectionModel().getSelectedItem(), Desktop);
+            
+        }
     }
 }
