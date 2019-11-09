@@ -33,22 +33,28 @@ import modelo.cliente.Medida;
 public class PDF {
 
     private Medida medida = new Medida();
-    private String file = "";
+    private File file;
+
+    public PDF(Medida medida) {
+        setMedida(medida);
+        setFile("");
+    }
 
     public PDF(Medida medida, String url) {
         setMedida(medida);
         setFile(url);
+
     }
 
-    public String getFile() {
-        if (file.isEmpty()) {
-            file = System.getProperty("user.home") + "\\Desktop\\" + getMedida().getCliente().getNombre() + "_" + getMedida().getCliente().getApellido() + ".pdf";
+    public void setFile(String url) {
+        if (url.isEmpty()) {
+            url = System.getProperty("user.home") + "\\Desktop\\" + getMedida().getCliente().getNombre() + "_" + getMedida().getCliente().getApellido() + ".pdf";
         }
-        return file;
+        this.file = new File(url);
     }
 
-    public void setFile(String file) {
-        this.file = file;
+    public File getFile() {
+        return file;
     }
 
     public Medida getMedida() {

@@ -190,7 +190,7 @@ public class ClienteController extends Controller<Cliente> {
     
     public void select(){
         if(listView.getSelectionModel().getSelectedIndex()!=-1){
-            PDF pdf = new PDF(listView.getSelectionModel().getSelectedItem(), Desktop);
+            //PDF pdf = new PDF(listView.getSelectionModel().getSelectedItem(), Desktop);
             
         }
     }
