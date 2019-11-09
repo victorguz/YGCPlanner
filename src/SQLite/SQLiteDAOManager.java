@@ -9,7 +9,6 @@ import DAO.DAOException;
 import DAO.cliente.ClientesDAO;
 import DAO.cliente.MedidasDAO;
 import DAO.DAOManager;
-import DAO.ObjetivosDAO;
 import DAO.ReferenciasDAO;
 import DAO.plan.AlimentosDAO;
 import java.sql.Connection;
@@ -46,7 +45,6 @@ public class SQLiteDAOManager implements DAOManager {
     private EjxRutDAO ejerciciosRutinas = null;
     private AlimentosDAO alimentos = null;
     private AlxDietDAO alimentosDietas = null;
-    private ObjetivosDAO objetivos = null;
     private ReferenciasDAO referencias = null;
 
     public SQLiteDAOManager() throws DAOException {
@@ -127,14 +125,6 @@ public class SQLiteDAOManager implements DAOManager {
             ejerciciosRutinas = new SQLiteEjxRutDAO(conex);
         }
         return ejerciciosRutinas;
-    }
-
-    @Override
-    public ObjetivosDAO getObjetivosDAO() {
-        if (objetivos == null) {
-            objetivos = new SQLiteObjetivosDAO(conex);
-        }
-        return objetivos;
     }
 
     @Override

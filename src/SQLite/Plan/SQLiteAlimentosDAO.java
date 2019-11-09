@@ -28,7 +28,7 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
             + "  proteinas, grasas, carbohidratos, uso FROM alimentos ORDER BY uso desc";
     private final String WHERE = "SELECT alimentokey, nombre, "
             + "  proteinas, grasas, carbohidratos, uso FROM ALIMENTOS "
-            + "where nombre like ? order by nombre like ? desc";
+            + " order by nombre like ? desc";
     private final String UPDATE = "UPDATE ALIMENTOS SET  nombre = ?, "
             + " proteinas = ?, grasas = ?, carbohidratos  = ? , uso = ? WHERE alimentokey = ? ";
     private final String DELETE = "DELETE FROM ALIMENTOS WHERE alimentokey = ?";
@@ -78,7 +78,7 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
             s.setDouble(3, a.getGrasas());
             s.setDouble(4, a.getCarbohidratos());
             s.setDouble(5, a.getUso());
-s.setInt(6, a.getAlimentoKey());
+s.setInt(6, a.getAlimentokey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar Alimento");
             }
@@ -100,7 +100,7 @@ s.setInt(6, a.getAlimentoKey());
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
-            s.setInt(1, a.getAlimentoKey());
+            s.setInt(1, a.getAlimentokey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al eliminar Alimento");
             }
@@ -192,7 +192,6 @@ s.setInt(6, a.getAlimentoKey());
         try {
             s = conex.prepareStatement(WHERE);
             s.setString(1, "%" + equal.toUpperCase() + "%");
-            s.setString(2, equal.toUpperCase() + "%");
             rs = s.executeQuery();
             while (rs.next()) {
                 list.add(convertir(rs));
@@ -225,7 +224,7 @@ s.setInt(6, a.getAlimentoKey());
         }
         try {
             Alimento c = new Alimento();
-            c.setAlimentoKey(rs.getInt("alimentokey"));
+            c.setAlimentokey(rs.getInt("alimentokey"));
             c.setNombre(rs.getString("nombre"));
             c.setCarbohidratos(rs.getDouble("carbohidratos"));
             c.setProteinas(rs.getDouble("proteinas"));

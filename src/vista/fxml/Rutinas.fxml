@@ -20,7 +20,7 @@
    <children>
       <VBox alignment="TOP_CENTER" onMouseClicked="#updated" spacing="10.0" styleClass="nada">
          <children>
-            <VBox onMouseClicked="#updated">
+            <VBox onMouseMoved="#updated">
                <children>
                   <HBox alignment="TOP_CENTER" spacing="5.0">
                      <children>
@@ -48,7 +48,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated">
+            <VBox onMouseMoved="#updated">
                <children>
                   <Label text="Información de la dieta" textFill="#757575">
                      <VBox.margin>
@@ -119,7 +119,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated">
+            <VBox onMouseMoved="#updated">
                <children>
                   <Label text="Alimentos de la dieta" textFill="#757575" />
                   <HBox alignment="TOP_CENTER" spacing="5.0">
@@ -188,9 +188,9 @@
                   </VBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated" prefHeight="200.0" prefWidth="100.0">
+            <VBox onMouseMoved="#updated">
                <children>
-                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                  <JFXTabPane>
                      <tabs>
                         <Tab text="Domingo">
                            <content>

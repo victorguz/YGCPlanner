@@ -6,19 +6,10 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.isOnEliminar;
-import static controlador.Controller.isOnLimpiar;
-import static controlador.Controller.isOnModificar;
-import static controlador.Controller.isOnRegistrar;
-import static controlador.Controller.setOnEliminar;
-import static controlador.Controller.setOnLimpiar;
-import static controlador.Controller.setOnModificar;
-import static controlador.Controller.setOnRegistrar;
 import modelo.cliente.Medida;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -149,7 +140,7 @@ public class MedidaController extends Controller<Medida> {
     private Label labelObjetivo;
 
     @FXML
-    private TextField textObjetivo;
+    private TextField textSuperavit;
 
     @FXML
     private TextField textICA;
@@ -175,13 +166,13 @@ public class MedidaController extends Controller<Medida> {
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
         obtener();
-        obtenerObjetivos();
-        selectObjetivo();
+comboObjetivo.setItems(objetivos); 
+selectObjetivo();
         obtenerRutinas();
         obtenerDietas();
         updated();
-            calcular();
-}
+        calcular();
+    }
 
     private void obtenerRutinas() {
         try {
@@ -242,7 +233,7 @@ public class MedidaController extends Controller<Medida> {
             }
             k.setFecha(datePicker.getValue());
             k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
-            k.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem().getObjetivo());
+            k.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem());
             if (textPeso.getText().isEmpty()) {
                 k.setPeso(0);
             } else {
@@ -497,7 +488,7 @@ public class MedidaController extends Controller<Medida> {
             try {
                 k.setCliente(getCliente());
                 k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
-                k.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem().getObjetivo());
+                k.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem());
                 if (!textPeso.getText().isEmpty()) {
                     k.setPeso(Double.parseDouble((textPeso.getText())));
                 }
@@ -513,7 +504,7 @@ public class MedidaController extends Controller<Medida> {
                     textPesoIdealMonnerotDumaine.setText("" + k.getPesoIdealMonnerotDumaine() + " Kg");
                     textGradoObesidad.setText(k.getGradoObesidad());
                     textHarrys.setText("" + k.getTasaMetabolicaHarrys());
-                    textObjetivo.setText("" + k.getSuperavitODeficit());
+                    textSuperavit.setText("" + k.getSuperavitODeficit());
                     textMifflin.setText("" + k.getTasaMetabolicaMifflin());
                     textIMC.setText("" + k.getIndiceMasaCorporal() + " Kg/m2");
 
@@ -566,7 +557,8 @@ public class MedidaController extends Controller<Medida> {
     }
 
     public void selectObjetivo() {
-        labelObjetivo.setText("Calorías para " + comboObjetivo.getSelectionModel().getSelectedItem().getObjetivo().toLowerCase());
+        labelObjetivo.setText("Calorías para " + comboObjetivo.getSelectionModel().getSelectedItem().toLowerCase());
+        calcular();
     }
 
     @Override

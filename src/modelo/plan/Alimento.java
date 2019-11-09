@@ -13,7 +13,7 @@ import DAO.DAOException;
  */
 public class Alimento {
 
-    private int alimentoKey;
+    private int alimentokey;
     private String nombre = "";
     private String unidadDeMedida = "";
     private double proteinas;
@@ -33,22 +33,22 @@ public class Alimento {
     }
 
     public Alimento(int alimentoKey, String nombre, double proteinas, double grasas, double carbohidratos) throws DAOException {
-        setAlimentoKey(alimentoKey);
+        setAlimentokey(alimentoKey);
         setNombre(nombre);
         setProteinas(proteinas);
         setGrasas(grasas);
         setCarbohidratos(carbohidratos);
     }
 
-    public int getAlimentoKey() {
-        return alimentoKey;
+    public int getAlimentokey() {
+        return alimentokey;
     }
 
-    public void setAlimentoKey(int alimentoKey) throws DAOException {
-        if (alimentoKey <= 0) {
-            throw new DAOException("La llave primaria no puede ser " + alimentoKey);
+    public void setAlimentokey(int alimentokey) throws DAOException {
+        if (alimentokey <= 0) {
+            throw new DAOException("La llave primaria no puede ser " + alimentokey);
         }
-        this.alimentoKey = alimentoKey;
+        this.alimentokey = alimentokey;
     }
 
     public String getNombre() {

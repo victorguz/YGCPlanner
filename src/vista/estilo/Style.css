@@ -128,9 +128,6 @@ VBox{
 }
 .jfx-tab-pane .tab-selected-line {
     -fx-stroke: #630eb8;
-}
-
-.tab{
-    -fx-background-color: white;
     -fx-background-radius: 0;
+    
 }

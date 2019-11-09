@@ -22,7 +22,7 @@
    <children>
       <VBox alignment="TOP_CENTER" onMouseClicked="#updated" spacing="10.0" styleClass="nada">
          <children>
-            <VBox onMouseClicked="#updated">
+            <VBox onMouseClicked="#updated" onMouseMoved="#updated">
                <children>
                   <HBox alignment="TOP_CENTER" spacing="5.0">
                      <children>
@@ -50,7 +50,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated">
+            <VBox onMouseClicked="#updated" onMouseMoved="#updated">
                <children>
                   <Label text="Información de la dieta" textFill="#757575">
                      <VBox.margin>
@@ -121,7 +121,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated">
+            <VBox onMouseClicked="#updated" onMouseMoved="#updated">
                <children>
                   <Label text="Distribución porcentual de kcalorias x macronutrientes (%)" textFill="#757575" />
                   <HBox alignment="CENTER">
@@ -195,7 +195,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated">
+            <VBox onMouseMoved="#updated">
                <children>
                   <Label text="Alimentos de la dieta" textFill="#757575" />
                   <HBox alignment="TOP_CENTER" spacing="5.0">
@@ -282,7 +282,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated">
+            <VBox onMouseClicked="#updated" onMouseMoved="#updated">
                <children>
                   <Label text="Gramos de macronutrientes en este plan de alimentacion" textFill="#757575" />
                   <HBox alignment="BOTTOM_CENTER" spacing="30.0">
@@ -319,13 +319,13 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                  <JFXTabPane tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="Desayuno">
                            <content>
                               <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <ListView fx:id="listDesayuno" />
+                                    <ListView fx:id="listDesayuno" prefHeight="200.0" />
                                     <JFXButton onAction="#deleteDesayuno" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -346,7 +346,7 @@
                            <content>
                               <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <ListView fx:id="listAlmuerzo" />
+                                    <ListView fx:id="listAlmuerzo" prefHeight="200.0" />
                                     <JFXButton onAction="#deleteAlmuerzo" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -367,7 +367,7 @@
                            <content>
                               <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <ListView fx:id="listCena" />
+                                    <ListView fx:id="listCena" prefHeight="200.0" />
                                     <JFXButton onAction="#deleteCena" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -388,7 +388,7 @@
                            <content>
                               <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <ListView fx:id="listPre" />
+                                    <ListView fx:id="listPre" prefHeight="200.0" />
                                     <JFXButton onAction="#deletePre" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -409,7 +409,7 @@
                            <content>
                               <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <ListView fx:id="listPost" />
+                                    <ListView fx:id="listPost" prefHeight="200.0" />
                                     <JFXButton onAction="#deletePost" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -427,7 +427,7 @@
                            <content>
                               <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <ListView fx:id="listMerienda" />
+                                    <ListView fx:id="listMerienda" prefHeight="200.0" />
                                     <JFXButton onAction="#deleteMerienda" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -448,7 +448,7 @@
                            <content>
                               <VBox prefWidth="200.0" styleClass="x">
                                  <children>
-                                    <ListView fx:id="listExtra" />
+                                    <ListView fx:id="listExtra" prefHeight="200.0" />
                                     <JFXButton onAction="#deleteExtra" pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

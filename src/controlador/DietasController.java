@@ -9,8 +9,6 @@ import DAO.DAOException;
 import static controlador.Controller.getAlimentos;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -253,8 +251,7 @@ public class DietasController extends Controller<Plan> {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        obtenerObjetivos();
-        obtenerAlimentos();
+comboObjetivo.setItems(objetivos); 
         obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
@@ -265,6 +262,9 @@ public class DietasController extends Controller<Plan> {
     public void updated() {
         setKCalCliente();
         porcentajesVacios();
+        if(isAlimentosUpdated()){
+            obtenerAlimentos();
+        }
     }
 
     @Override
@@ -272,7 +272,7 @@ public class DietasController extends Controller<Plan> {
         Plan d = new Plan();
         d.setTipo("DIETA");
         d.setNombre(textNombre.getText());
-        d.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem().getObjetivo());
+        d.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
         d.setEdad(Integer.parseInt(textEdad.getText()));
         d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
@@ -323,7 +323,11 @@ public class DietasController extends Controller<Plan> {
                     } else {
                         getDietas().modificar(m);
                         mensaje("Plan de alimentación actualizado", "exito", null);
-                        obtener();
+                        if (textBuscar.getText().isEmpty()) {
+                            obtener();
+                        } else {
+                            buscar();
+                        }
                     }
                 }
             } else {
@@ -634,14 +638,25 @@ public class DietasController extends Controller<Plan> {
 
     public void getDomingo() {
         try {
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.EXTRA));
-            datosDieta();
+            if (buttonDomingo.isSelected()) {
+                listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.DESAYUNO));
+                listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.ALMUERZO));
+                listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.CENA));
+                listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.PREENTRENO));
+                listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.POSTENTRENO));
+                listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.MERIENDA));
+                listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.EXTRA));
+                datosDieta();
+            } else {
+                listDesayuno.getItems().clear();
+                listAlmuerzo.getItems().clear();
+                listCena.getItems().clear();
+                listPre.getItems().clear();
+                listPost.getItems().clear();
+                listMerienda.getItems().clear();
+                listExtra.getItems().clear();
+                datosDieta();
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -649,14 +664,25 @@ public class DietasController extends Controller<Plan> {
 
     public void getLunes() {
         try {
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.EXTRA));
-            datosDieta();
+            if (buttonDomingo.isSelected()) {
+                listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.DESAYUNO));
+                listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.ALMUERZO));
+                listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.CENA));
+                listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.PREENTRENO));
+                listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.POSTENTRENO));
+                listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.MERIENDA));
+                listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.EXTRA));
+                datosDieta();
+            } else {
+                listDesayuno.getItems().clear();
+                listAlmuerzo.getItems().clear();
+                listCena.getItems().clear();
+                listPre.getItems().clear();
+                listPost.getItems().clear();
+                listMerienda.getItems().clear();
+                listExtra.getItems().clear();
+                datosDieta();
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -664,14 +690,25 @@ public class DietasController extends Controller<Plan> {
 
     public void getMartes() {
         try {
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.EXTRA));
-            datosDieta();
+            if (buttonDomingo.isSelected()) {
+                listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.DESAYUNO));
+                listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.ALMUERZO));
+                listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.CENA));
+                listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.PREENTRENO));
+                listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.POSTENTRENO));
+                listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.MERIENDA));
+                listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.EXTRA));
+                datosDieta();
+            } else {
+                listDesayuno.getItems().clear();
+                listAlmuerzo.getItems().clear();
+                listCena.getItems().clear();
+                listPre.getItems().clear();
+                listPost.getItems().clear();
+                listMerienda.getItems().clear();
+                listExtra.getItems().clear();
+                datosDieta();
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -679,14 +716,25 @@ public class DietasController extends Controller<Plan> {
 
     public void getMiercoles() {
         try {
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.EXTRA));
-            datosDieta();
+            if (buttonDomingo.isSelected()) {
+                listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.DESAYUNO));
+                listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.ALMUERZO));
+                listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.CENA));
+                listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.PREENTRENO));
+                listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.POSTENTRENO));
+                listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.MERIENDA));
+                listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.EXTRA));
+                datosDieta();
+            } else {
+                listDesayuno.getItems().clear();
+                listAlmuerzo.getItems().clear();
+                listCena.getItems().clear();
+                listPre.getItems().clear();
+                listPost.getItems().clear();
+                listMerienda.getItems().clear();
+                listExtra.getItems().clear();
+                datosDieta();
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -694,14 +742,25 @@ public class DietasController extends Controller<Plan> {
 
     public void getJueves() {
         try {
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.EXTRA));
-            datosDieta();
+            if (buttonDomingo.isSelected()) {
+                listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.DESAYUNO));
+                listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.ALMUERZO));
+                listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.CENA));
+                listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.PREENTRENO));
+                listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.POSTENTRENO));
+                listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.MERIENDA));
+                listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.EXTRA));
+                datosDieta();
+            } else {
+                listDesayuno.getItems().clear();
+                listAlmuerzo.getItems().clear();
+                listCena.getItems().clear();
+                listPre.getItems().clear();
+                listPost.getItems().clear();
+                listMerienda.getItems().clear();
+                listExtra.getItems().clear();
+                datosDieta();
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -709,14 +768,25 @@ public class DietasController extends Controller<Plan> {
 
     public void getViernes() {
         try {
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.EXTRA));
-            datosDieta();
+            if (buttonDomingo.isSelected()) {
+                listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.DESAYUNO));
+                listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.ALMUERZO));
+                listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.CENA));
+                listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.PREENTRENO));
+                listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.POSTENTRENO));
+                listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.MERIENDA));
+                listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.EXTRA));
+                datosDieta();
+            } else {
+                listDesayuno.getItems().clear();
+                listAlmuerzo.getItems().clear();
+                listCena.getItems().clear();
+                listPre.getItems().clear();
+                listPost.getItems().clear();
+                listMerienda.getItems().clear();
+                listExtra.getItems().clear();
+                datosDieta();
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -724,14 +794,25 @@ public class DietasController extends Controller<Plan> {
 
     public void getSabado() {
         try {
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.EXTRA));
-            datosDieta();
+            if (buttonDomingo.isSelected()) {
+                listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.DESAYUNO));
+                listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.ALMUERZO));
+                listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.CENA));
+                listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.PREENTRENO));
+                listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.POSTENTRENO));
+                listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.MERIENDA));
+                listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.EXTRA));
+                datosDieta();
+            } else {
+                listDesayuno.getItems().clear();
+                listAlmuerzo.getItems().clear();
+                listCena.getItems().clear();
+                listPre.getItems().clear();
+                listPost.getItems().clear();
+                listMerienda.getItems().clear();
+                listExtra.getItems().clear();
+                datosDieta();
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -741,7 +822,6 @@ public class DietasController extends Controller<Plan> {
         try {
             AlxDiet a = getAlxDiet();
             if (a != null) {
-                getAlxdiets().insertar(a);
                 a.setMomento(AlxDiet.DESAYUNO);
                 getAlxdiets().insertar(a);
                 listDesayuno.getItems().add(a);

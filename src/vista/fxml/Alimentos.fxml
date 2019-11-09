@@ -110,7 +110,7 @@
                         </VBox>
                      </children>
                   </FlowPane>
-                  <HBox alignment="CENTER">
+                  <HBox alignment="CENTER" spacing="10.0">
                      <children>
                         <JFXButton onAction="#eliminar" text="Eliminar" />
                         <JFXButton onAction="#limpiar" text="Limpiar" />

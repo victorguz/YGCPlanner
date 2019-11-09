@@ -6,12 +6,18 @@
 package controlador;
 
 import DAO.DAOException;
+import static controlador.Controller.getAlimentos;
+import static controlador.Controller.getEjercicios;
 import static controlador.Controller.mensaje;
+import static controlador.Controller.setAlimentosUpdated;
+import static controlador.Controller.setEjerciciosUpdated;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import modelo.plan.Alimento;
+import modelo.plan.Ejercicio;
 import modelo.plan.Ejercicio;
 
 public class EjerciciosController extends Controller<Ejercicio> {
@@ -24,6 +30,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
 
     @FXML
     private TextArea textComentarios;
+
     @Override
     public void updated() {
     }
@@ -44,7 +51,9 @@ public class EjerciciosController extends Controller<Ejercicio> {
                 } else {
                     getEjercicios().insertar(c);
                     mensaje("Ejercicio registrado", "exito", null);
-                    obtener();
+                    textBuscar.setText(textNombre.getText());
+                    buscar();
+                    setEjerciciosUpdated(true);
                 }
             }
         } catch (DAOException ex) {
@@ -56,9 +65,17 @@ public class EjerciciosController extends Controller<Ejercicio> {
     public void modificar() {
         if (!comboEjercicios.getItems().isEmpty()) {
             try {
-                getEjercicios().modificar(comboEjercicios.getSelectionModel().getSelectedItem());
-                mensaje("Ejercicio actualizado", "exito", null);
-                obtener();
+               Ejercicio a = captar();
+                if (!a.isEmpty()) {
+                    a.setEjerciciokey(comboEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
+                    getEjercicios().modificar(a);
+                    mensaje("Ejercicio actualizado", "exito", null);
+                    textBuscar.setText(textNombre.getText());
+                    buscar();
+                    setEjerciciosUpdated(true);
+                } else {
+                    mensaje("A este alimento le faltan datos", "aviso", null);
+                }
             } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
@@ -72,9 +89,16 @@ public class EjerciciosController extends Controller<Ejercicio> {
     public void eliminar() {
         if (!comboEjercicios.getItems().isEmpty()) {
             try {
-                getEjercicios().eliminar(comboEjercicios.getSelectionModel().getSelectedItem());
-                mensaje("Ejercicio eliminado", "exito", null);
-                obtener();
+                Ejercicio a = captar();
+                if (!a.isEmpty()) {
+                    a.setEjerciciokey(comboEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
+                    getEjercicios().eliminar(a);
+                    mensaje("Ejercicio eliminado", "exito", null);
+                    obtener();
+                    setEjerciciosUpdated(true);
+                } else {
+                    mensaje("A este alimento le faltan datos", "aviso", null);
+                }
             } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
@@ -121,5 +145,5 @@ public class EjerciciosController extends Controller<Ejercicio> {
         obtenerEjercicios();
         mostrar();
     }
-    
+
 }

@@ -51,7 +51,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboObjetivo" onAction="#selectObjetivo" onMouseClicked="#calcular" prefHeight="40.0" prefWidth="90.0" promptText="OBJETIVO" />
+                              <ComboBox fx:id="comboObjetivo" onAction="#selectObjetivo" onMouseClicked="#calcular" prefHeight="40.0" promptText="OBJETIVO" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -437,7 +437,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textObjetivo" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textSuperavit" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">

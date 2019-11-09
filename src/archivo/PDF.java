@@ -5,6 +5,7 @@ package archivo;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import DAO.DAOException;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
@@ -35,22 +36,29 @@ public class PDF {
     private Medida medida = new Medida();
     private File file;
 
-    public PDF(Medida medida) {
-        setMedida(medida);
-        setFile("");
+    public PDF() {
     }
 
-    public PDF(Medida medida, String url) {
+    public PDF(Medida medida) throws DAOException, IOException, FileNotFoundException, DocumentException {
+        setMedida(medida);
+        setFile("");
+        createPDF();
+    }
+
+    public PDF(Medida medida, String url) throws DAOException, IOException {
         setMedida(medida);
         setFile(url);
 
     }
 
-    public void setFile(String url) {
+    public void setFile(String url) throws IOException {
         if (url.isEmpty()) {
             url = System.getProperty("user.home") + "\\Desktop\\" + getMedida().getCliente().getNombre() + "_" + getMedida().getCliente().getApellido() + ".pdf";
         }
         this.file = new File(url);
+        if (!this.file.exists()) {
+            this.file.createNewFile();
+        }
     }
 
     public File getFile() {
@@ -61,41 +69,31 @@ public class PDF {
         return medida;
     }
 
-    public void setMedida(Medida medida) {
+    public void setMedida(Medida medida) throws DAOException {
+        if (medida.isEmpty()) {
+            throw new DAOException("A esta medida le faltan datos");
+        }
         this.medida = medida;
     }
 
     //Fonts
-    private static Font fTitulo
-            = FontFactory.getFont("Arial", 22, new BaseColor(80, 80, 80));
-    private static Font fSubTitulo
-            = FontFactory.getFont("Arial", 16, new BaseColor(80, 80, 80));
-    private static Font fParrafoNegro
-            = FontFactory.getFont("Arial", 10, Font.NORMAL, new BaseColor(40, 40, 40));
-    private static Font fParrafoNegroMenor
-            = FontFactory.getFont("Arial", 8, Font.NORMAL, new BaseColor(40, 40, 40));
-    private static Font fParrafoGris = FontFactory.getFont("Arial", 10,
-            Font.NORMAL, new BaseColor(125, 125, 125));
-    private static Font fParrafoGrisCursiva = FontFactory.getFont("Arial", 10,
-            Font.ITALIC, new BaseColor(125, 125, 125));
-    private static Font fCategoria
-            = FontFactory.getFont("Arial", 18, Font.BOLD);
+    private static Font fontTitulo = FontFactory.getFont("Arial", 22, new BaseColor(80, 80, 80));
+    private static Font fontSubtitulo = FontFactory.getFont("Arial", 16, new BaseColor(80, 80, 80));
+    private static Font fontParrafoNegro = FontFactory.getFont("Arial", 10, Font.NORMAL, new BaseColor(40, 40, 40));
+    private static Font fontParrafoNegroMenor = FontFactory.getFont("Arial", 8, Font.NORMAL, new BaseColor(40, 40, 40));
+    private static Font fontParrafoGris = FontFactory.getFont("Arial", 10, Font.NORMAL, new BaseColor(125, 125, 125));
+    private static Font fontParrafoGrisCursiva = FontFactory.getFont("Arial", 10, Font.ITALIC, new BaseColor(125, 125, 125));
+    private static Font fontCategoria = FontFactory.getFont("Arial", 18, Font.BOLD);
 
     private static String userHome;
     Document document;
 
-    public void createPDF(String plan, String nombreCliente, int edad, String sexo) throws FileNotFoundException, DocumentException, IOException {
+    public void createPDF() throws FileNotFoundException, DocumentException, IOException {
         document = new Document(PageSize.LETTER, 50, 22, 50, 50);
-        userHome = System.getProperty("user.home") + "\\Desktop\\" + nombreCliente + ".pdf";
-        file = new File(userHome);
-
-        if (!file.exists()) {
-            file.createNewFile();
-        }
         PdfWriter.getInstance(document, new FileOutputStream(file));
         document.open();
         //Modificar metadatos del archivo:
-        document.addTitle("Plan " + nombreCliente);
+        document.addTitle("Plan " + getMedida().getCliente().getNombre()+" "+getMedida().getCliente().getApellido());
         document.addSubject("Plan nutricional y de rutina");
         document.addKeywords("Plan, Rutina, Dieta");
         document.addAuthor("Yezid Guzman Coach");
@@ -109,46 +107,46 @@ public class PDF {
         black.setAbsolutePosition(0, 0);
         chapter.add(black);
 
-        Paragraph subInfo = new Paragraph("Información del cliente", fSubTitulo);
+        Paragraph subInfo = new Paragraph("Información del cliente", fontSubtitulo);
         subInfo.setAlignment(Element.ALIGN_CENTER);
         subInfo.setIndentationLeft(345);
         subInfo.setSpacingBefore(65);
         subInfo.setSpacingAfter(10);
         chapter.add(subInfo);
 
-        Chunk tPlan = new Chunk("Plan", fParrafoNegro);
-        Chunk tNombre = new Chunk("Nombre", fParrafoNegro);
-        Chunk tSexo = new Chunk("Sexo", fParrafoNegro);
-        Chunk tEdad = new Chunk("Edad", fParrafoNegro);
+        Chunk tPlan = new Chunk("Plan", fontParrafoNegro);
+        Chunk tNombre = new Chunk("Nombre", fontParrafoNegro);
+        Chunk tSexo = new Chunk("Sexo", fontParrafoNegro);
+        Chunk tEdad = new Chunk("Edad", fontParrafoNegro);
 
         Paragraph pPlan = new Paragraph();
         pPlan.add(tPlan);
-        pPlan.setFont(fParrafoGris);
-        pPlan.add("\n" + plan);
+        pPlan.setFont(fontParrafoGris);
+        pPlan.add("\n" + getMedida().getRutina().getNombre());
         pPlan.setAlignment(Element.ALIGN_CENTER);
         pPlan.setIndentationLeft(345);
         pPlan.setSpacingAfter(2);
 
         Paragraph pNombre = new Paragraph();
-        pNombre.setFont(fParrafoGris);
+        pNombre.setFont(fontParrafoGris);
         pNombre.add(tNombre);
-        pNombre.add("\n" + nombreCliente);
+        pNombre.add("\n" + getMedida().getCliente().getNombre()+" "+getMedida().getCliente().getApellido());
         pNombre.setAlignment(Element.ALIGN_CENTER);
         pNombre.setIndentationLeft(345);
         pNombre.setSpacingAfter(2);
 
         Paragraph pSexo = new Paragraph();
-        pSexo.setFont(fParrafoGris);
+        pSexo.setFont(fontParrafoGris);
         pSexo.add(tSexo);
-        pSexo.add("\n" + sexo);
+        pSexo.add("\n" + getMedida().getCliente().getSexo());
         pSexo.setAlignment(Element.ALIGN_CENTER);
         pSexo.setIndentationLeft(345);
         pSexo.setSpacingAfter(2);
 
         Paragraph pEdad = new Paragraph();
-        pEdad.setFont(fParrafoGris);
+        pEdad.setFont(fontParrafoGris);
         pEdad.add(tEdad);
-        pEdad.add("\n" + edad);
+        pEdad.add("\n" + getMedida().getCliente().getEdad());
         pEdad.setAlignment(Element.ALIGN_CENTER);
         pEdad.setIndentationLeft(345);
 
@@ -157,7 +155,7 @@ public class PDF {
         chapter.add(pSexo);
         chapter.add(pEdad);
 
-        Paragraph subComo = new Paragraph("Importante", fSubTitulo);
+        Paragraph subComo = new Paragraph("Importante", fontSubtitulo);
         subComo.setAlignment(Element.ALIGN_CENTER);
         subComo.setIndentationLeft(345);
         subComo.setSpacingBefore(10);
@@ -173,7 +171,7 @@ public class PDF {
                 + "físico, apariencia y salud. "
                 + "\n"
                 + "\nCon mi ayuda y tu disposición alcanzaremos tus objetivos.",
-                fParrafoGris);
+                fontParrafoGris);
         parrafoPlan.setAlignment(Element.ALIGN_CENTER);
         parrafoPlan.setIndentationLeft(345);
         parrafoPlan.setSpacingAfter(130);
@@ -181,7 +179,7 @@ public class PDF {
 
         Paragraph parrafoNutricion = new Paragraph("Plan nutricional "
                 + "diseñado para suplir tus necesidades y alcanzar "
-                + "tus objetivos.", fParrafoNegroMenor);
+                + "tus objetivos.", fontParrafoNegroMenor);
         parrafoNutricion.setAlignment(Element.ALIGN_CENTER);
         parrafoNutricion.setIndentationLeft(340);
         parrafoNutricion.setSpacingAfter(37);
@@ -190,7 +188,7 @@ public class PDF {
         Paragraph parrafoRutina = new Paragraph("Plan de entrenamiento "
                 + "diseñado para trabajar tus cualidades y habilidades "
                 + "físicas básicas y complejas de manera progresiva según "
-                + "tus objetivos.", fParrafoNegroMenor);
+                + "tus objetivos.", fontParrafoNegroMenor);
         parrafoRutina.setAlignment(Element.ALIGN_CENTER);
         parrafoRutina.setIndentationLeft(340);
         chapter.add(parrafoRutina);
@@ -206,14 +204,14 @@ public class PDF {
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
-        Paragraph subInfo = new Paragraph("Lunes", fTitulo);
+        Paragraph subInfo = new Paragraph("Lunes", fontTitulo);
         subInfo.setAlignment(Element.ALIGN_CENTER);
         subInfo.setSpacingAfter(30);
         chapter.add(subInfo);
         //Example:
         Paragraph parrafoNutricion = new Paragraph("Plan nutricional "
                 + "diseñado para suplir tus necesidades y alcanzar "
-                + "tus objetivos.", fParrafoNegroMenor);
+                + "tus objetivos.", fontParrafoNegroMenor);
         parrafoNutricion.setAlignment(Element.ALIGN_CENTER);
         parrafoNutricion.setSpacingAfter(37);
         chapter.add(parrafoNutricion);

@@ -65,8 +65,7 @@ public class RutinasController extends Controller<Plan> {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        obtenerObjetivos();
-        obtenerEjercicios();
+comboObjetivo.setItems(objetivos); 
         obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
@@ -80,7 +79,7 @@ public class RutinasController extends Controller<Plan> {
         Plan d = new Plan();
         d.setTipo("DIETA");
         d.setNombre(textNombre.getText());
-        d.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem().getObjetivo());
+        d.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
         d.setEdad(Integer.parseInt(textEdad.getText()));
         d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
@@ -203,6 +202,9 @@ public class RutinasController extends Controller<Plan> {
 
     @Override
     public void updated() {
+        if (isEjerciciosUpdated()) {
+            obtenerEjercicios();
+        }
     }
 
     public Plan getRutina() {

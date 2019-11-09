@@ -37,7 +37,6 @@ public interface DAOManager {
 
     EjxRutDAO getEjerciciosRutinasDAO();
 
-    ObjetivosDAO getObjetivosDAO();
 
     ReferenciasDAO getReferenciasDAO();
 

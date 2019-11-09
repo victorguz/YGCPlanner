@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import modelo.Objetivo;
 import modelo.Referencia;
 
 /**

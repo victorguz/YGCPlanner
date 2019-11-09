@@ -6,7 +6,6 @@
 package controlador;
 
 import DAO.DAOException;
-import DAO.ObjetivosDAO;
 import DAO.ReferenciasDAO;
 import DAO.cliente.ClientesDAO;
 import DAO.cliente.MedidasDAO;
@@ -21,9 +20,6 @@ import ds.desktop.notify.NotifyTheme;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.animation.FadeTransition;
@@ -35,12 +31,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import javax.swing.JOptionPane;
-import modelo.Objetivo;
 import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
 import modelo.plan.Alimento;
@@ -55,94 +48,11 @@ import modelo.plan.Plan;
 public abstract class Controller<T> implements Initializable {
 
     //Manager
-    private static SQLiteDAOManager manager;
-
-    private static Cliente cliente;
-    private static boolean clientesUpdated;
-    private static boolean clienteUpdated;
-    private static Medida medida;
-    private static boolean medidasUpdated;
-    private static boolean medidaUpdated;
-    private static boolean onClientes;
-    private static boolean onMedidas;
-    private static boolean onDietas;
-    private static boolean onRutinas;
-    private static boolean onAlimentos;
-    private static boolean onEjercicios;
-    private static boolean onConfig;
-    private static boolean buttonsClientes;
-    private static boolean buttonsMedidas;
-    private static boolean buttonsDietas;
-    private static boolean buttonsRutinas;
-    private static boolean buttonsAlimentos;
-    private static boolean buttonsEjercicios;
-    private static boolean buttonsConfig;
-    private static boolean onRegistrar;
-    private static boolean onModificar;
-    private static boolean onLimpiar;
-    private static boolean onEliminar;
-
-    public static boolean isButtonsClientes() {
-        return buttonsClientes;
-    }
-
-    public static void setButtonsClientes(boolean buttonsClientes) {
-        Controller.buttonsClientes = buttonsClientes;
-    }
-
-    public static boolean isButtonsMedidas() {
-        return buttonsMedidas;
-    }
-
-    public static void setButtonsMedidas(boolean buttonsMedidas) {
-        Controller.buttonsMedidas = buttonsMedidas;
-    }
-
-    public static boolean isButtonsDietas() {
-        return buttonsDietas;
-    }
-
-    public static void setButtonsDietas(boolean buttonsDietas) {
-        Controller.buttonsDietas = buttonsDietas;
-    }
-
-    public static boolean isButtonsRutinas() {
-        return buttonsRutinas;
-    }
-
-    public static void setButtonsRutinas(boolean buttonsRutinas) {
-        Controller.buttonsRutinas = buttonsRutinas;
-    }
-
-    public static boolean isButtonsAlimentos() {
-        return buttonsAlimentos;
-    }
-
-    public static void setButtonsAlimentos(boolean buttonsAlimentos) {
-        Controller.buttonsAlimentos = buttonsAlimentos;
-    }
-
-    public static boolean isButtonsEjercicios() {
-        return buttonsEjercicios;
-    }
-
-    public static void setButtonsEjercicios(boolean buttonsEjercicios) {
-        Controller.buttonsEjercicios = buttonsEjercicios;
-    }
-
-    public static boolean isButtonsConfig() {
-        return buttonsConfig;
-    }
-
-    public static void setButtonsConfig(boolean buttonsConfig) {
-        Controller.buttonsConfig = buttonsConfig;
-    }
-
     @FXML
     protected TextField textBuscar;
 
     @FXML
-    protected ComboBox<Objetivo> comboObjetivo;
+    protected ComboBox<String> comboObjetivo;
 
     @FXML
     protected StackPane holderPane;
@@ -175,7 +85,38 @@ public abstract class Controller<T> implements Initializable {
     protected static ObservableList<Ejercicio> ejercicios;
 
     protected static final ObservableList<String> sexos = FXCollections.observableArrayList("HOMBRE", "MUJER");
+    protected static final ObservableList<String> objetivos = FXCollections.observableArrayList("PERDIDA", "AUMENTO", "MANTENIMIENTO");
 
+    private static SQLiteDAOManager manager;
+    private static Cliente cliente;
+    private static boolean clientesUpdated;
+    private static boolean clienteUpdated;
+    private static Medida medida;
+    private static boolean medidasUpdated;
+    private static boolean medidaUpdated;
+    private static boolean onClientes;
+    private static boolean onMedidas;
+    private static boolean onDietas;
+    private static boolean onRutinas;
+    private static boolean alimentosUpdated;
+    private static boolean ejerciciosUpdated;
+    private static boolean onConfig;
+     public static boolean isEjerciciosUpdated() {
+        return ejerciciosUpdated;
+    }
+
+    public static void setEjerciciosUpdated(boolean updated) {
+        Controller.ejerciciosUpdated = updated;
+    }
+    public static boolean isAlimentosUpdated() {
+        return alimentosUpdated;
+    }
+
+    public static void setAlimentosUpdated(boolean updated) {
+        Controller.alimentosUpdated = updated;
+    }
+
+    
     private static SQLiteDAOManager getManager() throws DAOException {
         if (manager == null) {
             try {
@@ -195,9 +136,6 @@ public abstract class Controller<T> implements Initializable {
         return getManager().getMedidasDAO();
     }
 
-    public static ObjetivosDAO getObjetivos() throws DAOException {
-        return getManager().getObjetivosDAO();
-    }
 
     public static PlanDAO getDietas() throws DAOException {
         return getManager().getDietasDAO();
@@ -381,24 +319,10 @@ public abstract class Controller<T> implements Initializable {
         getDigits(e);
     }
 
-    public void obtenerObjetivos() {
-
-        try {
-            ObservableList objetivos = getObjetivos().obtenerTodos();
-            if (!objetivos.isEmpty()) {
-                comboObjetivo.getItems().clear();
-                comboObjetivo.setItems(objetivos);
-                comboObjetivo.getSelectionModel().select(0);
-            }
-        } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
-        }
-    }
-
     public void selectObjetivo(String a) {
         if (!comboObjetivo.getItems().isEmpty()) {
             for (int i = 0; i < comboObjetivo.getItems().size(); i++) {
-                if (comboObjetivo.getItems().get(i).getObjetivo().equalsIgnoreCase(a)) {
+                if (comboObjetivo.getItems().get(i).equalsIgnoreCase(a)) {
                     comboObjetivo.getSelectionModel().select(i);
                     return;
                 }
@@ -470,22 +394,6 @@ public abstract class Controller<T> implements Initializable {
         onRutinas = aOnRutinas;
     }
 
-    public static boolean isOnAlimentos() {
-        return onAlimentos;
-    }
-
-    public static void setOnAlimentos(boolean aOnAlimentos) {
-        onAlimentos = aOnAlimentos;
-    }
-
-    public static boolean isOnEjercicios() {
-        return onEjercicios;
-    }
-
-    public static void setOnEjercicios(boolean aOnEjercicios) {
-        onEjercicios = aOnEjercicios;
-    }
-
     public static boolean isOnConfig() {
         return onConfig;
     }
@@ -494,37 +402,6 @@ public abstract class Controller<T> implements Initializable {
         onConfig = aOnConfig;
     }
 
-    public static boolean isOnRegistrar() {
-        return onRegistrar;
-    }
-
-    public static void setOnRegistrar(boolean aOnRegistrar) {
-        onRegistrar = aOnRegistrar;
-    }
-
-    public static boolean isOnModificar() {
-        return onModificar;
-    }
-
-    public static void setOnModificar(boolean aOnModificar) {
-        onModificar = aOnModificar;
-    }
-
-    public static boolean isOnLimpiar() {
-        return onLimpiar;
-    }
-
-    public static void setOnLimpiar(boolean aOnLimpiar) {
-        onLimpiar = aOnLimpiar;
-    }
-
-    public static boolean isOnEliminar() {
-        return onEliminar;
-    }
-
-    public static void setOnEliminar(boolean aOnEliminar) {
-        onEliminar = aOnEliminar;
-    }
 
     public static Cliente getCliente() {
         if (cliente == null) {
@@ -612,7 +489,6 @@ public abstract class Controller<T> implements Initializable {
                     limpiar();
                 } else {
                     comboAlimentos.setItems(alimentos);
-                    mensaje("Se encontraron " + alimentos.size() + " alimentos", "exito", null);
                     selectAlimento(0);
                 }
             } catch (DAOException ex) {
@@ -652,7 +528,6 @@ public abstract class Controller<T> implements Initializable {
                     limpiar();
                 } else {
                     comboEjercicios.setItems(ejercicios);
-                    mensaje("Se encontraron " + ejercicios.size() + " ejercicios", "exito", null);
                     selectEjercicio(0);
                 }
             } catch (DAOException ex) {

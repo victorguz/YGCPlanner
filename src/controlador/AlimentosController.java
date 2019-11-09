@@ -6,19 +6,9 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.isButtonsClientes;
-import static controlador.Controller.isOnEliminar;
-import static controlador.Controller.isOnLimpiar;
-import static controlador.Controller.isOnModificar;
-import static controlador.Controller.isOnRegistrar;
 import static controlador.Controller.mensaje;
-import static controlador.Controller.setOnEliminar;
-import static controlador.Controller.setOnLimpiar;
-import static controlador.Controller.setOnModificar;
-import static controlador.Controller.setOnRegistrar;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import modelo.plan.Alimento;
@@ -66,14 +56,14 @@ public class AlimentosController extends Controller<Alimento> {
     public void registrar() {
         try {
             Alimento c = captar();
-            if (c != null) {
-                if (c.isEmpty()) {
-                    mensaje("A este alimento le faltan datos", "aviso", null);
-                } else {
-                    getAlimentos().insertar(c);
-                    mensaje("Alimento registrado", "exito", null);
-                    obtener();
-                }
+            if (c.isEmpty()) {
+                mensaje("A este alimento le faltan datos", "aviso", null);
+            } else {
+                getAlimentos().insertar(c);
+                mensaje("Alimento registrado", "exito", null);
+                textBuscar.setText(textNombre.getText());
+                buscar();
+                setAlimentosUpdated(true);
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
@@ -84,9 +74,17 @@ public class AlimentosController extends Controller<Alimento> {
     public void modificar() {
         if (!comboAlimentos.getItems().isEmpty()) {
             try {
-                getAlimentos().modificar(comboAlimentos.getSelectionModel().getSelectedItem());
-                mensaje("Alimento actualizado", "exito", null);
-                obtener();
+                Alimento a = captar();
+                if (!a.isEmpty()) {
+                    a.setAlimentokey(comboAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
+                    getAlimentos().modificar(a);
+                    mensaje("Alimento actualizado", "exito", null);
+                    textBuscar.setText(textNombre.getText());
+                    buscar();
+                    setAlimentosUpdated(true);
+                } else {
+                    mensaje("A este alimento le faltan datos", "aviso", null);
+                }
             } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
@@ -100,9 +98,16 @@ public class AlimentosController extends Controller<Alimento> {
     public void eliminar() {
         if (!comboAlimentos.getItems().isEmpty()) {
             try {
-                getAlimentos().eliminar(comboAlimentos.getSelectionModel().getSelectedItem());
-                mensaje("Alimento eliminado", "exito", null);
-                obtener();
+                Alimento a = captar();
+                if (!a.isEmpty()) {
+                    a.setAlimentokey(comboAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
+                    getAlimentos().eliminar(a);
+                    mensaje("Alimento eliminado", "exito", null);
+                    obtener();
+                    setAlimentosUpdated(true);
+                } else {
+                    mensaje("A este alimento le faltan datos", "aviso", null);
+                }
             } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
@@ -163,5 +168,5 @@ public class AlimentosController extends Controller<Alimento> {
         obtenerAlimentos();
         mostrar();
     }
-    
+
 }
