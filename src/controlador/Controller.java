@@ -52,7 +52,7 @@ public abstract class Controller<T> implements Initializable {
     protected TextField textBuscar;
 
     @FXML
-    protected ComboBox<String> comboObjetivo;
+    protected ComboBox<String> comboObjetivos;
 
     @FXML
     protected StackPane holderPane;
@@ -184,7 +184,7 @@ public abstract class Controller<T> implements Initializable {
         DesktopNotify.showDesktopMessage("PRUEBA", "Esto es una prueba");
     }
 
-    public static void mensaje(String mensaje, String tipo, DAOException ex) {
+    public static void mensaje(String mensaje, String tipo, Exception ex) {
         NotifyTheme nt = NotifyTheme.Light;
         nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
         DesktopNotify.setDefaultTheme(nt);
@@ -320,10 +320,10 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public void selectObjetivo(String a) {
-        if (!comboObjetivo.getItems().isEmpty()) {
-            for (int i = 0; i < comboObjetivo.getItems().size(); i++) {
-                if (comboObjetivo.getItems().get(i).equalsIgnoreCase(a)) {
-                    comboObjetivo.getSelectionModel().select(i);
+        if (!comboObjetivos.getItems().isEmpty()) {
+            for (int i = 0; i < comboObjetivos.getItems().size(); i++) {
+                if (comboObjetivos.getItems().get(i).equalsIgnoreCase(a)) {
+                    comboObjetivos.getSelectionModel().select(i);
                     return;
                 }
             }

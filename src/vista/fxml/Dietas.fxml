@@ -76,7 +76,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboObjetivo" prefHeight="40.0" promptText="OBJETIVO" visibleRowCount="5" />
+                              <ComboBox fx:id="comboObjetivos" prefHeight="40.0" promptText="OBJETIVO" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">

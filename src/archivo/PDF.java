@@ -18,6 +18,7 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Desktop;
 import java.io.File;
@@ -25,6 +26,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.cliente.Medida;
 
 /**
@@ -76,8 +79,22 @@ public class PDF {
         this.medida = medida;
     }
 
-    //Fonts
-    private static Font fontTitulo = FontFactory.getFont("Arial", 22, new BaseColor(80, 80, 80));
+    //YGC Fonts
+    public static BaseFont getQuantify() {
+        try {
+            File quantify = new File("src/fonts/quantify.ttf");
+            BaseFont yezidguzmancoach = BaseFont.createFont(quantify.getAbsolutePath(), BaseFont.WINANSI, BaseFont.EMBEDDED);
+            return yezidguzmancoach;
+        } catch (DocumentException | IOException ex) {
+            Logger.getLogger(PDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    //Regular Fonts
+    
+    //private static Font fontTitulo = FontFactory.getFont("Arial", 22, new BaseColor(80, 80, 80));
+    private static Font fontTitulo = new Font(getQuantify());
     private static Font fontSubtitulo = FontFactory.getFont("Arial", 16, new BaseColor(80, 80, 80));
     private static Font fontParrafoNegro = FontFactory.getFont("Arial", 10, Font.NORMAL, new BaseColor(40, 40, 40));
     private static Font fontParrafoNegroMenor = FontFactory.getFont("Arial", 8, Font.NORMAL, new BaseColor(40, 40, 40));
@@ -93,7 +110,7 @@ public class PDF {
         PdfWriter.getInstance(document, new FileOutputStream(file));
         document.open();
         //Modificar metadatos del archivo:
-        document.addTitle("Plan " + getMedida().getCliente().getNombre()+" "+getMedida().getCliente().getApellido());
+        document.addTitle("Plan " + getMedida().getCliente().getNombre() + " " + getMedida().getCliente().getApellido());
         document.addSubject("Plan nutricional y de rutina");
         document.addKeywords("Plan, Rutina, Dieta");
         document.addAuthor("Yezid Guzman Coach");
@@ -102,7 +119,7 @@ public class PDF {
         Chapter chapter = new Chapter(1);
         chapter.setNumberDepth(0);
         Image black;
-        black = Image.getInstance(new File("src/Images/black.png").toURL());
+        black = Image.getInstance(new File("src/imagen/black.png").toURL());
         black.scaleAbsolute(PageSize.LETTER);
         black.setAbsolutePosition(0, 0);
         chapter.add(black);
@@ -130,7 +147,7 @@ public class PDF {
         Paragraph pNombre = new Paragraph();
         pNombre.setFont(fontParrafoGris);
         pNombre.add(tNombre);
-        pNombre.add("\n" + getMedida().getCliente().getNombre()+" "+getMedida().getCliente().getApellido());
+        pNombre.add("\n" + getMedida().getCliente().getNombre() + " " + getMedida().getCliente().getApellido());
         pNombre.setAlignment(Element.ALIGN_CENTER);
         pNombre.setIndentationLeft(345);
         pNombre.setSpacingAfter(2);
@@ -193,14 +210,15 @@ public class PDF {
         parrafoRutina.setIndentationLeft(340);
         chapter.add(parrafoRutina);
         document.add(chapter);
+        addPage();
+        close();
     }
-//Te guiaré en los dias de entrenamiento que escogiste.
 
     public void addPage() throws DocumentException, MalformedURLException, BadElementException, IOException {
         Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;
-        page = Image.getInstance(new File("src/Images/page.png").toURL());
+        page = Image.getInstance(new File("src/imagen/page.png").toURL());
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);

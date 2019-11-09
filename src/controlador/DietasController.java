@@ -251,7 +251,8 @@ public class DietasController extends Controller<Plan> {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-comboObjetivo.setItems(objetivos); 
+        comboObjetivos.setItems(objetivos);
+        comboObjetivos.getSelectionModel().select(0);
         obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
@@ -262,7 +263,7 @@ comboObjetivo.setItems(objetivos);
     public void updated() {
         setKCalCliente();
         porcentajesVacios();
-        if(isAlimentosUpdated()){
+        if (isAlimentosUpdated()) {
             obtenerAlimentos();
         }
     }
@@ -272,7 +273,7 @@ comboObjetivo.setItems(objetivos);
         Plan d = new Plan();
         d.setTipo("DIETA");
         d.setNombre(textNombre.getText());
-        d.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem());
+        d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
         d.setEdad(Integer.parseInt(textEdad.getText()));
         d.setSexo(comboSexo.getSelectionModel().getSelectedItem());

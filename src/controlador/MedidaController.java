@@ -166,8 +166,9 @@ public class MedidaController extends Controller<Medida> {
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
         obtener();
-comboObjetivo.setItems(objetivos); 
-selectObjetivo();
+        comboObjetivos.setItems(objetivos);
+        comboObjetivos.getSelectionModel().select(0);
+        selectObjetivo();
         obtenerRutinas();
         obtenerDietas();
         updated();
@@ -233,7 +234,7 @@ selectObjetivo();
             }
             k.setFecha(datePicker.getValue());
             k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
-            k.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem());
+            k.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
             if (textPeso.getText().isEmpty()) {
                 k.setPeso(0);
             } else {
@@ -387,7 +388,7 @@ selectObjetivo();
         textSuprailiaco.setText("");
         textTricipital.setText("");
         comboActividad.getSelectionModel().select(0);
-        comboObjetivo.getSelectionModel().select(0);
+        comboObjetivos.getSelectionModel().select(0);
     }
 
     @Override
@@ -488,7 +489,7 @@ selectObjetivo();
             try {
                 k.setCliente(getCliente());
                 k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
-                k.setObjetivo(comboObjetivo.getSelectionModel().getSelectedItem());
+                k.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
                 if (!textPeso.getText().isEmpty()) {
                     k.setPeso(Double.parseDouble((textPeso.getText())));
                 }
@@ -557,7 +558,7 @@ selectObjetivo();
     }
 
     public void selectObjetivo() {
-        labelObjetivo.setText("Calorías para " + comboObjetivo.getSelectionModel().getSelectedItem().toLowerCase());
+        labelObjetivo.setText("Calorías para " + comboObjetivos.getSelectionModel().getSelectedItem().toLowerCase());
         calcular();
     }
 

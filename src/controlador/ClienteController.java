@@ -7,10 +7,13 @@ package controlador;
 
 import DAO.DAOException;
 import archivo.PDF;
-import java.awt.Desktop;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import modelo.cliente.Cliente;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,13 +38,12 @@ public class ClienteController extends Controller<Cliente> {
     @FXML
     private ComboBox<String> comboTipoDoc;
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
         updated();
     }
-    
+
     private void setCombos() {
         if (comboSexo.getItems().isEmpty()) {
             comboSexo.setItems(sexos);
@@ -110,13 +112,13 @@ public class ClienteController extends Controller<Cliente> {
     public void registrar() {
         try {
             Cliente c = captar();
-                if (c.isEmpty()) {
-                    mensaje("A este cliente le faltan datos", "aviso", null);
-                } else {
-                    getClientes().insertar(c);
-                    setClientesUpdated(true);
-                    mensaje("Cliente registrado", "exito", null);
-                }
+            if (c.isEmpty()) {
+                mensaje("A este cliente le faltan datos", "aviso", null);
+            } else {
+                getClientes().insertar(c);
+                setClientesUpdated(true);
+                mensaje("Cliente registrado", "exito", null);
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -177,21 +179,26 @@ public class ClienteController extends Controller<Cliente> {
 
     @Override
     public void obtener() {
-        if(medidas.isEmpty()){
-        listView.getItems().clear();
-        }else{
-        listView.setItems(medidas);
+        if (medidas.isEmpty()) {
+            listView.getItems().clear();
+        } else {
+            listView.setItems(medidas);
         }
     }
 
     @Override
     public void buscar() {
     }
-    
-    public void select(){
-        if(listView.getSelectionModel().getSelectedIndex()!=-1){
-            //PDF pdf = new PDF(listView.getSelectionModel().getSelectedItem(), Desktop);
-            
+
+    public void select() {
+        if (listView.getSelectionModel().getSelectedIndex() != -1) {
+            try {
+                PDF pdf = new PDF(listView.getSelectionModel().getSelectedItem());
+                
+            } catch (DAOException | IOException | DocumentException ex) {
+                mensaje("Condición", "error", ex);
+            }
+
         }
     }
 }
