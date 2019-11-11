@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefWidth="537.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ConfigController">
+   <children>
+      <VBox alignment="TOP_CENTER" styleClass="nada">
+         <children>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <Label text="Configuración" textFill="#757575">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Celular" textFill="#b2b2b2">
+                                    
+                                       <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textIndicativo" onKeyTyped="#consumeIntegers" promptText="Indicativo del país" />
+                              <TextField fx:id="textCelular" onKeyTyped="#consumeIntegers" promptText="Celular" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Página web" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textNombrePagina" onKeyTyped="#consumeDigits" promptText="Nombre a mostrar" />
+                              <TextField fx:id="textLink" onKeyTyped="#consumeDigits" promptText="Link página web" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Correo electrónico" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textCorreo" onKeyTyped="#consumeDigits" promptText="Correo electrónico" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <VBox styleClass="title">
+                     <children>
+                        <Label text="Titulo bienvenida" textFill="#b2b2b2">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="textTitulo" onKeyTyped="#consumeDigits" promptText="Titulo de la bienvenida" />
+                     </children>
+                  </VBox>
+                  <VBox styleClass="title">
+                     <children>
+                        <Label text="Mensaje de bienvenida" textFill="#b2b2b2">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <TextArea fx:id="textBienvenida" onKeyTyped="#consumeDigits" promptText="Mensaje de bienvenida (500 caracteres)" wrapText="true" />
+                     </children>
+                  </VBox>
+                  <JFXButton onAction="#modificar" text="Guardar" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

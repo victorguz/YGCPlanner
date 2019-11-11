@@ -115,13 +115,12 @@ public class HomeController extends Controller<StackPane> {
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
             Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
             Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
-            Config = new StackPane();
+            Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
         } catch (MalformedURLException ex) {
             mensaje("Condición", "error", new DAOException(ex));
         } catch (IOException ex) {
             mensaje("Condición", "error", new DAOException(ex));
         } finally {
-            setFooter(new StackPane());
             mostrar(new StackPane());
         }
     }

@@ -21,9 +21,9 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     private final String INSERT = "INSERT INTO referencias (nombre, descripcion, link) values (?,?,?)";
     private final String SELECT = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where nombre = ?";
     private final String SELECTWHERE = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where nombre like ? ";
-    private final String SELECTALL = "SELECT Referenciakey, nombre, descripcion, link FROM Referencia";
-    private final String UPDATE = "UPDATE Referencia SET nombre = ?, descripcion = ?, link = ? WHERE Referenciakey = ?";
-    private final String DELETE = "DELETE FROM Referencia WHERE Referenciakey = ?";
+    private final String SELECTALL = "SELECT Referenciakey, nombre, descripcion, link FROM Referencias";
+    private final String UPDATE = "UPDATE Referencias SET nombre = ?, descripcion = ?, link = ? WHERE Referenciakey = ?";
+    private final String DELETE = "DELETE FROM Referencias WHERE Referenciakey = ?";
 
     public SQLiteReferenciasDAO(Connection conex) {
         this.conex = conex;
@@ -180,7 +180,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         ObservableList<Referencia> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(SELECTWHERE);
-            s.setString(1, "'%"+Referencia.toUpperCase()+"%'");
+            s.setString(1, "%"+Referencia.toUpperCase()+"%");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));
@@ -214,9 +214,9 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         try { 
             Referencia c = new Referencia();
             c.setReferenciakey(rs.getInt("Referenciakey"));
-            c.setNombre(rs.getString("nombre"));
-            c.setDescripcion(rs.getString("descripcion"));
-            c.setLink(rs.getString("link"));
+            c.setNombre(rs.getString("nombre"),"nombre");
+            c.setDescripcion(rs.getString("descripcion"),"descripcion");
+            c.setLink(rs.getString("link"),"link");
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

@@ -45,21 +45,11 @@ public class ClienteController extends Controller<Cliente> {
     }
 
     private void setCombos() {
-        if (comboSexo.getItems().isEmpty()) {
-            comboSexo.setItems(sexos);
-            comboSexo.getSelectionModel().select(0);
-        }
-        if (comboTipoDoc.getItems().isEmpty()) {
-            ObservableList<String> tiposDeDocumentos = FXCollections.observableArrayList();
-            tiposDeDocumentos.addAll(
-                    "CEDULA DE CIUDADANIA",
-                    "TARJETA DE IDENTIDAD",
-                    "PASAPORTE",
-                    "CEDULA EXTRANJERA"
-            );
-            comboTipoDoc.setItems(tiposDeDocumentos);
-            comboTipoDoc.getSelectionModel().select(0);
-        }
+        comboSexo.setItems(sexos);
+        comboSexo.getSelectionModel().select(0);
+        comboTipoDoc.getItems().addAll("CEDULA DE CIUDADANIA",
+                "TARJETA DE IDENTIDAD", "PASAPORTE", "CEDULA EXTRANJERA");
+        comboTipoDoc.getSelectionModel().select(0);
     }
 
     /**
@@ -118,7 +108,8 @@ public class ClienteController extends Controller<Cliente> {
                 getClientes().insertar(c);
                 setClientesUpdated(true);
                 mensaje("Cliente registrado", "exito", null);
-            }
+                       obtener();
+ }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -131,7 +122,8 @@ public class ClienteController extends Controller<Cliente> {
                 getClientes().eliminar(getCliente());
                 setClientesUpdated(true);
                 mensaje("Cliente eliminado", "exito", null);
-            } catch (DAOException ex) {
+                       obtener();
+ } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
         } else {
@@ -150,7 +142,8 @@ public class ClienteController extends Controller<Cliente> {
                 getClientes().modificar(c);
                 setClientesUpdated(true);
                 mensaje("Cliente actualizado", "exito", null);
-            } catch (DAOException ex) {
+                      obtener();
+  } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
         } else {
@@ -194,7 +187,7 @@ public class ClienteController extends Controller<Cliente> {
         if (listView.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 PDF pdf = new PDF(listView.getSelectionModel().getSelectedItem());
-                
+
             } catch (DAOException | IOException | DocumentException ex) {
                 mensaje("Condición", "error", ex);
             }

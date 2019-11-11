@@ -6,18 +6,14 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.getAlimentos;
 import static controlador.Controller.getEjercicios;
 import static controlador.Controller.mensaje;
-import static controlador.Controller.setAlimentosUpdated;
 import static controlador.Controller.setEjerciciosUpdated;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import modelo.plan.Alimento;
-import modelo.plan.Ejercicio;
 import modelo.plan.Ejercicio;
 
 public class EjerciciosController extends Controller<Ejercicio> {
@@ -74,7 +70,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     buscar();
                     setEjerciciosUpdated(true);
                 } else {
-                    mensaje("A este alimento le faltan datos", "aviso", null);
+                    mensaje("A este ejercicio le faltan datos", "aviso", null);
                 }
             } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
@@ -97,7 +93,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     obtener();
                     setEjerciciosUpdated(true);
                 } else {
-                    mensaje("A este alimento le faltan datos", "aviso", null);
+                    mensaje("A este ejercicio le faltan datos", "aviso", null);
                 }
             } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);

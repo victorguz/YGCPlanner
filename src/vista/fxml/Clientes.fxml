@@ -7,7 +7,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -95,18 +94,17 @@
             </VBox>
             <VBox>
                <children>
-                  <Label text="Ver PDFs" textFill="#757575" />
+                  <Label text="PDF" textFill="#757575" />
                   <HBox alignment="BASELINE_CENTER" spacing="10.0">
                      <children>
-                        <ToggleButton mnemonicParsing="false" text="Alimentación">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="PDFs" />
-                           </toggleGroup></ToggleButton>
-                        <ToggleButton mnemonicParsing="false" text="Entrenamiento" toggleGroup="$PDFs" />
-                        <ToggleButton mnemonicParsing="false" text="Todo" toggleGroup="$PDFs" />
+                        <ToggleButton mnemonicParsing="false" text="Bienvenida" />
+                        <ToggleButton mnemonicParsing="false" text="Alimentación" />
+                        <ToggleButton mnemonicParsing="false" text="Entrenamiento" />
+                        <ToggleButton mnemonicParsing="false" text="Descripción de ejercicios" />
                      </children>
                   </HBox>
-                  <ListView fx:id="listView" onMouseClicked="#select" prefHeight="300.0" />
+                  <ListView fx:id="listView" onMouseClicked="#select" prefHeight="150.0" />
+                  <JFXButton text="Guardar" />
                </children>
             </VBox>
          </children>

@@ -73,9 +73,9 @@ public class SQLiteClientesDAO implements ClientesDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
-            s.setString(1, a.getNombre());
-            s.setString(2, a.getApellido());
-            s.setString(3, a.getSexo());
+            s.setString(1, a.getNombre().toUpperCase());
+            s.setString(2, a.getApellido().toUpperCase());
+            s.setString(3, a.getSexo().toUpperCase());
             s.setString(4, a.getTipoIdentificacion());
             s.setString(5, a.getIdentificacion());
             s.setInt(6, a.getEdad());
