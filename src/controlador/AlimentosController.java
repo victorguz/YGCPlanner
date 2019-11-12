@@ -61,8 +61,7 @@ public class AlimentosController extends Controller<Alimento> {
             } else {
                 getAlimentos().insertar(c);
                 mensaje("Alimento registrado", "exito", null);
-                textBuscar.setText(textNombre.getText());
-                buscar();
+                obtener();
                 setAlimentosUpdated(true);
             }
         } catch (DAOException ex) {
@@ -78,10 +77,10 @@ public class AlimentosController extends Controller<Alimento> {
                 if (!a.isEmpty()) {
                     a.setAlimentokey(comboAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
                     getAlimentos().modificar(a);
-                    mensaje("Alimento actualizado", "exito", null);
-                    textBuscar.setText(textNombre.getText());
-                    buscar();
+                    textBuscarAlimento.setText(textNombre.getText());
+                    obtener();
                     setAlimentosUpdated(true);
+                    mensaje("Alimento modificado", "exito", null);
                 } else {
                     mensaje("A este alimento le faltan datos", "aviso", null);
                 }
@@ -115,12 +114,6 @@ public class AlimentosController extends Controller<Alimento> {
             mensaje("Seleccione un alimento", "aviso", null);
 
         }
-    }
-
-    @Override
-    public void buscar() {
-        buscarAlimento();
-        mostrar();
     }
 
     @Override

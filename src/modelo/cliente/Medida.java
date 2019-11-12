@@ -465,7 +465,7 @@ public class Medida {
     }
 
     public static double redondear(double a) {
-        return Math.round(a * 1000) / 1000d;
+        return Math.round(a * 100) / 100d;
     }
 
     /**

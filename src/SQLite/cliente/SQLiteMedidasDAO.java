@@ -51,8 +51,9 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             + "FECHA,"
             + "CUELLO,"
             + "objetivo, "
-            + "ACTIVIDAD ) "
-            + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";//24
+            + "ACTIVIDAD, "
+            + "muneca)"
+            + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";//25
     final String UPDATE = "UPDATE medidas SET "
             + "DIETAKEY =?,"
             + "RUTINAKEY=?,"
@@ -76,8 +77,9 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             + "FECHA=?,"
             + "CUELLO=?,"
             + "objetivo=?,"
-            + "ACTIVIDAD=? "
-            + " where medidakey = ?";//24
+            + "ACTIVIDAD=?, "
+            + "muneca=? "
+            + " where medidakey = ?";//25
     final String DELETE = "DELETE from medidas where medidakey = ?";
     final String GETONE = "SELECT "
             + "CLIENTEKEY,"
@@ -103,8 +105,9 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             + "FECHA,"
             + "CUELLO,"
             + "objetivo, "
-            + "ACTIVIDAD"
-            + "medidakey"
+            + "ACTIVIDAD,"
+            + "medidakey,"
+            + "muneca"
             + " from medidas where clientekey = ? and fecha ?";//2
     final String GETALL = "SELECT "
             + "CLIENTEKEY,"
@@ -131,7 +134,8 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             + "CUELLO,"
             + "objetivo, "
             + "ACTIVIDAD, "
-            + "medidakey "
+            + "medidakey, "
+            + "muneca"
             + " from medidas where clientekey = ? ORDER BY fecha DESC";//1
 
     public SQLiteMedidasDAO(Connection conex) {
@@ -257,6 +261,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             m.setSuprailiaco(rs.getDouble("suprailiaco"));
             m.setObjetivo(rs.getString("objetivo"));
             m.setActividad(rs.getString("actividad"));
+            m.setMuneca(rs.getDouble("muneca"));
             return m;
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -296,6 +301,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             s.setDouble(22, a.getCuello());
             s.setString(23, a.getObjetivo());
             s.setString(24, a.getActividad());
+            s.setDouble(25, a.getMuneca());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar las medidas del cliente");
             }
@@ -340,7 +346,8 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             s.setDouble(21, a.getCuello());
             s.setString(22, a.getObjetivo());
             s.setString(23, a.getActividad());
-            s.setInt(24, a.getMedidakey());
+            s.setDouble(24, a.getMuneca());
+            s.setInt(25, a.getMedidakey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar las medidas del cliente");
             }

@@ -31,7 +31,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textBuscarRutina" onAction="#buscar" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar plan" />
+                              <TextField fx:id="textBuscar" onAction="#obtener" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar plan" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -126,12 +126,12 @@
                      <children>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Buscar alimento" textFill="#b2b2b2">
+                              <Label text="Buscar ejercicio" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textBuscar" onAction="#buscarEjercicio" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar alimento" />
+                              <TextField fx:id="textBuscarEjercicio" onAction="#obtenerEjercicios" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar ejercicio" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">

@@ -6,9 +6,11 @@
 package controlador;
 
 import DAO.DAOException;
+import static controlador.Controller.isEjerciciosUpdated;
 import static controlador.Controller.mensaje;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -23,9 +25,6 @@ import modelo.plan.Plan;
  * @author 201621279487
  */
 public class RutinasController extends Controller<Plan> {
-
-    @FXML
-    private TextField textBuscarRutina;
 
     @FXML
     private ComboBox<Plan> comboRutina;
@@ -90,8 +89,12 @@ public class RutinasController extends Controller<Plan> {
     @Override
     public void obtener() {
         try {
-            rutinas = getRutinas().obtenerTodos();
             comboRutina.getItems().clear();
+            if (textBuscar.getText().isEmpty()) {
+                rutinas = getRutinas().obtenerTodos();
+            } else {
+                rutinas = getRutinas().obtenerTodos(textBuscar.getText());
+            }
             if (!rutinas.isEmpty()) {
                 comboRutina.setItems(rutinas);
                 select(0);
@@ -130,8 +133,9 @@ public class RutinasController extends Controller<Plan> {
                         mensaje("Aún faltan algunos datos en el plan de entrenamiento", "aviso", null);
                     } else {
                         getRutinas().modificar(m);
-                        mensaje("Plan de entrenamiento actualizado", "exito", null);
+                        textBuscar.setText(textNombre.getText());
                         obtener();
+                        mensaje("Plan de entrenamiento modificado", "exito", null);
                     }
                 }
             } else {
@@ -154,27 +158,6 @@ public class RutinasController extends Controller<Plan> {
             }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
-        }
-    }
-
-    @Override
-    public void buscar() {
-        if (textBuscarRutina.getText().isEmpty()) {
-            obtener();
-        } else {
-            try {
-                rutinas = getRutinas().obtenerTodos(textBuscarRutina.getText());
-                comboRutina.getItems().clear();
-                if (rutinas.isEmpty()) {
-                    mensaje("No se encontraron planes de alimentación", "aviso", null);
-                } else {
-                    comboRutina.setItems(rutinas);
-                    select(0);
-                    mensaje("Se encontraron " + rutinas.size() + " planes de entrenamiento", "exito", null);
-                }
-            } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
-            }
         }
     }
 
@@ -203,9 +186,30 @@ public class RutinasController extends Controller<Plan> {
 
     @Override
     public void updated() {
-        if (isEjerciciosUpdated()) {
-            obtenerEjercicios();
-        }
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isEjerciciosUpdated()) {
+                            comboEjercicios.setItems(ejercicios);
+                            comboEjercicios.getSelectionModel().select(0);
+                        }
+                    }
+                };
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
     }
 
     public Plan getRutina() {

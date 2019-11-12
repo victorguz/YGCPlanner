@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -33,12 +34,32 @@ public class HomeController extends Controller<StackPane> {
     public static StackPane Ejercicios;
     public static StackPane Config;
 
+    @FXML
+    private ToggleButton buttonClientes;
+
+    @FXML
+    private ToggleButton buttonMedidas;
+
+    @FXML
+    private ToggleButton buttonDietas;
+
+    @FXML
+    private ToggleButton buttonRutinas;
+
+    @FXML
+    private ToggleButton buttonAlimentos;
+
+    @FXML
+    private ToggleButton buttonEjercicios;
+
+    @FXML
+    private ToggleButton buttonConfig;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         obtener();
         updated();
         switchClientes();
-        setFooter(FooterClientes);
     }
 
     protected void setFooter(StackPane node) {
@@ -49,37 +70,65 @@ public class HomeController extends Controller<StackPane> {
 
     @FXML
     private void switchClientes() {
-        mostrar(Clientes);
+        if (buttonClientes.isSelected()) {
+            mostrar(Clientes);
+        } else {
+            mostrar(Clientes);
+        }
     }
 
     @FXML
     private void switchMedidas() {
-        mostrar(Medidas);
+        if (buttonMedidas.isSelected()) {
+            mostrar(Medidas);
+        } else {
+            mostrar(Clientes);
+        }
     }
 
     @FXML
     private void switchDietas() {
-        mostrar(Dietas);
+        if (buttonDietas.isSelected()) {
+            mostrar(Dietas);
+        } else {
+            mostrar(Clientes);
+        }
     }
 
     @FXML
     private void switchRutinas() {
-        mostrar(Rutinas);
+        if (buttonRutinas.isSelected()) {
+            mostrar(Rutinas);
+        } else {
+            mostrar(Clientes);
+        }
     }
 
     @FXML
     private void switchAlimentos() {
-        mostrar(Alimentos);
+        if (buttonAlimentos.isSelected()) {
+            mostrar(Alimentos);
+        } else {
+            mostrar(Clientes);
+        }
     }
 
     @FXML
     private void switchEjercicios() {
-        mostrar(Ejercicios);
+        if (buttonEjercicios.isSelected()) {
+            mostrar(Ejercicios);
+        } else {
+            mostrar(Clientes);
+        }
     }
 
     @FXML
     private void switchConfig() {
-        mostrar(Config);
+        if (buttonConfig.isSelected()) {
+            mostrar(Config);
+        } else {
+            mostrar(Clientes);
+        }
     }
 
     /**
@@ -139,11 +188,6 @@ public class HomeController extends Controller<StackPane> {
 
     @Override
     public void limpiar() {
-    }
-
-    @Override
-    public void buscar() {
-        mensaje("Hola, soy el método buscar del formulario Home", "aviso", null);
     }
 
     @Override

@@ -9,11 +9,8 @@ import DAO.DAOException;
 import static controlador.Controller.getReferencias;
 import static controlador.Controller.mensaje;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import modelo.Referencia;
@@ -85,10 +82,6 @@ public class ConfigController extends Controller<Referencia> {
 
     @Override
     public void eliminar() {
-    }
-
-    @Override
-    public void buscar() {
     }
 
     @Override

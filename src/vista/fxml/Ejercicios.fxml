@@ -26,7 +26,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textBuscar" onAction="#buscar" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar ejercicio" />
+                              <TextField fx:id="textBuscarEjercicio" onAction="#obtener" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar ejercicio" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">

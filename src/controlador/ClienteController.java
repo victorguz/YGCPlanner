@@ -8,14 +8,13 @@ package controlador;
 import DAO.DAOException;
 import archivo.PDF;
 import com.itextpdf.text.DocumentException;
+import static controlador.Controller.isClienteUpdated;
+import static controlador.Controller.setClienteUpdated;
 import java.io.IOException;
 import modelo.cliente.Cliente;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -94,7 +93,6 @@ public class ClienteController extends Controller<Cliente> {
             textDocumento.setText(getCliente().getIdentificacion());
             textEdad.setText(getCliente().getEdad() + "");
             setSexo(getCliente().getSexo());
-            obtener();
         }
     }
 
@@ -108,8 +106,7 @@ public class ClienteController extends Controller<Cliente> {
                 getClientes().insertar(c);
                 setClientesUpdated(true);
                 mensaje("Cliente registrado", "exito", null);
-                       obtener();
- }
+            }
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
@@ -122,13 +119,11 @@ public class ClienteController extends Controller<Cliente> {
                 getClientes().eliminar(getCliente());
                 setClientesUpdated(true);
                 mensaje("Cliente eliminado", "exito", null);
-                       obtener();
- } catch (DAOException ex) {
+            } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
         } else {
             mensaje("Seleccione primero un cliente", "aviso", null);
-
         }
 
     }
@@ -140,10 +135,10 @@ public class ClienteController extends Controller<Cliente> {
                 Cliente c = captar();
                 c.setClienteKey(getCliente().getClienteKey());
                 getClientes().modificar(c);
+                setBuscar(textNombre.getText());
                 setClientesUpdated(true);
-                mensaje("Cliente actualizado", "exito", null);
-                      obtener();
-  } catch (DAOException ex) {
+                mensaje("Cliente modificado", "exito", null);
+            } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
         } else {
@@ -164,30 +159,47 @@ public class ClienteController extends Controller<Cliente> {
      */
     @Override
     public void updated() {
-        if (isClienteUpdated()) {
-            mostrar();
-            setClienteUpdated(false);
-        }
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isClienteUpdated()) {
+                            mostrar();
+                            setClienteUpdated(false);
+                        }
+                        if (isMedidaUpdated()) {
+                            obtenerMedidas();
+                        }
+                    }
+                };
+                while (true) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                    }
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
     }
 
     @Override
     public void obtener() {
-        if (medidas.isEmpty()) {
-            listView.getItems().clear();
-        } else {
-            listView.setItems(medidas);
-        }
     }
 
-    @Override
-    public void buscar() {
+    public void obtenerMedidas() {
+        listView.setItems(medidas);
     }
 
     public void select() {
         if (listView.getSelectionModel().getSelectedIndex() != -1) {
             try {
                 PDF pdf = new PDF(listView.getSelectionModel().getSelectedItem());
-
             } catch (DAOException | IOException | DocumentException ex) {
                 mensaje("Condición", "error", ex);
             }

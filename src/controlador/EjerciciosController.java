@@ -47,8 +47,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                 } else {
                     getEjercicios().insertar(c);
                     mensaje("Ejercicio registrado", "exito", null);
-                    textBuscar.setText(textNombre.getText());
-                    buscar();
+                    obtener();
                     setEjerciciosUpdated(true);
                 }
             }
@@ -61,13 +60,13 @@ public class EjerciciosController extends Controller<Ejercicio> {
     public void modificar() {
         if (!comboEjercicios.getItems().isEmpty()) {
             try {
-               Ejercicio a = captar();
+                Ejercicio a = captar();
                 if (!a.isEmpty()) {
                     a.setEjerciciokey(comboEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
                     getEjercicios().modificar(a);
-                    mensaje("Ejercicio actualizado", "exito", null);
-                    textBuscar.setText(textNombre.getText());
-                    buscar();
+                    mensaje("Ejercicio modificado", "exito", null);
+                    textBuscarEjercicio.setText(textNombre.getText());
+                    obtener();
                     setEjerciciosUpdated(true);
                 } else {
                     mensaje("A este ejercicio le faltan datos", "aviso", null);
@@ -102,12 +101,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
             mensaje("Seleccione un ejercicio", "aviso", null);
 
         }
-    }
-
-    @Override
-    public void buscar() {
-        buscarEjercicio();
-        mostrar();
     }
 
     @Override

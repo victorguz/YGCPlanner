@@ -31,9 +31,9 @@ public class SQLiteClientesDAO implements ClientesDAO {
             + "from clientes where clientekey = ?";
     static String WHERE = "SELECT clientekey, nombre, apellido, sexo, "
             + "tipoidentificacion, identificacion, edad "
-            + "from clientes where nombre like ? or"
-            + " apellido like ? or identificacion like ? "
-            + "order by clientekey DESC";
+            + "from clientes "
+            + "order by nombre like ?,"
+            + " apellido like ? DESC";
     final String ALL = "SELECT clientekey, nombre, apellido, sexo, "
             + "tipoidentificacion, identificacion, edad "
             + " from clientes order by clientekey DESC";

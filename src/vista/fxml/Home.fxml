@@ -26,7 +26,7 @@
             <children>
                 <VBox prefHeight="554.0">
                     <children>
-                        <ToggleButton id="sidebuttons" alignment="BASELINE_LEFT" onAction="#switchClientes" prefHeight="50.0" prefWidth="130.0" text="Clientes" textFill="#757575">
+                        <ToggleButton id="sidebuttons" fx:id="buttonClientes" alignment="BASELINE_LEFT" onAction="#switchClientes" prefHeight="50.0" prefWidth="130.0" text="Clientes" textFill="#757575">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -38,7 +38,7 @@
                         <ToggleGroup fx:id="Home" />
                      </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton id="sidebuttons" alignment="BASELINE_LEFT" onAction="#switchMedidas" prefHeight="50.0" prefWidth="130.0" text="Medidas" textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonMedidas" alignment="BASELINE_LEFT" onAction="#switchMedidas" prefHeight="50.0" prefWidth="130.0" text="Medidas" textFill="#757575" toggleGroup="$Home">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -48,7 +48,7 @@
                             </graphic>
                         </ToggleButton>
                         <Separator prefHeight="10.0" />
-                        <ToggleButton id="sidebuttons" alignment="BASELINE_LEFT" onAction="#switchDietas" prefHeight="50.0" prefWidth="130.0" text="Nutrición" textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonDietas" alignment="BASELINE_LEFT" onAction="#switchDietas" prefHeight="50.0" prefWidth="130.0" text="Nutrición" textFill="#757575" toggleGroup="$Home">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -57,7 +57,7 @@
                                 </ImageView>
                             </graphic>
                         </ToggleButton>
-                        <ToggleButton id="sidebuttons" alignment="BASELINE_LEFT" onAction="#switchRutinas" prefHeight="50.0" prefWidth="130.0" text="Entrenamiento" textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonRutinas" alignment="BASELINE_LEFT" onAction="#switchRutinas" prefHeight="50.0" prefWidth="130.0" text="Entrenamiento" textFill="#757575" toggleGroup="$Home">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -67,7 +67,7 @@
                             </graphic>
                         </ToggleButton>
                         <Separator prefHeight="10.0" />
-                        <ToggleButton id="sidebuttons" alignment="BASELINE_LEFT" onAction="#switchAlimentos" prefHeight="50.0" prefWidth="130.0" text="Alimentos" textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonAlimentos" alignment="BASELINE_LEFT" onAction="#switchAlimentos" prefHeight="50.0" prefWidth="130.0" text="Alimentos" textFill="#757575" toggleGroup="$Home">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -76,7 +76,7 @@
                                 </ImageView>
                             </graphic>
                         </ToggleButton>
-                        <ToggleButton id="sidebuttons" alignment="BASELINE_LEFT" onAction="#switchEjercicios" prefHeight="50.0" prefWidth="130.0" text="Ejercicios" textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonEjercicios" alignment="BASELINE_LEFT" onAction="#switchEjercicios" prefHeight="50.0" prefWidth="130.0" text="Ejercicios" textFill="#757575" toggleGroup="$Home">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -86,7 +86,7 @@
                             </graphic>
                         </ToggleButton>
                         <Separator prefHeight="10.0" />
-                        <ToggleButton id="sidebuttons" alignment="BASELINE_LEFT" onAction="#switchConfig" prefHeight="50.0" prefWidth="130.0" text="Configuracion" textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonConfig" alignment="BASELINE_LEFT" onAction="#switchConfig" prefHeight="50.0" prefWidth="130.0" text="Configuracion" textFill="#757575" toggleGroup="$Home">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>

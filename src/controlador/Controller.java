@@ -51,6 +51,7 @@ public abstract class Controller<T> implements Initializable {
     @FXML
     protected TextField textBuscar;
 
+
     @FXML
     protected ComboBox<String> comboObjetivos;
 
@@ -68,10 +69,16 @@ public abstract class Controller<T> implements Initializable {
 
     @FXML
     protected ComboBox<Alimento> comboAlimentos;
-    
+
     @FXML
     protected ComboBox<Ejercicio> comboEjercicios;
 
+    @FXML
+    protected TextField textBuscarEjercicio;
+
+    @FXML
+    protected TextField textBuscarAlimento;
+    
     protected static ObservableList<Cliente> clientes;
 
     protected static ObservableList<Medida> medidas;
@@ -94,20 +101,19 @@ public abstract class Controller<T> implements Initializable {
     private static Medida medida;
     private static boolean medidasUpdated;
     private static boolean medidaUpdated;
-    private static boolean onClientes;
-    private static boolean onMedidas;
-    private static boolean onDietas;
-    private static boolean onRutinas;
     private static boolean alimentosUpdated;
     private static boolean ejerciciosUpdated;
     private static boolean onConfig;
-     public static boolean isEjerciciosUpdated() {
+    private static String buscar = "";
+
+    public static boolean isEjerciciosUpdated() {
         return ejerciciosUpdated;
     }
 
     public static void setEjerciciosUpdated(boolean updated) {
         Controller.ejerciciosUpdated = updated;
     }
+
     public static boolean isAlimentosUpdated() {
         return alimentosUpdated;
     }
@@ -116,7 +122,6 @@ public abstract class Controller<T> implements Initializable {
         Controller.alimentosUpdated = updated;
     }
 
-    
     private static SQLiteDAOManager getManager() throws DAOException {
         if (manager == null) {
             try {
@@ -135,7 +140,6 @@ public abstract class Controller<T> implements Initializable {
     public static MedidasDAO getMedidas() throws DAOException {
         return getManager().getMedidasDAO();
     }
-
 
     public static PlanDAO getDietas() throws DAOException {
         return getManager().getDietasDAO();
@@ -189,11 +193,14 @@ public abstract class Controller<T> implements Initializable {
         nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
         DesktopNotify.setDefaultTheme(nt);
         if (tipo.equalsIgnoreCase("error")) {
-            DesktopNotify.showDesktopMessage("AVISO", getResultOrException(ex.getMessage()), DesktopNotify.INFORMATION, 10000, (e) -> {
+            if(ex==null){
+                            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.FAIL, 5000);
+            }else{
+            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
                 ex.printStackTrace();
-            });
+            });}
         } else if (tipo.equalsIgnoreCase("aviso")) {
-            DesktopNotify.showDesktopMessage("TIP", mensaje, DesktopNotify.TIP, 5000);
+            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.WARNING, 5000,null);
         } else if (tipo.equalsIgnoreCase("exito")) {
             DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.SUCCESS, 3000);
         } else if (tipo.equalsIgnoreCase("referencia")) {
@@ -231,9 +238,9 @@ public abstract class Controller<T> implements Initializable {
             return "Ya existe un plan con este nombre";
         } else if (uniqueAlxdiet != -1) {
             return "Ya añadiste este alimento para este momento";
-        }else if (uniqueEjercicio != -1) {
+        } else if (uniqueEjercicio != -1) {
             return "Ya existe un ejercicio con este nombre";
-        }else if (uniqueAlimento != -1) {
+        } else if (uniqueAlimento != -1) {
             return "Ya existe un alimento con este nombre";
         } else if (notNull != -1) {
             String i = ex_getMessage.substring(notNull);
@@ -358,41 +365,7 @@ public abstract class Controller<T> implements Initializable {
 
     public abstract void eliminar();
 
-    public abstract void buscar();
-
     public abstract void limpiar();
-
-    public static boolean isOnClientes() {
-        return onClientes;
-    }
-
-    public static void setOnClientes(boolean aOnClientes) {
-        onClientes = aOnClientes;
-    }
-
-    public static boolean isOnMedidas() {
-        return onMedidas;
-    }
-
-    public static void setOnMedidas(boolean aOnMedidas) {
-        onMedidas = aOnMedidas;
-    }
-
-    public static boolean isOnDietas() {
-        return onDietas;
-    }
-
-    public static void setOnDietas(boolean aOnDietas) {
-        onDietas = aOnDietas;
-    }
-
-    public static boolean isOnRutinas() {
-        return onRutinas;
-    }
-
-    public static void setOnRutinas(boolean aOnRutinas) {
-        onRutinas = aOnRutinas;
-    }
 
     public static boolean isOnConfig() {
         return onConfig;
@@ -401,7 +374,6 @@ public abstract class Controller<T> implements Initializable {
     public static void setOnConfig(boolean aOnConfig) {
         onConfig = aOnConfig;
     }
-
 
     public static Cliente getCliente() {
         if (cliente == null) {
@@ -421,6 +393,14 @@ public abstract class Controller<T> implements Initializable {
      */
     public static void setClientesUpdated(boolean c) {
         clientesUpdated = c;
+    }
+
+    public static void setBuscar(String b) {
+        buscar = b;
+    }
+
+    public static String getBuscar() {
+        return buscar;
     }
 
     public static boolean isClientesUpdated() {
@@ -499,8 +479,12 @@ public abstract class Controller<T> implements Initializable {
 
     public void obtenerAlimentos() {
         try {
-            alimentos = getAlimentos().obtenerTodos();
             comboAlimentos.getItems().clear();
+            if (textBuscarAlimento.getText().isEmpty()) {
+                alimentos = getAlimentos().obtenerTodos();
+            } else {
+                alimentos = getAlimentos().obtenerTodos(textBuscarAlimento.getText());
+            }
             if (!alimentos.isEmpty()) {
                 comboAlimentos.setItems(alimentos);
                 selectAlimento(0);
@@ -515,30 +499,15 @@ public abstract class Controller<T> implements Initializable {
             comboAlimentos.getSelectionModel().select(i);
         }
     }
-     
-    public void buscarEjercicio() {
-        if (textBuscar.getText().isEmpty()) {
-            obtenerEjercicios();
-        } else {
-            try {
-                ejercicios = getEjercicios().obtenerTodos(textBuscar.getText());
-                comboEjercicios.getItems().clear();
-                if (ejercicios.isEmpty()) {
-                    mensaje("No se encontraron ejercicios con este nombre", "aviso", null);
-                    limpiar();
-                } else {
-                    comboEjercicios.setItems(ejercicios);
-                    selectEjercicio(0);
-                }
-            } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
-            }
-        }
-    }
+
     public void obtenerEjercicios() {
         try {
-            ejercicios = getEjercicios().obtenerTodos();
             comboEjercicios.getItems().clear();
+            if (textBuscarEjercicio.getText().isEmpty()) {
+                ejercicios = getEjercicios().obtenerTodos();
+            } else {
+                ejercicios = getEjercicios().obtenerTodos(textBuscarEjercicio.getText());
+            }
             if (!ejercicios.isEmpty()) {
                 comboEjercicios.setItems(ejercicios);
                 selectEjercicio(0);

@@ -15,7 +15,7 @@
     <children>
       <VBox styleClass="nada">
          <children>
-            <VBox onMouseEntered="#updated" onMouseExited="#updated">
+            <VBox>
                <children>
                   <Label text="Medidas antropométricas cm-Kg" textFill="#757575" />
                   <FlowPane styleClass="flowpane">
@@ -27,9 +27,9 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <DatePicker fx:id="datePicker" onAction="#updated" prefWidth="140.0" promptText="Fecha de medida">
+                              <DatePicker fx:id="datePicker" onAction="#updated" prefHeight="40.0" prefWidth="140.0" promptText="Fecha de medida">
                                  <VBox.margin>
-                                    <Insets top="2.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </DatePicker>
                            </children>
@@ -285,169 +285,169 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseEntered="#updated" onMouseExited="#updated">
+            <VBox>
                <children>
                   <Label text="Cálculos a partir de las medidas antropométricas" textFill="#757575" />
                   <FlowPane columnHalignment="CENTER" hgap="10.0" onKeyReleased="#updated" styleClass="flowpane" vgap="10.0">
                      <children>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
-                              <Label alignment="TOP_LEFT" prefWidth="100.0" text="Complexión física" textFill="#b2b2b2" wrapText="true">
+                              <Label alignment="TOP_LEFT" text="Complexión física" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textComplexion" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textComplexion" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Grado de obesidad" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textGradoObesidad" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textGradoObesidad" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Peso ideal aprox" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textPesoIdealAprox" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textPesoIdealAprox" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Peso ideal Creff" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textPesoIdealCreff" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textPesoIdealCreff" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Peso ideal Lorentz" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textPesoIdealLorentz" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textPesoIdealLorentz" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Peso ideal Monnerot-Dumaine" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textPesoIdealMonnerotDumaine" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textPesoIdealMonnerotDumaine" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" ellipsisString="corporal" text="Densidad corporal (Siri)" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textDensidad" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textDensidad" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Indice de masa corporal" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textIMC" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textIMC" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="\% Grasa corporal (Siri)" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textPorcentajeGrasa" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textPorcentajeGrasa" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="\% Masa magra (Siri)" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textPorcentajeMasa" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textPorcentajeMasa" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Peso grasa corporal (Siri)" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textPesoGrasa" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textPesoGrasa" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Masa libre de grasa (Siri)" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textMasaLibre" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textMasaLibre" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="TMB Harrys Benedict" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textHarrys" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textHarrys" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="TMB Mifflin St. Jeorge" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textMifflin" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textMifflin" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label fx:id="labelObjetivo" alignment="TOP_LEFT" text="Calorías en superavit" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textSuperavit" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textSuperavit" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox styleClass="x">
                            <children>
                               <Label alignment="TOP_LEFT" text="Indice cintura altura" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textICA" editable="false" prefHeight="40.0" prefWidth="130.0" promptText="Peso" text="70" />
+                              <TextField fx:id="textICA" editable="false" prefHeight="40.0" prefWidth="90.0" promptText="Peso" text="70" />
                            </children>
                         </VBox>
                      </children>

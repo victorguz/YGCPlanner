@@ -20,9 +20,9 @@
 
 <StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DietasController">
    <children>
-      <VBox alignment="TOP_CENTER" onMouseClicked="#updated" spacing="10.0" styleClass="nada">
+      <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="nada">
          <children>
-            <VBox onMouseClicked="#updated" onMouseMoved="#updated">
+            <VBox>
                <children>
                   <HBox alignment="TOP_CENTER" spacing="5.0">
                      <children>
@@ -33,7 +33,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textBuscarDieta" onAction="#buscar" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar plan" />
+                              <TextField fx:id="textBuscar" onAction="#obtener" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar plan" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -50,7 +50,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated" onMouseMoved="#updated">
+            <VBox onMouseMoved="#updated">
                <children>
                   <Label text="Información de la dieta" textFill="#757575">
                      <VBox.margin>
@@ -121,7 +121,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated" onMouseMoved="#updated">
+            <VBox onMouseMoved="#updated">
                <children>
                   <Label text="Distribución porcentual de kcalorias x macronutrientes (%)" textFill="#757575" />
                   <HBox alignment="CENTER">
@@ -207,7 +207,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textBuscar" onAction="#buscarAlimento" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar alimento" />
+                              <TextField fx:id="textBuscarAlimento" onAction="#obtenerAlimentos" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar alimento" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -282,7 +282,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox onMouseClicked="#updated" onMouseMoved="#updated">
+            <VBox onMouseMoved="#updated">
                <children>
                   <Label text="Gramos de macronutrientes en este plan de alimentacion" textFill="#757575" />
                   <HBox alignment="BOTTOM_CENTER" spacing="30.0">

@@ -25,13 +25,11 @@ public class YGCPlanner extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stagestatic = stage;
-        URL url = new File("src/vista/fxml/Home.fxml").toURL();
-        System.out.println(getClass().getResource("fxml/Home.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("fxml/Home.fxml"));
         Scene scene = new Scene(root);
         //stage.setResizable(false);
         stage.setTitle("YGC Planner - Planificador Yezid Guzman Coach");
-        stage.getIcons().add(new Image("/imagen/icono/ico2.jpg"));
+        stage.getIcons().add(new Image("/imagen/icono/logo.png"));
         stage.setScene(scene);
         stage.show();
         

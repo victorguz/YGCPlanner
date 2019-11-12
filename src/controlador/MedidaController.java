@@ -6,10 +6,13 @@
 package controlador;
 
 import DAO.DAOException;
+import static controlador.Controller.isMedidaUpdated;
+import static controlador.Controller.setMedidaUpdated;
 import modelo.cliente.Medida;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -246,7 +249,7 @@ public class MedidaController extends Controller<Medida> {
                 k.setAltura(Double.parseDouble(textAltura.getText()));
             }
             if (textMuneca.getText().isEmpty()) {
-                k.setMuneca(0);
+                k.setMuneca(17);
             } else {
                 k.setMuneca(Double.parseDouble(textMuneca.getText()));
             }
@@ -418,6 +421,9 @@ public class MedidaController extends Controller<Medida> {
             textTricipital.setText("" + getMedida().getTricipital());
             selectDieta(getMedida().getDieta());
             selectRutina(getMedida().getRutina());
+            calcular();
+        } else {
+            limpiar();
         }
     }
 
@@ -449,7 +455,7 @@ public class MedidaController extends Controller<Medida> {
             mensaje("Seleccione un cliente", "aviso", null);
         } else {
             if (getMedida().isEmpty()) {
-                mensaje("Seleccione una medida", "aviso", null);
+                mensaje("Aún no ha registrado ninguna medida", "aviso", null);
             } else {
                 try {
                     getMedidas().eliminar(getMedida());
@@ -467,18 +473,22 @@ public class MedidaController extends Controller<Medida> {
         if (getCliente().isEmpty()) {
             mensaje("Seleccione un cliente", "aviso", null);
         } else {
-            Medida k = captar();
-            if (k.isEmpty()) {
-                mensaje("Aún faltan algunas medidas", "aviso", null);
-            } else {
-                try {
-                    k.setMedidakey(getMedida().getMedidakey());
-                    getMedidas().modificar(k);
-                    mensaje("Medida actualizada", "exito", null);
-                    setMedidasUpdated(true);
-                } catch (DAOException ex) {
-                    mensaje("Condición", "error", ex);
+            if (!getMedida().isEmpty()) {
+                Medida k = captar();
+                if (k.isEmpty()) {
+                    mensaje("Aún faltan algunas medidas", "aviso", null);
+                } else {
+                    try {
+                        k.setMedidakey(getMedida().getMedidakey());
+                        getMedidas().modificar(k);
+                        mensaje("Medida modificada", "exito", null);
+                        setMedidasUpdated(true);
+                    } catch (DAOException ex) {
+                        mensaje("Condición", "error", ex);
+                    }
                 }
+            } else {
+                mensaje("Aún no ha registrado ninguna medida", "aviso", null);
             }
         }
     }
@@ -548,22 +558,38 @@ public class MedidaController extends Controller<Medida> {
      */
     @Override
     public void updated() {
-        if (isMedidaUpdated()) {
-            mostrar();
-            setMedidaUpdated(false);
-        }
-        if (datePicker.getValue() == null) {
-            datePicker.setValue(LocalDate.now());
-        }
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isMedidaUpdated()) {
+                            mostrar();
+                            setMedidaUpdated(false);
+                        }
+                        if (datePicker.getValue() == null) {
+                            datePicker.setValue(LocalDate.now());
+                        }
+                    }
+                };
+                while (true) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                    }
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
     }
 
     public void selectObjetivo() {
         labelObjetivo.setText("Calorías para " + comboObjetivos.getSelectionModel().getSelectedItem().toLowerCase());
         calcular();
-    }
-
-    @Override
-    public void buscar() {
     }
 
 }
