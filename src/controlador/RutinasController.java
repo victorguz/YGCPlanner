@@ -71,6 +71,10 @@ public class RutinasController extends Controller<Plan> {
         comboSexo.getSelectionModel().select(0);
         comboSeries.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         comboSeries.getSelectionModel().select(0);
+        comboObjetivos.setItems(objetivos);
+        comboObjetivos.getSelectionModel().select(0);
+        comboEjercicios.setItems(ejercicios);
+        comboEjercicios.getSelectionModel().select(0);
         updated();
     }
 

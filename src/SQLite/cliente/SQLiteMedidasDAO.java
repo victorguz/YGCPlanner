@@ -352,7 +352,6 @@ public class SQLiteMedidasDAO implements MedidasDAO {
                 throw new DAOException("Error al modificar las medidas del cliente");
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
             throw new DAOException(ex);
         } finally {
             if (s != null) {

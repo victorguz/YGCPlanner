@@ -14,6 +14,8 @@ import java.io.IOException;
 import modelo.cliente.Cliente;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -40,6 +42,7 @@ public class ClienteController extends Controller<Cliente> {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
+        obtenerMedidas();
         updated();
     }
 
@@ -168,8 +171,9 @@ public class ClienteController extends Controller<Cliente> {
                         if (isClienteUpdated()) {
                             mostrar();
                             setClienteUpdated(false);
+                            obtenerMedidas();
                         }
-                        if (isMedidaUpdated()) {
+                        if (isMedidasUpdated()) {
                             obtenerMedidas();
                         }
                     }
@@ -193,7 +197,11 @@ public class ClienteController extends Controller<Cliente> {
     }
 
     public void obtenerMedidas() {
-        listView.setItems(medidas);
+        try {
+                listView.setItems(getMedidas().obtenerTodos("" + getCliente().getClienteKey()));
+        } catch (DAOException ex) {
+            mensaje("Condición", "error", ex);
+        }
     }
 
     public void select() {

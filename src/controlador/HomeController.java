@@ -160,10 +160,10 @@ public class HomeController extends Controller<StackPane> {
             setFooter(FooterClientes);
             Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
             Medidas = FXMLLoader.load(new File("src/vista/fxml/Medidas.fxml").toURL());
-            Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
-            Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
             Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
             Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
+            Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
+            Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
         } catch (MalformedURLException ex) {
             mensaje("Condición", "error", new DAOException(ex));

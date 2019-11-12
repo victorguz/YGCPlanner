@@ -80,11 +80,7 @@ public class FooterClientesController extends Controller {
         try {
             comboClientes.getItems().clear();
             if (getBuscar().isEmpty()) {
-                if (textBuscar.getText().isEmpty()) {
-                    clientes = getClientes().obtenerTodos();
-                } else {
-                    clientes = getClientes().obtenerTodos(textBuscar.getText());
-                }
+                clientes = getClientes().obtenerTodos();
             } else {
                 clientes = getClientes().obtenerTodos(getBuscar());
             }
@@ -111,7 +107,6 @@ public class FooterClientesController extends Controller {
             }
         }
     }
-
     /**
      * Si se actualiza o elimina un cliente, este método actualiza el combobox
      * que contiene los clientes.
@@ -136,7 +131,7 @@ public class FooterClientesController extends Controller {
                 };
                 while (true) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
                     }
                     // UI update is run on the Application thread

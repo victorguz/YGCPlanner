@@ -8,7 +8,6 @@ package controlador;
 import DAO.DAOException;
 import static controlador.Controller.getAlimentos;
 import static controlador.Controller.isAlimentosUpdated;
-import static controlador.Controller.isMedidaUpdated;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -251,11 +250,15 @@ public class DietasController extends Controller<Plan> {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setKCalCliente();
+        porcentajeGramos();
         comboObjetivos.setItems(objetivos);
         comboObjetivos.getSelectionModel().select(0);
         obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
+        comboAlimentos.setItems(alimentos);
+        comboAlimentos.getSelectionModel().select(0);
         updated();
     }
 
@@ -267,7 +270,7 @@ public class DietasController extends Controller<Plan> {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
-                        if (isMedidaUpdated()) {
+                        if (isMedidasUpdated()) {
                             setKCalCliente();
                             porcentajeGramos();
                         }

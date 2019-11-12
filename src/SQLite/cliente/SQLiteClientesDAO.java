@@ -32,7 +32,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
     static String WHERE = "SELECT clientekey, nombre, apellido, sexo, "
             + "tipoidentificacion, identificacion, edad "
             + "from clientes "
-            + "order by nombre like ?,"
+            + "order by nombre like ? DESC,"
             + " apellido like ? DESC";
     final String ALL = "SELECT clientekey, nombre, apellido, sexo, "
             + "tipoidentificacion, identificacion, edad "
@@ -196,7 +196,6 @@ public class SQLiteClientesDAO implements ClientesDAO {
             s = conex.prepareStatement(WHERE);
             s.setString(1, "%" + equal.toUpperCase() + "%");
             s.setString(2, "%" + equal.toUpperCase() + "%");
-            s.setString(3, "%" + equal.toUpperCase() + "%");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));

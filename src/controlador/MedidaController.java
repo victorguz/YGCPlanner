@@ -459,8 +459,8 @@ public class MedidaController extends Controller<Medida> {
             } else {
                 try {
                     getMedidas().eliminar(getMedida());
-                    mensaje("Medida eliminada", "exito", null);
                     setMedidasUpdated(true);
+                    mensaje("Medida eliminada", "exito", null);
                 } catch (DAOException ex) {
                     mensaje("Condición", "error", ex);
                 }
@@ -481,8 +481,8 @@ public class MedidaController extends Controller<Medida> {
                     try {
                         k.setMedidakey(getMedida().getMedidakey());
                         getMedidas().modificar(k);
-                        mensaje("Medida modificada", "exito", null);
                         setMedidasUpdated(true);
+                        mensaje("Medida modificada", "exito", null);
                     } catch (DAOException ex) {
                         mensaje("Condición", "error", ex);
                     }
@@ -575,7 +575,7 @@ public class MedidaController extends Controller<Medida> {
                 };
                 while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(300);
                     } catch (InterruptedException ex) {
                     }
                     // UI update is run on the Application thread
