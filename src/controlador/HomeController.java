@@ -33,6 +33,7 @@ public class HomeController extends Controller<StackPane> {
     public static StackPane Alimentos;
     public static StackPane Ejercicios;
     public static StackPane Config;
+    public static StackPane Dash;
 
     @FXML
     private ToggleButton buttonClientes;
@@ -73,7 +74,7 @@ public class HomeController extends Controller<StackPane> {
         if (buttonClientes.isSelected()) {
             mostrar(Clientes);
         } else {
-            mostrar(Clientes);
+            mostrar(Dash);
         }
     }
 
@@ -82,7 +83,7 @@ public class HomeController extends Controller<StackPane> {
         if (buttonMedidas.isSelected()) {
             mostrar(Medidas);
         } else {
-            mostrar(Clientes);
+            mostrar(Dash);
         }
     }
 
@@ -91,7 +92,7 @@ public class HomeController extends Controller<StackPane> {
         if (buttonDietas.isSelected()) {
             mostrar(Dietas);
         } else {
-            mostrar(Clientes);
+            mostrar(Dash);
         }
     }
 
@@ -100,7 +101,7 @@ public class HomeController extends Controller<StackPane> {
         if (buttonRutinas.isSelected()) {
             mostrar(Rutinas);
         } else {
-            mostrar(Clientes);
+            mostrar(Dash);
         }
     }
 
@@ -109,7 +110,7 @@ public class HomeController extends Controller<StackPane> {
         if (buttonAlimentos.isSelected()) {
             mostrar(Alimentos);
         } else {
-            mostrar(Clientes);
+            mostrar(Dash);
         }
     }
 
@@ -118,7 +119,7 @@ public class HomeController extends Controller<StackPane> {
         if (buttonEjercicios.isSelected()) {
             mostrar(Ejercicios);
         } else {
-            mostrar(Clientes);
+            mostrar(Dash);
         }
     }
 
@@ -127,7 +128,7 @@ public class HomeController extends Controller<StackPane> {
         if (buttonConfig.isSelected()) {
             mostrar(Config);
         } else {
-            mostrar(Clientes);
+            mostrar(Dash);
         }
     }
 
@@ -165,6 +166,7 @@ public class HomeController extends Controller<StackPane> {
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
+            Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
         } catch (MalformedURLException ex) {
             mensaje("Condición", "error", new DAOException(ex));
         } catch (IOException ex) {

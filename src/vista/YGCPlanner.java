@@ -5,8 +5,6 @@
  */
 package vista;
 
-import java.io.File;
-import java.net.URL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +27,7 @@ public class YGCPlanner extends Application {
         Scene scene = new Scene(root);
         //stage.setResizable(false);
         stage.setTitle("YGC Planner - Planificador Yezid Guzman Coach");
-        stage.getIcons().add(new Image("/imagen/icono/logo.png"));
+        stage.getIcons().add(new Image("/imagen/icono/icono24.png"));
         stage.setScene(scene);
         stage.show();
         

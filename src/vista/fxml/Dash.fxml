@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane minWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DashController">
+   <children>
+      <VBox alignment="TOP_CENTER" styleClass="nada">
+         <children>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <ImageView fitHeight="96.0" fitWidth="484.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../imagen/icono/logo2.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Bienvenido a Dieta y Ejercicio" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="En esta app podrás llevar un registro de tus clientes, sus medidas, tus planes de entrenamiento y alimentación, ejercicios y alimentos que utilizas a diario y además podrás ver los cálculos diagnósticos de tus clientes y recomendaciones para cada sección de la app. " textAlignment="JUSTIFY" wrapText="true" />
+                  <Label text="Si quieres puedes empezar por añadir la información básica de tus clientes en la sección de Clientes" textAlignment="JUSTIFY" wrapText="true" />
+                  <Label text="Luego ve a la sección de medidas y registra las medidas de tu cliente. Los cálculos se realizan automáticamente y puedes verlos en la parte de abajo." textAlignment="JUSTIFY" wrapText="true" />
+                  <Label text="Puedes registrar nuevas medidas de un cliente cuando tu quieras, solo asegurate de no ponerles la misma fecha." textAlignment="JUSTIFY" wrapText="true" />
+                  <Label text="Si quieres asignar a tu cliente un plan de nutrición o entrenamiento, puedes crearlos en la sección de nutrición y entrenamiento respectivamente. Una vez hayas creado el adecuado, asignalo a tu cliente en la sección de medidas." textAlignment="JUSTIFY" wrapText="true" />
+                  <Label text="Por defecto hemos añadido una lista de alimentos con sus respectivos macronutrientes, si tienes alguno extra puedes añadirlo en la sección de alimentos." textAlignment="JUSTIFY" wrapText="true" />
+                  <Label text="En el caso de los ejercicios no hemos añadido ninguno, ya que depende de los ejercicios que suelas usar." textAlignment="JUSTIFY" wrapText="true" />
+                  <Label text="Si quieres imprimir un pdf de tu cliente, seleccionalo y ve a la sección de clientes, encontrarás una lista con las fechas en que tomaste las medidas a tus clientes. La más reciente muestra estadisticas de acuerdo a las anteriores medidas." textAlignment="JUSTIFY" wrapText="true" />
+                  <Label text="Tenemos alguna configuración para tus plantillas en la sección de config. " textAlignment="JUSTIFY" wrapText="true" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>
