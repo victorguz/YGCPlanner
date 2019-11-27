@@ -319,7 +319,8 @@ public class DietasController extends Controller<Plan> {
                 comboDieta.setItems(dietas);
                 select(0);
             }
-        } catch (DAOException ex) {
+               setDietasUpdated(true);
+     } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }

@@ -103,6 +103,7 @@ public class RutinasController extends Controller<Plan> {
                 comboRutina.setItems(rutinas);
                 select(0);
             }
+            setRutinasUpdated(true);
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }

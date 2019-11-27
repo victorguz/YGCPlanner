@@ -179,33 +179,17 @@ public class MedidaController extends Controller<Medida> {
     }
 
     private void obtenerRutinas() {
-        try {
-            rutinas = getRutinas().obtenerTodos();
-            comboRutina.getItems().clear();
-            if (rutinas != null) {
-                if (!rutinas.isEmpty()) {
-                    comboRutina.setItems(rutinas);
-                    comboRutina.getSelectionModel().select(0);
-                }
-            }
-        } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+        if (!rutinas.isEmpty()) {
+            comboRutina.setItems(rutinas);
         }
+        setRutinasUpdated(false);
     }
 
     private void obtenerDietas() {
-        try {
-            dietas = getDietas().obtenerTodos();
-            comboDieta.getItems().clear();
-            if (dietas != null) {
-                if (!dietas.isEmpty()) {
-                    comboDieta.setItems(dietas);
-                    comboDieta.getSelectionModel().select(0);
-                }
-            }
-        } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+        if (!dietas.isEmpty()) {
+            comboDieta.setItems(dietas);
         }
+        setDietasUpdated(false);
     }
 
     private Plan getRutina() {
@@ -525,17 +509,33 @@ public class MedidaController extends Controller<Medida> {
                     }
                 }
                 //Pliegues
-                if (!(textSuprailiaco.getText().isEmpty() && textSubescapular.getText().isEmpty() && textBicipital.getText().isEmpty() && textTricipital.getText().isEmpty())) {
-                    k.setBicipital(Double.parseDouble(textBicipital.getText()));
-                    k.setTricipital(Double.parseDouble(textTricipital.getText()));
-                    k.setSubescapular(Double.parseDouble(textSubescapular.getText()));
+                if (textSuprailiaco.getText().isEmpty()) {
+                    k.setSuprailiaco(0);
+                } else {
                     k.setSuprailiaco(Double.parseDouble(textSuprailiaco.getText()));
-                    textDensidad.setText("" + k.getDensidadCorporalPorPliegues());
-                    textPorcentajeGrasa.setText(k.getPorcentajeGrasaSiri() + " %");
-                    textPesoGrasa.setText("" + k.getPesoGrasaCorporal() + " Kg");
-                    textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
-                    textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
                 }
+                if (textSubescapular.getText().isEmpty()) {
+
+                    k.setSubescapular(0);
+                } else {
+                    k.setSubescapular(Double.parseDouble(textSubescapular.getText()));
+                }
+                if (textBicipital.getText().isEmpty()) {
+
+                    k.setBicipital(0);
+                } else {
+                    k.setBicipital(Double.parseDouble(textBicipital.getText()));
+                }
+                if (textTricipital.getText().isEmpty()) {
+                    k.setTricipital(0);
+                } else {
+                    k.setTricipital(Double.parseDouble(textTricipital.getText()));
+                }
+                textDensidad.setText("" + k.getDensidadCorporalPorPliegues());
+                textPorcentajeGrasa.setText(k.getPorcentajeGrasaSiri() + " %");
+                textPesoGrasa.setText("" + k.getPesoGrasaCorporal() + " Kg");
+                textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
+                textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
             } catch (DAOException ex) {
                 mensaje("Condición", "error", ex);
             }
@@ -570,6 +570,12 @@ public class MedidaController extends Controller<Medida> {
                         }
                         if (datePicker.getValue() == null) {
                             datePicker.setValue(LocalDate.now());
+                        }
+                        if (isDietasUpdated()) {
+                            obtenerDietas();
+                        }
+                        if (isRutinasUpdated()) {
+                            obtenerRutinas();
                         }
                     }
                 };

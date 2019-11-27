@@ -198,7 +198,8 @@ public class ClienteController extends Controller<Cliente> {
 
     public void obtenerMedidas() {
         try {
-                listView.setItems(getMedidas().obtenerTodos("" + getCliente().getClienteKey()));
+            if(!getCliente().isEmpty()){
+                listView.setItems(getMedidas().obtenerTodos("" + getCliente().getClienteKey()));}
         } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }

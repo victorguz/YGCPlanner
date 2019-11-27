@@ -100,6 +100,8 @@ public abstract class Controller<T> implements Initializable {
     private static boolean clienteUpdated;
     private static Medida medida;
     private static boolean medidasUpdated;
+    private static boolean dietasUpdated;
+    private static boolean rutinasUpdated;
     private static boolean medidaUpdated;
     private static boolean alimentosUpdated;
     private static boolean ejerciciosUpdated;
@@ -456,7 +458,20 @@ public abstract class Controller<T> implements Initializable {
     public static boolean isMedidaUpdated() {
         return medidaUpdated;
     }
+public static void setDietasUpdated(boolean c) {
+        dietasUpdated = c;
+    }
 
+    public static boolean isDietasUpdated() {
+        return dietasUpdated;
+    }
+    public static void setRutinasUpdated(boolean c) {
+        rutinasUpdated = c;
+    }
+
+    public static boolean isRutinasUpdated() {
+        return rutinasUpdated;
+    }
     public void buscarAlimento() {
         if (textBuscar.getText().isEmpty()) {
             obtenerAlimentos();
