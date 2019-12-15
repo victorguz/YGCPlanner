@@ -25,8 +25,44 @@
     -fx-background-radius: 4;
     -fx-border-color:  rgb(230,230,230);
     -fx-border-radius: 4;
+    -fx-border-width: 1;
     -fx-text-fill: black;
     -fx-pref-height: 33;
+}
+.arroww{
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+    -fx-border-color:  white;
+    -fx-border-radius: 0;
+    -fx-pref-height: 0;
+    -fx-pref-width: 300;
+}
+.top{
+    -fx-background-color: white;
+    -fx-background-radius: 4 4 0 0;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 4 4 0 0;
+    -fx-border-width: 1 1 0 1;
+    -fx-pref-height: 27;
+    -fx-pref-width: 27;
+}
+.center{
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 0;
+    -fx-border-width: 0 1 0 1;
+    -fx-pref-height: 27;
+    -fx-pref-width: 27;
+}
+.bottom{
+    -fx-background-color: white;
+    -fx-background-radius: 0 0 4 4;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 0 0 4 4;
+    -fx-border-width: 0 1 1 1;
+    -fx-pref-height: 27;
+    -fx-pref-width: 27;
 }
 .toggle-button:selected{
     -fx-background-color: rgb(240,240,240);
@@ -82,8 +118,8 @@ VBox{
 .footer{
     -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
     -fx-background-color: white;
-        -fx-background-radius: 4;
--fx-spacing: 10;
+    -fx-background-radius: 4;
+    -fx-spacing: 10;
     -fx-padding: 10;
     -fx-alignment: TOP_CENTER;
 }
@@ -129,5 +165,5 @@ VBox{
 .jfx-tab-pane .tab-selected-line {
     -fx-stroke: #630eb8;
     -fx-background-radius: 0;
-    
+
 }

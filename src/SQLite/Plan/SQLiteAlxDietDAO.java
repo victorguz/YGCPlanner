@@ -39,8 +39,8 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             s = conex.prepareStatement(INSERT);
             s.setInt(1, a.getPlan().getPlankey());
             s.setInt(2, a.getAlimento().getAlimentokey());
-            s.setString(3, a.getMomento());
-            s.setString(4, a.getDia());
+            s.setString(3, a.getMomento().toLowerCase());
+            s.setString(4, a.getDia().toLowerCase());
             s.setDouble(5, a.getCantidad());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar AlxDiet");

@@ -5,6 +5,9 @@
  */
 package vista;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,18 +24,23 @@ public class YGCPlanner extends Application {
     public static Stage stagestatic;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         stagestatic = stage;
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/Home.fxml"));
-        Scene scene = new Scene(root);
-        //stage.setResizable(false);
-        stage.setTitle("Dieta y ejercicio - Planificador Yezid Guzman Coach");
-        stage.getIcons().add(new Image("/imagen/icono/icono24.png"));
-        stage.setScene(scene);
-        stage.show();
-        
+        Parent root;
+  try {
+            root = FXMLLoader.load(getClass().getResource("fxml/Home.fxml"));
+ Scene scene = new Scene(root);
+//stage.setResizable(false);
+            stage.setTitle("Dieta y ejercicio - Planificador Yezid Guzman Coach");
+            stage.getIcons().add(new Image("/imagen/icono/icono24.png"));
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(YGCPlanner.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
+
     /**
      * @param args the command line arguments
      */

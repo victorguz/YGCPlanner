@@ -38,8 +38,8 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             s = conex.prepareStatement(INSERT);
             s.setInt(1, a.getPlan().getPlankey());
             s.setInt(2, a.getEjercicio().getEjerciciokey());
-            s.setString(3, a.getMomento());
-            s.setString(4, a.getDia());
+            s.setString(3, a.getMomento().toLowerCase());
+            s.setString(4, a.getDia().toLowerCase());
             s.setInt(5, a.getSeries());
             s.setInt(6, a.getRepeticiones());
             if (s.executeUpdate() == 0) {

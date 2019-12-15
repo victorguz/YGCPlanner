@@ -6,10 +6,15 @@
 package SQLite.Plan;
 
 import DAO.DAOException;
+import controlador.Controller;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modelo.plan.Plan;
@@ -19,22 +24,20 @@ public class SQLiteDietasDAO implements DAO.plan.PlanDAO {
     private Connection conex;
 
     private final String INSERT = "INSERT INTO Planes(nombre, objetivo,"
-            + " descripcion, sexo, edad, tipo) values (?, ?, ?, ?, ?, ?)";
+            + " descripcion, sexo, edad, tipo, usedate, usetime) "
+            + "values (?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String UPDATE = "UPDATE Planes SET nombre = ?, objetivo = ?,"
+            + " descripcion = ?, sexo = ?, edad  = ? WHERE plankey = ? ";
+    private final String DELETE = "DELETE FROM Planes WHERE Plankey = ?";
     private final String SELECT = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad FROM Planes "
             + "where Plankey = ? ";
     private final String WHERE = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad, tipo FROM Planes "
-            + "where nombre like ? "
-            + "or objetivo like ? "
-            + "or descripcion like ? "
-            + "or sexo like ? "
-            + "or edad like ? and tipo = ? order by plankey DESC";
+            + "where " + Controller.getFiltro() + " like ? "
+            + " and tipo = ? order by "+Controller.getFiltro().replaceAll("'", "")+" DESC";
     private final String ALL = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? order by plankey DESC";
-    private final String UPDATE = "UPDATE Planes SET nombre = ?, objetivo = ?,"
-            + " descripcion = ?, sexo = ?, edad  = ? WHERE plankey = ? ";
-    private final String DELETE = "DELETE FROM Planes WHERE Plankey = ?";
 
     public SQLiteDietasDAO(Connection conex) {
         this.conex = conex;
@@ -45,12 +48,14 @@ public class SQLiteDietasDAO implements DAO.plan.PlanDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
-            s.setString(1, a.getNombre().toUpperCase());
-            s.setString(2, a.getObjetivo().toUpperCase());
-            s.setString(3, a.getDescripcion().toUpperCase());
-            s.setString(4, a.getSexo().toUpperCase());
+            s.setString(1, a.getNombre().toLowerCase());
+            s.setString(2, a.getObjetivo().toLowerCase());
+            s.setString(3, a.getDescripcion().toLowerCase());
+            s.setString(4, a.getSexo().toLowerCase());
             s.setInt(5, a.getEdad());
-            s.setString(6,"DIETA");
+            s.setString(6, "dieta");
+            s.setDate(7, Date.valueOf(LocalDate.now()));
+            s.setTime(8, Time.valueOf(LocalTime.now()));
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar plan de alimentación");
             }
@@ -81,7 +86,9 @@ public class SQLiteDietasDAO implements DAO.plan.PlanDAO {
             s.setString(3, a.getDescripcion());
             s.setString(4, a.getSexo());
             s.setInt(5, a.getEdad());
-            s.setInt(6, a.getPlankey());
+            s.setDate(6, Date.valueOf(LocalDate.now()));
+            s.setTime(7, Time.valueOf(LocalTime.now()));
+            s.setInt(8, a.getPlankey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar plan de alimentación");
             }
@@ -127,7 +134,7 @@ public class SQLiteDietasDAO implements DAO.plan.PlanDAO {
         ObservableList<Plan> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(ALL);
-            s.setString(1, "DIETA");
+            s.setString(1, "dieta");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));
@@ -201,11 +208,12 @@ public class SQLiteDietasDAO implements DAO.plan.PlanDAO {
         ObservableList<Plan> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(WHERE);
-            s.setString(1, "%" + equal.toUpperCase() + "%");
-            s.setString(2, "%" + equal.toUpperCase() + "%");
-            s.setString(3, "%" + equal.toUpperCase() + "%");
-            s.setInt(4, Integer.parseInt(equal));
-            s.setString(5,"DIETA");
+            if (Controller.getFiltro().equalsIgnoreCase("'edad'")) {
+                s.setInt(1, Integer.parseInt(equal));
+            } else {
+                s.setString(1, "%" + equal.toLowerCase() + "%");
+            }
+            s.setString(2, "dieta");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));

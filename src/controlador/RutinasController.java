@@ -25,6 +25,8 @@ import modelo.plan.Plan;
  * @author 201621279487
  */
 public class RutinasController extends Controller<Plan> {
+@FXML
+private ComboBox<String> comboObjetivos;
 
     @FXML
     private ComboBox<Plan> comboRutina;
@@ -85,7 +87,10 @@ public class RutinasController extends Controller<Plan> {
         d.setNombre(textNombre.getText());
         d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
-        d.setEdad(Integer.parseInt(textEdad.getText()));
+        if(textEdad.getText().isEmpty()){
+        d.setEdad(0);
+        }else{
+        d.setEdad(Integer.parseInt(textEdad.getText()));}
         d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
         return d;
     }
@@ -175,10 +180,10 @@ public class RutinasController extends Controller<Plan> {
         if (!comboRutina.getItems().isEmpty()) {
             Plan d = comboRutina.getSelectionModel().getSelectedItem();
             textNombre.setText(d.getNombre());
-            selectObjetivo(d.getObjetivo());
+            selectCombo(comboObjetivos,d.getObjetivo());
             textDescripcion.setText(d.getDescripcion());
             textEdad.setText(d.getEdad() + "");
-            selectSexo(comboSexo.getSelectionModel().getSelectedItem());
+            selectCombo(comboSexo,comboSexo.getSelectionModel().getSelectedItem());
         }
     }
 

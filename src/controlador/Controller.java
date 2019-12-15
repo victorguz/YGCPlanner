@@ -47,16 +47,11 @@ import modelo.plan.Plan;
  */
 public abstract class Controller<T> implements Initializable {
 
-    //Manager
+    /**
+     * TextField que está contenido en la mayoría de frames
+     */
     @FXML
     protected TextField textBuscar;
-
-
-    @FXML
-    protected ComboBox<String> comboObjetivos;
-
-    @FXML
-    protected StackPane holderPane;
 
     @FXML
     protected ListView<Medida> listView;
@@ -78,7 +73,7 @@ public abstract class Controller<T> implements Initializable {
 
     @FXML
     protected TextField textBuscarAlimento;
-    
+
     protected static ObservableList<Cliente> clientes;
 
     protected static ObservableList<Medida> medidas;
@@ -91,8 +86,8 @@ public abstract class Controller<T> implements Initializable {
 
     protected static ObservableList<Ejercicio> ejercicios;
 
-    protected static final ObservableList<String> sexos = FXCollections.observableArrayList("HOMBRE", "MUJER");
-    protected static final ObservableList<String> objetivos = FXCollections.observableArrayList("PERDIDA", "AUMENTO", "MANTENIMIENTO");
+    protected static final ObservableList<String> sexos = FXCollections.observableArrayList("Hombre", "Mujer");
+    protected static final ObservableList<String> objetivos = FXCollections.observableArrayList("Perder", "Aumentar", "Mantener");
 
     private static SQLiteDAOManager manager;
     private static Cliente cliente;
@@ -107,7 +102,15 @@ public abstract class Controller<T> implements Initializable {
     private static boolean ejerciciosUpdated;
     private static boolean onConfig;
     private static String buscar = "";
+    private static String filtro = "nombre";
 
+    public static String getFiltro() {
+        return filtro;
+    }
+
+    public static void setFiltro(String filtro) {
+        Controller.filtro = filtro;
+    }
     public static boolean isEjerciciosUpdated() {
         return ejerciciosUpdated;
     }
@@ -195,14 +198,15 @@ public abstract class Controller<T> implements Initializable {
         nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
         DesktopNotify.setDefaultTheme(nt);
         if (tipo.equalsIgnoreCase("error")) {
-            if(ex==null){
-                            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.FAIL, 5000);
-            }else{
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
-                ex.printStackTrace();
-            });}
+            if (ex == null) {
+                DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.FAIL, 5000);
+            } else {
+                DesktopNotify.showDesktopMessage(tipo.toUpperCase(), getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
+                    ex.printStackTrace();
+                });
+            }
         } else if (tipo.equalsIgnoreCase("aviso")) {
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.WARNING, 5000,null);
+            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.WARNING, 5000, null);
         } else if (tipo.equalsIgnoreCase("exito")) {
             DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.SUCCESS, 3000);
         } else if (tipo.equalsIgnoreCase("referencia")) {
@@ -328,22 +332,11 @@ public abstract class Controller<T> implements Initializable {
         getDigits(e);
     }
 
-    public void selectObjetivo(String a) {
-        if (!comboObjetivos.getItems().isEmpty()) {
-            for (int i = 0; i < comboObjetivos.getItems().size(); i++) {
-                if (comboObjetivos.getItems().get(i).equalsIgnoreCase(a)) {
-                    comboObjetivos.getSelectionModel().select(i);
-                    return;
-                }
-            }
-        }
-    }
-
-    public void selectSexo(String a) {
-        if (!comboSexo.getItems().isEmpty()) {
-            for (int i = 0; i < comboSexo.getItems().size(); i++) {
-                if (comboSexo.getItems().get(i).equalsIgnoreCase(a)) {
-                    comboSexo.getSelectionModel().select(i);
+    public void selectCombo(ComboBox<String> combo, String a) {
+        if (!combo.getItems().isEmpty()) {
+            for (int i = 0; i < combo.getItems().size(); i++) {
+                if (combo.getItems().get(i).equals(a)) {
+                    combo.getSelectionModel().select(i);
                     return;
                 }
             }
@@ -458,13 +451,15 @@ public abstract class Controller<T> implements Initializable {
     public static boolean isMedidaUpdated() {
         return medidaUpdated;
     }
-public static void setDietasUpdated(boolean c) {
+
+    public static void setDietasUpdated(boolean c) {
         dietasUpdated = c;
     }
 
     public static boolean isDietasUpdated() {
         return dietasUpdated;
     }
+
     public static void setRutinasUpdated(boolean c) {
         rutinasUpdated = c;
     }
@@ -472,6 +467,7 @@ public static void setDietasUpdated(boolean c) {
     public static boolean isRutinasUpdated() {
         return rutinasUpdated;
     }
+
     public void buscarAlimento() {
         if (textBuscar.getText().isEmpty()) {
             obtenerAlimentos();

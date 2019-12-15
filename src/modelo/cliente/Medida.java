@@ -6,6 +6,7 @@
 package modelo.cliente;
 
 import DAO.DAOException;
+import controlador.Operacion;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import modelo.plan.Plan;
@@ -271,17 +272,7 @@ public class Medida {
     }
 
     public void setActividad(String actividad) throws DAOException {
-        switch (actividad) {
-            case "NINGUNO: 0 DIAS X SEMANA":
-            case "LIGERO: 1 A 3 DÍAS X SEMANA":
-            case "MODERADO: 3 A 5 DÍAS X SEMANA":
-            case "DEPORTISTA: 6 A 7 DÍAS X SEMANA":
-            case "ATLETA: DOS VECES AL DIA":
                 this.actividad = actividad;
-                break;
-            default:
-                throw new DAOException("Seleccione el nivel de actividad valido");
-        }
     }
 
     public LocalDate getFecha() {
@@ -413,7 +404,7 @@ public class Medida {
     public String getComplexionText() {
         double c = getAltura() / getMuneca();
         switch (getCliente().getSexo()) {
-            case "HOMBRE":
+            case "Hombre":
                 if (c < 9.6) {//grande
                     return "Grande";
                 } else if (c >= 9.6 && c <= 10.4) {//mediano
@@ -421,7 +412,7 @@ public class Medida {
                 } else {//pequeño
                     return "Pequeña";
                 }
-            case "MUJER":
+            case "Mujer":
                 if (c < 10.1) {//grande
                     return "Grande";
                 } else if (c >= 10.1 && c <= 11) {//mediano
@@ -464,21 +455,20 @@ public class Medida {
         }
     }
 
-    public static double redondear(double a) {
-        return Math.round(a * 100) / 100d;
-    }
+    
 
     /**
      * Formula de peso ideal de Creff
+     * @return 
      */
     public double getPesoIdealCreff() {
         switch (getComplexionText()) {
             case "Grande":
-                return redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.99);
+                return Operacion.redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.99);
             case "Mediana":
-                return redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.9);
+                return Operacion.redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.9);
             case "Pequeña":
-                return redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.81);
+                return Operacion.redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.81);
             default:
                 return -1;
         }
@@ -489,7 +479,7 @@ public class Medida {
      *
      */
     public double getPesoIdealAprox() {
-        return redondear(getAltura() - 100);
+        return Operacion.redondear(getAltura() - 100);
     }
 
     /**
@@ -498,10 +488,10 @@ public class Medida {
      */
     public double getPesoIdealLorentz() {
         switch (getCliente().getSexo()) {
-            case "HOMBRE":
-                return redondear(getAltura() - 100 - (getAltura() - 150) / 4);
-            case "MUJER":
-                return redondear(getAltura() - 100 - (getAltura() - 150) / 2.5);
+            case "Hombre":
+                return Operacion.redondear(getAltura() - 100 - (getAltura() - 150) / 4);
+            case "Mujer":
+                return Operacion.redondear(getAltura() - 100 - (getAltura() - 150) / 2.5);
             default:
                 return -1;
         }
@@ -512,7 +502,7 @@ public class Medida {
      *
      */
     public double getPesoIdealMonnerotDumaine() {
-        return redondear(getAltura() - 100 + 2 * getMuneca());
+        return Operacion.redondear(getAltura() - 100 + 2 * getMuneca());
     }
 
     /**
@@ -523,7 +513,7 @@ public class Medida {
      */
     public double getIndiceMasaCorporal() {
         double a = (getAltura() / 100) * (getAltura() / 100);
-        return redondear((getPeso() / a));
+        return Operacion.redondear((getPeso() / a));
     }
 
     /**
@@ -533,30 +523,30 @@ public class Medida {
      *
      */
     public double getIndiceCinturaAltura() {
-        return redondear(getCinturaMedia() / getAltura());
+        return Operacion.redondear(getCinturaMedia() / getAltura());
     }
 
     public double getTasaMetabolicaMifflin() {
         switch (getCliente().getSexo()) {
-            case "MUJER":
-                return redondear(-161 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad());
-            case "HOMBRE":
-                return redondear(5 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad());
+            case "Mujer":
+                return Operacion.redondear(-161 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad());
+            case "Hombre":
+                return Operacion.redondear(5 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad());
             default:
-                return redondear(-1);
+                return Operacion.redondear(-1);
         }
     }
 
     public double getTasaMetabolicaHarrys() {
         switch (getCliente().getSexo()) {
-            case "MUJER":
-                return redondear((665 + 9.6 * getPeso()
+            case "Mujer":
+                return Operacion.redondear((665 + 9.6 * getPeso()
                         + 1.85 * getAltura() - 4.7 * getCliente().getEdad()));
-            case "HOMBRE":
-                return redondear((66.5 + 13.7 * getPeso()
+            case "Hombre":
+                return Operacion.redondear((66.5 + 13.7 * getPeso()
                         + 5 * getAltura() - 6.8 * getCliente().getEdad()));
             default:
-                return redondear(-1);
+                return Operacion.redondear(-1);
         }
     }
 
@@ -569,24 +559,24 @@ public class Medida {
         double tasa = getTasaMetabolicaHarrys();
         switch (getActividad()) {
             case "NINGUNO: 0 DIAS X SEMANA":
-                return redondear(tasa * 1.2);
+                return Operacion.redondear(tasa * 1.2);
             case "LIGERO: 1 A 3 DÍAS X SEMANA":
-                return redondear(tasa * 1.375);
+                return Operacion.redondear(tasa * 1.375);
             case "MODERADO: 3 A 5 DÍAS X SEMANA":
-                return redondear(tasa * 1.55);
+                return Operacion.redondear(tasa * 1.55);
             case "DEPORTISTA: 6 A 7 DÍAS X SEMANA":
-                return redondear(tasa * 1.72);
+                return Operacion.redondear(tasa * 1.72);
             case "ATLETA: DOS VECES AL DIA":
-                return redondear(tasa * 1.9);
+                return Operacion.redondear(tasa * 1.9);
             default:
-                return redondear(-1);
+                return Operacion.redondear(-1);
         }
     }
 
     //c
     public double getCoeficienteC() {
         switch (getCliente().getSexo()) {
-            case "HOMBRE":
+            case "Hombre":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (1.1620);
                 } else if (getCliente().getEdad() >= 20 && getCliente().getEdad() <= 29) {
@@ -599,7 +589,7 @@ public class Medida {
                     return (1.1714);
                 }
                 break;
-            case "MUJER":
+            case "Mujer":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (1.1549);
                 } else if (getCliente().getEdad() >= 20 && getCliente().getEdad() <= 29) {
@@ -619,7 +609,7 @@ public class Medida {
     //m
     public double getCoeficienteM() {
         switch (getCliente().getSexo()) {
-            case "HOMBRE":
+            case "Hombre":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (0.0630);
                 } else if (getCliente().getEdad() >= 20 && getCliente().getEdad() <= 29) {
@@ -632,7 +622,7 @@ public class Medida {
                     return (0.0779);
                 }
                 break;
-            case "MUJER":
+            case "Mujer":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (0.0678);
                 } else if (getCliente().getEdad() >= 20 && getCliente().getEdad() <= 29) {
@@ -656,7 +646,7 @@ public class Medida {
      *
      */
     public double getDensidadCorporalPorPliegues() {
-        return redondear(getCoeficienteC() - (getCoeficienteM()
+        return Operacion.redondear(getCoeficienteC() - (getCoeficienteM()
                 * Math.log10(getTricipital() + getBicipital()
                         + getSubescapular() + getSuprailiaco())));
     }
@@ -668,7 +658,7 @@ public class Medida {
      *
      */
     public double getPorcentajeGrasaSiri() {
-        return redondear(((4.95 / getDensidadCorporalPorPliegues()) - 4.5) * 100);
+        return Operacion.redondear(((4.95 / getDensidadCorporalPorPliegues()) - 4.5) * 100);
     }
 
     /**
@@ -678,7 +668,7 @@ public class Medida {
      *
      */
     public double getPesoGrasaCorporal() {
-        return redondear(getPorcentajeGrasaSiri() * getPeso() / 100);
+        return Operacion.redondear(getPorcentajeGrasaSiri() * getPeso() / 100);
     }
 
     /**
@@ -688,7 +678,7 @@ public class Medida {
      *
      */
     public double getPorcentajeMasaMagra() {
-        return redondear(100 - getPorcentajeGrasaSiri());
+        return Operacion.redondear(100 - getPorcentajeGrasaSiri());
     }
 
     /**
@@ -698,28 +688,28 @@ public class Medida {
      *
      */
     public double getMasaLibreDeGrasa() {
-        return redondear(getPeso() - getPesoGrasaCorporal());
+        return Operacion.redondear(getPeso() - getPesoGrasaCorporal());
     }
 
     public double getSuperavitODeficit() {
         switch (getObjetivo()) {
-            case "AUMENTO":
-                return redondear(getCaloriasMantenimiento() + getCaloriasMantenimiento() * 0.25);
-            case "PERDIDA":
-                return redondear(getCaloriasMantenimiento() - getCaloriasMantenimiento() * 0.25);
-            case "MANTENIMIENTO":
-                return redondear(getCaloriasMantenimiento());
+            case "Aumentar":
+                return Operacion.redondear(getCaloriasMantenimiento() + getCaloriasMantenimiento() * 0.25);
+            case "Perder":
+                return Operacion.redondear(getCaloriasMantenimiento() - getCaloriasMantenimiento() * 0.25);
+            case "Mantener":
+                return Operacion.redondear(getCaloriasMantenimiento());
         }
         return -1;
     }
 
     public double getProteinas() {//PONER TEXTFIELD PARA SELECCIONAR CALORIAS Limite 4g
         switch (getObjetivo()) {
-            case "AUMENTO":
+            case "Aumentar":
                 return 4 * getPeso();
-            case "PERDIDA":
+            case "Perder":
                 return 2 * getPeso();
-            case "MANTENIMIENTO":
+            case "Mantener":
                 return 2.7 * getPeso();
         }
         return -1;
@@ -736,11 +726,11 @@ public class Medida {
 
     public double getGrasas() {
         switch (getObjetivo()) {
-            case "AUMENTO":
+            case "Aumentar":
                 return 2 * getPeso();
-            case "PERDIDA":
+            case "Perder":
                 return getPeso();
-            case "MANTENIMIENTO":
+            case "Mantener":
                 return 1.5 * getPeso();
         }
         return -1;

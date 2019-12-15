@@ -19,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import modelo.cliente.Medida;
 import modelo.plan.Alimento;
 import modelo.plan.AlxDiet;
@@ -31,7 +32,13 @@ import modelo.plan.Plan;
 public class DietasController extends Controller<Plan> {
 
     @FXML
+    private ToggleGroup filtro;
+
+    @FXML
     private ComboBox<Plan> comboDieta;
+
+    @FXML
+    private ComboBox<String> comboObjetivos;
 
     @FXML
     private TextField textNombre;
@@ -262,6 +269,12 @@ public class DietasController extends Controller<Plan> {
         updated();
     }
 
+    public void setFiltro() {
+        int i = filtro.getSelectedToggle().toString().indexOf("'");
+        setFiltro(filtro.getSelectedToggle().toString().substring(i));
+        System.out.println(getFiltro());
+    }
+
     @Override
     public void updated() {
         Thread t = new Thread(new Runnable() {
@@ -301,7 +314,11 @@ public class DietasController extends Controller<Plan> {
         d.setNombre(textNombre.getText());
         d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
-        d.setEdad(Integer.parseInt(textEdad.getText()));
+        if (textEdad.getText().isEmpty()) {
+            d.setEdad(0);
+        } else {
+            d.setEdad(Integer.parseInt(textEdad.getText()));
+        }
         d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
         return d;
     }
@@ -319,8 +336,8 @@ public class DietasController extends Controller<Plan> {
                 comboDieta.setItems(dietas);
                 select(0);
             }
-               setDietasUpdated(true);
-     } catch (DAOException ex) {
+            setDietasUpdated(true);
+        } catch (DAOException ex) {
             mensaje("Condición", "error", ex);
         }
     }
@@ -450,10 +467,10 @@ public class DietasController extends Controller<Plan> {
         if (!comboDieta.getItems().isEmpty()) {
             Plan d = comboDieta.getSelectionModel().getSelectedItem();
             textNombre.setText(d.getNombre());
-            selectObjetivo(d.getObjetivo());
+            selectCombo(comboObjetivos, d.getObjetivo());
             textDescripcion.setText(d.getDescripcion());
             textEdad.setText(d.getEdad() + "");
-            selectSexo(comboSexo.getSelectionModel().getSelectedItem());
+            selectCombo(comboSexo, comboSexo.getSelectionModel().getSelectedItem());
         }
     }
 
@@ -540,7 +557,7 @@ public class DietasController extends Controller<Plan> {
             double porc;
             if (!textProteinas.getText().isEmpty()) {
                 porc = Double.parseDouble(textProteinas.getText()) / 100;
-                tProteinCliente.setText("" + Medida.redondear(cal * porc / 4));
+                tProteinCliente.setText("" + Operacion.redondear(cal * porc / 4));
             }
         }
         porcentajeGramos();
@@ -552,7 +569,7 @@ public class DietasController extends Controller<Plan> {
             double porc;
             if (!textGrasas.getText().isEmpty()) {
                 porc = Double.parseDouble(textGrasas.getText()) / 100;
-                tFatCliente.setText("" + Medida.redondear(cal * porc / 9));
+                tFatCliente.setText("" + Operacion.redondear(cal * porc / 9));
             }
         }
         porcentajeGramos();
@@ -564,7 +581,7 @@ public class DietasController extends Controller<Plan> {
             double porc;
             if (!textCarbohidratos.getText().isEmpty()) {
                 porc = Double.parseDouble(textCarbohidratos.getText()) / 100;
-                tCarbsCliente.setText("" + Medida.redondear(cal * porc / 4));
+                tCarbsCliente.setText("" + Operacion.redondear(cal * porc / 4));
             }
         }
         porcentajeGramos();
@@ -573,7 +590,7 @@ public class DietasController extends Controller<Plan> {
     public void porcentajeGramos() {
         if (!(tProteinCliente.getText().isEmpty() && tCarbsCliente.getText().isEmpty() && tFat.getText().isEmpty())) {
             double grams = Double.parseDouble(tFatCliente.getText()) + Double.parseDouble(tCarbsCliente.getText()) + Double.parseDouble(tProteinCliente.getText());
-            tGramsCliente.setText(Medida.redondear(grams) + "");
+            tGramsCliente.setText(Operacion.redondear(grams) + "");
         }
     }
 
@@ -1013,7 +1030,6 @@ public class DietasController extends Controller<Plan> {
     }
 
     public void actualizarUso(Alimento a) {
-        a.usar();
         try {
             getAlimentos().modificar(a);
         } catch (DAOException ex) {

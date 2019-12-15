@@ -15,6 +15,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -23,10 +25,24 @@ import javafx.scene.layout.StackPane;
  */
 public class HomeController extends Controller<StackPane> {
 
+    /**
+     * StackPane principal, contiene todos los demás frames
+     */
+    @FXML
+    protected StackPane holderPane;
+    /**
+     * StackPane que está ubicado en la parte inferior
+     */
     @FXML
     public StackPane footer;
+
+    //
+    //Los siguientes son los frames o escenas a los módulos que hacen
+    //referencia sus nombres
+    //
     public static StackPane Clientes;
-    public static StackPane FooterClientes;
+    public static StackPane FooterClientesGrande;
+    public static StackPane FooterClientesPequeno;
     public static StackPane Dietas;
     public static StackPane Medidas;
     public static StackPane Rutinas;
@@ -37,6 +53,9 @@ public class HomeController extends Controller<StackPane> {
 
     @FXML
     private ToggleButton buttonClientes;
+
+    @FXML
+    private ToggleButton buttonFooter;
 
     @FXML
     private ToggleButton buttonMedidas;
@@ -56,6 +75,9 @@ public class HomeController extends Controller<StackPane> {
     @FXML
     private ToggleButton buttonConfig;
 
+    @FXML
+    private ImageView arrow;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         obtener();
@@ -63,10 +85,44 @@ public class HomeController extends Controller<StackPane> {
         switchClientes();
     }
 
+    @Override
+    public void obtener() {
+        try {
+            Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
+            Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
+            FooterClientesPequeno = FXMLLoader.load(new File("src/vista/fxml/FooterClientes.fxml").toURL());
+            FooterClientesGrande = FXMLLoader.load(new File("src/vista/fxml/FooterClientesGrande.fxml").toURL());
+            setFooter(FooterClientesPequeno);
+            Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
+            Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
+            Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
+            Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
+            Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
+            Medidas = FXMLLoader.load(new File("src/vista/fxml/Medidas.fxml").toURL());
+        } catch (MalformedURLException ex) {
+            mensaje("Condición", "error", new DAOException(ex));
+        } catch (IOException ex) {
+            mensaje("Condición", "error", new DAOException(ex));
+        } finally {
+            mostrar(new StackPane());
+        }
+    }
+
     protected void setFooter(StackPane node) {
         footer.getChildren().clear();
         footer.getChildren().add(node);
         fadeTransition(node, 700);
+    }
+
+    @FXML
+    private void switchFooter() {
+        if (buttonFooter.isSelected()) {
+            setFooter(FooterClientesGrande);
+            arrow.setImage(new Image("imagen/icono/arrow1b.png"));
+        } else {
+            setFooter(FooterClientesPequeno);
+            arrow.setImage(new Image("imagen/icono/arrowb.png"));
+        }
     }
 
     @FXML
@@ -152,28 +208,6 @@ public class HomeController extends Controller<StackPane> {
     @Override
     public StackPane captar() throws DAOException {
         return null;
-    }
-
-    @Override
-    public void obtener() {
-        try {
-            FooterClientes = FXMLLoader.load(new File("src/vista/fxml/FooterClientes.fxml").toURL());
-            setFooter(FooterClientes);
-            Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
-            Medidas = FXMLLoader.load(new File("src/vista/fxml/Medidas.fxml").toURL());
-            Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
-            Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
-            Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
-            Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
-            Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
-            Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
-        } catch (MalformedURLException ex) {
-            mensaje("Condición", "error", new DAOException(ex));
-        } catch (IOException ex) {
-            mensaje("Condición", "error", new DAOException(ex));
-        } finally {
-            mostrar(new StackPane());
-        }
     }
 
     @Override

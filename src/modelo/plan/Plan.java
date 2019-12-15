@@ -70,8 +70,8 @@ public class Plan {
     }
 
     public void setDescripcion(String descripcion) throws DAOException {
-        if (descripcion.isEmpty() || descripcion == null) {
-            throw new DAOException("Digite una descripcion de " + getClass().getName().toLowerCase());
+        if (descripcion.isEmpty()) {
+            throw new DAOException("Digite una descripcion de " + getTipo().toLowerCase());
         }
         this.descripcion = descripcion;
     }
@@ -89,14 +89,7 @@ public class Plan {
     }
 
     public void setTipo(String tipo) throws DAOException {
-        switch (tipo) {
-            case "DIETA":
-            case "RUTINA":
                 this.tipo = tipo;
-                break;
-            default:
-                throw new DAOException("Este no es un tipo de plan válido");
-        }
     }
 
     public int getEdad() {
@@ -104,7 +97,7 @@ public class Plan {
     }
 
     public void setEdad(int edad) throws DAOException {
-        if (edad <= 0) {
+        if (edad < 0) {
             throw new DAOException("Digite una edad valida");
         }
         this.edad = edad;
@@ -120,7 +113,7 @@ public class Plan {
                 || getObjetivo().isEmpty()
                 || getDescripcion().isEmpty()
                 || getSexo().isEmpty()
-                || getEdad() <= 0
+                || getEdad() < 0
                 || getTipo().isEmpty();
     }
 }

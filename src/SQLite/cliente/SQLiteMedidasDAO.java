@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import DAO.cliente.MedidasDAO;
 import controlador.Controller;
+import controlador.Operacion;
 import java.sql.Date;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
@@ -259,8 +260,8 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             m.setTricipital(rs.getDouble("tricipital"));
             m.setSubescapular(rs.getDouble("subescapular"));
             m.setSuprailiaco(rs.getDouble("suprailiaco"));
-            m.setObjetivo(rs.getString("objetivo"));
-            m.setActividad(rs.getString("actividad"));
+            m.setObjetivo(Operacion.nombreCamelCase(rs.getString("objetivo")));
+            m.setActividad(Operacion.nombreCamelCase(rs.getString("actividad")));
             m.setMuneca(rs.getDouble("muneca"));
             return m;
         } catch (SQLException ex) {
@@ -299,8 +300,8 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             s.setDouble(20, a.getSuprailiaco());
             s.setDate(21, Date.valueOf(a.getFecha()));
             s.setDouble(22, a.getCuello());
-            s.setString(23, a.getObjetivo());
-            s.setString(24, a.getActividad());
+            s.setString(23, a.getObjetivo().toLowerCase());
+            s.setString(24, a.getActividad().toLowerCase());
             s.setDouble(25, a.getMuneca());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar las medidas del cliente");
@@ -344,8 +345,8 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             s.setDouble(19, a.getSuprailiaco());
             s.setDate(20, Date.valueOf(a.getFecha()));
             s.setDouble(21, a.getCuello());
-            s.setString(22, a.getObjetivo());
-            s.setString(23, a.getActividad());
+            s.setString(22, a.getObjetivo().toLowerCase());
+            s.setString(23, a.getActividad().toLowerCase());
             s.setDouble(24, a.getMuneca());
             s.setInt(25, a.getMedidakey());
             if (s.executeUpdate() == 0) {

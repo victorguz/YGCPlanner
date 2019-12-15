@@ -6,6 +6,7 @@
 package modelo.plan;
 
 import DAO.DAOException;
+import controlador.Operacion;
 
 /**
  *
@@ -19,7 +20,6 @@ public class Alimento {
     private double proteinas;
     private double grasas;
     private double carbohidratos;
-    private int uso;
 
     public Alimento() {
 
@@ -59,7 +59,7 @@ public class Alimento {
         if (nombre.isEmpty()) {
             throw new DAOException("Digite un nombre");
         }
-        this.nombre = nombre;
+        this.nombre = Operacion.nombreCamelCase(nombre);
     }
 
     public String getUnidadDeMedida() {
@@ -119,21 +119,4 @@ public class Alimento {
                 || getCarbohidratos() < 0;
     }
 
-    public int getUso() {
-        return uso;
-    }
-
-    public void setUso(int uso) throws DAOException {
-        if(uso<0){
-            throw new DAOException("Este valor de uso es inválido");
-        }
-        this.uso = uso;
-    }
-    
-    public void usar(){
-        this.uso++;
-    }
-    public void reiniciarUso(){
-        this.uso=0;
-    }
 }

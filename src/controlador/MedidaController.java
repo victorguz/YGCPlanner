@@ -29,6 +29,9 @@ import modelo.plan.Plan;
 public class MedidaController extends Controller<Medida> {
 
     @FXML
+    private ComboBox<String> comboObjetivos;
+
+    @FXML
     private DatePicker datePicker;
 
     @FXML
@@ -382,7 +385,7 @@ public class MedidaController extends Controller<Medida> {
     public void mostrar() {
         if (!getMedida().isEmpty()) {
             selectActividad(getMedida().getActividad());
-            selectObjetivo(getMedida().getObjetivo());
+            selectCombo(comboObjetivos,getMedida().getObjetivo());
             datePicker.setValue(getMedida().getFecha());
             textPeso.setText("" + getMedida().getPeso());
             textAltura.setText("" + getMedida().getAltura());

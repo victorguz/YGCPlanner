@@ -6,6 +6,7 @@
 package modelo.cliente;
 
 import DAO.DAOException;
+import controlador.Operacion;
 
 /**
  *
@@ -54,7 +55,7 @@ public class Cliente {
         if (nombre.isEmpty()) {
             throw new DAOException("Digite un nombre");
         }
-        this.nombre = nombre;
+        this.nombre = Operacion.nombreCamelCase(nombre);
     }
 
     public String getApellido() {
@@ -65,7 +66,7 @@ public class Cliente {
         if (apellido.isEmpty()) {
             throw new DAOException("Digite un apellido");
         }
-        this.apellido = apellido;
+        this.apellido = Operacion.nombreCamelCase(apellido);
     }
 
     public String getSexo() {
@@ -76,7 +77,7 @@ public class Cliente {
         if (sexo.isEmpty()) {
             throw new DAOException("Seleccione un sexo");
         }
-        this.sexo = sexo;
+        this.sexo = Operacion.nombreCamelCase(sexo);
     }
 
     public int getClienteKey() {
@@ -114,7 +115,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return getNombre() + " " + getApellido() + ", " + getEdad() + " AÑOS";
+        return getNombre() + " " + getApellido();
     }
 
     public boolean isEmpty() {
