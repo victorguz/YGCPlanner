@@ -43,16 +43,16 @@ public class EjerciciosController extends Controller<Ejercicio> {
             Ejercicio c = captar();
             if (c != null) {
                 if (c.isEmpty()) {
-                    mensaje("A este ejercicio le faltan datos", "aviso", null);
+                    mensaje("A este ejercicio le faltan datos", "aviso");
                 } else {
                     getEjercicios().insertar(c);
-                    mensaje("Ejercicio registrado", "exito", null);
+                    mensaje("Ejercicio registrado", "exito");
                     obtener();
                     setEjerciciosUpdated(true);
                 }
             }
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -64,18 +64,18 @@ public class EjerciciosController extends Controller<Ejercicio> {
                 if (!a.isEmpty()) {
                     a.setEjerciciokey(comboEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
                     getEjercicios().modificar(a);
-                    mensaje("Ejercicio modificado", "exito", null);
+                    mensaje("Ejercicio modificado", "exito");
                     textBuscarEjercicio.setText(textNombre.getText());
                     obtener();
                     setEjerciciosUpdated(true);
                 } else {
-                    mensaje("A este ejercicio le faltan datos", "aviso", null);
+                    mensaje("A este ejercicio le faltan datos", "aviso");
                 }
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+            excepcion(ex);
             }
         } else {
-            mensaje("Seleccione un ejercicio", "aviso", null);
+            mensaje("Seleccione un ejercicio", "aviso");
 
         }
     }
@@ -88,17 +88,17 @@ public class EjerciciosController extends Controller<Ejercicio> {
                 if (!a.isEmpty()) {
                     a.setEjerciciokey(comboEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
                     getEjercicios().eliminar(a);
-                    mensaje("Ejercicio eliminado", "exito", null);
+                    mensaje("Ejercicio eliminado", "exito");
                     obtener();
                     setEjerciciosUpdated(true);
                 } else {
-                    mensaje("A este ejercicio le faltan datos", "aviso", null);
+                    mensaje("A este ejercicio le faltan datos", "aviso");
                 }
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+            excepcion(ex);
             }
         } else {
-            mensaje("Seleccione un ejercicio", "aviso", null);
+            mensaje("Seleccione un ejercicio", "aviso");
 
         }
     }

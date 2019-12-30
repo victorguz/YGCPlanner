@@ -57,15 +57,15 @@ public class AlimentosController extends Controller<Alimento> {
         try {
             Alimento c = captar();
             if (c.isEmpty()) {
-                mensaje("A este alimento le faltan datos", "aviso", null);
+                mensaje("A este alimento le faltan datos", "aviso");
             } else {
                 getAlimentos().insertar(c);
-                mensaje("Alimento registrado", "exito", null);
+                mensaje("Alimento registrado", "exito");
                 obtener();
                 setAlimentosUpdated(true);
             }
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -80,15 +80,15 @@ public class AlimentosController extends Controller<Alimento> {
                     textBuscarAlimento.setText(textNombre.getText());
                     obtener();
                     setAlimentosUpdated(true);
-                    mensaje("Alimento modificado", "exito", null);
+                    mensaje("Alimento modificado", "exito");
                 } else {
-                    mensaje("A este alimento le faltan datos", "aviso", null);
+                    mensaje("A este alimento le faltan datos", "aviso");
                 }
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+            excepcion(ex);
             }
         } else {
-            mensaje("Seleccione un alimento", "aviso", null);
+            mensaje("Seleccione un alimento", "aviso");
 
         }
     }
@@ -101,17 +101,17 @@ public class AlimentosController extends Controller<Alimento> {
                 if (!a.isEmpty()) {
                     a.setAlimentokey(comboAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
                     getAlimentos().eliminar(a);
-                    mensaje("Alimento eliminado", "exito", null);
+                    mensaje("Alimento eliminado", "exito");
                     obtener();
                     setAlimentosUpdated(true);
                 } else {
-                    mensaje("A este alimento le faltan datos", "aviso", null);
+                    mensaje("A este alimento le faltan datos", "aviso");
                 }
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+            excepcion(ex);
             }
         } else {
-            mensaje("Seleccione un alimento", "aviso", null);
+            mensaje("Seleccione un alimento", "aviso");
 
         }
     }

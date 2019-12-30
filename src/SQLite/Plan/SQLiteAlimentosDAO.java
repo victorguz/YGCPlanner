@@ -30,7 +30,7 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
             + "  proteinas, grasas, carbohidratos FROM alimentos "
             + "where alimentokey = ? ";
     private final String ALL = "SELECT alimentokey, nombre, "
-            + "  proteinas, grasas, carbohidratos FROM alimentos ORDER BY usedate desc, usetime desc";
+            + "  proteinas, grasas, carbohidratos FROM alimentos ORDER by usetime desc, usedate desc";
     private final String WHERE = "SELECT alimentokey, nombre, "
             + "  proteinas, grasas, carbohidratos FROM ALIMENTOS "
             + " order by nombre like ? desc";

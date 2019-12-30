@@ -5,7 +5,6 @@
  */
 package modelo;
 
-import DAO.DAOException;
 
 /**
  *
@@ -21,6 +20,12 @@ public class Referencia {
     public Referencia() {
     }
 
+    public Referencia(String nombre, String desc, String link) {
+        this.nombre = nombre;
+        this.descripcion = desc;
+        this.link = link;
+    }
+
     public int getReferenciakey() {
         return referenciakey;
     }
@@ -33,10 +38,11 @@ public class Referencia {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion, String unQue) throws DAOException {
-        if (descripcion.isEmpty()) {
-            throw new DAOException("Digite un " + unQue);
-        }
+    public void setDescripcion(String descripcion)  {
+        this.descripcion = descripcion;
+    }
+
+    public void setDescripcion(String descripcion, String unQue)  {
         this.descripcion = descripcion;
     }
 
@@ -44,10 +50,17 @@ public class Referencia {
         return nombre;
     }
 
-    public void setNombre(String nombre, String unQue) throws DAOException {
-        if (nombre.isEmpty()) {
-            throw new DAOException("Digite un " + unQue);
-        }
+    public void setNombre(String nombre)  {
+        this.nombre = nombre;
+    }
+
+    /**
+     *
+     * @param nombre Dato a guardar como nombre
+     * @param unQue Titulo de la referencia
+     * @
+     */
+    public void setNombre(String nombre, String unQue)  {
         this.nombre = nombre;
     }
 
@@ -55,16 +68,22 @@ public class Referencia {
         return link;
     }
 
-    public void setLink(String link, String unQue) throws DAOException {
-        if (link.isEmpty()) {
-            throw new DAOException("Digite un " + unQue);
-        }
+    /**
+     *
+     * @param link Dato a guardar como link
+     * @
+     */
+    public void setLink(String link)  {
+        this.link = link;
+    }
+
+    public void setLink(String link, String unQue)  {
         this.link = link;
     }
 
     @Override
     public String toString() {
-        return getReferenciakey() + "\t" + getDescripcion();
+        return getNombre()+ "\t" + getDescripcion()+ "\t" +getLink();
     }
 
     public boolean isEmpty() {

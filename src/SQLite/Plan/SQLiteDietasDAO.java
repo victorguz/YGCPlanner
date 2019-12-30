@@ -34,10 +34,11 @@ public class SQLiteDietasDAO implements DAO.plan.PlanDAO {
             + "where Plankey = ? ";
     private final String WHERE = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad, tipo FROM Planes "
-            + "where " + Controller.getFiltro() + " like ? "
+            + "where \"" + Controller.getFiltro().replaceAll("'", "") + "\" like ? "
             + " and tipo = ? order by "+Controller.getFiltro().replaceAll("'", "")+" DESC";
     private final String ALL = "SELECT Plankey, nombre, objetivo,"
-            + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? order by plankey DESC";
+            + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? "
+            + "order by usetime desc, usedate desc";
 
     public SQLiteDietasDAO(Connection conex) {
         this.conex = conex;
@@ -209,8 +210,10 @@ public class SQLiteDietasDAO implements DAO.plan.PlanDAO {
         try {
             s = conex.prepareStatement(WHERE);
             if (Controller.getFiltro().equalsIgnoreCase("'edad'")) {
+                System.out.println("Buscando dieta por edad");
                 s.setInt(1, Integer.parseInt(equal));
             } else {
+                System.out.println("Buscando dieta por texto");
                 s.setString(1, "%" + equal.toLowerCase() + "%");
             }
             s.setString(2, "dieta");

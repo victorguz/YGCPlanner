@@ -21,8 +21,6 @@ public class Medida {
 
     private int medidakey;
     private Cliente cliente;
-    private Plan dieta;
-    private Plan rutina;
     private LocalDate fecha;
     private double peso = 0;
     private double altura = 0;
@@ -62,8 +60,6 @@ public class Medida {
             throws DAOException {
         setMedidakey(historialKey);
         setCliente(cliente);
-        setDieta(dieta);
-        setRutina(rutina);
         setFecha(fecha);
         setPeso(peso);
         setAltura(altura);
@@ -92,8 +88,6 @@ public class Medida {
             double pantorrillaDer, double pantorrillaIzq, String actividad)
             throws DAOException {
         setCliente(cliente);
-        setDieta(dieta);
-        setRutina(rutina);
         setFecha(fecha);
         setPeso(peso);
         setAltura(altura);
@@ -301,28 +295,6 @@ public class Medida {
         this.cliente = cliente;
     }
 
-    public Plan getDieta() {
-        return dieta;
-    }
-
-    public void setDieta(Plan dieta) throws DAOException {
-        if (dieta == null || dieta.isEmpty()) {
-            throw new DAOException("Selecciona un plan nutricional");
-        }
-        this.dieta = dieta;
-    }
-
-    public Plan getRutina() {
-        return rutina;
-    }
-
-    public void setRutina(Plan rutina) throws DAOException {
-        if (rutina == null || rutina.isEmpty()) {
-            throw new DAOException("Seleccione un plan de entrenamiento");
-        }
-        this.rutina = rutina;
-    }
-
     public void setMedidakey(int medidakey) throws DAOException {
         if (medidakey < 0) {
             throw new DAOException("Medidakey inválido");
@@ -502,7 +474,7 @@ public class Medida {
      *
      */
     public double getPesoIdealMonnerotDumaine() {
-        return Operacion.redondear(getAltura() - 100 + 2 * getMuneca());
+        return Operacion.redondear((getAltura() - 100 + 4 * getMuneca())/2);
     }
 
     /**
@@ -743,12 +715,10 @@ public class Medida {
      * @return true si falta alguno y false si no falta ninguno
      */
     public boolean isEmpty() {
-        if (getCliente() == null || getDieta() == null || getRutina() == null || getFecha() == null) {
+        if (getCliente() == null || getFecha() == null) {
             return true;
         }
         return getCliente().isEmpty()
-                || getDieta().isEmpty()
-                || getRutina().isEmpty()
                 || getPeso() <= 0
                 || getAltura() <= 0
                 || getCinturaMedia() <= 0

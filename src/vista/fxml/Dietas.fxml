@@ -10,7 +10,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -131,16 +130,16 @@
                               <TextArea fx:id="textDescripcion" prefHeight="70.0" prefWidth="377.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" />
                            </children>
                         </VBox>
+                        <HBox alignment="CENTER" spacing="10.0">
+                           <children>
+                              <JFXButton onAction="#eliminar" text="Eliminar" />
+                              <JFXButton onAction="#limpiar" text="Limpiar" />
+                              <JFXButton onAction="#modificar" text="Modificar" />
+                              <JFXButton onAction="#registrar" text="Registrar" />
+                           </children>
+                        </HBox>
                      </children>
                   </FlowPane>
-                  <HBox alignment="CENTER" spacing="10.0">
-                     <children>
-                        <JFXButton onAction="#eliminar" text="Eliminar" />
-                        <JFXButton onAction="#limpiar" text="Limpiar" />
-                        <JFXButton onAction="#modificar" text="Modificar" />
-                        <JFXButton onAction="#registrar" text="Registrar" />
-                     </children>
-                  </HBox>
                </children>
             </VBox>
             <VBox onMouseMoved="#updated">
@@ -186,31 +185,31 @@
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="KCal (K)" />
-                              <Label fx:id="tKcalCliente" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="labelKcalCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Gramos (G)" />
-                              <Label fx:id="tGramsCliente" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="labelGramsCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Carbs (C)" />
-                              <Label fx:id="tCarbsCliente" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="labelCarbsCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Proteina (P)" />
-                              <Label fx:id="tProteinCliente" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="labelProteinCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Grasa/Fat (F)" />
-                              <Label fx:id="tFatCliente" alignment="BASELINE_CENTER" text="0" />
+                              <Label fx:id="labelFatCliente" alignment="BASELINE_CENTER" text="0" />
                            </children>
                         </VBox>
                      </children>
@@ -265,17 +264,13 @@
                               </Label>
                               <FlowPane hgap="10.0" styleClass="flowpane" vgap="10.0">
                                  <children>
-                                    <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" onAction="#getDomingo" onScroll="#updated" onSwipeDown="#updated" onSwipeUp="#updated" text="Domingo">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="dia" />
-                                       </toggleGroup>
-                                    </ToggleButton>
-                                    <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" onAction="#getLunes" text="Lunes" toggleGroup="$dia" />
-                                    <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" onAction="#getMartes" text="Martes" toggleGroup="$dia" />
-                                    <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" onAction="#getMiercoles" text="Miercoles" toggleGroup="$dia" />
-                                    <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" onAction="#getJueves" text="Jueves" toggleGroup="$dia" />
-                                    <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" onAction="#getViernes" text="Viernes" toggleGroup="$dia" />
-                                    <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" onAction="#getSabado" text="Sábado" toggleGroup="$dia" />
+                                    <JFXButton onAction="#getDomingo" text="Domingo" />
+                                    <JFXButton onAction="#getLunes" text="Lunes" />
+                                    <JFXButton onAction="#getMartes" text="Martes" />
+                                    <JFXButton onAction="#getMiercoles" text="Miercoles" />
+                                    <JFXButton onAction="#getJueves" text="Jueves" />
+                                    <JFXButton onAction="#getViernes" text="Viernes" />
+                                    <JFXButton onAction="#getSabado" text="Sábado" />
                                  </children>
                               </FlowPane>
                            </children>
@@ -311,32 +306,32 @@
                      <children>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="KCal" />
-                              <Label fx:id="tKcal" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="Gramos" />
+                              <Label fx:id="labelGrams" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="Total" />
-                              <Label fx:id="tGrams" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="KCal" />
+                              <Label fx:id="labelKcal" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Carbos" />
-                              <Label fx:id="tCarbs" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label fx:id="labelCarbs" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Proteinas" />
-                              <Label fx:id="tProtein" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label fx:id="labelProtein" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Grasas" />
-                              <Label fx:id="tFat" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label fx:id="labelFat" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                      </children>

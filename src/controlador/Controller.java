@@ -101,7 +101,6 @@ public abstract class Controller<T> implements Initializable {
     private static boolean alimentosUpdated;
     private static boolean ejerciciosUpdated;
     private static boolean onConfig;
-    private static String buscar = "";
     private static String filtro = "nombre";
 
     public static String getFiltro() {
@@ -111,6 +110,7 @@ public abstract class Controller<T> implements Initializable {
     public static void setFiltro(String filtro) {
         Controller.filtro = filtro;
     }
+
     public static boolean isEjerciciosUpdated() {
         return ejerciciosUpdated;
     }
@@ -132,7 +132,7 @@ public abstract class Controller<T> implements Initializable {
             try {
                 manager = new SQLiteDAOManager();
             } catch (SQLException ex) {
-                mensaje("Error en getManager", "error", new DAOException(ex));
+                excepcion(ex);
             }
         }
         return manager;
@@ -193,26 +193,37 @@ public abstract class Controller<T> implements Initializable {
         DesktopNotify.showDesktopMessage("PRUEBA", "Esto es una prueba");
     }
 
-    public static void mensaje(String mensaje, String tipo, Exception ex) {
+    public static void mensaje(String mensaje, String tipo) {
         NotifyTheme nt = NotifyTheme.Light;
         nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
         DesktopNotify.setDefaultTheme(nt);
-        if (tipo.equalsIgnoreCase("error")) {
-            if (ex == null) {
-                DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.FAIL, 5000);
-            } else {
-                DesktopNotify.showDesktopMessage(tipo.toUpperCase(), getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
-                    ex.printStackTrace();
-                });
-            }
-        } else if (tipo.equalsIgnoreCase("aviso")) {
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.WARNING, 5000, null);
+        int notify = 0;
+        if (tipo.equalsIgnoreCase("aviso")) {
+            notify = DesktopNotify.TIP;
         } else if (tipo.equalsIgnoreCase("exito")) {
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.SUCCESS, 3000);
-        } else if (tipo.equalsIgnoreCase("referencia")) {
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.INFORMATION, 5000);
-        } else {
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.INPUT_REQUEST, 3000);
+            notify = DesktopNotify.SUCCESS;
+        } else if (tipo.equalsIgnoreCase("info")) {
+            notify = DesktopNotify.INFORMATION;
+        } else if (tipo.equalsIgnoreCase("vacio")) {
+            notify = DesktopNotify.INPUT_REQUEST;
+        }
+        DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, notify, 5000, null);
+    }
+
+    public static void excepcion(Exception ex) {
+        NotifyTheme nt = NotifyTheme.Light;
+        nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
+        DesktopNotify.setDefaultTheme(nt);
+        if (ex.getMessage().contains("sql")) {
+            DesktopNotify.showDesktopMessage("AVISO", getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            });
+        }else{
+              DesktopNotify.showDesktopMessage("Error", getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            });
         }
     }
 
@@ -226,39 +237,30 @@ public abstract class Controller<T> implements Initializable {
         ft.play();
     }
 
-    public static String getResultOrException(String ex_getMessage) {
-        int uniqueCliente = ex_getMessage.indexOf("clientes.identificacion");
-        int uniqueMedida = ex_getMessage.indexOf("medidas.clienteKey, medidas.fecha");
-        int uniquePlan = ex_getMessage.indexOf("planes.nombre");
-        int notNull = ex_getMessage.indexOf("NOT NULL");
-        int noSuchTable = ex_getMessage.indexOf("no such table: ");
-        int noSuchColumn = ex_getMessage.indexOf("no such column: ");
-        int uniqueAlxdiet = ex_getMessage.indexOf("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento");
-        int uniqueEjercicio = ex_getMessage.indexOf("ejercicios.nombre");
-        int uniqueAlimento = ex_getMessage.indexOf("alimentos.nombre");
-        if (uniqueMedida != -1) {
+    public static String getResultOrException(String ex) {
+        if (ex.contains("medidas.clienteKey, medidas.fecha")) {
             return "Este cliente ya tiene medidas en esta fecha";
-        } else if (uniqueCliente != -1) {
+        } else if (ex.contains("clientes.identificacion")) {
             return "Ya existe un cliente con esta identificación";
-        } else if (uniquePlan != -1) {
+        } else if (ex.contains("planes.nombre")) {
             return "Ya existe un plan con este nombre";
-        } else if (uniqueAlxdiet != -1) {
+        } else if (ex.contains("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento")) {
             return "Ya añadiste este alimento para este momento";
-        } else if (uniqueEjercicio != -1) {
+        } else if (ex.contains("ejercicios.nombre")) {
             return "Ya existe un ejercicio con este nombre";
-        } else if (uniqueAlimento != -1) {
+        } else if (ex.contains("alimentos.nombre")) {
             return "Ya existe un alimento con este nombre";
-        } else if (notNull != -1) {
-            String i = ex_getMessage.substring(notNull);
+        } else if (ex.contains("NOT NULL")) {
+            String i = ex.substring(ex.indexOf("NOT NULL"));
             return "Digite un " + i.substring(i.indexOf(".") + 1, i.indexOf(")"));
-        } else if (noSuchTable != -1) {
-            String i = ex_getMessage.substring(noSuchTable, ex_getMessage.indexOf(")")).toLowerCase();
+        } else if (ex.contains("no such table: ")) {
+            String i = ex.substring(ex.indexOf("no such table: "), ex.indexOf(")")).toLowerCase();
             return "No se encontró la tabla " + i + ", contacte al programador";
-        } else if (noSuchColumn != -1) {
-            String i = ex_getMessage.substring(noSuchColumn);
+        } else if (ex.contains("no such column: ")) {
+            String i = ex.substring(ex.indexOf("no such column: "));
             return "No se encontró la columna " + i + ", contacte al programador";
         } else {
-            return ex_getMessage;
+            return ex;
         }
     }
 
@@ -390,14 +392,6 @@ public abstract class Controller<T> implements Initializable {
         clientesUpdated = c;
     }
 
-    public static void setBuscar(String b) {
-        buscar = b;
-    }
-
-    public static String getBuscar() {
-        return buscar;
-    }
-
     public static boolean isClientesUpdated() {
         return clientesUpdated;
     }
@@ -452,22 +446,6 @@ public abstract class Controller<T> implements Initializable {
         return medidaUpdated;
     }
 
-    public static void setDietasUpdated(boolean c) {
-        dietasUpdated = c;
-    }
-
-    public static boolean isDietasUpdated() {
-        return dietasUpdated;
-    }
-
-    public static void setRutinasUpdated(boolean c) {
-        rutinasUpdated = c;
-    }
-
-    public static boolean isRutinasUpdated() {
-        return rutinasUpdated;
-    }
-
     public void buscarAlimento() {
         if (textBuscar.getText().isEmpty()) {
             obtenerAlimentos();
@@ -476,14 +454,14 @@ public abstract class Controller<T> implements Initializable {
                 alimentos = getAlimentos().obtenerTodos(textBuscar.getText());
                 comboAlimentos.getItems().clear();
                 if (alimentos.isEmpty()) {
-                    mensaje("No se encontraron alimentos con este nombre", "aviso", null);
+                    mensaje("No se encontraron alimentos con este nombre", "aviso");
                     limpiar();
                 } else {
                     comboAlimentos.setItems(alimentos);
                     selectAlimento(0);
                 }
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+                excepcion(ex);
             }
         }
     }
@@ -501,7 +479,7 @@ public abstract class Controller<T> implements Initializable {
                 selectAlimento(0);
             }
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -524,7 +502,7 @@ public abstract class Controller<T> implements Initializable {
                 selectEjercicio(0);
             }
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 

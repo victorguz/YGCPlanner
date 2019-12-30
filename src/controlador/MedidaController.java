@@ -95,12 +95,6 @@ public class MedidaController extends Controller<Medida> {
     private TextField textSuprailiaco;
 
     @FXML
-    private ComboBox<Plan> comboDieta;
-
-    @FXML
-    private ComboBox<Plan> comboRutina;
-
-    @FXML
     private TextField textComplexion;
 
     @FXML
@@ -175,32 +169,8 @@ public class MedidaController extends Controller<Medida> {
         comboObjetivos.setItems(objetivos);
         comboObjetivos.getSelectionModel().select(0);
         selectObjetivo();
-        obtenerRutinas();
-        obtenerDietas();
         updated();
         calcular();
-    }
-
-    private void obtenerRutinas() {
-        if (!rutinas.isEmpty()) {
-            comboRutina.setItems(rutinas);
-        }
-        setRutinasUpdated(false);
-    }
-
-    private void obtenerDietas() {
-        if (!dietas.isEmpty()) {
-            comboDieta.setItems(dietas);
-        }
-        setDietasUpdated(false);
-    }
-
-    private Plan getRutina() {
-        return comboRutina.getSelectionModel().getSelectedItem();
-    }
-
-    private Plan getDieta() {
-        return comboDieta.getSelectionModel().getSelectedItem();
     }
 
     @Override
@@ -211,16 +181,6 @@ public class MedidaController extends Controller<Medida> {
                 k.setCliente(null);
             } else {
                 k.setCliente(getCliente());
-            }
-            if (comboRutina.getItems().isEmpty()) {
-                k.setRutina(null);
-            } else {
-                k.setRutina(getRutina());
-            }
-            if (comboDieta.getItems().isEmpty()) {
-                k.setDieta(null);
-            } else {
-                k.setDieta(getDieta());
             }
             k.setFecha(datePicker.getValue());
             k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
@@ -298,7 +258,7 @@ public class MedidaController extends Controller<Medida> {
             if (textPantorrillaIzq.getText().isEmpty()) {
                 k.setPantorrillaIzq(0);
             } else {
-                k.setPantorrillaIzq(Double.parseDouble(textBicipital.getText()));
+                k.setPantorrillaIzq(Double.parseDouble(textPantorrillaIzq.getText()));
             }
             //Pliegues
             if (textBicipital.getText().isEmpty()) {
@@ -323,7 +283,7 @@ public class MedidaController extends Controller<Medida> {
             }
             return k;
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
         return k;
     }
@@ -331,19 +291,19 @@ public class MedidaController extends Controller<Medida> {
     @Override
     public void registrar() {
         if (getCliente().isEmpty()) {
-            mensaje("Seleccione un cliente", "aviso", null);
+            mensaje("Seleccione un cliente", "aviso");
         } else {
             Medida m = captar();
             if (m != null) {
                 if (m.isEmpty()) {
-                    mensaje("Aún faltan algunas medidas", "aviso", null);
+                    mensaje("Aún faltan algunas medidas", "aviso");
                 } else {
                     try {
                         getMedidas().insertar(m);
-                        mensaje("Medida registrada", "exito", null);
+                        mensaje("Medida registrada", "exito");
                         setMedidasUpdated(true);
                     } catch (DAOException ex) {
-                        mensaje("Condición", "error", ex);
+            excepcion(ex);
                     }
                 }
             }
@@ -379,6 +339,22 @@ public class MedidaController extends Controller<Medida> {
         textTricipital.setText("");
         comboActividad.getSelectionModel().select(0);
         comboObjetivos.getSelectionModel().select(0);
+        textComplexion.setText("");
+        textGradoObesidad.setText("");
+        textPesoIdealAprox.setText("");
+        textPesoIdealCreff.setText("");
+        textPesoIdealLorentz.setText("");
+        textPesoIdealMonnerotDumaine.setText("");
+        textDensidad.setText("");
+        textIMC.setText("");
+        textPorcentajeGrasa.setText("");
+        textPorcentajeMasa.setText("");
+        textPesoGrasa.setText("");
+        textMasaLibre.setText("");
+        textHarrys.setText("");
+        textMifflin.setText("");
+        textSuperavit.setText("");
+        textICA.setText("");
     }
 
     @Override
@@ -406,50 +382,26 @@ public class MedidaController extends Controller<Medida> {
             textBicipital.setText("" + getMedida().getBicipital());
             textSuprailiaco.setText("" + getMedida().getSuprailiaco());
             textTricipital.setText("" + getMedida().getTricipital());
-            selectDieta(getMedida().getDieta());
-            selectRutina(getMedida().getRutina());
             calcular();
         } else {
             limpiar();
         }
     }
 
-    public void selectDieta(Plan a) {
-        if (!comboDieta.getItems().isEmpty()) {
-            for (int i = 0; i < comboDieta.getItems().size(); i++) {
-                if (comboDieta.getItems().get(i).getNombre().equalsIgnoreCase(a.getNombre())) {
-                    comboDieta.getSelectionModel().select(i);
-                    return;
-                }
-            }
-        }
-    }
-
-    public void selectRutina(Plan a) {
-        if (!comboRutina.getItems().isEmpty()) {
-            for (int i = 0; i < comboRutina.getItems().size(); i++) {
-                if (comboRutina.getItems().get(i).getNombre().equalsIgnoreCase(a.getNombre())) {
-                    comboRutina.getSelectionModel().select(i);
-                    return;
-                }
-            }
-        }
-    }
-
     @Override
     public void eliminar() {
         if (getCliente().isEmpty()) {
-            mensaje("Seleccione un cliente", "aviso", null);
+            mensaje("Seleccione un cliente", "aviso");
         } else {
             if (getMedida().isEmpty()) {
-                mensaje("Aún no ha registrado ninguna medida", "aviso", null);
+                mensaje("Aún no ha registrado ninguna medida", "aviso");
             } else {
                 try {
                     getMedidas().eliminar(getMedida());
                     setMedidasUpdated(true);
-                    mensaje("Medida eliminada", "exito", null);
+                    mensaje("Medida eliminada", "exito");
                 } catch (DAOException ex) {
-                    mensaje("Condición", "error", ex);
+            excepcion(ex);
                 }
             }
         }
@@ -458,24 +410,24 @@ public class MedidaController extends Controller<Medida> {
     @Override
     public void modificar() {
         if (getCliente().isEmpty()) {
-            mensaje("Seleccione un cliente", "aviso", null);
+            mensaje("Seleccione un cliente", "aviso");
         } else {
             if (!getMedida().isEmpty()) {
                 Medida k = captar();
                 if (k.isEmpty()) {
-                    mensaje("Aún faltan algunas medidas", "aviso", null);
+                    mensaje("Aún faltan algunas medidas", "aviso");
                 } else {
                     try {
                         k.setMedidakey(getMedida().getMedidakey());
                         getMedidas().modificar(k);
                         setMedidasUpdated(true);
-                        mensaje("Medida modificada", "exito", null);
+                        mensaje("Medida modificada", "exito");
                     } catch (DAOException ex) {
-                        mensaje("Condición", "error", ex);
+            excepcion(ex);
                     }
                 }
             } else {
-                mensaje("Aún no ha registrado ninguna medida", "aviso", null);
+                mensaje("Aún no ha registrado ninguna medida", "aviso");
             }
         }
     }
@@ -540,7 +492,7 @@ public class MedidaController extends Controller<Medida> {
                 textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
                 textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+            excepcion(ex);
             }
         }
     }
@@ -573,12 +525,6 @@ public class MedidaController extends Controller<Medida> {
                         }
                         if (datePicker.getValue() == null) {
                             datePicker.setValue(LocalDate.now());
-                        }
-                        if (isDietasUpdated()) {
-                            obtenerDietas();
-                        }
-                        if (isRutinasUpdated()) {
-                            obtenerRutinas();
                         }
                     }
                 };

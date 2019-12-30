@@ -125,6 +125,7 @@ public class PDF {
         }
         return null;
     }
+
     public void createPDF() throws FileNotFoundException, DocumentException, IOException {
         document = new Document(PageSize.LETTER, 50, 22, 50, 50);
         PdfWriter.getInstance(document, new FileOutputStream(file));
@@ -150,10 +151,39 @@ public class PDF {
         chapter.add(subInfo);
         document.add(chapter);
         addBienvenida();
-        close();
     }
 
     public void addBienvenida() throws DocumentException, MalformedURLException, BadElementException, IOException {
+        Chapter chapter = new Chapter(2);
+        chapter.setNumberDepth(0);
+        Image page;
+        page = Image.getInstance(new File("src/imagen/bienvenida.png").toURL());
+        page.scaleAbsolute(PageSize.LETTER);
+        page.setAbsolutePosition(0, 0);
+        chapter.add(page);
+        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17));
+        subInfo.setAlignment(Element.ALIGN_CENTER);
+        subInfo.setSpacingAfter(30);
+        chapter.add(subInfo);
+        document.add(chapter);
+    }
+
+    public void addRutina() throws DocumentException, MalformedURLException, BadElementException, IOException {
+        Chapter chapter = new Chapter(2);
+        chapter.setNumberDepth(0);
+        Image page;
+        page = Image.getInstance(new File("src/imagen/bienvenida.png").toURL());
+        page.scaleAbsolute(PageSize.LETTER);
+        page.setAbsolutePosition(0, 0);
+        chapter.add(page);
+        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17));
+        subInfo.setAlignment(Element.ALIGN_CENTER);
+        subInfo.setSpacingAfter(30);
+        chapter.add(subInfo);
+        document.add(chapter);
+    }
+
+    public void addDieta() throws DocumentException, MalformedURLException, BadElementException, IOException {
         Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;

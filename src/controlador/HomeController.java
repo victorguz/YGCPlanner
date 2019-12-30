@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
@@ -41,8 +42,7 @@ public class HomeController extends Controller<StackPane> {
     //referencia sus nombres
     //
     public static StackPane Clientes;
-    public static StackPane FooterClientesGrande;
-    public static StackPane FooterClientesPequeno;
+    public static StackPane FooterClientes;
     public static StackPane Dietas;
     public static StackPane Medidas;
     public static StackPane Rutinas;
@@ -53,9 +53,6 @@ public class HomeController extends Controller<StackPane> {
 
     @FXML
     private ToggleButton buttonClientes;
-
-    @FXML
-    private ToggleButton buttonFooter;
 
     @FXML
     private ToggleButton buttonMedidas;
@@ -75,14 +72,21 @@ public class HomeController extends Controller<StackPane> {
     @FXML
     private ToggleButton buttonConfig;
 
-    @FXML
-    private ImageView arrow;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         obtener();
         updated();
-        switchClientes();
+        try {
+            if (getReferencias().obtener("DASH").getDescripcion().equalsIgnoreCase("ACTIVADO")) {
+                switchClientes();
+            } else {
+                buttonClientes.setSelected(true);
+                switchClientes();
+            }
+        } catch (DAOException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        modificar();
     }
 
     @Override
@@ -90,9 +94,8 @@ public class HomeController extends Controller<StackPane> {
         try {
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
             Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
-            FooterClientesPequeno = FXMLLoader.load(new File("src/vista/fxml/FooterClientes.fxml").toURL());
-            FooterClientesGrande = FXMLLoader.load(new File("src/vista/fxml/FooterClientesGrande.fxml").toURL());
-            setFooter(FooterClientesPequeno);
+            FooterClientes = FXMLLoader.load(new File("src/vista/fxml/FooterClientes.fxml").toURL());
+            setFooter(FooterClientes);
             Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
             Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
@@ -100,9 +103,9 @@ public class HomeController extends Controller<StackPane> {
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
             Medidas = FXMLLoader.load(new File("src/vista/fxml/Medidas.fxml").toURL());
         } catch (MalformedURLException ex) {
-            mensaje("Condición", "error", new DAOException(ex));
+            excepcion(ex);
         } catch (IOException ex) {
-            mensaje("Condición", "error", new DAOException(ex));
+            excepcion(ex);
         } finally {
             mostrar(new StackPane());
         }
@@ -112,17 +115,6 @@ public class HomeController extends Controller<StackPane> {
         footer.getChildren().clear();
         footer.getChildren().add(node);
         fadeTransition(node, 700);
-    }
-
-    @FXML
-    private void switchFooter() {
-        if (buttonFooter.isSelected()) {
-            setFooter(FooterClientesGrande);
-            arrow.setImage(new Image("imagen/icono/arrow1b.png"));
-        } else {
-            setFooter(FooterClientesPequeno);
-            arrow.setImage(new Image("imagen/icono/arrowb.png"));
-        }
     }
 
     @FXML

@@ -79,17 +79,17 @@ public class FooterClientesController extends Controller {
     public void obtener() {
         try {
             comboClientes.getItems().clear();
-            if (getBuscar().isEmpty()) {
+            if (textBuscar.getText().isEmpty()) {
                 clientes = getClientes().obtenerTodos();
             } else {
-                clientes = getClientes().obtenerTodos(getBuscar());
+                clientes = getClientes().obtenerTodos(textBuscar.getText());
             }
             if (!clientes.isEmpty()) {
                 comboClientes.setItems(clientes);
                 select(0);
             }
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -103,7 +103,7 @@ public class FooterClientesController extends Controller {
                     selectMedida(0);
                 }
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+            excepcion(ex);
             }
         }
     }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ToggleButton?>
@@ -24,21 +23,6 @@
          <children>
             <VBox>
                <children>
-                  <ToggleButton fx:id="buttonFooter" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchFooter" styleClass="arroww" text="Maximizar">
-                     <graphic>
-                        <ImageView fx:id="arrow" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../imagen/icono/arrowb.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="-5.0" top="-5.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets top="-12.0" />
-                     </VBox.margin>
-                  </ToggleButton>
                   <StackPane fx:id="footer" />
                </children>
             </VBox>

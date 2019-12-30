@@ -34,10 +34,11 @@ public class SQLiteRutinasDAO implements DAO.plan.PlanDAO {
             + "where Plankey = ? ";
     private final String WHERE = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad, tipo FROM Planes "
-            + "where " + Controller.getFiltro() + " like ? "
-            + " and tipo = ? order by "+Controller.getFiltro().replaceAll("'", "")+" DESC";
+            + "where \"" + Controller.getFiltro().replaceAll("'", "") + "\" like ? "
+            + " and tipo = ? order by " + Controller.getFiltro().replaceAll("'", "") + " DESC";
     private final String ALL = "SELECT Plankey, nombre, objetivo,"
-            + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? order by plankey DESC";
+            + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? "
+            + "order by usetime desc, usedate desc";
 
     public SQLiteRutinasDAO(Connection conex) {
         this.conex = conex;
@@ -80,7 +81,7 @@ public class SQLiteRutinasDAO implements DAO.plan.PlanDAO {
     public void modificar(Plan a) throws DAOException {
         PreparedStatement s = null;
         try {
-             s = conex.prepareStatement(UPDATE);
+            s = conex.prepareStatement(UPDATE);
             s.setString(1, a.getNombre());
             s.setString(2, a.getObjetivo());
             s.setString(3, a.getDescripcion());

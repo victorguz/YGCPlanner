@@ -22,7 +22,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     private final String SELECT = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where nombre = ?";
     private final String SELECTWHERE = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where nombre like ? ";
     private final String SELECTALL = "SELECT Referenciakey, nombre, descripcion, link FROM Referencias";
-    private final String UPDATE = "UPDATE Referencias SET nombre = ?, descripcion = ?, link = ? WHERE Referenciakey = ?";
+    private final String UPDATE = "UPDATE Referencias SET descripcion = ?, link = ? WHERE nombre = ?";
     private final String DELETE = "DELETE FROM Referencias WHERE Referenciakey = ?";
 
     public SQLiteReferenciasDAO(Connection conex) {
@@ -64,10 +64,9 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
-           s.setString(1, a.getNombre());
-            s.setString(2, a.getDescripcion());
-            s.setString(3, a.getLink());
-            s.setInt(2, a.getReferenciakey());
+           s.setString(3, a.getNombre());
+            s.setString(1, a.getDescripcion());
+            s.setString(2, a.getLink());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar Referencia");
             }
@@ -214,9 +213,9 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         try { 
             Referencia c = new Referencia();
             c.setReferenciakey(rs.getInt("Referenciakey"));
-            c.setNombre(rs.getString("nombre"),"nombre");
-            c.setDescripcion(rs.getString("descripcion"),"descripcion");
-            c.setLink(rs.getString("link"),"link");
+            c.setNombre(rs.getString("nombre"));
+            c.setDescripcion(rs.getString("descripcion"));
+            c.setLink(rs.getString("link"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

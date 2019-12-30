@@ -40,7 +40,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
             + " apellido like ? DESC";
     final String ALL = "SELECT clientekey, nombre, apellido, sexo, "
             + "tipoidentificacion, identificacion, edad "
-            + " from clientes order by usedate desc, usetime desc";
+            + " from clientes order by usetime desc, usedate desc";
 
     public SQLiteClientesDAO(Connection conex) {
         this.conex = conex;

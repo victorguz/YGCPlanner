@@ -30,8 +30,6 @@ public class SQLiteMedidasDAO implements MedidasDAO {
     final String INSERT = "INSERT INTO "
             + "medidas("
             + "CLIENTEKEY,"
-            + "DIETAKEY,"
-            + "RUTINAKEY,"
             + "PESO,"
             + "ALTURA,"
             + "CINTURAALTA,"
@@ -54,10 +52,8 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             + "objetivo, "
             + "ACTIVIDAD, "
             + "muneca)"
-            + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";//25
+            + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";//23
     final String UPDATE = "UPDATE medidas SET "
-            + "DIETAKEY =?,"
-            + "RUTINAKEY=?,"
             + "PESO=?,"
             + "ALTURA=?,"
             + "CINTURAALTA=?,"
@@ -84,8 +80,6 @@ public class SQLiteMedidasDAO implements MedidasDAO {
     final String DELETE = "DELETE from medidas where medidakey = ?";
     final String GETONE = "SELECT "
             + "CLIENTEKEY,"
-            + "DIETAKEY,"
-            + "RUTINAKEY,"
             + "PESO,"
             + "ALTURA,"
             + "CINTURAALTA,"
@@ -112,8 +106,6 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             + " from medidas where clientekey = ? and fecha ?";//2
     final String GETALL = "SELECT "
             + "CLIENTEKEY,"
-            + "DIETAKEY,"
-            + "RUTINAKEY,"
             + "PESO,"
             + "ALTURA,"
             + "CINTURAALTA,"
@@ -239,8 +231,6 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             Medida m = new Medida();
             m.setMedidakey(rs.getInt("medidakey"));
             m.setCliente(Controller.getClientes().obtener("" + rs.getInt("clienteKey")));
-            m.setDieta(Controller.getPlanes().obtener("" + rs.getInt("dietaKey")));
-            m.setRutina(Controller.getPlanes().obtener("" + rs.getInt("rutinaKey")));
             m.setFecha(rs.getDate("fecha").toLocalDate());
             m.setPeso(rs.getDouble("peso"));
             m.setAltura(rs.getDouble("ALTURA"));
@@ -279,30 +269,28 @@ public class SQLiteMedidasDAO implements MedidasDAO {
         try {
             s = conex.prepareStatement(INSERT);
             s.setInt(1, a.getCliente().getClienteKey());
-            s.setInt(2, a.getDieta().getPlankey());
-            s.setInt(3, a.getRutina().getPlankey());
-            s.setDouble(4, a.getPeso());
-            s.setDouble(5, a.getAltura());
-            s.setDouble(6, a.getCinturaAlta());
-            s.setDouble(7, a.getCinturaMedia());
-            s.setDouble(8, a.getCinturaBaja());
-            s.setDouble(9, a.getCadera());
-            s.setDouble(10, a.getBicepIzq());
-            s.setDouble(11, a.getBicepDer());
-            s.setDouble(12, a.getPectoral());
-            s.setDouble(13, a.getPantorrillaIzq());
-            s.setDouble(14, a.getPantorrillaDer());
-            s.setDouble(15, a.getCuadricepIzq());
-            s.setDouble(16, a.getCuadricepDer());
-            s.setDouble(17, a.getBicipital());
-            s.setDouble(18, a.getTricipital());
-            s.setDouble(19, a.getSubescapular());
-            s.setDouble(20, a.getSuprailiaco());
-            s.setDate(21, Date.valueOf(a.getFecha()));
-            s.setDouble(22, a.getCuello());
-            s.setString(23, a.getObjetivo().toLowerCase());
-            s.setString(24, a.getActividad().toLowerCase());
-            s.setDouble(25, a.getMuneca());
+            s.setDouble(2, a.getPeso());
+            s.setDouble(3, a.getAltura());
+            s.setDouble(4, a.getCinturaAlta());
+            s.setDouble(5, a.getCinturaMedia());
+            s.setDouble(6, a.getCinturaBaja());
+            s.setDouble(7, a.getCadera());
+            s.setDouble(8, a.getBicepIzq());
+            s.setDouble(9, a.getBicepDer());
+            s.setDouble(10, a.getPectoral());
+            s.setDouble(11, a.getPantorrillaIzq());
+            s.setDouble(12, a.getPantorrillaDer());
+            s.setDouble(13, a.getCuadricepIzq());
+            s.setDouble(14, a.getCuadricepDer());
+            s.setDouble(15, a.getBicipital());
+            s.setDouble(16, a.getTricipital());
+            s.setDouble(17, a.getSubescapular());
+            s.setDouble(18, a.getSuprailiaco());
+            s.setDate(19, Date.valueOf(a.getFecha()));
+            s.setDouble(20, a.getCuello());
+            s.setString(21, a.getObjetivo().toLowerCase());
+            s.setString(22, a.getActividad().toLowerCase());
+            s.setDouble(23, a.getMuneca());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar las medidas del cliente");
             }
@@ -324,31 +312,29 @@ public class SQLiteMedidasDAO implements MedidasDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
-            s.setInt(1, a.getDieta().getPlankey());
-            s.setInt(2, a.getRutina().getPlankey());
-            s.setDouble(3, a.getPeso());
-            s.setDouble(4, a.getAltura());
-            s.setDouble(5, a.getCinturaAlta());
-            s.setDouble(6, a.getCinturaMedia());
-            s.setDouble(7, a.getCinturaBaja());
-            s.setDouble(8, a.getCadera());
-            s.setDouble(9, a.getBicepIzq());
-            s.setDouble(10, a.getBicepDer());
-            s.setDouble(11, a.getPectoral());
-            s.setDouble(12, a.getPantorrillaIzq());
-            s.setDouble(13, a.getPantorrillaDer());
-            s.setDouble(14, a.getCuadricepIzq());
-            s.setDouble(15, a.getCuadricepDer());
-            s.setDouble(16, a.getBicipital());
-            s.setDouble(17, a.getTricipital());
-            s.setDouble(18, a.getSubescapular());
-            s.setDouble(19, a.getSuprailiaco());
-            s.setDate(20, Date.valueOf(a.getFecha()));
-            s.setDouble(21, a.getCuello());
-            s.setString(22, a.getObjetivo().toLowerCase());
-            s.setString(23, a.getActividad().toLowerCase());
-            s.setDouble(24, a.getMuneca());
-            s.setInt(25, a.getMedidakey());
+            s.setDouble(1, a.getPeso());
+            s.setDouble(2, a.getAltura());
+            s.setDouble(3, a.getCinturaAlta());
+            s.setDouble(4, a.getCinturaMedia());
+            s.setDouble(5, a.getCinturaBaja());
+            s.setDouble(6, a.getCadera());
+            s.setDouble(7, a.getBicepIzq());
+            s.setDouble(8, a.getBicepDer());
+            s.setDouble(9, a.getPectoral());
+            s.setDouble(10, a.getPantorrillaIzq());
+            s.setDouble(11, a.getPantorrillaDer());
+            s.setDouble(12, a.getCuadricepIzq());
+            s.setDouble(13, a.getCuadricepDer());
+            s.setDouble(14, a.getBicipital());
+            s.setDouble(15, a.getTricipital());
+            s.setDouble(16, a.getSubescapular());
+            s.setDouble(17, a.getSuprailiaco());
+            s.setDate(18,Date.valueOf(a.getFecha()));
+            s.setDouble(19, a.getCuello());
+            s.setString(20, a.getObjetivo().toLowerCase());
+            s.setString(21, a.getActividad().toLowerCase());
+            s.setDouble(22, a.getMuneca());
+            s.setInt(23, a.getMedidakey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar las medidas del cliente");
             }

@@ -6,10 +6,13 @@
 package controlador;
 
 import DAO.DAOException;
+import com.jfoenix.controls.JFXCheckBox;
 import static controlador.Controller.getReferencias;
 import static controlador.Controller.mensaje;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -38,6 +41,9 @@ public class ConfigController extends Controller<Referencia> {
     @FXML
     private TextArea textBienvenida;
 
+    @FXML
+    private JFXCheckBox checkdash;
+
     @Override
     public void updated() {
     }
@@ -59,7 +65,7 @@ public class ConfigController extends Controller<Referencia> {
             getReferencias().insertar(correo);
             getReferencias().insertar(bienvenida);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -70,13 +76,19 @@ public class ConfigController extends Controller<Referencia> {
             Referencia web = getWeb();
             Referencia correo = getCorreo();
             Referencia bienvenida = getBienvenida();
+            Referencia dash;
+            if (checkdash.isSelected()) {
+                getReferencias().modificar(new Referencia("DASH", "activado", ""));
+            } else {
+                getReferencias().modificar(new Referencia("DASH", "desactivado", ""));
+            }
             getReferencias().modificar(celular);
             getReferencias().modificar(web);
             getReferencias().modificar(correo);
             getReferencias().modificar(bienvenida);
-            mensaje("Referencia actualizado", "exito", null);
+            mensaje("Configuración actualizada", "exito");
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -160,7 +172,7 @@ public class ConfigController extends Controller<Referencia> {
             setCorreo(getReferencias().obtener("correo"));
             setBienvenida(getReferencias().obtener("bienvenida"));
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 

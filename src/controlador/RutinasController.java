@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import modelo.plan.Ejercicio;
 import modelo.plan.EjxRut;
 import modelo.plan.Plan;
@@ -25,8 +26,12 @@ import modelo.plan.Plan;
  * @author 201621279487
  */
 public class RutinasController extends Controller<Plan> {
-@FXML
-private ComboBox<String> comboObjetivos;
+
+    @FXML
+    private ToggleGroup filtro;
+
+    @FXML
+    private ComboBox<String> comboObjetivos;
 
     @FXML
     private ComboBox<Plan> comboRutina;
@@ -87,10 +92,11 @@ private ComboBox<String> comboObjetivos;
         d.setNombre(textNombre.getText());
         d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
-        if(textEdad.getText().isEmpty()){
-        d.setEdad(0);
-        }else{
-        d.setEdad(Integer.parseInt(textEdad.getText()));}
+        if (textEdad.getText().isEmpty()) {
+            d.setEdad(0);
+        } else {
+            d.setEdad(Integer.parseInt(textEdad.getText()));
+        }
         d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
         return d;
     }
@@ -108,9 +114,8 @@ private ComboBox<String> comboObjetivos;
                 comboRutina.setItems(rutinas);
                 select(0);
             }
-            setRutinasUpdated(true);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -120,15 +125,15 @@ private ComboBox<String> comboObjetivos;
             Plan m = captar();
             if (m != null) {
                 if (m.isEmpty()) {
-                    mensaje("Aún faltan algunos datos en el plan de entrenamiento", "aviso", null);
+                    mensaje("Aún faltan algunos datos en el plan de entrenamiento", "aviso");
                 } else {
                     getRutinas().insertar(m);
                     obtener();
-                    mensaje("Plan de entrenamiento registrado", "exito", null);
+                    mensaje("Plan de entrenamiento registrado", "exito");
                 }
             }
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -140,19 +145,19 @@ private ComboBox<String> comboObjetivos;
                 if (m != null) {
                     m.setPlankey(comboRutina.getSelectionModel().getSelectedItem().getPlankey());
                     if (m.isEmpty()) {
-                        mensaje("Aún faltan algunos datos en el plan de entrenamiento", "aviso", null);
+                        mensaje("Aún faltan algunos datos en el plan de entrenamiento", "aviso");
                     } else {
                         getRutinas().modificar(m);
                         textBuscar.setText(textNombre.getText());
                         obtener();
-                        mensaje("Plan de entrenamiento modificado", "exito", null);
+                        mensaje("Plan de entrenamiento modificado", "exito");
                     }
                 }
             } else {
-                mensaje("No hay planes de entrenamiento que modificar, registre uno", "aviso", null);
+                mensaje("No hay planes de entrenamiento que modificar, registre uno", "aviso");
             }
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -162,12 +167,12 @@ private ComboBox<String> comboObjetivos;
             if (!comboRutina.getItems().isEmpty()) {
                 getRutinas().eliminar(comboRutina.getSelectionModel().getSelectedItem());
                 obtener();
-                mensaje("Plan de entrenamiento eliminado", "exito", null);
+                mensaje("Plan de entrenamiento eliminado", "exito");
             } else {
-                mensaje("No hay planes de entrenamiento que eliminar, registre uno", "aviso", null);
+                mensaje("No hay planes de entrenamiento que eliminar, registre uno", "aviso");
             }
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -180,10 +185,10 @@ private ComboBox<String> comboObjetivos;
         if (!comboRutina.getItems().isEmpty()) {
             Plan d = comboRutina.getSelectionModel().getSelectedItem();
             textNombre.setText(d.getNombre());
-            selectCombo(comboObjetivos,d.getObjetivo());
+            selectCombo(comboObjetivos, d.getObjetivo());
             textDescripcion.setText(d.getDescripcion());
             textEdad.setText(d.getEdad() + "");
-            selectCombo(comboSexo,comboSexo.getSelectionModel().getSelectedItem());
+            selectCombo(comboSexo, comboSexo.getSelectionModel().getSelectedItem());
         }
     }
 
@@ -252,7 +257,7 @@ private ComboBox<String> comboObjetivos;
             actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -262,7 +267,7 @@ private ComboBox<String> comboObjetivos;
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
                 listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+                excepcion(ex);
             }
         }
     }
@@ -277,7 +282,7 @@ private ComboBox<String> comboObjetivos;
             actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -287,7 +292,7 @@ private ComboBox<String> comboObjetivos;
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
                 listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+                excepcion(ex);
             }
         }
     }
@@ -302,7 +307,7 @@ private ComboBox<String> comboObjetivos;
             actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -312,7 +317,7 @@ private ComboBox<String> comboObjetivos;
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
                 listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+                excepcion(ex);
             }
         }
     }
@@ -327,7 +332,7 @@ private ComboBox<String> comboObjetivos;
             actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -337,7 +342,7 @@ private ComboBox<String> comboObjetivos;
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
                 listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+                excepcion(ex);
             }
         }
     }
@@ -352,7 +357,7 @@ private ComboBox<String> comboObjetivos;
             actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -362,7 +367,7 @@ private ComboBox<String> comboObjetivos;
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
                 listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+                excepcion(ex);
             }
         }
     }
@@ -377,7 +382,7 @@ private ComboBox<String> comboObjetivos;
             actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -387,7 +392,7 @@ private ComboBox<String> comboObjetivos;
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
                 listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+                excepcion(ex);
             }
         }
     }
@@ -402,7 +407,7 @@ private ComboBox<String> comboObjetivos;
             actualizarUso(a.getEjercicio());
             listDomingo.getItems().add(a);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 
@@ -412,9 +417,15 @@ private ComboBox<String> comboObjetivos;
                 getEjxruts().eliminar(listDomingo.getSelectionModel().getSelectedItem());
                 listDomingo.getItems().remove(listDomingo.getSelectionModel().getSelectedItem());
             } catch (DAOException ex) {
-                mensaje("Condición", "error", ex);
+                excepcion(ex);
             }
         }
+    }
+
+    public void setFiltro() {
+        int i = filtro.getSelectedToggle().toString().indexOf("'");
+        setFiltro(filtro.getSelectedToggle().toString().substring(i));
+        System.out.println(getFiltro());
     }
 
     public void actualizarUso(Ejercicio a) {
@@ -422,7 +433,7 @@ private ComboBox<String> comboObjetivos;
         try {
             getEjercicios().modificar(a);
         } catch (DAOException ex) {
-            mensaje("Condición", "error", ex);
+            excepcion(ex);
         }
     }
 }
