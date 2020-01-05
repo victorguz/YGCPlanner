@@ -20,7 +20,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import modelo.plan.Plan;
 
 /**
  *
@@ -147,30 +146,17 @@ public class MedidaController extends Controller<Medida> {
 
     ObservableList<String> actividades = FXCollections.observableArrayList();
 
-    private void setCombos() {
-        //Llenar listas
-        actividades.addAll(
-                "NINGUNO: 0 DIAS X SEMANA",
-                "LIGERO: 1 A 3 DÍAS X SEMANA",
-                "MODERADO: 3 A 5 DÍAS X SEMANA",
-                "DEPORTISTA: 6 A 7 DÍAS X SEMANA",
-                "ATLETA: DOS VECES AL DIA"
-        );
-        //Asignar combobox
-        comboActividad.setItems(actividades);
-        comboActividad.getSelectionModel().select(0);
-        //Características de listas
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setCombos();
-        obtener();
+        comboActividad.getItems().setAll("Ninguno: 0 dias x semana",
+                "Ligero: 1 a 3 días x semana",
+                "Moderado: 3 a 5 días x semana",
+                "Deportista: 6 a 7 días x semana",
+                "Atleta: dos veces al dia");
+        comboActividad.getSelectionModel().select(0);
         comboObjetivos.setItems(objetivos);
         comboObjetivos.getSelectionModel().select(0);
-        selectObjetivo();
         updated();
-        calcular();
     }
 
     @Override
@@ -303,7 +289,7 @@ public class MedidaController extends Controller<Medida> {
                         mensaje("Medida registrada", "exito");
                         setMedidasUpdated(true);
                     } catch (DAOException ex) {
-            excepcion(ex);
+                        excepcion(ex);
                     }
                 }
             }
@@ -360,8 +346,9 @@ public class MedidaController extends Controller<Medida> {
     @Override
     public void mostrar() {
         if (!getMedida().isEmpty()) {
-            selectActividad(getMedida().getActividad());
-            selectCombo(comboObjetivos,getMedida().getObjetivo());
+            selectCombo(comboActividad, getMedida().getActividad());
+            selectCombo(comboActividad, getMedida().getActividad());
+            selectCombo(comboObjetivos, getMedida().getObjetivo());
             datePicker.setValue(getMedida().getFecha());
             textPeso.setText("" + getMedida().getPeso());
             textAltura.setText("" + getMedida().getAltura());
@@ -382,6 +369,7 @@ public class MedidaController extends Controller<Medida> {
             textBicipital.setText("" + getMedida().getBicipital());
             textSuprailiaco.setText("" + getMedida().getSuprailiaco());
             textTricipital.setText("" + getMedida().getTricipital());
+            selectObjetivo();
             calcular();
         } else {
             limpiar();
@@ -401,7 +389,7 @@ public class MedidaController extends Controller<Medida> {
                     setMedidasUpdated(true);
                     mensaje("Medida eliminada", "exito");
                 } catch (DAOException ex) {
-            excepcion(ex);
+                    excepcion(ex);
                 }
             }
         }
@@ -423,7 +411,7 @@ public class MedidaController extends Controller<Medida> {
                         setMedidasUpdated(true);
                         mensaje("Medida modificada", "exito");
                     } catch (DAOException ex) {
-            excepcion(ex);
+                        excepcion(ex);
                     }
                 }
             } else {
@@ -492,18 +480,7 @@ public class MedidaController extends Controller<Medida> {
                 textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
                 textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
             } catch (DAOException ex) {
-            excepcion(ex);
-            }
-        }
-    }
-
-    private void selectActividad(String a) {
-        if (!comboActividad.getItems().isEmpty()) {
-            for (int i = 0; i < comboActividad.getItems().size(); i++) {
-                if (comboActividad.getItems().get(i).equalsIgnoreCase(a)) {
-                    comboActividad.getSelectionModel().select(i);
-                    return;
-                }
+                excepcion(ex);
             }
         }
     }
@@ -530,7 +507,7 @@ public class MedidaController extends Controller<Medida> {
                 };
                 while (true) {
                     try {
-                        Thread.sleep(300);
+                        Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }
                     // UI update is run on the Application thread
@@ -546,5 +523,4 @@ public class MedidaController extends Controller<Medida> {
         labelObjetivo.setText("Calorías para " + comboObjetivos.getSelectionModel().getSelectedItem().toLowerCase());
         calcular();
     }
-
 }

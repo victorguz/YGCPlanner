@@ -6,10 +6,14 @@
 package controlador;
 
 import DAO.DAOException;
+import com.jfoenix.controls.JFXCheckBox;
+import static controlador.Controller.alimentos;
 import static controlador.Controller.getAlimentos;
 import static controlador.Controller.isAlimentosUpdated;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +24,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyEvent;
 import modelo.plan.Alimento;
 import modelo.plan.AlxDiet;
 import modelo.plan.Plan;
@@ -37,19 +42,19 @@ public class DietasController extends Controller<Plan> {
     private ComboBox<Plan> comboDieta;
 
     @FXML
+    private TextField textNombre;
+
+    @FXML
     private ComboBox<String> comboObjetivos;
 
     @FXML
-    private TextField textNombre;
+    private ComboBox<String> comboSexo;
 
     @FXML
     private TextArea textDescripcion;
 
     @FXML
-    private TextField textCantidad;
-
-    @FXML
-    private TextField textProteinas;
+    private TextField textKcal;
 
     @FXML
     private TextField textCarbohidratos;
@@ -58,199 +63,227 @@ public class DietasController extends Controller<Plan> {
     private TextField textGrasas;
 
     @FXML
-    private Label labelGramsCliente;
+    private TextField textProteinas;
 
     @FXML
-    private Label labelKcalCliente;
+    private Label gramosDistribucion;
 
     @FXML
-    private Label labelCarbsCliente;
+    private Label carbosDistribucion;
 
     @FXML
-    private Label labelProteinCliente;
+    private Label proteinasDistribucion;
 
     @FXML
-    private Label labelFatCliente;
+    private Label grasasDistribucion;
 
     @FXML
-    private Label labelGrams;
+    private Label gramosPlan;
 
     @FXML
-    private Label labelKcal;
+    private Label kcalPlan;
 
     @FXML
-    private Label labelCarbs;
+    private Label carbosPlan;
 
     @FXML
-    private Label labelProtein;
+    private Label proteinasPlan;
 
     @FXML
-    private Label labelFat;
+    private Label grasasPlan;
 
     @FXML
-    private Label gramosDesayuno;
+    private Label gramosMenu;
 
     @FXML
-    private Label kcalDesayuno;
+    private Label kcalMenu;
 
     @FXML
-    private Label carbDesayuno;
+    private Label carbosMenu;
 
     @FXML
-    private Label proteDesayuno;
+    private Label proteinasMenu;
 
     @FXML
-    private Label fatDesayuno;
+    private Label grasasMenu;
 
     @FXML
-    private TextArea textDesayuno;
+    private ListView<AlxDiet> listView;
 
     @FXML
-    private Label gramosAlmuerzo;
+    private ToggleButton buttonDomingo;
 
     @FXML
-    private Label kcalAlmuerzo;
+    private ToggleGroup dias;
 
     @FXML
-    private Label carbAlmuerzo;
+    private ToggleButton buttonLunes;
 
     @FXML
-    private Label proteAlmuerzo;
+    private ToggleButton buttonMartes;
 
     @FXML
-    private Label fatAlmuerzo;
+    private ToggleButton buttonMiercoles;
 
     @FXML
-    private TextArea textAlmuerzo;
+    private ToggleButton buttonJueves;
 
     @FXML
-    private Label gramosCena;
+    private ToggleButton buttonViernes;
 
     @FXML
-    private Label kcalCena;
+    private ToggleButton buttonSabado;
 
     @FXML
-    private Label carbCena;
+    private ToggleButton buttonDesayuno;
 
     @FXML
-    private Label proteCena;
+    private ToggleGroup momento;
 
     @FXML
-    private Label fatCena;
+    private ToggleButton buttonAlmuerzo;
 
     @FXML
-    private TextArea textCena;
+    private ToggleButton buttonCena;
 
     @FXML
-    private Label gramosPre;
+    private ToggleButton buttonPre;
 
     @FXML
-    private Label kcalPre;
+    private ToggleButton buttonPost;
 
     @FXML
-    private Label carbPre;
+    private ToggleButton buttonMer;
 
     @FXML
-    private Label protePre;
+    private ToggleButton buttonExtra;
 
     @FXML
-    private Label fatPre;
+    private TextField textCantidad;
 
     @FXML
-    private TextArea textPre;
-
-    @FXML
-    private Label gramosPost;
-
-    @FXML
-    private Label kcalPost;
-
-    @FXML
-    private Label carbPost;
-
-    @FXML
-    private Label protePost;
-
-    @FXML
-    private Label fatPost;
-
-    @FXML
-    private TextArea textPost;
-
-    @FXML
-    private Label gramosMerienda;
-
-    @FXML
-    private Label kcalMerienda;
-
-    @FXML
-    private Label carbMerienda;
-
-    @FXML
-    private Label proteMerienda;
-
-    @FXML
-    private Label fatMerienda;
-
-    @FXML
-    private TextArea textMerienda;
-
-    @FXML
-    private Label gramosExtra;
-
-    @FXML
-    private Label kcalExtra;
-
-    @FXML
-    private Label carbExtra;
-
-    @FXML
-    private Label proteExtra;
-
-    @FXML
-    private Label fatExtra;
-
-    @FXML
-    private TextArea textExtra;
-
-    @FXML
-    private ListView<AlxDiet> listExtra;
-
-    @FXML
-    private ListView<AlxDiet> listMerienda;
-
-    @FXML
-    private ListView<AlxDiet> listPost;
-
-    @FXML
-    private ListView<AlxDiet> listPre;
-
-    @FXML
-    private ListView<AlxDiet> listCena;
-
-    @FXML
-    private ListView<AlxDiet> listAlmuerzo;
-
-    @FXML
-    private ListView<AlxDiet> listDesayuno;
-
-    private String activatedDay;
+    JFXCheckBox checkCal;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         comboObjetivos.setItems(objetivos);
         comboObjetivos.getSelectionModel().select(0);
-        obtener();
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
-        comboAlimentos.setItems(alimentos);
-        comboAlimentos.getSelectionModel().select(0);
         updated();
+        setDietasUpdated(true);
     }
 
     public void setFiltro() {
         int i = filtro.getSelectedToggle().toString().indexOf("'");
         setFiltro(filtro.getSelectedToggle().toString().substring(i));
+    }
+
+    public void activateCheck() {
+        if (getMedida().isEmpty()) {
+            checkCal.setDisable(true);
+        } else {
+            checkCal.setDisable(false);
+        }
+        checkCal.setSelected(false);
+        textKcal.setDisable(false);
+    }
+
+    public void setKcal() {
+        if (checkCal.isSelected()) {
+            textKcal.setText(getMedida().getSuperavitODeficit() + "");
+            textKcal.setDisable(true);
+        } else {
+            if (textKcal.getText().isEmpty()) {
+                textKcal.setText("2000");
+            }
+            textKcal.setDisable(false);
+        }
+    }
+
+    /**
+     * Este método calcula los macronutrientes calculando la distribución
+     * porcentual digitada por el usuario.
+     *
+     * PD: Se puede hacer así: que al ingresar un numero en un textfield y la
+     * suma de lo que hay en los tres se pasa de 100, entonces la diferencia se
+     * divide entre dos y se le resta a los que no se están modificando. Si la
+     * resta excede el monto de 0 en uno, se le debe restar al otro y si el otro
+     * llega a cero, querrá decir que el que se está modificando llegó al tope
+     * máximo de 100
+     */
+    public void calcular() {
+        double cal = (textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textKcal.getText());
+        //Obtener porcentajes
+        double pro = (textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinas.getText());
+        double gra = (textGrasas.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasas.getText());
+        double car = (textCarbohidratos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbohidratos.getText());
+        //Calcular si los valores sobrepasan el 100%
+        if (pro > 100) {
+
+        }
+        double sum = pro + gra + car;
+        if (sum > 100) {
+            //Restar el excedente a cada variable para disminuit escala
+            double n = (sum - 100) / 3;
+            if (pro >= n) {
+                pro -= n;
+            }
+            if (gra >= n) {
+                gra -= n;
+            }
+            if (car >= n) {
+                car -= n;
+            }
+            //Volver a poner el porcentaje, pero en escala normal
+            textProteinas.setText(String.valueOf(pro));
+            textGrasas.setText(String.valueOf(gra));
+            textCarbohidratos.setText(String.valueOf(car));
+        }
+        //Utilizar porcentajes para calcular gramos de macronutrientes
+        double proteinas = (cal / (pro / 100)) / 4;
+        double grasas = (cal / (gra / 100)) / 9;
+        double carbohidratos = (cal / (car / 100)) / 4;
+        double gramos = proteinas + grasas + carbohidratos;
+        //Los ponemos en las etiquetas asignadas
+        proteinasDistribucion.setText(proteinas + "");
+        grasasDistribucion.setText(grasas + "");
+        carbosDistribucion.setText(carbohidratos + "");
+        gramosDistribucion.setText(gramos + "");
+    }
+
+    public void porcentajesVacios(KeyEvent event) {
+        if (textProteinas.getText().isEmpty()
+                && textGrasas.getText().isEmpty()
+                && textCarbohidratos.getText().isEmpty()) {
+            textProteinas.setText((0));
+            textKcal.setText((0));
+            textKcal.setText((0));
+        } else {
+            //Obtener porcentajes
+            double pro = (textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinas.getText());
+            double gra = (textGrasas.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasas.getText());
+            double car = (textCarbohidratos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbohidratos.getText());
+            //Calcular si los valores sobrepasan el 100%
+            if (pro > 100) {
+                double d = pro - 100;
+                if (gra > 0) {
+
+                }
+            }
+            double sum = pro + gra + car;
+            if (sum > 100) {
+                //Restar el excedente a cada variable para disminuit escala
+                double n = (sum - 100) / 3;
+                pro -= n;
+                gra -= n;
+                car -= n;
+                //Volver a poner el porcentaje, pero en escala normal
+                textProteinas.setText(String.valueOf(pro));
+                textGrasas.setText(String.valueOf(gra));
+                textCarbohidratos.setText(String.valueOf(car));
+            }
+        }
     }
 
     @Override
@@ -261,15 +294,16 @@ public class DietasController extends Controller<Plan> {
                 Runnable updater = new Runnable() {
                     @Override
                     public void run() {
+                        if (isDietasUpdated()) {
+                            obtener();
+                        }
                         if (isMedidaUpdated()) {
-                            setKCalCliente();
-                            porcentajeCarbos();
-                            porcentajeGrasas();
-                            porcentajeProteinas();
+                            activateCheck();
                         }
                         if (isAlimentosUpdated()) {
                             comboAlimentos.setItems(alimentos);
                             comboAlimentos.getSelectionModel().select(0);
+                            setAlimentosUpdated(false);
                         }
                     }
                 };
@@ -319,6 +353,7 @@ public class DietasController extends Controller<Plan> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
+        setDietasUpdated(false);
     }
 
     @Override
@@ -385,60 +420,10 @@ public class DietasController extends Controller<Plan> {
         textDescripcion.setText("");
         textBuscar.setText("");
         textCantidad.setText("");
-        labelGrams.setText("");
-        labelKcal.setText("");
-        labelCarbs.setText("");
-        labelProtein.setText("");
-        labelFat.setText("");
-        listDesayuno.getItems().clear();
-        gramosDesayuno.setText("");
-        kcalDesayuno.setText("");
-        carbDesayuno.setText("");
-        proteDesayuno.setText("");
-        fatDesayuno.setText("");
-        textDesayuno.setText("");
-        listAlmuerzo.getItems().clear();
-        gramosAlmuerzo.setText("");
-        kcalAlmuerzo.setText("");
-        carbAlmuerzo.setText("");
-        proteAlmuerzo.setText("");
-        fatAlmuerzo.setText("");
-        textAlmuerzo.setText("");
-        listCena.getItems().clear();
-        gramosCena.setText("");
-        kcalCena.setText("");
-        carbCena.setText("");
-        proteCena.setText("");
-        fatCena.setText("");
-        textCena.setText("");
-        listPre.getItems().clear();
-        gramosPre.setText("");
-        kcalPre.setText("");
-        carbPre.setText("");
-        protePre.setText("");
-        fatPre.setText("");
-        textPre.setText("");
-        listPost.getItems().clear();
-        gramosPost.setText("");
-        kcalPost.setText("");
-        carbPost.setText("");
-        protePost.setText("");
-        fatPost.setText("");
-        textPost.setText("");
-        listMerienda.getItems().clear();
-        gramosMerienda.setText("");
-        kcalMerienda.setText("");
-        carbMerienda.setText("");
-        proteMerienda.setText("");
-        fatMerienda.setText("");
-        textMerienda.setText("");
-        listExtra.getItems().clear();
-        gramosExtra.setText("");
-        kcalExtra.setText("");
-        carbExtra.setText("");
-        proteExtra.setText("");
-        fatExtra.setText("");
-        textExtra.setText("");
+        textKcal.setText("");
+        textProteinas.setText("");
+        textCarbohidratos.setText("");
+        textGrasas.setText("");
     }
 
     @Override
@@ -460,134 +445,22 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    public void datosDieta() {
-        double g = 0;
-        double p = 0;
-        double c = 0;
-        double f = 0;
-        double k = 0;
-
-        for (AlxDiet item : listDesayuno.getItems()) {
-            g += item.getCantidad();
-            c += item.getCarbohidratosxpeso();
-            p += item.getProteinasxpeso();
-            f += item.getGrasasxpeso();
-            k += item.getKilocaloriasxpeso();
-        }
-        for (AlxDiet item : listAlmuerzo.getItems()) {
-            g += item.getCantidad();
-            c += item.getCarbohidratosxpeso();
-            p += item.getProteinasxpeso();
-            f += item.getGrasasxpeso();
-            k += item.getKilocaloriasxpeso();
-        }
-        for (AlxDiet item : listCena.getItems()) {
-            g += item.getCantidad();
-            c += item.getCarbohidratosxpeso();
-            p += item.getProteinasxpeso();
-            f += item.getGrasasxpeso();
-            k += item.getKilocaloriasxpeso();
-        }
-        for (AlxDiet item : listPre.getItems()) {
-            g += item.getCantidad();
-            c += item.getCarbohidratosxpeso();
-            p += item.getProteinasxpeso();
-            f += item.getGrasasxpeso();
-            k += item.getKilocaloriasxpeso();
-        }
-        for (AlxDiet item : listPost.getItems()) {
-            g += item.getCantidad();
-            c += item.getCarbohidratosxpeso();
-            p += item.getProteinasxpeso();
-            f += item.getGrasasxpeso();
-            k += item.getKilocaloriasxpeso();
-        }
-        for (AlxDiet item : listMerienda.getItems()) {
-            g += item.getCantidad();
-            c += item.getCarbohidratosxpeso();
-            p += item.getProteinasxpeso();
-            f += item.getGrasasxpeso();
-            k += item.getKilocaloriasxpeso();
-        }
-        for (AlxDiet item : listExtra.getItems()) {
-            g += item.getCantidad();
-            c += item.getCarbohidratosxpeso();
-            p += item.getProteinasxpeso();
-            f += item.getGrasasxpeso();
-            k += item.getKilocaloriasxpeso();
-        }
-        labelKcal.setText("" + k);
-        labelProtein.setText("" + p);
-        labelCarbs.setText("" + c);
-        labelFat.setText("" + f);
-        labelGrams.setText("" + g);
-
-    }
-
-    public void setKCalCliente() {
-        if (!getMedida().isEmpty()) {
-            labelKcalCliente.setText("" + getMedida().getSuperavitODeficit());
-        }
-    }
-
-    public void porcentajeProteinas() {
-        if (!labelKcalCliente.getText().isEmpty()) {
-            double cal = Double.parseDouble(labelKcalCliente.getText());
-            double porc;
-            if (!textProteinas.getText().isEmpty()) {
-                porc = Double.parseDouble(textProteinas.getText()) / 100;
-                labelProteinCliente.setText("" + Operacion.redondear(cal * porc / 4));
-                textProteinas.setText("" + Operacion.redondear(cal * porc / 4));
-            }
-        }
-        porcentajeGramos();
-    }
-
-    public void porcentajeGrasas() {
-        if (!labelKcalCliente.getText().isEmpty()) {
-            double cal = Double.parseDouble(labelKcalCliente.getText());
-            double porc;
-            if (!textGrasas.getText().isEmpty()) {
-                porc = Double.parseDouble(textGrasas.getText()) / 100;
-                labelFatCliente.setText("" + Operacion.redondear(cal * porc / 9));
-                textGrasas.setText("" + Operacion.redondear(cal * porc / 9));
-            }
-        }
-        porcentajeGramos();
-    }
-
-    public void porcentajeCarbos() {
-        if (!labelKcalCliente.getText().isEmpty()) {
-            double cal = Double.parseDouble(labelKcalCliente.getText());
-            double porc;
-            if (!textCarbohidratos.getText().isEmpty()) {
-                porc = Double.parseDouble(textCarbohidratos.getText()) / 100;
-                labelCarbsCliente.setText("" + Operacion.redondear(cal * porc / 4));
-                textCarbohidratos.setText("" + Operacion.redondear(cal * porc / 4));
-            }
-        }
-        porcentajeGramos();
-    }
-
-    public void porcentajeGramos() {
-        if (!(labelProteinCliente.getText().isEmpty() && labelCarbsCliente.getText().isEmpty() && labelFat.getText().isEmpty())) {
-            double grams = Double.parseDouble(labelFatCliente.getText()) + Double.parseDouble(labelCarbsCliente.getText()) + Double.parseDouble(labelProteinCliente.getText());
-            labelGramsCliente.setText(Operacion.redondear(grams) + "");
-        }
-    }
-
-    public AlxDiet getAlxDiet() throws DAOException {
+    public AlxDiet getAlxDiet() {
         if (!comboDieta.getItems().isEmpty()) {
             AlxDiet a = new AlxDiet();
             a.setPlan(getDieta());
             a.setAlimento(comboAlimentos.getSelectionModel().getSelectedItem());
-            if (textCantidad.getText().isEmpty()) {
-                a.setCantidad(0);
-            } else {
-                a.setCantidad(Double.parseDouble(textCantidad.getText()));
+            if (!textCantidad.getText().isEmpty()) {
+                if (Double.parseDouble(textCantidad.getText()) <= 0) {
+                    mensaje("Digite la cantidad de " + comboAlimentos.getSelectionModel().getSelectedItem().getNombre().toLowerCase(), "aviso");
+                } else {
+                    a.setCantidad(Double.parseDouble(textCantidad.getText()));
+                }
             }
-            a.setDia(activatedDay);
+            a.setDia(getDia());
             return a;
+        } else {
+            mensaje("Primero debe registrar un plan", "aviso");
         }
         return null;
     }
@@ -596,332 +469,31 @@ public class DietasController extends Controller<Plan> {
         return comboDieta.getSelectionModel().getSelectedItem();
     }
 
-    public void getDomingo() {
-        try {
-            activatedDay = AlxDiet.DOMINGO;
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.DOMINGO, AlxDiet.EXTRA));
-            datosDieta();
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    public void getLunes() {
-        try {
-            activatedDay = AlxDiet.LUNES;
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.LUNES, AlxDiet.EXTRA));
-            datosDieta();
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    public void getMartes() {
-        try {
-            activatedDay = AlxDiet.MARTES;
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MARTES, AlxDiet.EXTRA));
-            datosDieta();
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    public void getMiercoles() {
-        try {
-            activatedDay = AlxDiet.MIERCOLES;
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.MIERCOLES, AlxDiet.EXTRA));
-            datosDieta();
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    public void getJueves() {
-        try {
-            activatedDay = AlxDiet.JUEVES;
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.JUEVES, AlxDiet.EXTRA));
-            datosDieta();
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    public void getViernes() {
-        try {
-            activatedDay = AlxDiet.VIERNES;
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.VIERNES, AlxDiet.EXTRA));
-            datosDieta();
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    public void getSabado() {
-        try {
-            activatedDay = AlxDiet.SABADO;
-            listDesayuno.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.DESAYUNO));
-            listAlmuerzo.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.ALMUERZO));
-            listCena.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.CENA));
-            listPre.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.PREENTRENO));
-            listPost.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.POSTENTRENO));
-            listMerienda.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.MERIENDA));
-            listExtra.setItems(getAlxdiets().obtenerTodos(getDieta().getPlankey(), AlxDiet.SABADO, AlxDiet.EXTRA));
-            datosDieta();
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    public void addDesayuno() {
-        try {
-            AlxDiet a = getAlxDiet();
-            if (a != null) {
-                a.setMomento(AlxDiet.DESAYUNO);
-                getAlxdiets().insertar(a);
-                listDesayuno.getItems().add(a);
-                actualizarUso(a.getAlimento());
-                datosDieta();
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
     @FXML
-    void deleteDesayuno(ActionEvent event) {
-        if (listDesayuno.getSelectionModel().getSelectedIndex() != -1) {
+    void deleteAlx(ActionEvent event) {
+        if (listView.getSelectionModel().getSelectedIndex() == -1) {
+            mensaje("Seleccione un alimento", "aviso");
+        } else {
             try {
-                getAlxdiets().eliminar(listDesayuno.getSelectionModel().getSelectedItem());
+                getAlxdiets().eliminar(listView.getSelectionModel().getSelectedItem());
             } catch (DAOException ex) {
                 excepcion(ex);
             }
-            listDesayuno.getItems().remove(listDesayuno.getSelectionModel().getSelectedItem());
-            datosDieta();
-        } else {
-            mensaje("Seleccione un alimento", "aviso");
-
         }
     }
 
-    public void addAlmuerzo() {
+    public void addAlimento() {
         try {
             AlxDiet a = getAlxDiet();
             if (a != null) {
-                a.setMomento(AlxDiet.ALMUERZO);
-                getAlxdiets().insertar(a);
-                listAlmuerzo.getItems().add(a);
-                actualizarUso(a.getAlimento());
-                datosDieta();
+                if (!a.isEmpty()) {
+                    getAlxdiets().insertar(a);
+                    listView.getItems().add(a);
+                    actualizarUso(a.getAlimento());
+                }
             }
         } catch (DAOException ex) {
             excepcion(ex);
-        }
-    }
-
-    @FXML
-    void deleteAlmuerzo(ActionEvent event) {
-        if (listAlmuerzo.getSelectionModel().getSelectedIndex() != -1) {
-            try {
-                getAlxdiets().eliminar(listAlmuerzo.getSelectionModel().getSelectedItem());
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
-            listAlmuerzo.getItems().remove(listAlmuerzo.getSelectionModel().getSelectedItem());
-            datosDieta();
-        } else {
-            mensaje("Seleccione un alimento", "aviso");
-
-        }
-    }
-
-    public void addCena() {
-        try {
-            AlxDiet a = getAlxDiet();
-            if (a != null) {
-                a.setMomento(AlxDiet.CENA);
-                getAlxdiets().insertar(a);
-                listCena.getItems().add(a);
-                actualizarUso(a.getAlimento());
-                datosDieta();
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    @FXML
-    void deleteCena(ActionEvent event) {
-        if (listCena.getSelectionModel().getSelectedIndex() != -1) {
-            try {
-                getAlxdiets().eliminar(listCena.getSelectionModel().getSelectedItem());
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
-            listCena.getItems().remove(listCena.getSelectionModel().getSelectedItem());
-            datosDieta();
-        } else {
-            mensaje("Seleccione un alimento", "aviso");
-
-        }
-    }
-
-    public void addExtra() {
-        try {
-            AlxDiet a = getAlxDiet();
-            if (a != null) {
-                a.setMomento(AlxDiet.EXTRA);
-                getAlxdiets().insertar(a);
-                listExtra.getItems().add(a);
-                actualizarUso(a.getAlimento());
-                datosDieta();
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    @FXML
-    void deleteExtra(ActionEvent event) {
-        if (listExtra.getSelectionModel().getSelectedIndex() != -1) {
-            try {
-                getAlxdiets().eliminar(listExtra.getSelectionModel().getSelectedItem());
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
-            listExtra.getItems().remove(listExtra.getSelectionModel().getSelectedItem());
-            datosDieta();
-        } else {
-            mensaje("Seleccione un alimento", "aviso");
-
-        }
-    }
-
-    public void addMerienda() {
-        try {
-            AlxDiet a = getAlxDiet();
-            if (a != null) {
-                a.setMomento(AlxDiet.MERIENDA);
-                getAlxdiets().insertar(a);
-                listMerienda.getItems().add(a);
-                actualizarUso(a.getAlimento());
-                datosDieta();
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    @FXML
-    void deleteMerienda(ActionEvent event) {
-        if (listMerienda.getSelectionModel().getSelectedIndex() != -1) {
-            try {
-                getAlxdiets().eliminar(listMerienda.getSelectionModel().getSelectedItem());
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
-            listMerienda.getItems().remove(listMerienda.getSelectionModel().getSelectedItem());
-            datosDieta();
-        } else {
-            mensaje("Seleccione un alimento", "aviso");
-
-        }
-    }
-
-    public void addPost() {
-        try {
-            AlxDiet a = getAlxDiet();
-            if (a != null) {
-                a.setMomento(AlxDiet.POSTENTRENO);
-                getAlxdiets().insertar(a);
-                listPost.getItems().add(a);
-                actualizarUso(a.getAlimento());
-                datosDieta();
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    @FXML
-    void deletePost(ActionEvent event) {
-        if (listPost.getSelectionModel().getSelectedIndex() != -1) {
-            try {
-                getAlxdiets().eliminar(listPost.getSelectionModel().getSelectedItem());
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
-            listPost.getItems().remove(listPost.getSelectionModel().getSelectedItem());
-            datosDieta();
-        } else {
-            mensaje("Seleccione un alimento", "aviso");
-
-        }
-    }
-
-    public void addPre() {
-        try {
-            AlxDiet a = getAlxDiet();
-            if (a != null) {
-                a.setMomento(AlxDiet.PREENTRENO);
-                getAlxdiets().insertar(a);
-                listPre.getItems().add(a);
-                actualizarUso(a.getAlimento());
-                datosDieta();
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    @FXML
-    void deletePre(ActionEvent event) {
-        if (listPre.getSelectionModel().getSelectedIndex() != -1) {
-            try {
-                getAlxdiets().eliminar(listPre.getSelectionModel().getSelectedItem());
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
-            listPre.getItems().remove(listPre.getSelectionModel().getSelectedItem());
-            datosDieta();
-        } else {
-            mensaje("Seleccione un alimento", "aviso");
-
         }
     }
 
@@ -932,5 +504,55 @@ public class DietasController extends Controller<Plan> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
+    }
+
+    public String getDia() {
+        if (buttonDomingo.isSelected()) {
+            return AlxDiet.DOMINGO;
+        }
+        if (buttonLunes.isSelected()) {
+            return AlxDiet.LUNES;
+        }
+        if (buttonMartes.isSelected()) {
+            return AlxDiet.MARTES;
+        }
+        if (buttonMiercoles.isSelected()) {
+            return AlxDiet.MIERCOLES;
+        }
+        if (buttonJueves.isSelected()) {
+            return AlxDiet.JUEVES;
+        }
+        if (buttonViernes.isSelected()) {
+            return AlxDiet.VIERNES;
+        }
+        if (buttonSabado.isSelected()) {
+            return AlxDiet.SABADO;
+        }
+        return "";
+    }
+
+    public String getMomento() {
+        if (buttonDesayuno.isSelected()) {
+            return AlxDiet.DESAYUNO;
+        }
+        if (buttonAlmuerzo.isSelected()) {
+            return AlxDiet.ALMUERZO;
+        }
+        if (buttonCena.isSelected()) {
+            return AlxDiet.CENA;
+        }
+        if (buttonPost.isSelected()) {
+            return AlxDiet.POSTENTRENO;
+        }
+        if (buttonPre.isSelected()) {
+            return AlxDiet.PREENTRENO;
+        }
+        if (buttonMer.isSelected()) {
+            return AlxDiet.MERIENDA;
+        }
+        if (buttonExtra.isSelected()) {
+            return AlxDiet.EXTRA;
+        }
+        return "";
     }
 }

@@ -54,13 +54,7 @@ public abstract class Controller<T> implements Initializable {
     protected TextField textBuscar;
 
     @FXML
-    protected ListView<Medida> listView;
-
-    @FXML
     protected TextField textEdad;
-
-    @FXML
-    protected ComboBox<String> comboSexo;
 
     @FXML
     protected ComboBox<Alimento> comboAlimentos;
@@ -178,14 +172,6 @@ public abstract class Controller<T> implements Initializable {
         return getManager().getReferenciasDAO();
     }
 
-    public void setSexo(String sexo) {
-        for (int i = 0; i < comboSexo.getItems().size(); i++) {
-            if (comboSexo.getItems().get(i).equalsIgnoreCase(sexo)) {
-                comboSexo.getSelectionModel().select(i);
-            }
-        }
-    }
-
     public static void prueba() {
         NotifyTheme nt = NotifyTheme.Light;
         nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
@@ -219,8 +205,8 @@ public abstract class Controller<T> implements Initializable {
                 System.out.println(ex.getMessage());
                 ex.printStackTrace();
             });
-        }else{
-              DesktopNotify.showDesktopMessage("Error", getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
+        } else {
+            DesktopNotify.showDesktopMessage("Error", getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
                 System.out.println(ex.getMessage());
                 ex.printStackTrace();
             });
@@ -380,11 +366,13 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static void setCliente(Cliente c) {
+        setClienteUpdated(true);
         cliente = c;
     }
 
     /**
-     * si se actualiza o elimina algún cliente,
+     * Cuando se actualiza la lista de clientes cambia estado a actualizado
+     * (true)
      *
      * @param c
      */
@@ -397,7 +385,7 @@ public abstract class Controller<T> implements Initializable {
     }
 
     /**
-     * si se selecciona algún cliente,
+     * Cuando se actualiza el cliente, cambia estado a actualizado (true)
      *
      * @param c
      */
@@ -417,11 +405,13 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static void setMedida(Medida c) {
+        setMedidaUpdated(true);
         medida = c;
     }
 
     /**
-     * si se actualiza o elimina algún medida,
+     * Cuando se actualiza la lista de medidas cambia estado a actualizado
+     * (true)
      *
      * @param c
      */
@@ -434,7 +424,8 @@ public abstract class Controller<T> implements Initializable {
     }
 
     /**
-     * si se selecciona algún medida,
+     * Cuando se actualiza la variable de medida cambia estado a actualizado
+     * (true)
      *
      * @param c
      */
@@ -444,6 +435,32 @@ public abstract class Controller<T> implements Initializable {
 
     public static boolean isMedidaUpdated() {
         return medidaUpdated;
+    }
+
+    /**
+     * Cuando se actualiza la lista de dietas cambia estado a actualizado (true)
+     *
+     * @param c
+     */
+    public static void setDietasUpdated(boolean c) {
+        dietasUpdated = c;
+    }
+
+    public static boolean isDietasUpdated() {
+        return dietasUpdated;
+    }
+
+    /**
+     * Cuando se actualiza la lista de rutina cambia estado a actualizado (true)
+     *
+     * @param c
+     */
+    public static void setRutinasUpdated(boolean c) {
+        rutinasUpdated = c;
+    }
+
+    public static boolean isRutinasUpdated() {
+        return rutinasUpdated;
     }
 
     public void buscarAlimento() {
@@ -481,6 +498,7 @@ public abstract class Controller<T> implements Initializable {
         } catch (DAOException ex) {
             excepcion(ex);
         }
+        isAlimentosUpdated();
     }
 
     public void selectAlimento(int i) {

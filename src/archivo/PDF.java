@@ -25,7 +25,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
+import modelo.plan.Plan;
 
 /**
  *
@@ -34,6 +36,8 @@ import modelo.cliente.Medida;
 public class PDF {
 
     private Medida medida = new Medida();
+    private Plan dieta = new Plan();
+    private Plan rutina = new Plan();
     private File file;
     private Document document;
 
@@ -43,13 +47,11 @@ public class PDF {
     public PDF(Medida medida) throws DAOException, IOException, FileNotFoundException, DocumentException {
         setMedida(medida);
         setFile("");
-        createPDF();
     }
 
     public PDF(Medida medida, String url) throws DAOException, IOException {
         setMedida(medida);
         setFile(url);
-
     }
 
     public void setFile(String url) throws IOException {
@@ -70,13 +72,24 @@ public class PDF {
         return medida;
     }
 
-    public void setMedida(Medida medida) throws DAOException {
-        if (medida.isEmpty()) {
-            throw new DAOException("A esta medida le faltan datos");
-        }
+    public void setMedida(Medida medida){
         this.medida = medida;
     }
 
+    public Plan getDieta() {
+        return dieta;
+    }
+
+    public void setDieta(Plan dieta){
+        this.dieta = dieta;
+    }
+public Plan getRutina() {
+        return rutina;
+    }
+
+    public void setRutina(Plan rutina){
+        this.rutina = rutina;
+    }
     public void setDocument(Document document) {
         this.document = document;
     }
@@ -168,11 +181,12 @@ public class PDF {
         document.add(chapter);
     }
 
-    public void addRutina() throws DocumentException, MalformedURLException, BadElementException, IOException {
+    public void addRutina(Plan rutina) throws DocumentException, MalformedURLException, BadElementException, IOException {
+        setRutina(rutina);
         Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/bienvenida.png").toURL());
+        page = Image.getInstance(new File("src/imagen/entrenamiento.png").toURL());
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
@@ -183,11 +197,27 @@ public class PDF {
         document.add(chapter);
     }
 
-    public void addDieta() throws DocumentException, MalformedURLException, BadElementException, IOException {
+    public void addDieta(Plan dieta) throws DocumentException, MalformedURLException, BadElementException, IOException {
+        setRutina(dieta);
         Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/bienvenida.png").toURL());
+        page = Image.getInstance(new File("src/imagen/alimentacion.png").toURL());
+        page.scaleAbsolute(PageSize.LETTER);
+        page.setAbsolutePosition(0, 0);
+        chapter.add(page);
+        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17));
+        subInfo.setAlignment(Element.ALIGN_CENTER);
+        subInfo.setSpacingAfter(30);
+        chapter.add(subInfo);
+        document.add(chapter);
+    }
+
+    public void addMedidas() throws DocumentException, MalformedURLException, BadElementException, IOException {
+        Chapter chapter = new Chapter(2);
+        chapter.setNumberDepth(0);
+        Image page;
+        page = Image.getInstance(new File("src/imagen/medidas.png").toURL());
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);

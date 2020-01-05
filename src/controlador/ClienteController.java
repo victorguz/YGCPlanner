@@ -8,6 +8,7 @@ package controlador;
 import DAO.DAOException;
 import archivo.PDF;
 import com.itextpdf.text.DocumentException;
+import com.jfoenix.controls.JFXCheckBox;
 import static controlador.Controller.getCliente;
 import static controlador.Controller.getClientes;
 import static controlador.Controller.isClienteUpdated;
@@ -25,8 +26,11 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import modelo.cliente.Medida;
+import modelo.plan.Plan;
 
 /**
  *
@@ -34,6 +38,9 @@ import javafx.scene.control.ToggleButton;
  */
 public class ClienteController extends Controller<Cliente> {
 
+    @FXML
+    protected ListView<Medida> listView;
+    
     @FXML
     private TextField textNombre;
 
@@ -47,19 +54,33 @@ public class ClienteController extends Controller<Cliente> {
     private ComboBox<String> comboTipoDoc;
 
     @FXML
-    private ToggleButton buttonDieta;
-
-    @FXML
-    private ToggleButton buttonRutina;
-
-    @FXML
     private ToggleButton buttonBienvenida;
 
+    @FXML
+    private ToggleButton buttonMedidas;
+
+    @FXML
+    private ToggleButton buttonEstadisticas;
+    @FXML
+    private JFXCheckBox checkRutina;
+
+    @FXML
+    private ComboBox<Plan> comboRutinas;
+
+    @FXML
+    private JFXCheckBox checkDieta;
+
+    @FXML
+    private ComboBox<Plan> comboDietas;
+
+    @FXML
+    private ComboBox<String> comboSexo;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
-        obtenerMedidas();
         updated();
+        setRutinasUpdated(true);
+        setDietasUpdated(true);
     }
 
     private void setCombos() {
@@ -119,7 +140,7 @@ public class ClienteController extends Controller<Cliente> {
             setTipoDocumento(getCliente().getTipoIdentificacion());
             textDocumento.setText(getCliente().getIdentificacion());
             textEdad.setText(getCliente().getEdad() + "");
-            setSexo(getCliente().getSexo());
+            selectCombo(comboSexo,getCliente().getSexo());
         }
     }
 
@@ -135,7 +156,7 @@ public class ClienteController extends Controller<Cliente> {
                 mensaje("Cliente registrado", "exito");
             }
         } catch (DAOException ex) {
-            excepcion(ex); 
+            excepcion(ex);
         }
     }
 
@@ -162,7 +183,7 @@ public class ClienteController extends Controller<Cliente> {
                 Cliente c = captar();
                 c.setClienteKey(getCliente().getClienteKey());
                 getClientes().modificar(c);
-                setClientesUpdated(true); 
+                setClientesUpdated(true);
                 mensaje("Cliente modificado", "exito");
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -179,17 +200,23 @@ public class ClienteController extends Controller<Cliente> {
             } else {
                 PDF f = new PDF(listView.getSelectionModel().getSelectedItem());
                 f.createPDF();
-                if (!(buttonRutina.isSelected() && buttonDieta.isSelected() && buttonBienvenida.isSelected())) {
+                if (!(checkRutina.isSelected() && checkDieta.isSelected() && buttonBienvenida.isSelected())) {
                     mensaje("Seleccione lo que desea ver en el documento", "aviso");
                 } else {
                     if (buttonBienvenida.isSelected()) {
                         f.addBienvenida();
                     }
-                    if (buttonRutina.isSelected()) {
-                        f.addRutina();
+                    if (buttonMedidas.isSelected()) {
+                        f.addMedidas();
                     }
-                    if (buttonDieta.isSelected()) {
-                        f.addDieta();
+                    if (checkRutina.isSelected()) {
+                        f.addRutina(comboRutinas.getSelectionModel().getSelectedItem());
+                    }
+                    if (checkDieta.isSelected()) {
+                        f.addDieta(comboDietas.getSelectionModel().getSelectedItem());
+                    }
+                    if (buttonEstadisticas.isSelected()) {
+                        mensaje("Las estadísticas no están disponibles en esta versión. Adquiera la versión PRO.", "Versión PRO");
                     }
                     f.close();
                 }
@@ -228,11 +255,17 @@ public class ClienteController extends Controller<Cliente> {
                         if (isMedidasUpdated()) {
                             obtenerMedidas();
                         }
+                        if (isRutinasUpdated()) {
+                            obtenerRutinas();
+                        }
+                        if (isDietasUpdated()) {
+                            obtenerDietas();
+                        }
                     }
                 };
                 while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
                     }
                     // UI update is run on the Application thread
@@ -256,4 +289,23 @@ public class ClienteController extends Controller<Cliente> {
         }
     }
 
+    public void obtenerRutinas() {
+        if (rutinas.isEmpty()) {
+            checkRutina.setSelected(false);
+            checkRutina.setDisable(true);
+        } else {
+            comboRutinas.setItems(rutinas);
+            comboRutinas.getSelectionModel().select(0);
+        }
+    }
+
+    public void obtenerDietas() {
+        if (dietas.isEmpty()) {
+            checkDieta.setSelected(false);
+            checkDieta.setDisable(true);
+        } else {
+            comboDietas.setItems(dietas);
+            comboDietas.getSelectionModel().select(0);
+        }
+    }
 }

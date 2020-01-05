@@ -54,7 +54,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textBuscar" onAction="#obtener" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar plan" />
+                              <TextField fx:id="textBuscar" onAction="#obtener" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="130.0" promptText="Buscar plan" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -64,7 +64,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboRutina" minWidth="150.0" onAction="#mostrar" prefHeight="40.0" promptText="PLAN" visibleRowCount="5" />
+                              <ComboBox fx:id="comboRutina" minWidth="150.0" onAction="#mostrar" prefHeight="27.0" promptText="PLAN" visibleRowCount="5" />
                            </children>
                         </VBox>
                      </children>
@@ -87,7 +87,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textNombre" prefHeight="40.0" prefWidth="130.0" promptText="Nombre" />
+                              <TextField fx:id="textNombre" prefHeight="27.0" prefWidth="130.0" promptText="Nombre" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -97,7 +97,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboObjetivos" prefHeight="40.0" promptText="OBJETIVO" visibleRowCount="5" />
+                              <ComboBox fx:id="comboObjetivos" prefHeight="27.0" promptText="OBJETIVO" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -107,7 +107,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboSexo" prefHeight="40.0" promptText="SEXO" visibleRowCount="5" />
+                              <ComboBox fx:id="comboSexo" prefHeight="27.0" promptText="SEXO" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -117,7 +117,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textEdad" prefHeight="40.0" prefWidth="40.0" promptText="Edad" />
+                              <TextField fx:id="textEdad" prefHeight="27.0" prefWidth="50.0" promptText="Edad" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -154,7 +154,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textBuscarEjercicio" onAction="#obtenerEjercicios" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Buscar ejercicio" />
+                              <TextField fx:id="textBuscarEjercicio" onAction="#obtenerEjercicios" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="130.0" promptText="Buscar ejercicio" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -164,7 +164,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboEjercicios" minWidth="150.0" prefHeight="40.0" promptText="EJERCICIOS" visibleRowCount="5" />
+                              <ComboBox fx:id="comboEjercicios" minWidth="145.0" prefHeight="27.0" prefWidth="145.0" promptText="EJERCICIOS" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -174,7 +174,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboSeries" minWidth="62.0" prefHeight="40.0" prefWidth="62.0" promptText="SERIES" visibleRowCount="5" />
+                              <ComboBox fx:id="comboSeries" prefHeight="27.0" promptText="SERIES" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -184,7 +184,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textRepeticiones" onKeyTyped="#consumeDigits" prefHeight="40.0" prefWidth="130.0" promptText="Repeticiones" />
+                              <TextField fx:id="textRepeticiones" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="95.0" promptText="Repeticiones" />
                            </children>
                         </VBox>
                      </children>

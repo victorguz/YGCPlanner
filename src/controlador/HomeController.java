@@ -75,7 +75,6 @@ public class HomeController extends Controller<StackPane> {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         obtener();
-        updated();
         try {
             if (getReferencias().obtener("DASH").getDescripcion().equalsIgnoreCase("ACTIVADO")) {
                 switchClientes();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -97,7 +98,7 @@
                         </HBox>
                      </children>
                   </FlowPane>
-                  <HBox alignment="CENTER" styleClass="x">
+                  <FlowPane hgap="10.0" styleClass="flowpane">
                      <children>
                         <JFXButton onAction="#registrar" text="Registrar">
                            <graphic>
@@ -107,9 +108,6 @@
                                  </image>
                               </ImageView>
                            </graphic>
-                           <HBox.margin>
-                              <Insets left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
                         </JFXButton>
                         <JFXButton onAction="#modificar" text="Modificar">
                            <graphic>
@@ -119,9 +117,6 @@
                                  </image>
                               </ImageView>
                            </graphic>
-                           <HBox.margin>
-                              <Insets left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
                         </JFXButton>
                         <JFXButton onAction="#limpiar" text="Limpiar">
                            <graphic>
@@ -131,9 +126,6 @@
                                  </image>
                               </ImageView>
                            </graphic>
-                           <HBox.margin>
-                              <Insets left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
                         </JFXButton>
                         <JFXButton onAction="#eliminar" text="Eliminar">
                            <graphic>
@@ -143,24 +135,31 @@
                                  </image>
                               </ImageView>
                            </graphic>
-                           <HBox.margin>
-                              <Insets left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
                         </JFXButton>
                      </children>
-                  </HBox>
+                  </FlowPane>
                </children>
             </VBox>
             <VBox>
                <children>
-                  <HBox alignment="CENTER" styleClass="x">
+                  <FlowPane hgap="10.0" styleClass="flowpane">
                      <children>
-                        <ToggleButton id="sidebuttons" fx:id="buttonDieta" alignment="BASELINE_LEFT" prefHeight="50.0" text="Plan de alimentación" textFill="#757575" />
-                        <ToggleButton id="sidebuttons" fx:id="buttonRutina" alignment="BASELINE_LEFT" prefHeight="50.0" text="Plan de entrenamiento" textFill="#757575" />
-                        <ToggleButton id="sidebuttons" fx:id="buttonBienvenida" alignment="BASELINE_LEFT" prefHeight="50.0" text="Bienvenida" textFill="#757575" />
+                        <ToggleButton id="sidebuttons" fx:id="buttonBienvenida" alignment="BASELINE_LEFT" text="Bienvenida" textFill="#757575" />
+                        <ToggleButton id="sidebuttons" fx:id="buttonMedidas" alignment="BASELINE_LEFT" text="Medidas" textFill="#757575" />
+                        <ToggleButton id="sidebuttons" fx:id="buttonEstadisticas" alignment="BASELINE_LEFT" text="Estadísticas" textFill="#757575" />
+                        <JFXCheckBox fx:id="checkRutina" checkedColor="#2ba3ff" contentDisplay="GRAPHIC_ONLY" style="-fx-border-color: rgb(230,230,230); -fx-border-radius: 4;" text="Entrenamiento">
+                           <graphic>
+                              <ComboBox fx:id="comboRutinas" prefWidth="200.0" promptText="Plan de entrenamiento" />
+                           </graphic>
+                        </JFXCheckBox>
+                        <JFXCheckBox fx:id="checkDieta" checkedColor="#2ba3ff" contentDisplay="GRAPHIC_ONLY" style="-fx-border-color: rgb(230,230,230); -fx-border-radius: 4;" text="Alimentación">
+                           <graphic>
+                              <ComboBox fx:id="comboDietas" prefWidth="200.0" promptText="Plan de alimentación" />
+                           </graphic>
+                        </JFXCheckBox>
                      </children>
-                  </HBox>
-                  <ListView fx:id="listView" prefHeight="92.0" prefWidth="468.0" />
+                  </FlowPane>
+                  <ListView fx:id="listView" prefHeight="152.0" prefWidth="400.0" />
                   <JFXButton onAction="#imprimir" text="Imprimir">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

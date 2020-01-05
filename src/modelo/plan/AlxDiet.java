@@ -50,10 +50,7 @@ public class AlxDiet extends BasePlan {
         return alimento;
     }
 
-    public void setAlimento(Alimento alimento) throws DAOException {
-        if (alimento.isEmpty()) {
-            throw new DAOException("Seleccione un alimento");
-        }
+    public void setAlimento(Alimento alimento)  {
         this.alimento = alimento;
     }
 
@@ -61,10 +58,7 @@ public class AlxDiet extends BasePlan {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) throws DAOException {
-        if (cantidad <= 0) {
-            throw new DAOException("Digite una cantidad válida");
-        }
+    public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -86,10 +80,7 @@ public class AlxDiet extends BasePlan {
 
     @Override
     public String toString() {
-        return getCantidad() + "g DE " + getAlimento()
-                + ": " + getCarbohidratosxpeso()
-                + "g DE CARBS, " + getProteinasxpeso()
-                + "g DE PROTEINA, " + getGrasasxpeso() + "g DE GRASA";
+        return getMomento() + " " + getAlimento();
     }
 
     @Override

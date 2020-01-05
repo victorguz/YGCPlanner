@@ -49,7 +49,7 @@ public class Plan {
 
     public void setNombre(String nombre) throws DAOException {
         if (nombre.isEmpty() || nombre == null) {
-            throw new DAOException("Digite un nombre de " + getClass().getSimpleName());
+            throw new DAOException("Digite el nombre del plan");
         }
         this.nombre = nombre;
     }
@@ -58,10 +58,7 @@ public class Plan {
         return objetivo;
     }
 
-    public void setObjetivo(String objetivo) throws DAOException {
-        if (objetivo.isEmpty() || objetivo == null) {
-            throw new DAOException("Digite un objetivo de " + getClass().getName().toLowerCase());
-        }
+    public void setObjetivo(String objetivo){
         this.objetivo = objetivo;
     }
 

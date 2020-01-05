@@ -36,7 +36,7 @@ public abstract class BasePlan {
     public BasePlan() {
     }
 
-    public BasePlan(Plan plan, String momento, String dia) throws DAOException {
+    public BasePlan(Plan plan, String momento, String dia) {
         setPlan(plan);
         setMomento(momento);
         setDia(dia);
@@ -46,10 +46,7 @@ public abstract class BasePlan {
         return momento;
     }
 
-    public void setMomento(String momento) throws DAOException {
-        if (momento.isEmpty()) {
-            throw new DAOException("Seleccione el momento del día");
-        }
+    public void setMomento(String momento) {
         this.momento = momento;
     }
 
@@ -57,10 +54,7 @@ public abstract class BasePlan {
         return dia;
     }
 
-    public void setDia(String dia) throws DAOException {
-        if (dia.isEmpty()) {
-            throw new DAOException("Seleccione un dia de la semana");
-        }
+    public void setDia(String dia) {
         this.dia = dia;
     }
 
@@ -73,10 +67,7 @@ public abstract class BasePlan {
         return plan;
     }
 
-    public void setPlan(Plan plan) throws DAOException {
-        if (plan.isEmpty()) {
-            throw new DAOException("MTMOM: Seleccione un(a) " + plan.getClass().getCanonicalName());
-        }
+    public void setPlan(Plan plan){
         this.plan = plan;
     }
 }

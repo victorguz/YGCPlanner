@@ -30,9 +30,9 @@ public class FooterClientesController extends Controller {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        obtener();
-        obtenerMedidas();
         updated();
+        setClientesUpdated(true);
+        setMedidasUpdated(true);
     }
 
     public void select(int i) {
@@ -42,7 +42,6 @@ public class FooterClientesController extends Controller {
         } else {
             setCliente(new Cliente());
         }
-        setClienteUpdated(true);
         obtenerMedidas();
     }
 
@@ -52,7 +51,6 @@ public class FooterClientesController extends Controller {
         } else {
             setCliente(new Cliente());
         }
-        setClienteUpdated(true);
         obtenerMedidas();
     }
 
@@ -63,7 +61,6 @@ public class FooterClientesController extends Controller {
         } else {
             setMedida(new Medida());
         }
-        setMedidaUpdated(true);
     }
 
     public void selectMedida() {
@@ -72,7 +69,6 @@ public class FooterClientesController extends Controller {
         } else {
             setMedida(new Medida());
         }
-        setMedidaUpdated(true);
     }
 
     @Override
@@ -87,10 +83,12 @@ public class FooterClientesController extends Controller {
             if (!clientes.isEmpty()) {
                 comboClientes.setItems(clientes);
                 select(0);
+                obtenerMedidas();
             }
         } catch (DAOException ex) {
             excepcion(ex);
         }
+        setClientesUpdated(false);
     }
 
     public void obtenerMedidas() {
@@ -103,10 +101,12 @@ public class FooterClientesController extends Controller {
                     selectMedida(0);
                 }
             } catch (DAOException ex) {
-            excepcion(ex);
+                excepcion(ex);
             }
         }
+        setMedidasUpdated(false);
     }
+
     /**
      * Si se actualiza o elimina un cliente, este método actualiza el combobox
      * que contiene los clientes.
@@ -121,11 +121,9 @@ public class FooterClientesController extends Controller {
                     public void run() {
                         if (isClientesUpdated()) {
                             obtener();
-                            setClientesUpdated(false);
                         }
                         if (isMedidasUpdated()) {
                             obtenerMedidas();
-                            setMedidasUpdated(false);
                         }
                     }
                 };

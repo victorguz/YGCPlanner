@@ -69,6 +69,9 @@ public class RutinasController extends Controller<Plan> {
     @FXML
     private ListView<EjxRut> listSabado;
 
+    @FXML
+    private ComboBox<String> comboSexo;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         comboObjetivos.setItems(objetivos);

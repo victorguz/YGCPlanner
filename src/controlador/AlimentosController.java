@@ -49,7 +49,6 @@ public class AlimentosController extends Controller<Alimento> {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         obtener();
-        updated();
     }
 
     @Override
