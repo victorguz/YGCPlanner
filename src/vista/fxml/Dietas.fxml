@@ -158,7 +158,7 @@
                                  </padding>
                               </Label>
                               <TextField fx:id="textKcal" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="110.0" promptText="KCal del el cliente" />
-                              <JFXCheckBox fx:id="checkCal" text="Usar las del cliente" />
+                              <JFXCheckBox fx:id="checkCal" onAction="#setKcal" text="Usar las del cliente" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -168,7 +168,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textCarbohidratos" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Carbos" />
+                              <TextField fx:id="textCarbohidratos" onAction="#calcular" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Carbos" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -178,7 +178,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textGrasas" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Grasas" />
+                              <TextField fx:id="textGrasas" onAction="#calcular" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Grasas" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -188,7 +188,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textProteinas" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Proteinas" />
+                              <TextField fx:id="textProteinas" onAction="#calcular" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Proteinas" />
                            </children>
                         </VBox>
                      </children>

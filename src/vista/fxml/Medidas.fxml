@@ -253,7 +253,7 @@
                   </FlowPane>
                   <HBox alignment="CENTER" spacing="10.0">
                      <children>
-                        <JFXButton onAction="#eliminar" style="-fx-background-color: #f17777;" styleClass="delete-button" text="Eliminar" textFill="WHITE" />
+                        <JFXButton onAction="#eliminar" styleClass="delete-button" text="Eliminar" />
                         <JFXButton onAction="#limpiar" text="Limpiar" />
                         <JFXButton onAction="#modificar" text="Modificar" />
                         <JFXButton onAction="#registrar" text="Registrar" />
