@@ -68,17 +68,17 @@ public abstract class Controller<T> implements Initializable {
     @FXML
     protected TextField textBuscarAlimento;
 
-    protected static ObservableList<Cliente> clientes;
+    protected static ObservableList<Cliente> clientes=FXCollections.observableArrayList();
 
-    protected static ObservableList<Medida> medidas;
+    protected static ObservableList<Medida> medidas=FXCollections.observableArrayList();
 
-    protected static ObservableList<Plan> rutinas;
+    protected static ObservableList<Plan> rutinas=FXCollections.observableArrayList();
 
-    protected static ObservableList<Plan> dietas;
+    protected static ObservableList<Plan> dietas=FXCollections.observableArrayList();
 
-    public static ObservableList<Alimento> alimentos;
+    public static ObservableList<Alimento> alimentos=FXCollections.observableArrayList();
 
-    protected static ObservableList<Ejercicio> ejercicios;
+    protected static ObservableList<Ejercicio> ejercicios=FXCollections.observableArrayList();
 
     protected static final ObservableList<String> sexos = FXCollections.observableArrayList("Hombre", "Mujer");
     protected static final ObservableList<String> objetivos = FXCollections.observableArrayList("Perder", "Aumentar", "Mantener");
@@ -366,7 +366,6 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static void setCliente(Cliente c) {
-        setClienteUpdated(true);
         cliente = c;
     }
 
@@ -405,7 +404,6 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static void setMedida(Medida c) {
-        setMedidaUpdated(true);
         medida = c;
     }
 

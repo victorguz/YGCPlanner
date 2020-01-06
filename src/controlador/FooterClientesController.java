@@ -89,6 +89,7 @@ public class FooterClientesController extends Controller {
             excepcion(ex);
         }
         setClientesUpdated(false);
+        setClienteUpdated(true);
     }
 
     public void obtenerMedidas() {
@@ -105,6 +106,7 @@ public class FooterClientesController extends Controller {
             }
         }
         setMedidasUpdated(false);
+        setMedidaUpdated(true);
     }
 
     /**

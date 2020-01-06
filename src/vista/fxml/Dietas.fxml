@@ -163,12 +163,22 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
+                              <Label text="\% Proteinas" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textProteinas" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Proteinas" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
                               <Label text="\% Carbos" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textCarbohidratos" onAction="#calcular" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Carbos" />
+                              <TextField fx:id="textCarbohidratos" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Carbos" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -178,17 +188,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textGrasas" onAction="#calcular" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Grasas" />
-                           </children>
-                        </VBox>
-                        <VBox styleClass="title">
-                           <children>
-                              <Label text="\% Proteinas" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <TextField fx:id="textProteinas" onAction="#calcular" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Proteinas" />
+                              <TextField fx:id="textGrasas" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="\% Grasas" />
                            </children>
                         </VBox>
                      </children>
@@ -198,20 +198,14 @@
                      <children>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="Gramos de comida" />
-                              <Label fx:id="gramosDistribucion" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="Proteinas" />
+                              <Label fx:id="proteinasDistribucion" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
                               <Label alignment="BASELINE_CENTER" text="Carbos" />
                               <Label fx:id="carbosDistribucion" alignment="BASELINE_CENTER" text="0.0" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER" styleClass="x">
-                           <children>
-                              <Label alignment="BASELINE_CENTER" text="Proteinas" />
-                              <Label fx:id="proteinasDistribucion" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
@@ -239,14 +233,14 @@
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="Carbos" />
-                              <Label fx:id="carbosPlan" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="Proteinas" />
+                              <Label fx:id="proteinasPlan" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="Proteinas" />
-                              <Label fx:id="proteinasPlan" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="Carbos" />
+                              <Label fx:id="carbosPlan" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
@@ -274,14 +268,14 @@
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="Carbos" />
-                              <Label fx:id="carbosMenu" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="Proteinas" />
+                              <Label fx:id="proteinasMenu" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="Proteinas" />
-                              <Label fx:id="proteinasMenu" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="Carbos" />
+                              <Label fx:id="carbosMenu" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
@@ -342,17 +336,17 @@
                               </Label>
                               <FlowPane hgap="10.0" styleClass="flowpane" vgap="10.0">
                                  <children>
-                                    <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" onAction="#getDomingo" prefWidth="90.0" selected="true" text="Domingo">
+                                    <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" prefWidth="90.0" selected="true" text="Domingo">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="dias" />
                                        </toggleGroup>
                                     </ToggleButton>
-                                    <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" onAction="#getLunes" prefWidth="90.0" text="Lunes" toggleGroup="$dias" />
-                                    <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" onAction="#getMartes" prefWidth="90.0" text="Martes" toggleGroup="$dias" />
-                                    <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" onAction="#getMiercoles" prefWidth="90.0" text="Miercoles" toggleGroup="$dias" />
-                                    <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" onAction="#getJueves" prefWidth="90.0" text="Jueves" toggleGroup="$dias" />
-                                    <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" onAction="#getViernes" prefWidth="90.0" text="Viernes" toggleGroup="$dias" />
-                                    <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" onAction="#getSabado" prefWidth="90.0" text="Sábado" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" prefWidth="90.0" text="Lunes" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" prefWidth="90.0" text="Martes" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" prefWidth="90.0" text="Miercoles" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" prefWidth="90.0" text="Jueves" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" prefWidth="90.0" text="Viernes" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" prefWidth="90.0" text="Sábado" toggleGroup="$dias" />
                                  </children>
                               </FlowPane>
                            </children>
@@ -366,17 +360,17 @@
                               </Label>
                               <FlowPane fx:id="momentos" hgap="10.0" styleClass="flowpane" vgap="10.0">
                                  <children>
-                                    <ToggleButton fx:id="buttonDesayuno" mnemonicParsing="false" onAction="#getDesayuno" prefWidth="90.0" text="Desayuno">
+                                    <ToggleButton fx:id="buttonDesayuno" mnemonicParsing="false" prefWidth="90.0" text="Desayuno">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="momento" />
                                        </toggleGroup>
                                     </ToggleButton>
-                                    <ToggleButton fx:id="buttonAlmuerzo" mnemonicParsing="false" onAction="#getAlmuerzo" prefWidth="90.0" text="Almuerzo" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonCena" mnemonicParsing="false" onAction="#getCena" prefWidth="90.0" text="Cena" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonPre" mnemonicParsing="false" onAction="#getPre" prefWidth="90.0" text="Pre-entreno" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonPost" mnemonicParsing="false" onAction="#getPost" prefWidth="90.0" text="Post-entreno" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonMer" mnemonicParsing="false" onAction="#getMerienda" prefWidth="90.0" text="Merienda" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonExtra" mnemonicParsing="false" onAction="#getExtra" prefWidth="90.0" text="Extra" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonAlmuerzo" mnemonicParsing="false" prefWidth="90.0" text="Almuerzo" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonCena" mnemonicParsing="false" prefWidth="90.0" text="Cena" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonPre" mnemonicParsing="false" prefWidth="90.0" text="Pre-entreno" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonPost" mnemonicParsing="false" prefWidth="90.0" text="Post-entreno" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonMer" mnemonicParsing="false" prefWidth="90.0" text="Merienda" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonExtra" mnemonicParsing="false" prefWidth="90.0" text="Extra" toggleGroup="$momento" />
                                  </children>
                               </FlowPane>
                            </children>

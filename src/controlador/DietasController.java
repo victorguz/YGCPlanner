@@ -12,8 +12,6 @@ import static controlador.Controller.getAlimentos;
 import static controlador.Controller.isAlimentosUpdated;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,9 +62,6 @@ public class DietasController extends Controller<Plan> {
 
     @FXML
     private TextField textProteinas;
-
-    @FXML
-    private Label gramosDistribucion;
 
     @FXML
     private Label carbosDistribucion;
@@ -180,7 +175,7 @@ public class DietasController extends Controller<Plan> {
     }
 
     public void activateCheck() {
-        if (getMedida().isEmpty()) {
+        if (medidas.isEmpty()) {
             checkCal.setDisable(true);
         } else {
             checkCal.setDisable(false);
@@ -211,54 +206,37 @@ public class DietasController extends Controller<Plan> {
      * resta excede el monto de 0 en uno, se le debe restar al otro y si el otro
      * llega a cero, querrá decir que el que se está modificando llegó al tope
      * máximo de 100
+     *
+     *
      */
     public void calcular() {
+        //Obtener calorías
         double cal = (textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textKcal.getText());
         //Obtener porcentajes
-        double pro = (textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinas.getText());
-        double gra = (textGrasas.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasas.getText());
-        double car = (textCarbohidratos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbohidratos.getText());
-        //Calcular si los valores sobrepasan el 100%
-        if (pro > 100) {
-
-        }
-        double sum = pro + gra + car;
-        if (sum > 100) {
-            //Restar el excedente a cada variable para disminuit escala
-            double n = (sum - 100) / 3;
-            if (pro >= n) {
-                pro -= n;
-            }
-            if (gra >= n) {
-                gra -= n;
-            }
-            if (car >= n) {
-                car -= n;
-            }
-            //Volver a poner el porcentaje, pero en escala normal
-            textProteinas.setText(String.valueOf(pro));
-            textGrasas.setText(String.valueOf(gra));
-            textCarbohidratos.setText(String.valueOf(car));
-        }
+        double pro = ((textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinas.getText()))/100;
+        double gra = ((textGrasas.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasas.getText()))/100;
+        double car = ((textCarbohidratos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbohidratos.getText()))/100;
         //Utilizar porcentajes para calcular gramos de macronutrientes
-        double proteinas = (cal / (pro / 100)) / 4;
-        double grasas = (cal / (gra / 100)) / 9;
-        double carbohidratos = (cal / (car / 100)) / 4;
-        double gramos = proteinas + grasas + carbohidratos;
+        double proteinas = Operacion.redondear((cal * pro) / 4);
+        double grasas = Operacion.redondear((cal * gra) / 9);
+        double carbohidratos = Operacion.redondear((cal * car ) / 4);
         //Los ponemos en las etiquetas asignadas
         proteinasDistribucion.setText(proteinas + "");
         grasasDistribucion.setText(grasas + "");
         carbosDistribucion.setText(carbohidratos + "");
-        gramosDistribucion.setText(gramos + "");
     }
 
+    /**
+     *
+     * @param event
+     */
     public void porcentajesVacios(KeyEvent event) {
         if (textProteinas.getText().isEmpty()
                 && textGrasas.getText().isEmpty()
                 && textCarbohidratos.getText().isEmpty()) {
-            textProteinas.setText((0));
-            textKcal.setText((0));
-            textKcal.setText((0));
+            textProteinas.setText("0");
+            textKcal.setText("0");
+            textKcal.setText("0");
         } else {
             //Obtener porcentajes
             double pro = (textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinas.getText());

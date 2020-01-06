@@ -51,7 +51,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboObjetivos" onAction="#selectObjetivo" onMouseClicked="#calcular" prefHeight="27.0" promptText="OBJETIVO" />
+                              <ComboBox fx:id="comboObjetivos" onAction="#calcular" onMouseClicked="#calcular" prefHeight="27.0" promptText="OBJETIVO" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -414,16 +414,6 @@
                                  </padding>
                               </Label>
                               <TextField fx:id="textSuperavit" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Calorías en superavit" />
-                           </children>
-                        </VBox>
-                        <VBox styleClass="x">
-                           <children>
-                              <Label alignment="TOP_LEFT" text="Indice cintura altura" textFill="#b2b2b2" wrapText="true">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <TextField fx:id="textICA" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Indice cintura altura" />
                            </children>
                         </VBox>
                      </children>

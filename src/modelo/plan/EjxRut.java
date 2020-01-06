@@ -56,13 +56,6 @@ public class EjxRut extends BasePlan {
         return Plan;
     }
 
-    public void setPlan(Plan Plan) throws DAOException {
-        if (Plan.isEmpty()) {
-            throw new DAOException("EJXRUT: Seleccione una Plan");
-        }
-        this.Plan = Plan;
-    }
-
     public Ejercicio getEjercicio() {
         return ejercicio;
     }
@@ -73,25 +66,6 @@ public class EjxRut extends BasePlan {
         }
         this.ejercicio = ejercicio;
     }
-
-    public void setMomento(String momento) throws DAOException {
-        if (momento.isEmpty()) {
-            throw new DAOException("Seleccione un momento de la Plan");
-        }
-        String m = momento;
-        switch (m) {
-            case "POST-ENTRENO":
-            case "PRE-ENTRENO":
-            case "DURANTE EL ENTRENO":
-            case "INTERCALADO CON EL EJERCICIO ANTERIOR":
-            case "EN AYUNAS":
-                super.momento = m;
-                break;
-            default:
-                throw new DAOException("Seleccione un momento de la Plan");
-        }
-    }
-
     public void setRepeticiones(int repeticiones) throws DAOException {
         if (repeticiones <= 0) {
             throw new DAOException("Digite un numero de repeticiones valido");

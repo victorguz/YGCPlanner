@@ -23,7 +23,6 @@ public abstract class BasePlan {
     public static final String JUEVES = "JUEVES";
     public static final String VIERNES = "VIERNES";
     public static final String SABADO = "SABADO";
-    public static final String AYUNO = "AYUNO";
     public static final String DESAYUNO = "DESAYUNO";
     public static final String ALMUERZO = "ALMUERZO";
     public static final String CENA = "CENA";

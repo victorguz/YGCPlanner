@@ -141,9 +141,6 @@ public class MedidaController extends Controller<Medida> {
     @FXML
     private TextField textSuperavit;
 
-    @FXML
-    private TextField textICA;
-
     ObservableList<String> actividades = FXCollections.observableArrayList();
 
     @Override
@@ -340,7 +337,6 @@ public class MedidaController extends Controller<Medida> {
         textHarrys.setText("");
         textMifflin.setText("");
         textSuperavit.setText("");
-        textICA.setText("");
     }
 
     @Override
@@ -369,7 +365,6 @@ public class MedidaController extends Controller<Medida> {
             textBicipital.setText("" + getMedida().getBicipital());
             textSuprailiaco.setText("" + getMedida().getSuprailiaco());
             textTricipital.setText("" + getMedida().getTricipital());
-            selectObjetivo();
             calcular();
         } else {
             limpiar();
@@ -421,68 +416,22 @@ public class MedidaController extends Controller<Medida> {
     }
 
     public void calcular() {
-        Medida k = new Medida();
-        if (!getCliente().isEmpty()) {
-            try {
-                k.setCliente(getCliente());
-                k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
-                k.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
-                if (!textPeso.getText().isEmpty()) {
-                    k.setPeso(Double.parseDouble((textPeso.getText())));
-                }
-                if (!textAltura.getText().isEmpty()) {
-                    k.setAltura(Double.parseDouble(textAltura.getText()));
-                    if (!textMuneca.getText().isEmpty()) {
-                        k.setMuneca(Double.parseDouble(textMuneca.getText()));
-                        textComplexion.setText("" + k.getComplexionText());
-                    }
-                    textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
-                    textPesoIdealCreff.setText("" + k.getPesoIdealCreff() + " Kg");
-                    textPesoIdealLorentz.setText("" + k.getPesoIdealLorentz() + " Kg");
-                    textPesoIdealMonnerotDumaine.setText("" + k.getPesoIdealMonnerotDumaine() + " Kg");
-                    textGradoObesidad.setText(k.getGradoObesidad());
-                    textHarrys.setText("" + k.getTasaMetabolicaHarrys());
-                    textSuperavit.setText("" + k.getSuperavitODeficit());
-                    textMifflin.setText("" + k.getTasaMetabolicaMifflin());
-                    textIMC.setText("" + k.getIndiceMasaCorporal() + " Kg/m2");
-
-                    if (!textCinturaMedia.getText().isEmpty()) {
-                        k.setCinturaMedia(Double.parseDouble(textCinturaMedia.getText()));
-                        textICA.setText("" + k.getIndiceCinturaAltura());
-                    }
-                }
-                //Pliegues
-                if (textSuprailiaco.getText().isEmpty()) {
-                    k.setSuprailiaco(0);
-                } else {
-                    k.setSuprailiaco(Double.parseDouble(textSuprailiaco.getText()));
-                }
-                if (textSubescapular.getText().isEmpty()) {
-
-                    k.setSubescapular(0);
-                } else {
-                    k.setSubescapular(Double.parseDouble(textSubescapular.getText()));
-                }
-                if (textBicipital.getText().isEmpty()) {
-
-                    k.setBicipital(0);
-                } else {
-                    k.setBicipital(Double.parseDouble(textBicipital.getText()));
-                }
-                if (textTricipital.getText().isEmpty()) {
-                    k.setTricipital(0);
-                } else {
-                    k.setTricipital(Double.parseDouble(textTricipital.getText()));
-                }
-                textDensidad.setText("" + k.getDensidadCorporalPorPliegues());
-                textPorcentajeGrasa.setText(k.getPorcentajeGrasaSiri() + " %");
-                textPesoGrasa.setText("" + k.getPesoGrasaCorporal() + " Kg");
-                textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
-                textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
-        }
+        Medida k = captar();
+        textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
+        textPesoIdealCreff.setText("" + k.getPesoIdealCreff() + " Kg");
+        textPesoIdealLorentz.setText("" + k.getPesoIdealLorentz() + " Kg");
+        textPesoIdealMonnerotDumaine.setText("" + k.getPesoIdealMonnerotDumaine() + " Kg");
+        textGradoObesidad.setText(k.getGradoObesidad());
+        textHarrys.setText("" + k.getTasaMetabolicaHarrys());
+        textSuperavit.setText("" + k.getSuperavitODeficit());
+        textMifflin.setText("" + k.getTasaMetabolicaMifflin());
+        textIMC.setText("" + k.getIndiceMasaCorporal() + " Kg/m2");
+        textDensidad.setText("" + k.getDensidadCorporalPorPliegues());
+        textPorcentajeGrasa.setText(k.getPorcentajeGrasaSiri() + " %");
+        textPesoGrasa.setText("" + k.getPesoGrasaCorporal() + " Kg");
+        textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
+        textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
+        labelObjetivo.setText("Calorías para " + k.getObjetivo().toLowerCase());
     }
 
     /**
@@ -517,10 +466,5 @@ public class MedidaController extends Controller<Medida> {
         });
         t.setDaemon(true);
         t.start();
-    }
-
-    public void selectObjetivo() {
-        labelObjetivo.setText("Calorías para " + comboObjetivos.getSelectionModel().getSelectedItem().toLowerCase());
-        calcular();
     }
 }
