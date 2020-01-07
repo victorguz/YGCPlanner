@@ -5,7 +5,6 @@
  */
 package modelo.cliente;
 
-import DAO.DAOException;
 import controlador.Operacion;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -56,8 +55,7 @@ public class Medida {
             double bicepIzq, double bicepDer,
             double cuadricepIzq, double cuadricepDer,
             double pantorrillaDer, double pantorrillaIzq,
-            String actividad)
-            throws DAOException {
+            String actividad) {
         setMedidakey(historialKey);
         setCliente(cliente);
         setFecha(fecha);
@@ -85,8 +83,7 @@ public class Medida {
             double cadera, double cuello, double pectoral,
             double bicepIzq, double bicepDer,
             double cuadricepIzq, double cuadricepDer,
-            double pantorrillaDer, double pantorrillaIzq, String actividad)
-            throws DAOException {
+            double pantorrillaDer, double pantorrillaIzq, String actividad) {
         setCliente(cliente);
         setFecha(fecha);
         setPeso(peso);
@@ -110,10 +107,7 @@ public class Medida {
         return peso;
     }
 
-    public void setPeso(double peso) throws DAOException {
-        if (peso < 0) {
-            throw new DAOException("Ingrese una medida de peso válida");
-        }
+    public void setPeso(double peso) {
         this.peso = peso;
     }
 
@@ -121,10 +115,7 @@ public class Medida {
         return altura;
     }
 
-    public void setAltura(double altura) throws DAOException {
-        if (altura < 0) {
-            throw new DAOException("Ingrese una medida de altura válida");
-        }
+    public void setAltura(double altura) {
         this.altura = altura;
     }
 
@@ -133,10 +124,7 @@ public class Medida {
         return cinturaAlta;
     }
 
-    public void setCinturaAlta(double cinturaAlta) throws DAOException {
-        if (cinturaAlta < 0) {
-            throw new DAOException("Ingrese una medida de cintura alta válida");
-        }
+    public void setCinturaAlta(double cinturaAlta) {
         this.cinturaAlta = cinturaAlta;
     }
 
@@ -144,10 +132,7 @@ public class Medida {
         return cinturaMedia;
     }
 
-    public void setCinturaMedia(double cinturaMedia) throws DAOException {
-        if (cinturaMedia < 0) {
-            throw new DAOException("Ingrese una medida de cintura media válida");
-        }
+    public void setCinturaMedia(double cinturaMedia) {
         this.cinturaMedia = cinturaMedia;
     }
 
@@ -155,10 +140,7 @@ public class Medida {
         return cinturaBaja;
     }
 
-    public void setCinturaBaja(double cinturaBaja) throws DAOException {
-        if (cinturaBaja < 0) {
-            throw new DAOException("Ingrese una medida de cintura baja válida");
-        }
+    public void setCinturaBaja(double cinturaBaja) {
         this.cinturaBaja = cinturaBaja;
     }
 
@@ -166,10 +148,7 @@ public class Medida {
         return cuello;
     }
 
-    public void setCuello(double cuello) throws DAOException {
-        if (cuello < 0) {
-            throw new DAOException("Ingrese una medida de cuello válida");
-        }
+    public void setCuello(double cuello) {
         this.cuello = cuello;
     }
 
@@ -177,10 +156,7 @@ public class Medida {
         return cadera;
     }
 
-    public void setCadera(double cadera) throws DAOException {
-        if (cadera < 0) {
-            throw new DAOException("Ingrese una medida de cadera válida");
-        }
+    public void setCadera(double cadera) {
         this.cadera = cadera;
     }
 
@@ -188,10 +164,7 @@ public class Medida {
         return bicepIzq;
     }
 
-    public void setBicepIzq(double bicepIzq) throws DAOException {
-        if (bicepIzq < 0) {
-            throw new DAOException("Ingrese una medidas de bicep izquierdo válida");
-        }
+    public void setBicepIzq(double bicepIzq) {
         this.bicepIzq = bicepIzq;
     }
 
@@ -199,10 +172,7 @@ public class Medida {
         return bicepDer;
     }
 
-    public void setBicepDer(double bicepDer) throws DAOException {
-        if (bicepDer < 0) {
-            throw new DAOException("Ingrese una medidas de bicep derecho válida");
-        }
+    public void setBicepDer(double bicepDer) {
         this.bicepDer = bicepDer;
     }
 
@@ -210,10 +180,7 @@ public class Medida {
         return cuadricepIzq;
     }
 
-    public void setCuadricepIzq(double cuadricepIzq) throws DAOException {
-        if (cuadricepIzq < 0) {
-            throw new DAOException("Ingrese una medidas de cuadricep izquierdo válida");
-        }
+    public void setCuadricepIzq(double cuadricepIzq) {
         this.cuadricepIzq = cuadricepIzq;
     }
 
@@ -221,10 +188,7 @@ public class Medida {
         return cuadricepDer;
     }
 
-    public void setCuadricepDer(double cuadricepDer) throws DAOException {
-        if (cuadricepDer < 0) {
-            throw new DAOException("Ingrese una medidas de cuadricep derecho válida");
-        }
+    public void setCuadricepDer(double cuadricepDer) {
         this.cuadricepDer = cuadricepDer;
     }
 
@@ -232,10 +196,7 @@ public class Medida {
         return pantorrillaDer;
     }
 
-    public void setPantorrillaDer(double pantorrillaDer) throws DAOException {
-        if (pantorrillaDer < 0) {
-            throw new DAOException("Ingrese una medidas de pantorrilla derecha válida");
-        }
+    public void setPantorrillaDer(double pantorrillaDer) {
         this.pantorrillaDer = pantorrillaDer;
     }
 
@@ -243,10 +204,7 @@ public class Medida {
         return pantorrillaIzq;
     }
 
-    public void setPantorrillaIzq(double pantorrillaIzq) throws DAOException {
-        if (pantorrillaIzq < 0) {
-            throw new DAOException("Ingrese una medidas de pantorrilla izquierda válida");
-        }
+    public void setPantorrillaIzq(double pantorrillaIzq) {
         this.pantorrillaIzq = pantorrillaIzq;
     }
 
@@ -254,10 +212,7 @@ public class Medida {
         return pectoral;
     }
 
-    public void setPectoral(double pectoral) throws DAOException {
-        if (pectoral < 0) {
-            throw new DAOException("Ingrese una medidas de pectoral válida");
-        }
+    public void setPectoral(double pectoral) {
         this.pectoral = pectoral;
     }
 
@@ -265,18 +220,15 @@ public class Medida {
         return actividad;
     }
 
-    public void setActividad(String actividad) throws DAOException {
-                this.actividad = actividad;
+    public void setActividad(String actividad) {
+        this.actividad = actividad.toLowerCase();
     }
 
     public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) throws DAOException {
-        if (fecha == null) {
-            throw new DAOException("Fecha incorrecta");
-        }
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -288,17 +240,11 @@ public class Medida {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) throws DAOException {
-        if (cliente == null || cliente.isEmpty()) {
-            throw new DAOException("Seleccione un cliente");
-        }
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public void setMedidakey(int medidakey) throws DAOException {
-        if (medidakey < 0) {
-            throw new DAOException("Medidakey inválido");
-        }
+    public void setMedidakey(int medidakey) {
         this.medidakey = medidakey;
     }
 
@@ -306,21 +252,15 @@ public class Medida {
         return objetivo;
     }
 
-    public void setObjetivo(String objetivo) throws DAOException {
-        if (objetivo.isEmpty()) {
-            throw new DAOException("Seleccione un objetivo");
-        }
-        this.objetivo = objetivo;
+    public void setObjetivo(String objetivo) {
+        this.objetivo = objetivo.toLowerCase();
     }
 
     public double getTricipital() {
         return tricipital;
     }
 
-    public void setTricipital(double tricipital) throws DAOException {
-        if (tricipital < 0) {
-            throw new DAOException("Digite una medida de pliegue tricipital válida");
-        }
+    public void setTricipital(double tricipital) {
         this.tricipital = tricipital;
     }
 
@@ -328,10 +268,7 @@ public class Medida {
         return subescapular;
     }
 
-    public void setSubescapular(double subescapular) throws DAOException {
-        if (subescapular < 0) {
-            throw new DAOException("Digite una medida de pliegue subescapular válida");
-        }
+    public void setSubescapular(double subescapular) {
         this.subescapular = subescapular;
     }
 
@@ -339,10 +276,7 @@ public class Medida {
         return bicipital;
     }
 
-    public void setBicipital(double bicipital) throws DAOException {
-        if (bicipital < 0) {
-            throw new DAOException("Digite una medida de pliegue bicipital válida");
-        }
+    public void setBicipital(double bicipital) {
         this.bicipital = bicipital;
     }
 
@@ -350,10 +284,7 @@ public class Medida {
         return suprailiaco;
     }
 
-    public void setSuprailiaco(double suprailiaco) throws DAOException {
-        if (suprailiaco < 0) {
-            throw new DAOException("Digite una medida de pliegue supraliaco válida");
-        }
+    public void setSuprailiaco(double suprailiaco) {
         this.suprailiaco = suprailiaco;
     }
 
@@ -361,10 +292,7 @@ public class Medida {
         return muneca;
     }
 
-    public void setMuneca(double muneca) throws DAOException {
-        if (muneca < 0) {
-            throw new DAOException("Digite una medida de muñeca válida");
-        }
+    public void setMuneca(double muneca) {
         this.muneca = muneca;
     }
 
@@ -376,16 +304,16 @@ public class Medida {
     public String getComplexionText() {
         double c = getAltura() / getMuneca();
         switch (getCliente().getSexo()) {
-            case "Hombre":
-                if (c < 9.6) {//grande
+            case "hombre":
+                if (c < 9.6) {//Grande
                     return "Grande";
                 } else if (c >= 9.6 && c <= 10.4) {//mediano
                     return "Mediana";
                 } else {//pequeño
                     return "Pequeña";
                 }
-            case "Mujer":
-                if (c < 10.1) {//grande
+            case "mujer":
+                if (c < 10.1) {//Grande
                     return "Grande";
                 } else if (c >= 10.1 && c <= 11) {//mediano
                     return "Mediana";
@@ -427,11 +355,10 @@ public class Medida {
         }
     }
 
-    
-
     /**
      * Formula de peso ideal de Creff
-     * @return 
+     *
+     * @return
      */
     public double getPesoIdealCreff() {
         switch (getComplexionText()) {
@@ -460,9 +387,9 @@ public class Medida {
      */
     public double getPesoIdealLorentz() {
         switch (getCliente().getSexo()) {
-            case "Hombre":
+            case "hombre":
                 return Operacion.redondear(getAltura() - 100 - (getAltura() - 150) / 4);
-            case "Mujer":
+            case "mujer":
                 return Operacion.redondear(getAltura() - 100 - (getAltura() - 150) / 2.5);
             default:
                 return -1;
@@ -474,7 +401,7 @@ public class Medida {
      *
      */
     public double getPesoIdealMonnerotDumaine() {
-        return Operacion.redondear((getAltura() - 100 + 4 * getMuneca())/2);
+        return Operacion.redondear((getAltura() - 100 + 4 * getMuneca()) / 2);
     }
 
     /**
@@ -500,9 +427,9 @@ public class Medida {
 
     public double getTasaMetabolicaMifflin() {
         switch (getCliente().getSexo()) {
-            case "Mujer":
+            case "mujer":
                 return Operacion.redondear(-161 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad());
-            case "Hombre":
+            case "hombre":
                 return Operacion.redondear(5 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad());
             default:
                 return Operacion.redondear(-1);
@@ -511,10 +438,10 @@ public class Medida {
 
     public double getTasaMetabolicaHarrys() {
         switch (getCliente().getSexo()) {
-            case "Mujer":
+            case "mujer":
                 return Operacion.redondear((665 + 9.6 * getPeso()
                         + 1.85 * getAltura() - 4.7 * getCliente().getEdad()));
-            case "Hombre":
+            case "hombre":
                 return Operacion.redondear((66.5 + 13.7 * getPeso()
                         + 5 * getAltura() - 6.8 * getCliente().getEdad()));
             default:
@@ -526,29 +453,30 @@ public class Medida {
      * Obtiene las calorías que debe consumir la persona dependiendo de su TMB
      *
      *
+     * @return
      */
     public double getCaloriasMantenimiento() {
         double tasa = getTasaMetabolicaHarrys();
         switch (getActividad()) {
-            case "NINGUNO: 0 DIAS X SEMANA":
+            case "ninguno: 0 dias x semana":
                 return Operacion.redondear(tasa * 1.2);
-            case "LIGERO: 1 A 3 DÍAS X SEMANA":
+            case "ligero: 1 a 3 días x semana":
                 return Operacion.redondear(tasa * 1.375);
-            case "MODERADO: 3 A 5 DÍAS X SEMANA":
+            case "moderado: 3 a 5 días x semana":
                 return Operacion.redondear(tasa * 1.55);
-            case "DEPORTISTA: 6 A 7 DÍAS X SEMANA":
+            case "deportista: 6 a 7 días x semana":
                 return Operacion.redondear(tasa * 1.72);
-            case "ATLETA: DOS VECES AL DIA":
+            case "atleta: dos veces al dia":
                 return Operacion.redondear(tasa * 1.9);
             default:
-                return Operacion.redondear(-1);
+                return -1;
         }
     }
 
     //c
     public double getCoeficienteC() {
         switch (getCliente().getSexo()) {
-            case "Hombre":
+            case "hombre":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (1.1620);
                 } else if (getCliente().getEdad() >= 20 && getCliente().getEdad() <= 29) {
@@ -561,7 +489,7 @@ public class Medida {
                     return (1.1714);
                 }
                 break;
-            case "Mujer":
+            case "mujer":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (1.1549);
                 } else if (getCliente().getEdad() >= 20 && getCliente().getEdad() <= 29) {
@@ -575,13 +503,13 @@ public class Medida {
                 }
                 break;
         }
-        return (-1);
+        return -1;
     }
 
     //m
     public double getCoeficienteM() {
         switch (getCliente().getSexo()) {
-            case "Hombre":
+            case "hombre":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (0.0630);
                 } else if (getCliente().getEdad() >= 20 && getCliente().getEdad() <= 29) {
@@ -594,7 +522,7 @@ public class Medida {
                     return (0.0779);
                 }
                 break;
-            case "Mujer":
+            case "mujer":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (0.0678);
                 } else if (getCliente().getEdad() >= 20 && getCliente().getEdad() <= 29) {
@@ -608,7 +536,7 @@ public class Medida {
                 }
                 break;
         }
-        return (-1);
+        return -1;
     }
 
     /**
@@ -665,11 +593,11 @@ public class Medida {
 
     public double getSuperavitODeficit() {
         switch (getObjetivo()) {
-            case "Aumentar":
+            case "aumentar":
                 return Operacion.redondear(getCaloriasMantenimiento() + getCaloriasMantenimiento() * 0.25);
-            case "Perder":
+            case "perder":
                 return Operacion.redondear(getCaloriasMantenimiento() - getCaloriasMantenimiento() * 0.25);
-            case "Mantener":
+            case "mantener":
                 return Operacion.redondear(getCaloriasMantenimiento());
         }
         return -1;
@@ -677,11 +605,11 @@ public class Medida {
 
     public double getProteinas() {//PONER TEXTFIELD PARA SELECCIONAR CALORIAS Limite 4g
         switch (getObjetivo()) {
-            case "Aumentar":
+            case "aumentar":
                 return 4 * getPeso();
-            case "Perder":
+            case "perder":
                 return 2 * getPeso();
-            case "Mantener":
+            case "mantener":
                 return 2.7 * getPeso();
         }
         return -1;
@@ -698,11 +626,11 @@ public class Medida {
 
     public double getGrasas() {
         switch (getObjetivo()) {
-            case "Aumentar":
+            case "aumentar":
                 return 2 * getPeso();
-            case "Perder":
+            case "perder":
                 return getPeso();
-            case "Mantener":
+            case "mantener":
                 return 1.5 * getPeso();
         }
         return -1;

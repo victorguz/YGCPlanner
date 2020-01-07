@@ -6,9 +6,14 @@
 package DAO.plan;
 
 import DAO.DAO;
+import DAO.DAOException;
+import javafx.collections.ObservableList;
+import modelo.plan.AlxDiet;
 import modelo.plan.EjxRut;
-
 
 public interface EjxRutDAO extends DAO<EjxRut, String> {
 
+    public ObservableList<EjxRut> obtenerTodos(int plankey, String dia, String momento) throws DAOException;
+
+    public EjxRut obtener(int ejerciciokey, String dia, String momento) throws DAOException;
 }

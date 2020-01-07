@@ -12,12 +12,18 @@ import static controlador.Controller.setEjerciciosUpdated;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import modelo.plan.Ejercicio;
 
 public class EjerciciosController extends Controller<Ejercicio> {
 
+    @FXML
+    private ComboBox<Ejercicio> comboEjercicios;
+
+    @FXML
+    private TextField textBuscarEjercicio;
     @FXML
     private TextField textNombre;
 
@@ -72,7 +78,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     mensaje("A este ejercicio le faltan datos", "aviso");
                 }
             } catch (DAOException ex) {
-            excepcion(ex);
+                excepcion(ex);
             }
         } else {
             mensaje("Seleccione un ejercicio", "aviso");
@@ -95,7 +101,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     mensaje("A este ejercicio le faltan datos", "aviso");
                 }
             } catch (DAOException ex) {
-            excepcion(ex);
+                excepcion(ex);
             }
         } else {
             mensaje("Seleccione un ejercicio", "aviso");
@@ -131,8 +137,28 @@ public class EjerciciosController extends Controller<Ejercicio> {
 
     @Override
     public void obtener() {
-        obtenerEjercicios();
-        mostrar();
+        try {
+            comboEjercicios.getItems().clear();
+            if (textBuscarEjercicio.getText().isEmpty()) {
+                ejercicios = getEjercicios().obtenerTodos();
+            } else {
+                ejercicios = getEjercicios().obtenerTodos(textBuscarEjercicio.getText());
+            }
+            if (!ejercicios.isEmpty()) {
+                comboEjercicios.setItems(ejercicios);
+                selectEjercicio(0);
+            }
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+        setEjerciciosUpdated(true);
+    }
+
+    public void selectEjercicio(int i) {
+        if (!comboEjercicios.getItems().isEmpty()) {
+            comboEjercicios.getSelectionModel().select(i);
+            mostrar();
+        }
     }
 
 }

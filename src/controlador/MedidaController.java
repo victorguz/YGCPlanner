@@ -159,7 +159,6 @@ public class MedidaController extends Controller<Medida> {
     @Override
     public Medida captar() {
         Medida k = new Medida();
-        try {
             if (getCliente().isEmpty()) {
                 k.setCliente(null);
             } else {
@@ -265,10 +264,6 @@ public class MedidaController extends Controller<Medida> {
                 k.setSuprailiaco(Double.parseDouble(textSuprailiaco.getText()));
             }
             return k;
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-        return k;
     }
 
     @Override
@@ -417,7 +412,8 @@ public class MedidaController extends Controller<Medida> {
 
     public void calcular() {
         Medida k = captar();
-        textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
+                textComplexion.setText(""+k.getComplexionText());
+textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
         textPesoIdealCreff.setText("" + k.getPesoIdealCreff() + " Kg");
         textPesoIdealLorentz.setText("" + k.getPesoIdealLorentz() + " Kg");
         textPesoIdealMonnerotDumaine.setText("" + k.getPesoIdealMonnerotDumaine() + " Kg");

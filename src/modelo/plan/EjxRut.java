@@ -5,8 +5,6 @@
  */
 package modelo.plan;
 
-import DAO.DAOException;
-
 /**
  * Esta clase enlaza la Plan con los ejercicios, teniendo en cuenta que la
  * relación es de muchos a muchos.
@@ -16,7 +14,6 @@ import DAO.DAOException;
 public class EjxRut extends BasePlan {
 
     private int ejxrutkey;
-    private Plan Plan = new Plan();
     private Ejercicio ejercicio = new Ejercicio();
     private int repeticiones;
     private int series;
@@ -25,14 +22,14 @@ public class EjxRut extends BasePlan {
 
     }
 
-    public EjxRut(Plan Plan, Ejercicio ejercicio, int repeticiones, int series, String momento, String dia) throws DAOException {
+    public EjxRut(Plan Plan, Ejercicio ejercicio, int repeticiones, int series, String momento, String dia) {
         super(Plan, momento, dia);
         setEjercicio(ejercicio);
         setRepeticiones(repeticiones);
         setSeries(series);
     }
 
-    public EjxRut(int ejxrutkey, Plan Plan, Ejercicio ejercicio, int repeticiones, int series, String momento, String dia, double peso) throws DAOException {
+    public EjxRut(int ejxrutkey, Plan Plan, Ejercicio ejercicio, int repeticiones, int series, String momento, String dia, double peso) {
         super(Plan, momento, dia);
         setEjxrutkey(ejxrutkey);
         setPlan(Plan);
@@ -45,31 +42,19 @@ public class EjxRut extends BasePlan {
         return ejxrutkey;
     }
 
-    public void setEjxrutkey(int ejxrutkey) throws DAOException {
-        if (ejxrutkey < 0) {
-            throw new DAOException("La llave primaria no puede ser " + ejxrutkey);
-        }
+    public void setEjxrutkey(int ejxrutkey) {
         this.ejxrutkey = ejxrutkey;
-    }
-
-    public Plan getPlan() {
-        return Plan;
     }
 
     public Ejercicio getEjercicio() {
         return ejercicio;
     }
 
-    public void setEjercicio(Ejercicio ejercicio) throws DAOException {
-        if (ejercicio.isEmpty()) {
-            throw new DAOException("EJXRUT: Seleccione un ejercicio");
-        }
+    public void setEjercicio(Ejercicio ejercicio) {
         this.ejercicio = ejercicio;
     }
-    public void setRepeticiones(int repeticiones) throws DAOException {
-        if (repeticiones <= 0) {
-            throw new DAOException("Digite un numero de repeticiones valido");
-        }
+
+    public void setRepeticiones(int repeticiones) {
         this.repeticiones = repeticiones;
     }
 
@@ -77,10 +62,7 @@ public class EjxRut extends BasePlan {
         return repeticiones;
     }
 
-    public void setSeries(int series) throws DAOException {
-        if (series < 0) {
-            throw new DAOException("Digite un numero de series valido");
-        }
+    public void setSeries(int series) {
         this.series = series;
     }
 
@@ -89,12 +71,19 @@ public class EjxRut extends BasePlan {
     }
 
     @Override
+    public String toString() {
+        return getSeries() + " x " + getRepeticiones() + " de " + getEjercicio().getNombre();
+    }
+
+    @Override
     public boolean isEmpty() {
         return getPlan().isEmpty()
                 || getEjercicio().isEmpty()
                 || getRepeticiones() <= 0
                 || getSeries() <= 0
-                || super.isEmpty();
+                || getPlan().isEmpty()
+                || getMomento().isEmpty()
+                || getDia().isEmpty();
     }
 
 }

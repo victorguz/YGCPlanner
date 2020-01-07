@@ -5,7 +5,6 @@
  */
 package modelo.plan;
 
-import DAO.DAOException;
 
 /**
  *

@@ -34,8 +34,7 @@ public class SQLiteRutinasDAO implements DAO.plan.PlanDAO {
             + "where Plankey = ? ";
     private final String WHERE = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad, tipo FROM Planes "
-            + "where \"" + Controller.getFiltro().replaceAll("'", "") + "\" like ? "
-            + " and tipo = ? order by " + Controller.getFiltro().replaceAll("'", "") + " DESC";
+            + "where tipo = ? order by nombre like ? desc, nombre like ? desc, nombre like ? DESC";
     private final String ALL = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? "
             + "order by usetime desc, usedate desc";
@@ -49,12 +48,12 @@ public class SQLiteRutinasDAO implements DAO.plan.PlanDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
-            s.setString(1, a.getNombre().toLowerCase());
-            s.setString(2, a.getObjetivo().toLowerCase());
-            s.setString(3, a.getDescripcion().toLowerCase());
-            s.setString(4, a.getSexo().toLowerCase());
+            s.setString(1, a.getNombre());
+            s.setString(2, a.getObjetivo());
+            s.setString(3, a.getDescripcion());
+            s.setString(4, a.getSexo());
             s.setInt(5, a.getEdad());
-            s.setString(6, "RUTINA");
+            s.setString(6, "rutina");
             s.setDate(7, Date.valueOf(LocalDate.now()));
             s.setTime(8, Time.valueOf(LocalTime.now()));
             if (s.executeUpdate() == 0) {
@@ -135,7 +134,7 @@ public class SQLiteRutinasDAO implements DAO.plan.PlanDAO {
         ObservableList<Plan> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(ALL);
-            s.setString(1, "RUTINA");
+            s.setString(1, "rutina");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));
@@ -198,7 +197,9 @@ public class SQLiteRutinasDAO implements DAO.plan.PlanDAO {
 
     /**
      *
-     * @return @throws DAOException
+     * @param equal
+     * @return
+     * @throws DAOException
      */
     @Override
     public ObservableList<Plan> obtenerTodos(String equal) throws DAOException {
@@ -207,12 +208,9 @@ public class SQLiteRutinasDAO implements DAO.plan.PlanDAO {
         ObservableList<Plan> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(WHERE);
-            if (Controller.getFiltro().equalsIgnoreCase("'edad'")) {
-                s.setInt(1, Integer.parseInt(equal));
-            } else {
-                s.setString(1, "%" + equal.toLowerCase() + "%");
-            }
-            s.setString(2, "RUTINA");
+            s.setString(1, "%"+equal+"%");
+            s.setString(2, "%"+equal+"%");
+            s.setString(3, "%"+equal+"%");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));

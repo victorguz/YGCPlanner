@@ -15,7 +15,7 @@ public class Referencia {
     private int referenciakey;
     private String nombre = "";
     private String descripcion = "";
-    private String link = "";
+    private String dato = "";
 
     public Referencia() {
     }
@@ -23,7 +23,7 @@ public class Referencia {
     public Referencia(String nombre, String desc, String link) {
         this.nombre = nombre;
         this.descripcion = desc;
-        this.link = link;
+        this.dato = link;
     }
 
     public int getReferenciakey() {
@@ -64,29 +64,29 @@ public class Referencia {
         this.nombre = nombre;
     }
 
-    public String getLink() {
-        return link;
+    public String getDato() {
+        return dato;
     }
 
     /**
      *
-     * @param link Dato a guardar como link
+     * @param dato Dato a guardar como dato
      * @
      */
-    public void setLink(String link)  {
-        this.link = link;
+    public void setDato(String dato)  {
+        this.dato = dato;
     }
 
     public void setLink(String link, String unQue)  {
-        this.link = link;
+        this.dato = link;
     }
 
     @Override
     public String toString() {
-        return getNombre()+ "\t" + getDescripcion()+ "\t" +getLink();
+        return getNombre()+ "\t" + getDescripcion()+ "\t" +getDato();
     }
 
     public boolean isEmpty() {
-        return getNombre().isEmpty() || getDescripcion().isEmpty() || getLink().isEmpty();
+        return getNombre().isEmpty() || getDescripcion().isEmpty() || getDato().isEmpty();
     }
 }

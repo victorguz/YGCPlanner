@@ -34,9 +34,9 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
-            s.setString(1, a.getNombre().toUpperCase());
-            s.setString(2, a.getDescripcion().toUpperCase());
-            s.setString(3, a.getLink().toUpperCase());
+            s.setString(1, a.getNombre());
+            s.setString(2, a.getDescripcion());
+            s.setString(3, a.getDato());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar Referencia");
             }
@@ -66,7 +66,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
             s = conex.prepareStatement(UPDATE);
            s.setString(3, a.getNombre());
             s.setString(1, a.getDescripcion());
-            s.setString(2, a.getLink());
+            s.setString(2, a.getDato());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar Referencia");
             }
@@ -144,12 +144,12 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         Referencia l = null;
         try {
             s = conex.prepareStatement(SELECT);
-            s.setString(1, equal.toUpperCase());
+            s.setString(1, equal);
             rs = s.executeQuery();
             if (rs.next()) {
                 l = convertir(rs);
             } else {
-                throw new DAOException("Referencia no encontrada");
+                throw new DAOException("Referencia no encontrada: "+equal);
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -179,7 +179,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         ObservableList<Referencia> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(SELECTWHERE);
-            s.setString(1, "%"+Referencia.toUpperCase()+"%");
+            s.setString(1, "%"+Referencia+"%");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));
@@ -215,7 +215,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
             c.setReferenciakey(rs.getInt("Referenciakey"));
             c.setNombre(rs.getString("nombre"));
             c.setDescripcion(rs.getString("descripcion"));
-            c.setLink(rs.getString("link"));
+            c.setDato(rs.getString("link"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

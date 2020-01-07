@@ -83,7 +83,8 @@ public class Ejercicio {
 
     public boolean isEmpty() {
         return getNombre().isEmpty()
-        ||getDescripcion().isEmpty()||getComentarios().isEmpty();
+                || getDescripcion().isEmpty()
+                || getComentarios().isEmpty();
     }
 
     @Override
@@ -91,22 +92,4 @@ public class Ejercicio {
         return getNombre();
     }
 
-    public void usar() {
-        this.uso++;
-    }
-
-    public void reiniciarUso() {
-        this.uso = 0;
-    }
-
-    public int getUso() {
-        return uso;
-    }
-
-    public void setUso(int uso) throws DAOException {
-        if (uso < 0) {
-            throw new DAOException("Este valor de uso es inválido");
-        }
-        this.uso = uso;
-    }
 }

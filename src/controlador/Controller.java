@@ -56,29 +56,18 @@ public abstract class Controller<T> implements Initializable {
     @FXML
     protected TextField textEdad;
 
-    @FXML
-    protected ComboBox<Alimento> comboAlimentos;
 
-    @FXML
-    protected ComboBox<Ejercicio> comboEjercicios;
+    protected static ObservableList<Cliente> clientes = FXCollections.observableArrayList();
 
-    @FXML
-    protected TextField textBuscarEjercicio;
+    protected static ObservableList<Medida> medidas = FXCollections.observableArrayList();
 
-    @FXML
-    protected TextField textBuscarAlimento;
+    protected static ObservableList<Plan> rutinas = FXCollections.observableArrayList();
 
-    protected static ObservableList<Cliente> clientes=FXCollections.observableArrayList();
+    protected static ObservableList<Plan> dietas = FXCollections.observableArrayList();
 
-    protected static ObservableList<Medida> medidas=FXCollections.observableArrayList();
+    public static ObservableList<Alimento> alimentos = FXCollections.observableArrayList();
 
-    protected static ObservableList<Plan> rutinas=FXCollections.observableArrayList();
-
-    protected static ObservableList<Plan> dietas=FXCollections.observableArrayList();
-
-    public static ObservableList<Alimento> alimentos=FXCollections.observableArrayList();
-
-    protected static ObservableList<Ejercicio> ejercicios=FXCollections.observableArrayList();
+    protected static ObservableList<Ejercicio> ejercicios = FXCollections.observableArrayList();
 
     protected static final ObservableList<String> sexos = FXCollections.observableArrayList("Hombre", "Mujer");
     protected static final ObservableList<String> objetivos = FXCollections.observableArrayList("Perder", "Aumentar", "Mantener");
@@ -95,15 +84,7 @@ public abstract class Controller<T> implements Initializable {
     private static boolean alimentosUpdated;
     private static boolean ejerciciosUpdated;
     private static boolean onConfig;
-    private static String filtro = "nombre";
 
-    public static String getFiltro() {
-        return filtro;
-    }
-
-    public static void setFiltro(String filtro) {
-        Controller.filtro = filtro;
-    }
 
     public static boolean isEjerciciosUpdated() {
         return ejerciciosUpdated;
@@ -231,7 +212,7 @@ public abstract class Controller<T> implements Initializable {
         } else if (ex.contains("planes.nombre")) {
             return "Ya existe un plan con este nombre";
         } else if (ex.contains("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento")) {
-            return "Ya añadiste este alimento para este momento";
+            return "Ya añadiste este alimento para este momento del día";
         } else if (ex.contains("ejercicios.nombre")) {
             return "Ya existe un ejercicio con este nombre";
         } else if (ex.contains("alimentos.nombre")) {
@@ -245,6 +226,8 @@ public abstract class Controller<T> implements Initializable {
         } else if (ex.contains("no such column: ")) {
             String i = ex.substring(ex.indexOf("no such column: "));
             return "No se encontró la columna " + i + ", contacte al programador";
+        } else if (ex.contains("ejxrut.plankey, ejxrut.ejerciciokey, ejxrut.momento")) {
+            return "Ya añadiste este ejercicio para este momento del día";
         } else {
             return ex;
         }
@@ -283,7 +266,7 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static boolean getLetters(KeyEvent e) {
-        Pattern patron = Pattern.compile("[A-Za-z]*\\s*");
+        Pattern patron = Pattern.compile("[A-Za-z]*\\s*[áéíóúñ]*");
         Matcher mevento = patron.matcher(e.getCharacter());
         if (mevento.matches()) {
             return true;
@@ -294,7 +277,7 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static boolean getDigits(KeyEvent e) {
-        Pattern patron = Pattern.compile("\\w*\\s*");
+        Pattern patron = Pattern.compile("\\w*\\s*[.,-_]*[áéíóúñ]*");
         Matcher mevento = patron.matcher(e.getCharacter());
         if (mevento.matches()) {
             return true;
@@ -302,6 +285,51 @@ public abstract class Controller<T> implements Initializable {
             consume(e);
             return false;
         }
+    }
+
+    public static boolean getCorreo(KeyEvent e) {
+        Pattern patron = Pattern.compile("\\w*@\\w*.\\w*");
+        Matcher mevento = patron.matcher(e.getCharacter());
+        if (mevento.matches()) {
+            return true;
+        } else {
+            consume(e);
+            return false;
+        }
+    }
+
+    public void consumeCorreo(KeyEvent e) {
+        getCorreo(e);
+    }
+
+    public static boolean getWeb(KeyEvent e) {
+        Pattern patron = Pattern.compile("\\w*/*");
+        Matcher mevento = patron.matcher(e.getCharacter());
+        if (mevento.matches()) {
+            return true;
+        } else {
+            consume(e);
+            return false;
+        }
+    }
+
+    public void consumeWeb(KeyEvent e) {
+        getWeb(e);
+    }
+
+    public static boolean getTel(KeyEvent e) {
+        Pattern patron = Pattern.compile("[0-9]*\\s*\\+");
+        Matcher mevento = patron.matcher(e.getCharacter());
+        if (mevento.matches()) {
+            return true;
+        } else {
+            consume(e);
+            return false;
+        }
+    }
+
+    public void consumeTel(KeyEvent e) {
+        getWeb(e);
     }
 
     public void consumeDouble(KeyEvent e) {
@@ -323,7 +351,7 @@ public abstract class Controller<T> implements Initializable {
     public void selectCombo(ComboBox<String> combo, String a) {
         if (!combo.getItems().isEmpty()) {
             for (int i = 0; i < combo.getItems().size(); i++) {
-                if (combo.getItems().get(i).equals(a)) {
+                if (combo.getItems().get(i).equalsIgnoreCase(a)) {
                     combo.getSelectionModel().select(i);
                     return;
                 }
@@ -461,70 +489,4 @@ public abstract class Controller<T> implements Initializable {
         return rutinasUpdated;
     }
 
-    public void buscarAlimento() {
-        if (textBuscar.getText().isEmpty()) {
-            obtenerAlimentos();
-        } else {
-            try {
-                alimentos = getAlimentos().obtenerTodos(textBuscar.getText());
-                comboAlimentos.getItems().clear();
-                if (alimentos.isEmpty()) {
-                    mensaje("No se encontraron alimentos con este nombre", "aviso");
-                    limpiar();
-                } else {
-                    comboAlimentos.setItems(alimentos);
-                    selectAlimento(0);
-                }
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
-        }
-    }
-
-    public void obtenerAlimentos() {
-        try {
-            comboAlimentos.getItems().clear();
-            if (textBuscarAlimento.getText().isEmpty()) {
-                alimentos = getAlimentos().obtenerTodos();
-            } else {
-                alimentos = getAlimentos().obtenerTodos(textBuscarAlimento.getText());
-            }
-            if (!alimentos.isEmpty()) {
-                comboAlimentos.setItems(alimentos);
-                selectAlimento(0);
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-        isAlimentosUpdated();
-    }
-
-    public void selectAlimento(int i) {
-        if (!comboAlimentos.getItems().isEmpty()) {
-            comboAlimentos.getSelectionModel().select(i);
-        }
-    }
-
-    public void obtenerEjercicios() {
-        try {
-            comboEjercicios.getItems().clear();
-            if (textBuscarEjercicio.getText().isEmpty()) {
-                ejercicios = getEjercicios().obtenerTodos();
-            } else {
-                ejercicios = getEjercicios().obtenerTodos(textBuscarEjercicio.getText());
-            }
-            if (!ejercicios.isEmpty()) {
-                comboEjercicios.setItems(ejercicios);
-                selectEjercicio(0);
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
-    public void selectEjercicio(int i) {
-        if (!comboEjercicios.getItems().isEmpty()) {
-            comboEjercicios.getSelectionModel().select(i);
-        }
-    }
 }

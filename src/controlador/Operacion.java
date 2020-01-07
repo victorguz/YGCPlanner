@@ -30,6 +30,12 @@ public class Operacion {
         }
     }
 
+    public static String inicialMayuscula(String cadena) {
+        String ini = cadena.substring(0, 1);
+        String cad = cadena.substring(1);
+        return ini.toUpperCase() + cad.toLowerCase();
+    }
+
     public static double redondear(double a) {
         return Math.round(a * 100) / 100d;
     }

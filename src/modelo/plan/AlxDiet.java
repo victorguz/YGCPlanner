@@ -17,7 +17,7 @@ public class AlxDiet extends BasePlan {
 
     private int alxdietkey;
     private Alimento alimento;
-    private double cantidad;
+    private double cantidad = 0;
 
     public AlxDiet() {
     }
@@ -50,7 +50,7 @@ public class AlxDiet extends BasePlan {
         return alimento;
     }
 
-    public void setAlimento(Alimento alimento)  {
+    public void setAlimento(Alimento alimento) {
         this.alimento = alimento;
     }
 
@@ -80,12 +80,14 @@ public class AlxDiet extends BasePlan {
 
     @Override
     public String toString() {
-        return getMomento() + " " + getAlimento();
+        String a=((getAlimento().getUnidad().contains("unidad"))?" ":" gramos de ");
+        return getCantidad() +a+ getAlimento().toString()+((a.equals(" "))?"s":"");
     }
 
     @Override
     public boolean isEmpty() {
-        return super.isEmpty() || getAlimento().isEmpty() || getAlxdietkey() < 0;
+        return getPlan().isEmpty() || getMomento().isEmpty()
+                || getDia().isEmpty() || getAlimento().isEmpty() || getCantidad() <= 0;
     }
 
 }

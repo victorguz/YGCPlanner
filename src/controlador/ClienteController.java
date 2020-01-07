@@ -135,9 +135,9 @@ public class ClienteController extends Controller<Cliente> {
     @Override
     public void mostrar() {
         if (!getCliente().isEmpty()) {
-            textNombre.setText(getCliente().getNombre());
-            textApellido.setText(getCliente().getApellido());
-            setTipoDocumento(getCliente().getTipoIdentificacion());
+            textNombre.setText(Operacion.nombreCamelCase(getCliente().getNombre()));
+            textApellido.setText(Operacion.nombreCamelCase(getCliente().getApellido()));
+            selectCombo(comboTipoDoc,getCliente().getTipoIdentificacion());
             textDocumento.setText(getCliente().getIdentificacion());
             textEdad.setText(getCliente().getEdad() + "");
             selectCombo(comboSexo,getCliente().getSexo());
@@ -225,14 +225,6 @@ public class ClienteController extends Controller<Cliente> {
             excepcion(ex);
         } catch (DAOException ex) {
             Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void setTipoDocumento(String documento) {
-        for (int i = 0; i < comboTipoDoc.getItems().size(); i++) {
-            if (comboTipoDoc.getItems().get(i).equalsIgnoreCase(documento)) {
-                comboTipoDoc.getSelectionModel().select(i);
-            }
         }
     }
 

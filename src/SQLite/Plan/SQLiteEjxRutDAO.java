@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import modelo.plan.AlxDiet;
 import modelo.plan.EjxRut;
 
 public class SQLiteEjxRutDAO implements EjxRutDAO {
@@ -22,10 +23,14 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
     private Connection conex;
 
     private final String INSERT = "INSERT INTO EjxRut(plankey, Ejerciciokey, "
-            + "momento, dia, peso, repeticiones, series) values (?, ?, ?, ?, ?, ?)";
-    private final String WHERE = "SELECT ejxrutkey, plankey, Ejerciciokey, "
-            + "momento, dia, peso, repeticiones, series FROM EjxRut WHERE plankey = ?";
+            + "momento, dia, repeticiones, series) values (?, ?, ?, ?, ?, ?)";
     private final String DELETE = "DELETE FROM EjxRut WHERE ejxrutkey = ?";
+    private final String WHERE = "SELECT ejxrutkey, plankey, Ejerciciokey, "
+            + "momento, dia, repeticiones, series FROM ejxrut "
+            + "WHERE plankey = ? and dia = ? and momento = ?";
+    private final String SELECT = "Select ejxrutkey, plankey, Ejerciciokey, "
+            + "momento, dia, repeticiones, series FROM ejxrut "
+            + "WHERE ejerciciokey = ? and dia = ? and momento = ?";
 
     public SQLiteEjxRutDAO(Connection conex) {
         this.conex = conex;
@@ -38,8 +43,8 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             s = conex.prepareStatement(INSERT);
             s.setInt(1, a.getPlan().getPlankey());
             s.setInt(2, a.getEjercicio().getEjerciciokey());
-            s.setString(3, a.getMomento().toLowerCase());
-            s.setString(4, a.getDia().toLowerCase());
+            s.setString(3, a.getMomento());
+            s.setString(4, a.getDia());
             s.setInt(5, a.getSeries());
             s.setInt(6, a.getRepeticiones());
             if (s.executeUpdate() == 0) {
@@ -60,7 +65,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
 
     @Override
     public void modificar(EjxRut a) throws DAOException {
-                throw new DAOException("Modificar EjxRut: este metodo no funciona");
+        throw new DAOException("Modificar EjxRut: este metodo no funciona");
     }
 
     @Override
@@ -141,9 +146,8 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
         }
         try {
             EjxRut c = new EjxRut();
-            c.setEjxrutkey(rs.getInt("EjxRutkey"));
-            c.setPlan(Controller.getRutinas().obtener(""+rs.getInt("plankey")));
-            c.setEjercicio(Controller.getEjercicios().obtener(""+rs.getInt("Ejerciciokey")));
+            c.setEjxrutkey(rs.getInt("ejxrutkey"));
+            c.setEjercicio(Controller.getEjercicios().obtener("" + rs.getInt("Ejerciciokey")));
             c.setMomento(rs.getString("momento"));
             c.setDia(rs.getString("dia"));
             c.setSeries(rs.getInt("series"));
@@ -152,5 +156,75 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
+    }
+
+    @Override
+    public ObservableList<EjxRut> obtenerTodos(int plankey, String dia, String momento) throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        ObservableList<EjxRut> l = FXCollections.observableArrayList();
+        try {
+            s = conex.prepareStatement(WHERE);
+            s.setInt(1, plankey);
+            s.setString(2, dia);
+            s.setString(3, momento);
+            rs = s.executeQuery();
+            while (rs.next()) {
+                l.add(convertir(rs));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+        return l;
+    }
+
+    @Override
+    public EjxRut obtener(int ejerciciokey, String dia, String momento) throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        EjxRut l = null;
+        try {
+            s = conex.prepareStatement(SELECT);
+            s.setInt(1, ejerciciokey);
+            s.setString(2, dia);
+            s.setString(3, momento);
+            rs = s.executeQuery();
+            while (rs.next()) {
+                l = convertir(rs);
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+        return l;
     }
 }

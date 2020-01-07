@@ -17,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -75,18 +74,17 @@ public class HomeController extends Controller<StackPane> {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         obtener();
-        try {
-            if (getReferencias().obtener("DASH").getDescripcion().equalsIgnoreCase("ACTIVADO")) {
-                switchClientes();
+try {
+            if (getReferencias().obtener("dash").getDato().equalsIgnoreCase("false")) {
+            buttonClientes.setSelected(true);
+                mostrar(Clientes);
             } else {
-                buttonClientes.setSelected(true);
-                switchClientes();
+                buttonClientes.setSelected(false);
+                mostrar(Dash);
             }
         } catch (DAOException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        modificar();
-    }
+        }    }
 
     @Override
     public void obtener() {
@@ -96,11 +94,11 @@ public class HomeController extends Controller<StackPane> {
             FooterClientes = FXMLLoader.load(new File("src/vista/fxml/FooterClientes.fxml").toURL());
             setFooter(FooterClientes);
             Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
+            Medidas = FXMLLoader.load(new File("src/vista/fxml/Medidas.fxml").toURL());
             Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
             Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
-            Medidas = FXMLLoader.load(new File("src/vista/fxml/Medidas.fxml").toURL());
         } catch (MalformedURLException ex) {
             excepcion(ex);
         } catch (IOException ex) {

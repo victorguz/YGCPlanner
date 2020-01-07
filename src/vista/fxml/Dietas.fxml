@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
-<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -24,27 +23,6 @@
          <children>
             <VBox>
                <children>
-                  <VBox styleClass="x">
-                     <children>
-                        <Label text="Filtrar por:" textFill="#b2b2b2">
-                           <padding>
-                              <Insets left="6.0" />
-                           </padding>
-                        </Label>
-                        <HBox alignment="CENTER" spacing="10.0">
-                           <children>
-                              <JFXRadioButton onAction="#setFiltro" selected="true" text="Nombre">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="filtro" />
-                                 </toggleGroup>
-                              </JFXRadioButton>
-                              <JFXRadioButton onAction="#setFiltro" text="Objetivo" toggleGroup="$filtro" />
-                              <JFXRadioButton onAction="#setFiltro" text="Sexo" toggleGroup="$filtro" />
-                              <JFXRadioButton onAction="#setFiltro" text="Edad" toggleGroup="$filtro" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
                   <HBox alignment="TOP_CENTER" spacing="5.0">
                      <children>
                         <VBox styleClass="title">
@@ -130,14 +108,46 @@
                               <TextArea fx:id="textDescripcion" prefHeight="70.0" prefWidth="377.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" />
                            </children>
                         </VBox>
-                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="387.0" spacing="10.0">
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" styleClass="flowpane">
                            <children>
-                              <JFXButton onAction="#eliminar" styleClass="delete-button" text="Eliminar" />
-                              <JFXButton onAction="#limpiar" text="Limpiar" />
-                              <JFXButton onAction="#modificar" text="Modificar" />
-                              <JFXButton onAction="#registrar" text="Registrar" />
+                              <JFXButton onAction="#eliminar" styleClass="delete-button" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/xb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton onAction="#limpiar" text="Limpiar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/clearb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton onAction="#modificar" text="Modificar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/update1b.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton onAction="#registrar" text="Registrar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/newb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
                            </children>
-                        </HBox>
+                        </FlowPane>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -152,13 +162,16 @@
                      <children>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="KCal del el cliente" textFill="#b2b2b2">
+                              <Label text="KCal" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textKcal" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="110.0" promptText="KCal del el cliente" />
-                              <JFXCheckBox fx:id="checkCal" onAction="#setKcal" text="Usar las del cliente" />
+                              <TextField fx:id="textKcal" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="83.0" promptText="KCal" />
+                              <JFXCheckBox fx:id="checkCal" onAction="#setKcal" text="Del cliente">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin></JFXCheckBox>
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -193,7 +206,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <Label text="Macronutrientes según distribución de Kcalorías (gramos)" textFill="#757575" />
+                  <Label text="Gramos de macronutrientes según distribución de Kcalorías" textFill="#757575" />
                   <HBox alignment="BOTTOM_CENTER" spacing="30.0">
                      <children>
                         <VBox alignment="TOP_CENTER" styleClass="x">
@@ -216,19 +229,19 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <Label text="Macronutrientes en este plan de alimentación (gramos)" textFill="#757575" />
+                  <Label text="Gramos de macronutrientes en este plan de alimentación" textFill="#757575" />
                   <HBox alignment="BOTTOM_CENTER" spacing="30.0">
                      <children>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="Gramos de comida" />
-                              <Label fx:id="gramosPlan" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="KCal" />
+                              <Label fx:id="kcalPlan" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="KCal" />
-                              <Label fx:id="kcalPlan" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="Gramos de comida" />
+                              <Label fx:id="gramosPlan" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
@@ -251,19 +264,19 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <Label text="Macronutrientes en este menú (gramos)" textFill="#757575" />
+                  <Label text="Gramos de macronutrientes en este menú" textFill="#757575" />
                   <HBox alignment="BOTTOM_CENTER" spacing="30.0">
                      <children>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="Gramos de comida" />
-                              <Label fx:id="gramosMenu" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="KCal" />
+                              <Label fx:id="kcalMenu" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
                            <children>
-                              <Label alignment="BASELINE_CENTER" text="KCal" />
-                              <Label fx:id="kcalMenu" alignment="BASELINE_CENTER" text="0.0" />
+                              <Label alignment="BASELINE_CENTER" text="Gramos de comida" />
+                              <Label fx:id="gramosMenu" alignment="BASELINE_CENTER" text="0.0" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" styleClass="x">
@@ -310,12 +323,12 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboAlimentos" prefHeight="27.0" prefWidth="140.0" promptText="ALIMENTOS" visibleRowCount="5" />
+                              <ComboBox fx:id="comboAlimentos" onAction="#selectAlimento" prefHeight="27.0" prefWidth="140.0" promptText="ALIMENTOS" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Cantidad en gramos" textFill="#b2b2b2">
+                              <Label fx:id="labelunidad" text="Cantidad en gramos" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -360,17 +373,17 @@
                               </Label>
                               <FlowPane fx:id="momentos" hgap="10.0" styleClass="flowpane" vgap="10.0">
                                  <children>
-                                    <ToggleButton fx:id="buttonDesayuno" mnemonicParsing="false" prefWidth="90.0" text="Desayuno">
+                                    <ToggleButton fx:id="buttonDesayuno" mnemonicParsing="false" onAction="#getDesayuno" prefWidth="90.0" text="Desayuno">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="momento" />
                                        </toggleGroup>
                                     </ToggleButton>
-                                    <ToggleButton fx:id="buttonAlmuerzo" mnemonicParsing="false" prefWidth="90.0" text="Almuerzo" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonCena" mnemonicParsing="false" prefWidth="90.0" text="Cena" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonPre" mnemonicParsing="false" prefWidth="90.0" text="Pre-entreno" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonPost" mnemonicParsing="false" prefWidth="90.0" text="Post-entreno" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonMer" mnemonicParsing="false" prefWidth="90.0" text="Merienda" toggleGroup="$momento" />
-                                    <ToggleButton fx:id="buttonExtra" mnemonicParsing="false" prefWidth="90.0" text="Extra" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonAlmuerzo" mnemonicParsing="false" onAction="#getAlmuerzo" prefWidth="90.0" text="Almuerzo" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonCena" mnemonicParsing="false" onAction="#getCena" prefWidth="90.0" text="Cena" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonPre" mnemonicParsing="false" onAction="#getPre" prefWidth="90.0" text="Pre-entreno" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonPost" mnemonicParsing="false" onAction="#getPost" prefWidth="90.0" text="Post-entreno" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonMer" mnemonicParsing="false" onAction="#getMerienda" prefWidth="90.0" text="Merienda" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonExtra" mnemonicParsing="false" onAction="#getExtra" prefWidth="90.0" text="Extra" toggleGroup="$momento" />
                                  </children>
                               </FlowPane>
                            </children>
@@ -404,6 +417,9 @@
                                  </graphic>
                               </JFXButton>
                            </children>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
                         </HBox>
                         <ListView fx:id="listView" prefHeight="200.0" />
                      </children>

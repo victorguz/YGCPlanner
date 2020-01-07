@@ -31,7 +31,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     private final String SELECTWHERE = "SELECT Ejerciciokey, nombre, "
             + "descripcion, comentario FROM EjercicioS order by NOMBRE LIKE ? desc";
     private final String SELECTONE = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentario FROM EjercicioS WHERE NOMBRE = ?";
+            + "descripcion, comentario FROM EjercicioS WHERE ejerciciokey = ?";
     private final String UPDATE = "UPDATE EjercicioS SET  nombre = ? , "
             + "descripcion = ? , comentario  = ?, usedate = ?, usetime = ?  "
             + "WHERE ejerciciokey = ? ";
@@ -53,9 +53,9 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
-            s.setString(1, a.getNombre().toLowerCase());
-            s.setString(2, a.getDescripcion().toLowerCase());
-            s.setString(3, a.getComentarios().toLowerCase());
+            s.setString(1, a.getNombre());
+            s.setString(2, a.getDescripcion());
+            s.setString(3, a.getComentarios());
             s.setDate(4, Date.valueOf(LocalDate.now()));
             s.setTime(5, Time.valueOf(LocalTime.now()));
             if (s.executeUpdate() == 0) {
@@ -79,13 +79,12 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
-            s.setString(1, a.getNombre().toLowerCase());
-            s.setString(2, a.getDescripcion().toLowerCase());
-            s.setString(3, a.getComentarios().toLowerCase());
-            s.setInt(4, a.getUso());
-            s.setDate(5, Date.valueOf(LocalDate.now()));
-            s.setTime(6, Time.valueOf(LocalTime.now()));
-            s.setInt(7, a.getEjerciciokey());
+            s.setString(1, a.getNombre());
+            s.setString(2, a.getDescripcion());
+            s.setString(3, a.getComentarios());
+            s.setDate(4, Date.valueOf(LocalDate.now()));
+            s.setTime(5, Time.valueOf(LocalTime.now()));
+            s.setInt(6, a.getEjerciciokey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar Ejercicio");
             }
@@ -168,7 +167,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
             if (rs.next()) {
                 c = convertir(rs);
             } else {
-                throw new DAOException("Ejercicio no encontrado.");
+                throw new DAOException("Ejercicio no encontrado: "+equal);
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);

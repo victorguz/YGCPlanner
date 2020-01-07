@@ -24,19 +24,19 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
     private Connection conex;
 
     private final String INSERT = "INSERT INTO ALIMENTOS(nombre, "
-            + "  proteinas, grasas, carbohidratos, usedate, usetime)"
-            + " values (?, ?, ?, ?, ?, ?, ?, ?)";
+            + "  proteinas, grasas, carbohidratos, usedate, usetime, unidad)"
+            + " values (?, ?, ?, ?, ?, ?, ?, ?,?)";
     private final String SELECT = "SELECT alimentokey, nombre, "
-            + "  proteinas, grasas, carbohidratos FROM alimentos "
+            + "  proteinas, grasas, carbohidratos, unidad FROM alimentos "
             + "where alimentokey = ? ";
     private final String ALL = "SELECT alimentokey, nombre, "
-            + "  proteinas, grasas, carbohidratos FROM alimentos ORDER by usetime desc, usedate desc";
+            + "  proteinas, grasas, carbohidratos, unidad FROM alimentos ORDER by usetime desc, usedate desc";
     private final String WHERE = "SELECT alimentokey, nombre, "
-            + "  proteinas, grasas, carbohidratos FROM ALIMENTOS "
+            + "  proteinas, grasas, carbohidratos, unidad FROM ALIMENTOS "
             + " order by nombre like ? desc";
     private final String UPDATE = "UPDATE ALIMENTOS SET  nombre = ?, "
             + " proteinas = ?, grasas = ?, carbohidratos  = ? , "
-            + "usedate = ?, usetime = ? WHERE alimentokey = ? ";
+            + "usedate = ?, usetime = ? , unidad = ? WHERE alimentokey = ? ";
     private final String DELETE = "DELETE FROM ALIMENTOS WHERE alimentokey = ?";
 
     public SQLiteAlimentosDAO(Connection conex) {
@@ -54,12 +54,13 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
-            s.setString(1, a.getNombre().toLowerCase());
+            s.setString(1, a.getNombre());
             s.setDouble(2, a.getProteinas());
             s.setDouble(3, a.getGrasas());
             s.setDouble(4, a.getCarbohidratos());
             s.setDate(5, Date.valueOf(LocalDate.now()));
             s.setTime(6, Time.valueOf(LocalTime.now()));
+            s.setString(7, a.getUnidad());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar Alimento");
             }
@@ -81,13 +82,14 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
-            s.setString(1, a.getNombre().toLowerCase());
+            s.setString(1, a.getNombre());
             s.setDouble(2, a.getProteinas());
             s.setDouble(3, a.getGrasas());
             s.setDouble(4, a.getCarbohidratos());
             s.setDate(5, Date.valueOf(LocalDate.now()));
             s.setTime(6, Time.valueOf(LocalTime.now()));
-s.setInt(7, a.getAlimentokey());
+            s.setString(7, a.getUnidad());
+s.setInt(8, a.getAlimentokey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar Alimento");
             }
@@ -200,7 +202,7 @@ s.setInt(7, a.getAlimentokey());
         ObservableList<Alimento> list = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(WHERE);
-            s.setString(1, "%" + equal.toLowerCase() + "%");
+            s.setString(1, "%" + equal + "%");
             rs = s.executeQuery();
             while (rs.next()) {
                 list.add(convertir(rs));
@@ -238,6 +240,7 @@ s.setInt(7, a.getAlimentokey());
             c.setCarbohidratos(rs.getDouble("carbohidratos"));
             c.setProteinas(rs.getDouble("proteinas"));
             c.setGrasas(rs.getDouble("grasas"));
+            c.setUnidad(rs.getString("unidad"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

@@ -16,7 +16,7 @@
          <children>
             <VBox alignment="TOP_CENTER">
                <children>
-                  <Label text="Configuración" textFill="#757575">
+                  <Label text="Información de la pagina inicial" textFill="#757575">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -25,14 +25,24 @@
                      <children>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Celular" textFill="#b2b2b2">
+                              <Label text="Teléfonos" textFill="#b2b2b2">
                                     
                                        <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textIndicativo" onKeyTyped="#consumeIntegers" promptText="Indicativo del país" />
-                              <TextField fx:id="textCelular" onKeyTyped="#consumeIntegers" promptText="Celular" />
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <TextField fx:id="textTel1" onKeyTyped="#consumeTel" promptText="Teléfono 1" />
+                                    <JFXCheckBox fx:id="checkWhatsapp1" text="Whatsapp" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <TextField fx:id="textTel2" onKeyTyped="#consumeTel" promptText="Teléfono 2" />
+                                    <JFXCheckBox fx:id="checkWhatsapp2" text="Whatsapp" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -42,8 +52,8 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textNombrePagina" onKeyTyped="#consumeDigits" promptText="Nombre a mostrar" />
-                              <TextField fx:id="textLink" onKeyTyped="#consumeDigits" promptText="Link página web" />
+                              <TextField fx:id="textWeb1" onKeyTyped="#consumeWeb" promptText="Página web 2" />
+                              <TextField fx:id="textWeb2" onKeyTyped="#consumeWeb" promptText="Página web 2" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -53,7 +63,45 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textCorreo" onKeyTyped="#consumeDigits" promptText="Correo electrónico" />
+                              <TextField fx:id="textCorreo1" onKeyTyped="#consumeCorreo" promptText="Correo electrónico 1" />
+                              <TextField fx:id="textCorreo2" onKeyTyped="#consumeCorreo" promptText="Correo electrónico 2" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Instagram" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textInsta1" onKeyTyped="#consumeWeb" promptText="Instagram 1" />
+                              <TextField fx:id="textInsta2" onKeyTyped="#consumeWeb" promptText="Instagram 2" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Facebook" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textFace1" onKeyTyped="#consumeWeb" promptText="Facebook 1" />
+                              <TextField fx:id="textFace2" onKeyTyped="#consumeWeb" promptText="Facebook 2" />
+                           </children>
+                        </VBox>
+                        <VBox styleClass="title">
+                           <children>
+                              <Label text="Twitter" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textTwitter1" onKeyTyped="#consumeWeb" promptText="Twitter 1" />
+                              <TextField fx:id="textTwitter2" onKeyTyped="#consumeWeb" promptText="Twitter 2" />
                            </children>
                         </VBox>
                      </children>
@@ -63,6 +111,7 @@
                         <JFXCheckBox fx:id="checkdash" selected="true" text="Activar dash al inicio" />
                      </children>
                   </HBox>
+                  <Label text="Información de la pagina de bienvenida" textFill="#757575" />
                   <VBox styleClass="title">
                      <children>
                         <Label text="Titulo bienvenida" textFill="#b2b2b2">
@@ -83,7 +132,7 @@
                         <TextArea fx:id="textBienvenida" onKeyTyped="#consumeDigits" promptText="Mensaje de bienvenida (500 caracteres)" wrapText="true" />
                      </children>
                   </VBox>
-                  <JFXButton onAction="#modificar" text="Guardar" />
+                  <JFXButton onAction="#modificar" text="Guardar configuración" />
                </children>
             </VBox>
          </children>

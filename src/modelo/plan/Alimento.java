@@ -16,10 +16,10 @@ public class Alimento {
 
     private int alimentokey;
     private String nombre = "";
-    private String unidadDeMedida = "";
     private double proteinas;
     private double grasas;
     private double carbohidratos;
+    private String unidad;
 
     public Alimento() {
 
@@ -62,16 +62,6 @@ public class Alimento {
         this.nombre = Operacion.nombreCamelCase(nombre);
     }
 
-    public String getUnidadDeMedida() {
-        return unidadDeMedida;
-    }
-
-    public void setUnidadDeMedida(String unidadDeMedida) throws DAOException {
-        if (unidadDeMedida.isEmpty()) {
-            throw new DAOException("Digite una unidad de medida");
-        }
-        this.unidadDeMedida = unidadDeMedida;
-    }
 
     public double getKilocalorias() {
         return getProteinas() * 4 + getGrasas() * 9 + getCarbohidratos() * 4;
@@ -105,6 +95,14 @@ public class Alimento {
 
     public void setCarbohidratos(double carbohidratos) {
         this.carbohidratos = carbohidratos;
+    }
+
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
     }
 
     @Override

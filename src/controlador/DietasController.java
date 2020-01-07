@@ -22,7 +22,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.KeyEvent;
 import modelo.plan.Alimento;
 import modelo.plan.AlxDiet;
 import modelo.plan.Plan;
@@ -34,7 +33,10 @@ import modelo.plan.Plan;
 public class DietasController extends Controller<Plan> {
 
     @FXML
-    private ToggleGroup filtro;
+    private ComboBox<Alimento> comboAlimentos;
+
+    @FXML
+    private TextField textBuscarAlimento;
 
     @FXML
     private ComboBox<Plan> comboDieta;
@@ -159,6 +161,9 @@ public class DietasController extends Controller<Plan> {
     @FXML
     JFXCheckBox checkCal;
 
+    @FXML
+    private Label labelunidad;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         comboObjetivos.setItems(objetivos);
@@ -167,11 +172,7 @@ public class DietasController extends Controller<Plan> {
         comboSexo.getSelectionModel().select(0);
         updated();
         setDietasUpdated(true);
-    }
-
-    public void setFiltro() {
-        int i = filtro.getSelectedToggle().toString().indexOf("'");
-        setFiltro(filtro.getSelectedToggle().toString().substring(i));
+        setAlimentosUpdated(true);
     }
 
     public void activateCheck() {
@@ -211,57 +212,23 @@ public class DietasController extends Controller<Plan> {
      */
     public void calcular() {
         //Obtener calorías
-        double cal = (textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textKcal.getText());
+        double cal = (textProteinas.getText().isEmpty()) ? 0
+                : Double.parseDouble(textKcal.getText());
         //Obtener porcentajes
-        double pro = ((textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinas.getText()))/100;
-        double gra = ((textGrasas.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasas.getText()))/100;
-        double car = ((textCarbohidratos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbohidratos.getText()))/100;
+        double pro = ((textProteinas.getText().isEmpty()) ? 0
+                : Double.parseDouble(textProteinas.getText())) / 100;
+        double gra = ((textGrasas.getText().isEmpty()) ? 0
+                : Double.parseDouble(textGrasas.getText())) / 100;
+        double car = ((textCarbohidratos.getText().isEmpty()) ? 0
+                : Double.parseDouble(textCarbohidratos.getText())) / 100;
         //Utilizar porcentajes para calcular gramos de macronutrientes
         double proteinas = Operacion.redondear((cal * pro) / 4);
         double grasas = Operacion.redondear((cal * gra) / 9);
-        double carbohidratos = Operacion.redondear((cal * car ) / 4);
+        double carbohidratos = Operacion.redondear((cal * car) / 4);
         //Los ponemos en las etiquetas asignadas
         proteinasDistribucion.setText(proteinas + "");
         grasasDistribucion.setText(grasas + "");
         carbosDistribucion.setText(carbohidratos + "");
-    }
-
-    /**
-     *
-     * @param event
-     */
-    public void porcentajesVacios(KeyEvent event) {
-        if (textProteinas.getText().isEmpty()
-                && textGrasas.getText().isEmpty()
-                && textCarbohidratos.getText().isEmpty()) {
-            textProteinas.setText("0");
-            textKcal.setText("0");
-            textKcal.setText("0");
-        } else {
-            //Obtener porcentajes
-            double pro = (textProteinas.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinas.getText());
-            double gra = (textGrasas.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasas.getText());
-            double car = (textCarbohidratos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbohidratos.getText());
-            //Calcular si los valores sobrepasan el 100%
-            if (pro > 100) {
-                double d = pro - 100;
-                if (gra > 0) {
-
-                }
-            }
-            double sum = pro + gra + car;
-            if (sum > 100) {
-                //Restar el excedente a cada variable para disminuit escala
-                double n = (sum - 100) / 3;
-                pro -= n;
-                gra -= n;
-                car -= n;
-                //Volver a poner el porcentaje, pero en escala normal
-                textProteinas.setText(String.valueOf(pro));
-                textGrasas.setText(String.valueOf(gra));
-                textCarbohidratos.setText(String.valueOf(car));
-            }
-        }
     }
 
     @Override
@@ -281,6 +248,7 @@ public class DietasController extends Controller<Plan> {
                         if (isAlimentosUpdated()) {
                             comboAlimentos.setItems(alimentos);
                             comboAlimentos.getSelectionModel().select(0);
+                            selectAlimento();
                             setAlimentosUpdated(false);
                         }
                     }
@@ -332,6 +300,30 @@ public class DietasController extends Controller<Plan> {
             excepcion(ex);
         }
         setDietasUpdated(false);
+    }
+
+    public void obtenerAlimentos() {
+        try {
+            comboAlimentos.getItems().clear();
+            alimentos = getAlimentos().obtenerTodos(textBuscarAlimento.getText());
+            if (!alimentos.isEmpty()) {
+                comboAlimentos.setItems(alimentos);
+                comboAlimentos.getSelectionModel().select(0);
+                selectAlimento();
+            }
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void selectAlimento() {
+        if (!comboAlimentos.getItems().isEmpty()) {
+            String a = Operacion.inicialMayuscula(
+                    comboAlimentos.getSelectionModel()
+                            .getSelectedItem().getUnidad());
+            labelunidad.setText(a);
+            textCantidad.setPromptText(a);
+        }
     }
 
     @Override
@@ -428,14 +420,14 @@ public class DietasController extends Controller<Plan> {
             AlxDiet a = new AlxDiet();
             a.setPlan(getDieta());
             a.setAlimento(comboAlimentos.getSelectionModel().getSelectedItem());
-            if (!textCantidad.getText().isEmpty()) {
-                if (Double.parseDouble(textCantidad.getText()) <= 0) {
-                    mensaje("Digite la cantidad de " + comboAlimentos.getSelectionModel().getSelectedItem().getNombre().toLowerCase(), "aviso");
-                } else {
-                    a.setCantidad(Double.parseDouble(textCantidad.getText()));
-                }
+            if (textCantidad.getText().isEmpty()) {
+                mensaje("Digite la cantidad de " + a.getAlimento().getNombre().toLowerCase(), "aviso");
+                return null;
+            } else {
+                a.setCantidad(Double.parseDouble(textCantidad.getText()));
             }
             a.setDia(getDia());
+            a.setMomento(getMomento());
             return a;
         } else {
             mensaje("Primero debe registrar un plan", "aviso");
@@ -450,10 +442,13 @@ public class DietasController extends Controller<Plan> {
     @FXML
     void deleteAlx(ActionEvent event) {
         if (listView.getSelectionModel().getSelectedIndex() == -1) {
-            mensaje("Seleccione un alimento", "aviso");
+            mensaje("Seleccione un alimento en el menú", "aviso");
         } else {
             try {
-                getAlxdiets().eliminar(listView.getSelectionModel().getSelectedItem());
+                AlxDiet a = listView.getSelectionModel().getSelectedItem();
+                AlxDiet b = getAlxdiets().obtener(a.getAlimento().getAlimentokey(), a.getDia(), a.getMomento());
+                getAlxdiets().eliminar(b);
+                listView.getItems().remove(a);
             } catch (DAOException ex) {
                 excepcion(ex);
             }
@@ -466,9 +461,13 @@ public class DietasController extends Controller<Plan> {
             if (a != null) {
                 if (!a.isEmpty()) {
                     getAlxdiets().insertar(a);
-                    listView.getItems().add(a);
                     actualizarUso(a.getAlimento());
+                    listView.getItems().add(a);
+            } else {
+                    mensaje("AlxDiet vacío", "aviso");
                 }
+            } else {
+                mensaje("AlxDiet nulo", "aviso");
             }
         } catch (DAOException ex) {
             excepcion(ex);
@@ -506,7 +505,8 @@ public class DietasController extends Controller<Plan> {
         if (buttonSabado.isSelected()) {
             return AlxDiet.SABADO;
         }
-        return "";
+        mensaje("Seleccione un día de la semana", "aviso");
+        return null;
     }
 
     public String getMomento() {
@@ -531,6 +531,112 @@ public class DietasController extends Controller<Plan> {
         if (buttonExtra.isSelected()) {
             return AlxDiet.EXTRA;
         }
-        return "";
+        mensaje("Seleccione el momento del menú", "aviso");
+        return null;
+    }
+
+    public void getDesayuno() throws DAOException {
+        String dia = getDia();
+        if (getDieta().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (dia.isEmpty()) {
+                mensaje("Seleccione un día primero", "aviso");
+                buttonDesayuno.setSelected(false);
+            } else {
+                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                        .getPlankey(), getDia(), AlxDiet.DESAYUNO));
+            }
+        }
+    }
+
+    public void getAlmuerzo() throws DAOException {
+        String dia = getDia();
+        if (getDieta().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (dia.isEmpty()) {
+                mensaje("Seleccione un día primero", "aviso");
+                buttonAlmuerzo.setSelected(false);
+            } else {
+                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                        .getPlankey(), getDia(), AlxDiet.ALMUERZO));
+            }
+        }
+    }
+
+    public void getCena() throws DAOException {
+        String dia = getDia();
+        if (getDieta().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (dia.isEmpty()) {
+                mensaje("Seleccione un día primero", "aviso");
+                buttonCena.setSelected(false);
+            } else {
+                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                        .getPlankey(), getDia(), AlxDiet.CENA));
+            }
+        }
+    }
+
+    public void getMerienda() throws DAOException {
+        String dia = getDia();
+        if (getDieta().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (dia.isEmpty()) {
+                mensaje("Seleccione un día primero", "aviso");
+                buttonMer.setSelected(false);
+            } else {
+                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                        .getPlankey(), getDia(), AlxDiet.MERIENDA));
+            }
+        }
+    }
+
+    public void getExtra() throws DAOException {
+        String dia = getDia();
+        if (getDieta().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (dia.isEmpty()) {
+                mensaje("Seleccione un día primero", "aviso");
+                buttonExtra.setSelected(false);
+            } else {
+                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                        .getPlankey(), getDia(), AlxDiet.EXTRA));
+            }
+        }
+    }
+
+    public void getPre() throws DAOException {
+        String dia = getDia();
+        if (getDieta().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (dia.isEmpty()) {
+                mensaje("Seleccione un día primero", "aviso");
+                buttonPre.setSelected(false);
+            } else {
+                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                        .getPlankey(), getDia(), AlxDiet.PREENTRENO));
+            }
+        }
+    }
+
+    public void getPost() throws DAOException {
+        String dia = getDia();
+        if (getDieta().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (dia.isEmpty()) {
+                mensaje("Seleccione un día primero", "aviso");
+                buttonPost.setSelected(false);
+            } else {
+                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                        .getPlankey(), getDia(), AlxDiet.POSTENTRENO));
+            }
+        }
     }
 }

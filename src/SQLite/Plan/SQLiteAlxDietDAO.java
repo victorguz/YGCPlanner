@@ -24,9 +24,12 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             + "momento, dia, cantidad) values (?, ?, ?, ?, ?)";
     private final String ALL = "SELECT alxdietkey, alimentokey, "
             + "momento, dia, cantidad FROM AlxDiet WHERE plankey = ?";
+
+    private final String DELETE = "DELETE FROM AlxDiet WHERE alxdietkey = ?";
     private final String WHERE = "SELECT alxdietkey, alimentokey, "
             + "momento, dia, cantidad FROM AlxDiet WHERE plankey = ? and dia = ? and momento = ?";
-    private final String DELETE = "DELETE FROM AlxDiet WHERE alxdietkey = ?";
+    private final String SELECT = "Select alxdietkey, alimentokey, "
+            + "momento, dia, cantidad FROM AlxDiet WHERE alimentokey = ? and dia = ? and momento = ?";
 
     public SQLiteAlxDietDAO(Connection conex) {
         this.conex = conex;
@@ -39,8 +42,8 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             s = conex.prepareStatement(INSERT);
             s.setInt(1, a.getPlan().getPlankey());
             s.setInt(2, a.getAlimento().getAlimentokey());
-            s.setString(3, a.getMomento().toLowerCase());
-            s.setString(4, a.getDia().toLowerCase());
+            s.setString(3, a.getMomento());
+            s.setString(4, a.getDia());
             s.setDouble(5, a.getCantidad());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar AlxDiet");
@@ -94,6 +97,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
     public AlxDiet obtener(String equal) throws DAOException {
         throw new DAOException("Este metodo no funciona");
     }
+
     public ObservableList<AlxDiet> obtenerTodos(int plankey, String dia, String momento) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
@@ -169,7 +173,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
         try {
             AlxDiet c = new AlxDiet();
             c.setAlxdietkey(rs.getInt("alxdietkey"));
-            c.setAlimento(Controller.getAlimentos().obtener(""+rs.getInt("alimentokey")));
+            c.setAlimento(Controller.getAlimentos().obtener("" + rs.getInt("alimentokey")));
             c.setMomento(rs.getString("momento"));
             c.setDia(rs.getString("dia"));
             c.setCantidad(rs.getDouble("cantidad"));
@@ -177,5 +181,40 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
+    }
+
+    @Override
+    public AlxDiet obtener(int alimentokey, String dia, String momento) throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        AlxDiet l = null;
+        try {
+            s = conex.prepareStatement(SELECT);
+            s.setInt(1, alimentokey);
+            s.setString(2, dia);
+            s.setString(3, momento);
+            rs = s.executeQuery();
+            while (rs.next()) {
+                l = convertir(rs);
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+        return l;
     }
 }

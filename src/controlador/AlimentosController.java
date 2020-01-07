@@ -10,11 +10,16 @@ import static controlador.Controller.mensaje;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import modelo.plan.Alimento;
 
 public class AlimentosController extends Controller<Alimento> {
 
+    @FXML
+    private ComboBox<Alimento> comboAlimentos;
+    @FXML
+    private TextField textBuscarAlimento;
     @FXML
     private TextField textNombre;
 
@@ -84,7 +89,7 @@ public class AlimentosController extends Controller<Alimento> {
                     mensaje("A este alimento le faltan datos", "aviso");
                 }
             } catch (DAOException ex) {
-            excepcion(ex);
+                excepcion(ex);
             }
         } else {
             mensaje("Seleccione un alimento", "aviso");
@@ -107,7 +112,7 @@ public class AlimentosController extends Controller<Alimento> {
                     mensaje("A este alimento le faltan datos", "aviso");
                 }
             } catch (DAOException ex) {
-            excepcion(ex);
+                excepcion(ex);
             }
         } else {
             mensaje("Seleccione un alimento", "aviso");
@@ -136,12 +141,12 @@ public class AlimentosController extends Controller<Alimento> {
             textProteina.setText("" + c.getProteinas());
             textGrasas.setText("" + c.getGrasas());
             textCarbos.setText("" + c.getCarbohidratos());
-            textKilocalorias.setText("" + c.getKilocalorias());
+            textKilocalorias.setText("" + Operacion.redondear(c.getKilocalorias()));
             //1 gramo
-            textProteina1.setText("" + c.getProteinas() / 100);
-            textGrasas1.setText("" + c.getGrasas() / 100);
-            textCarbos1.setText("" + c.getCarbohidratos() / 100);
-            textKilocalorias1.setText("" + c.getKilocalorias() / 100);
+            textProteina1.setText("" + Operacion.redondear(c.getProteinas() / 100));
+            textGrasas1.setText("" + Operacion.redondear(c.getGrasas() / 100));
+            textCarbos1.setText("" + Operacion.redondear(c.getCarbohidratos() / 100));
+            textKilocalorias1.setText("" + Operacion.redondear(c.getKilocalorias() / 100));
         }
     }
 
@@ -157,8 +162,28 @@ public class AlimentosController extends Controller<Alimento> {
 
     @Override
     public void obtener() {
-        obtenerAlimentos();
-        mostrar();
+        try {
+            comboAlimentos.getItems().clear();
+            if (textBuscarAlimento.getText().isEmpty()) {
+                alimentos = getAlimentos().obtenerTodos();
+            } else {
+                alimentos = getAlimentos().obtenerTodos(textBuscarAlimento.getText());
+            }
+            if (!alimentos.isEmpty()) {
+                comboAlimentos.setItems(alimentos);
+                selectAlimento(0);
+            }
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+        setAlimentosUpdated(true);
+    }
+
+    public void selectAlimento(int i) {
+        if (!comboAlimentos.getItems().isEmpty()) {
+            comboAlimentos.getSelectionModel().select(i);
+            mostrar();
+        }
     }
 
 }

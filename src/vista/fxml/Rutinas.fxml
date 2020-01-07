@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXRadioButton?>
-<?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -18,33 +16,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="983.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.RutinasController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.RutinasController">
    <children>
-      <VBox alignment="TOP_CENTER" onMouseClicked="#updated" spacing="10.0" styleClass="nada">
+      <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="nada">
          <children>
-            <VBox onMouseMoved="#updated">
+            <VBox>
                <children>
-                  <VBox styleClass="x">
-                     <children>
-                        <Label text="Filtrar por:" textFill="#b2b2b2">
-                           <padding>
-                              <Insets left="6.0" />
-                           </padding>
-                        </Label>
-                        <HBox alignment="CENTER" spacing="10.0">
-                           <children>
-                              <JFXRadioButton onAction="#setFiltro" selected="true" text="Nombre">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="filtro" />
-                                 </toggleGroup>
-                              </JFXRadioButton>
-                              <JFXRadioButton onAction="#setFiltro" text="Objetivo" toggleGroup="$filtro" />
-                              <JFXRadioButton onAction="#setFiltro" text="Sexo" toggleGroup="$filtro" />
-                              <JFXRadioButton onAction="#setFiltro" text="Edad" toggleGroup="$filtro" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
                   <HBox alignment="TOP_CENTER" spacing="5.0">
                      <children>
                         <VBox styleClass="title">
@@ -64,7 +41,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboRutina" minWidth="150.0" onAction="#mostrar" prefHeight="27.0" promptText="PLAN" visibleRowCount="5" />
+                              <ComboBox fx:id="comboRutinas" minWidth="150.0" onAction="#mostrar" prefHeight="27.0" promptText="Plan" visibleRowCount="5" />
                            </children>
                         </VBox>
                      </children>
@@ -97,7 +74,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboObjetivos" prefHeight="27.0" promptText="OBJETIVO" visibleRowCount="5" />
+                              <ComboBox fx:id="comboObjetivos" prefHeight="27.0" promptText="Objetivo" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -107,7 +84,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboSexo" prefHeight="27.0" promptText="SEXO" visibleRowCount="5" />
+                              <ComboBox fx:id="comboSexo" prefHeight="27.0" promptText="Sexo" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -130,16 +107,51 @@
                               <TextArea fx:id="textDescripcion" prefHeight="70.0" prefWidth="377.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" />
                            </children>
                         </VBox>
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" styleClass="flowpane">
+                           <children>
+                              <JFXButton onAction="#eliminar" styleClass="delete-button" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/xb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton onAction="#limpiar" text="Limpiar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/clearb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton onAction="#modificar" text="Modificar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/update1b.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton onAction="#registrar" text="Registrar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/newb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </FlowPane>
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </FlowPane>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <JFXButton onAction="#eliminar" text="Eliminar" />
-                        <JFXButton onAction="#limpiar" text="Limpiar" />
-                        <JFXButton onAction="#modificar" text="Modificar" />
-                        <JFXButton onAction="#registrar" text="Registrar" />
-                     </children>
-                  </HBox>
                </children>
             </VBox>
             <VBox onMouseMoved="#updated">
@@ -164,17 +176,17 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboEjercicios" minWidth="145.0" prefHeight="27.0" prefWidth="145.0" promptText="EJERCICIOS" visibleRowCount="5" />
+                              <ComboBox fx:id="comboEjercicios" prefHeight="27.0" prefWidth="140.0" promptText="Ejercicios" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="N° Series" textFill="#b2b2b2">
+                              <Label text="Series" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboSeries" prefHeight="27.0" promptText="SERIES" visibleRowCount="5" />
+                              <ComboBox fx:id="comboSeries" prefHeight="27.0" promptText="Series" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox styleClass="title">
@@ -184,183 +196,92 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textRepeticiones" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="95.0" promptText="Repeticiones" />
+                              <ComboBox fx:id="comboRepeticiones" prefHeight="27.0" promptText="Repeticiones" visibleRowCount="5" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <VBox styleClass="nada">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Día de la semana" textFill="#757575">
-                           <padding>
-                              <Insets left="6.0" />
-                           </padding>
-                        </Label>
-                        <FlowPane hgap="10.0" styleClass="flowpane" vgap="10.0">
+                        <VBox styleClass="nada">
                            <children>
-                              <JFXButton text="Domingo" />
-                              <JFXButton text="Lunes" />
-                              <JFXButton text="Martes" />
-                              <JFXButton text="Miercoles" />
-                              <JFXButton text="Jueves" />
-                              <JFXButton text="Viernes" />
-                              <JFXButton text="Sabado" />
+                              <Label text="Dia de la semana" textFill="#757575">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <FlowPane hgap="10.0" styleClass="flowpane" vgap="10.0">
+                                 <children>
+                                    <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" prefWidth="90.0" selected="true" text="Domingo">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="dias" />
+                                       </toggleGroup>
+                                    </ToggleButton>
+                                    <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" prefWidth="90.0" text="Lunes" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" prefWidth="90.0" text="Martes" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" prefWidth="90.0" text="Miercoles" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" prefWidth="90.0" text="Jueves" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" prefWidth="90.0" text="Viernes" toggleGroup="$dias" />
+                                    <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" prefWidth="90.0" text="Sábado" toggleGroup="$dias" />
+                                 </children>
+                              </FlowPane>
                            </children>
-                        </FlowPane>
+                        </VBox>
+                        <VBox styleClass="nada">
+                           <children>
+                              <Label text="Momento del día" textFill="#757575">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <FlowPane hgap="10.0" styleClass="flowpane" vgap="10.0">
+                                 <children>
+                                    <ToggleButton fx:id="buttonPre" mnemonicParsing="false" onAction="#getPre" prefWidth="90.0" text="Pre-entreno">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="momento" />
+                                       </toggleGroup></ToggleButton>
+                                    <ToggleButton fx:id="buttonEntreno" mnemonicParsing="false" onAction="#getEntreno" prefWidth="90.0" text="Entreno" toggleGroup="$momento" />
+                                    <ToggleButton fx:id="buttonPost" mnemonicParsing="false" onAction="#getPost" prefWidth="90.0" text="Post-entreno" toggleGroup="$momento" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
                </children>
             </VBox>
             <VBox onMouseMoved="#updated">
                <children>
-                  <JFXTabPane>
-                     <tabs>
-                        <Tab text="Domingo">
-                           <content>
-                              <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
-                                 <children>
-                                    <ListView fx:id="listDomingo" />
-                                    <JFXButton pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                        <Tab text="Lunes">
-                           <content>
-                              <VBox prefWidth="200.0" styleClass="x">
-                                 <children>
-                                    <ListView fx:id="listLunes" />
-                                    <JFXButton pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                        <Tab text="Martes">
-                           <content>
-                              <VBox prefWidth="200.0" styleClass="x">
-                                 <children>
-                                    <ListView fx:id="listMartes" />
-                                    <JFXButton pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                        <Tab text="Miercoles">
-                           <content>
-                              <VBox prefWidth="200.0" styleClass="x">
-                                 <children>
-                                    <ListView fx:id="listMiercoles" />
-                                    <JFXButton pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                        <Tab text="Jueves">
-                           <content>
-                              <VBox prefWidth="200.0" styleClass="x">
-                                 <children>
-                                    <ListView fx:id="listJueves" />
-                                    <JFXButton pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </JFXButton>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                        <Tab text="Viernes">
-                           <content>
-                              <VBox prefWidth="200.0" styleClass="x">
-                                 <children>
-                                    <ListView fx:id="listViernes" />
-                                    <JFXButton pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                        <Tab text="Sábado">
-                           <content>
-                              <VBox prefWidth="200.0" styleClass="x">
-                                 <children>
-                                    <ListView fx:id="listSabado" prefHeight="125.0" />
-                                    <JFXButton pickOnBounds="false" prefWidth="1500.0" text="Eliminar">
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../imagen/icono/baseline_delete_black_18dp.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </JFXButton>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                     </tabs>
-                  </JFXTabPane>
+                  <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
+                     <children>
+                        <HBox spacing="10.0">
+                           <children>
+                              <JFXButton onAction="#addEjercicio" pickOnBounds="false" prefWidth="1500.0" text="Añadir ejercicio al menú">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/clearb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                              <JFXButton onAction="#deleteEjx" pickOnBounds="false" prefWidth="1500.0" styleClass="delete-button" text="Eliminar ejercicio del menú">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/trash2b.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </HBox>
+                        <ListView fx:id="listView" prefHeight="200.0" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>

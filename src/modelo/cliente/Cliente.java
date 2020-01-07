@@ -27,7 +27,7 @@ public class Cliente {
 
     public Cliente(int clienteKey, String nombre, String apellido,
             String sexo, String identificacion,
-            String tipoIdentificacion, int edad) throws DAOException {
+            String tipoIdentificacion, int edad)  {
         setNombre(nombre);
         setApellido(apellido);
         setEdad(edad);
@@ -40,10 +40,7 @@ public class Cliente {
         return edad;
     }
 
-    public void setEdad(int edad) throws DAOException {
-        if (edad < 0) {
-            throw new DAOException("Ingrese una edad válida.");
-        }
+    public void setEdad(int edad)  {
         this.edad = edad;
     }
 
@@ -51,43 +48,31 @@ public class Cliente {
         return nombre;
     }
 
-    public void setNombre(String nombre) throws DAOException {
-        if (nombre.isEmpty()) {
-            throw new DAOException("Digite un nombre");
-        }
-        this.nombre = Operacion.nombreCamelCase(nombre);
+    public void setNombre(String nombre)  {
+        this.nombre = nombre.toLowerCase();
     }
 
     public String getApellido() {
         return apellido;
     }
 
-    public void setApellido(String apellido) throws DAOException {
-        if (apellido.isEmpty()) {
-            throw new DAOException("Digite un apellido");
-        }
-        this.apellido = Operacion.nombreCamelCase(apellido);
+    public void setApellido(String apellido)  {
+        this.apellido = apellido;
     }
 
     public String getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) throws DAOException {
-        if (sexo.isEmpty()) {
-            throw new DAOException("Seleccione un sexo");
-        }
-        this.sexo = Operacion.nombreCamelCase(sexo);
+    public void setSexo(String sexo)  {
+        this.sexo = sexo.toLowerCase();
     }
 
     public int getClienteKey() {
         return clienteKey;
     }
 
-    public void setClienteKey(int clientekey) throws DAOException {
-        if (clientekey < 0) {
-            throw new DAOException("Cliente: La llave primaria no puede ser " + clientekey);
-        }
+    public void setClienteKey(int clientekey)  {
         this.clienteKey = clientekey;
     }
 
@@ -95,10 +80,7 @@ public class Cliente {
         return identificacion;
     }
 
-    public void setIdentificacion(String identificacion) throws DAOException {
-        if (identificacion.isEmpty()) {
-            throw new DAOException("Digite un numero de documento");
-        }
+    public void setIdentificacion(String identificacion)  {
         this.identificacion = identificacion;
     }
 
@@ -106,10 +88,7 @@ public class Cliente {
         return tipoIdentificacion;
     }
 
-    public void setTipoIdentificacion(String tipoIdentificacion) throws DAOException {
-        if (tipoIdentificacion.isEmpty()) {
-            throw new DAOException("Seleccione un tipo de documento");
-        }
+    public void setTipoIdentificacion(String tipoIdentificacion)  {
         this.tipoIdentificacion = tipoIdentificacion;
     }
 
