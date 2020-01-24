@@ -5,7 +5,6 @@
  */
 package modelo.plan;
 
-import DAO.DAOException;
 
 /**
  *
@@ -28,14 +27,11 @@ public class Plan {
         return plankey;
     }
 
-    public void setPlankey(int plankey) throws DAOException {
-        if (plankey < 0) {
-            throw new DAOException("La clave del plan no puede ser " + plankey);
-        }
+    public void setPlankey(int plankey)  {
         this.plankey = plankey;
     }
 
-    public Plan(String nombre, String objetivo, String descripcion, String sexo, int edad) throws DAOException {
+    public Plan(String nombre, String objetivo, String descripcion, String sexo, int edad)  {
         setNombre(nombre);
         setObjetivo(objetivo);
         setDescripcion(descripcion);
@@ -47,10 +43,7 @@ public class Plan {
         return nombre;
     }
 
-    public void setNombre(String nombre) throws DAOException {
-        if (nombre.isEmpty() || nombre == null) {
-            throw new DAOException("Digite el nombre del plan");
-        }
+    public void setNombre(String nombre)  {
         this.nombre = nombre;
     }
 
@@ -66,10 +59,7 @@ public class Plan {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) throws DAOException {
-        if (descripcion.isEmpty()) {
-            throw new DAOException("Digite una descripcion de " + getTipo().toLowerCase());
-        }
+    public void setDescripcion(String descripcion)  {
         this.descripcion = descripcion;
     }
 
@@ -77,7 +67,7 @@ public class Plan {
         return sexo;
     }
 
-    public void setSexo(String sexo) throws DAOException {
+    public void setSexo(String sexo)  {
         this.sexo = sexo;
     }
 
@@ -85,7 +75,7 @@ public class Plan {
         return tipo;
     }
 
-    public void setTipo(String tipo) throws DAOException {
+    public void setTipo(String tipo)  {
                 this.tipo = tipo;
     }
 
@@ -93,24 +83,16 @@ public class Plan {
         return edad;
     }
 
-    public void setEdad(int edad) throws DAOException {
-        if (edad < 0) {
-            throw new DAOException("Digite una edad valida");
-        }
-        this.edad = edad;
+    public void setEdad(int edad)  {
     }
 
     @Override
     public String toString() {
-        return getNombre() + ", PARA " + getSexo() + " DE " + getEdad() + " AÑOS, OBJETIVO " + getObjetivo();
+        return getNombre();
     }
 
     public boolean isEmpty() {
         return getNombre().isEmpty()
-                || getObjetivo().isEmpty()
-                || getDescripcion().isEmpty()
-                || getSexo().isEmpty()
-                || getEdad() < 0
                 || getTipo().isEmpty();
     }
 }

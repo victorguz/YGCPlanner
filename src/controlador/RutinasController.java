@@ -102,8 +102,8 @@ public class RutinasController extends Controller<Plan> {
         comboRepeticiones.getSelectionModel().select(0);
         comboSeries.getItems().setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         comboSeries.getSelectionModel().select(0);
-        updated();
         setRutinasUpdated(true);
+        updated();
         setEjerciciosUpdated(true);
     }
 
@@ -146,11 +146,7 @@ public class RutinasController extends Controller<Plan> {
         d.setNombre(textNombre.getText());
         d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
-        if (textEdad.getText().isEmpty()) {
-            d.setEdad(0);
-        } else {
-            d.setEdad(Integer.parseInt(textEdad.getText()));
-        }
+        d.setEdad((textEdad.getText().isEmpty()) ? 0 : Integer.parseInt(textEdad.getText()));
         d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
         return d;
     }
@@ -160,12 +156,12 @@ public class RutinasController extends Controller<Plan> {
         try {
             comboRutinas.getItems().clear();
             if (textBuscar.getText().isEmpty()) {
-                dietas = getRutinas().obtenerTodos();
+                rutinas = getPlanes().obtenerRutinas();
             } else {
-                dietas = getRutinas().obtenerTodos(textBuscar.getText());
+                rutinas = getPlanes().obtenerRutinas(textBuscar.getText());
             }
-            if (!dietas.isEmpty()) {
-                comboRutinas.setItems(dietas);
+            if (!rutinas.isEmpty()) {
+                comboRutinas.setItems(rutinas);
                 select(0);
             }
         } catch (DAOException ex) {
@@ -193,9 +189,9 @@ public class RutinasController extends Controller<Plan> {
             Plan m = captar();
             if (m != null) {
                 if (m.isEmpty()) {
-                    mensaje("Aún faltan algunos datos en el plan de entrenamiento", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 } else {
-                    getRutinas().insertar(m);
+                    getPlanes().insertar(m);
                     obtener();
                     mensaje("Plan de entrenamiento registrado", "exito");
                 }
@@ -213,9 +209,9 @@ public class RutinasController extends Controller<Plan> {
                 if (m != null) {
                     m.setPlankey(comboRutinas.getSelectionModel().getSelectedItem().getPlankey());
                     if (m.isEmpty()) {
-                        mensaje("Aún faltan algunos datos en el plan de entrenamiento", "aviso");
+                        mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                     } else {
-                        getRutinas().modificar(m);
+                        getPlanes().modificar(m);
                         textBuscar.setText(textNombre.getText());
                         obtener();
                         mensaje("Plan de entrenamiento modificado", "exito");
@@ -233,7 +229,7 @@ public class RutinasController extends Controller<Plan> {
     public void eliminar() {
         try {
             if (!comboRutinas.getItems().isEmpty()) {
-                getRutinas().eliminar(comboRutinas.getSelectionModel().getSelectedItem());
+                getPlanes().eliminar(comboRutinas.getSelectionModel().getSelectedItem());
                 obtener();
                 mensaje("Plan de entrenamiento eliminado", "exito");
             } else {

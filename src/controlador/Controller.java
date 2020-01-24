@@ -13,7 +13,6 @@ import DAO.plan.AlimentosDAO;
 import DAO.plan.AlxDietDAO;
 import DAO.plan.EjerciciosDAO;
 import DAO.plan.EjxRutDAO;
-import DAO.plan.PlanDAO;
 import SQLite.SQLiteDAOManager;
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
@@ -29,16 +28,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
 import modelo.plan.Alimento;
 import modelo.plan.Ejercicio;
 import modelo.plan.Plan;
+import DAO.plan.PlanesDAO;
 
 /**
  *
@@ -55,7 +53,6 @@ public abstract class Controller<T> implements Initializable {
 
     @FXML
     protected TextField textEdad;
-
 
     protected static ObservableList<Cliente> clientes = FXCollections.observableArrayList();
 
@@ -84,7 +81,6 @@ public abstract class Controller<T> implements Initializable {
     private static boolean alimentosUpdated;
     private static boolean ejerciciosUpdated;
     private static boolean onConfig;
-
 
     public static boolean isEjerciciosUpdated() {
         return ejerciciosUpdated;
@@ -121,20 +117,12 @@ public abstract class Controller<T> implements Initializable {
         return getManager().getMedidasDAO();
     }
 
-    public static PlanDAO getDietas() throws DAOException {
-        return getManager().getDietasDAO();
-    }
-
-    public static PlanDAO getPlanes() throws DAOException {
+    public static PlanesDAO getPlanes() throws DAOException {
         return getManager().getPlanesDAO();
     }
 
     public static AlimentosDAO getAlimentos() throws DAOException {
         return getManager().getAlimentosDAO();
-    }
-
-    public static PlanDAO getRutinas() throws DAOException {
-        return getManager().getRutinasDAO();
     }
 
     public static EjerciciosDAO getEjercicios() throws DAOException {
@@ -264,9 +252,11 @@ public abstract class Controller<T> implements Initializable {
             return false;
         }
     }
-
+  public void consumeIntegers(KeyEvent e) {
+        getIntegers(e);
+    }
     public static boolean getLetters(KeyEvent e) {
-        Pattern patron = Pattern.compile("[A-Za-z]*\\s*[áéíóúñ]*");
+        Pattern patron = Pattern.compile("[A-Za-z]*\\s*[áéíóúñÁÉÍÓÚÑ]*");
         Matcher mevento = patron.matcher(e.getCharacter());
         if (mevento.matches()) {
             return true;
@@ -288,7 +278,7 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static boolean getCorreo(KeyEvent e) {
-        Pattern patron = Pattern.compile("\\w*@\\w*.\\w*");
+        Pattern patron = Pattern.compile("\\w*[@._-]*");
         Matcher mevento = patron.matcher(e.getCharacter());
         if (mevento.matches()) {
             return true;
@@ -303,7 +293,7 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static boolean getWeb(KeyEvent e) {
-        Pattern patron = Pattern.compile("\\w*/*");
+        Pattern patron = Pattern.compile("\\w*[/.:]*");
         Matcher mevento = patron.matcher(e.getCharacter());
         if (mevento.matches()) {
             return true;
@@ -318,7 +308,7 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static boolean getTel(KeyEvent e) {
-        Pattern patron = Pattern.compile("[0-9]*\\s*\\+");
+        Pattern patron = Pattern.compile("[0-9]*[ +]*");
         Matcher mevento = patron.matcher(e.getCharacter());
         if (mevento.matches()) {
             return true;
@@ -329,16 +319,14 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public void consumeTel(KeyEvent e) {
-        getWeb(e);
+        getTel(e);
     }
 
     public void consumeDouble(KeyEvent e) {
         getDouble(e);
     }
 
-    public void consumeIntegers(KeyEvent e) {
-        getIntegers(e);
-    }
+  
 
     public void consumeLetters(KeyEvent e) {
         getLetters(e);

@@ -23,7 +23,7 @@
                      <children>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Fecha de medida" textFill="#b2b2b2">
+                              <Label text="Fecha de medida*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -37,7 +37,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Grado de actividad" textFill="#b2b2b2">
+                              <Label text="Grado de actividad*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -47,7 +47,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Objetivo" textFill="#b2b2b2">
+                              <Label text="Objetivo*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -57,7 +57,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Peso" textFill="#b2b2b2">
+                              <Label text="Peso*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -67,7 +67,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Altura" textFill="#b2b2b2">
+                              <Label text="Altura*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -77,7 +77,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Muñeca" textFill="#b2b2b2">
+                              <Label text="Muñeca*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -137,7 +137,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Cintura media" textFill="#b2b2b2">
+                              <Label text="Cintura media*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -212,7 +212,7 @@
                      <children>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Tricipital" textFill="#b2b2b2">
+                              <Label text="Tricipital*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -222,7 +222,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Bicipital" textFill="#b2b2b2">
+                              <Label text="Bicipital*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -232,7 +232,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Subescapular" textFill="#b2b2b2">
+                              <Label text="Subescapular*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -242,7 +242,7 @@
                         </VBox>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Suprailiaco" textFill="#b2b2b2">
+                              <Label text="Suprailiaco*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>

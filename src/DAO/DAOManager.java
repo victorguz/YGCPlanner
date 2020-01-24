@@ -11,7 +11,7 @@ import DAO.cliente.MedidasDAO;
 import DAO.plan.EjerciciosDAO;
 import DAO.plan.AlxDietDAO;
 import DAO.plan.EjxRutDAO;
-import DAO.plan.PlanDAO;
+import DAO.plan.PlanesDAO;
 
 /**
  *
@@ -27,11 +27,7 @@ public interface DAOManager {
 
     AlxDietDAO getAlimentosDietasDAO();
 
-    PlanDAO getRutinasDAO();
-
-    PlanDAO getDietasDAO();
-
-    PlanDAO getPlanesDAO();
+    PlanesDAO getPlanesDAO();
 
     EjerciciosDAO getEjerciciosDAO();
 

@@ -25,14 +25,14 @@ public class Alimento {
 
     }
 
-    public Alimento(String nombre, double proteinas, double grasas, double carbohidratos) throws DAOException {
+    public Alimento(String nombre, double proteinas, double grasas, double carbohidratos) {
         setNombre(nombre);
         setProteinas(proteinas);
         setGrasas(grasas);
         setCarbohidratos(carbohidratos);
     }
 
-    public Alimento(int alimentoKey, String nombre, double proteinas, double grasas, double carbohidratos) throws DAOException {
+    public Alimento(int alimentoKey, String nombre, double proteinas, double grasas, double carbohidratos) {
         setAlimentokey(alimentoKey);
         setNombre(nombre);
         setProteinas(proteinas);
@@ -44,10 +44,7 @@ public class Alimento {
         return alimentokey;
     }
 
-    public void setAlimentokey(int alimentokey) throws DAOException {
-        if (alimentokey <= 0) {
-            throw new DAOException("La llave primaria no puede ser " + alimentokey);
-        }
+    public void setAlimentokey(int alimentokey) {
         this.alimentokey = alimentokey;
     }
 
@@ -55,10 +52,7 @@ public class Alimento {
         return nombre;
     }
 
-    public void setNombre(String nombre) throws DAOException {
-        if (nombre.isEmpty()) {
-            throw new DAOException("Digite un nombre");
-        }
+    public void setNombre(String nombre) {
         this.nombre = Operacion.nombreCamelCase(nombre);
     }
 
@@ -71,10 +65,7 @@ public class Alimento {
         return proteinas;
     }
 
-    public void setProteinas(double proteinas) throws DAOException {
-        if (proteinas < 0) {
-            throw new DAOException("Medida de proteinas incorrectas");
-        }
+    public void setProteinas(double proteinas) {
         this.proteinas = proteinas;
     }
 
@@ -82,10 +73,7 @@ public class Alimento {
         return grasas;
     }
 
-    public void setGrasas(double grasas) throws DAOException {
-        if (grasas < 0) {
-            throw new DAOException("Medida de grasas incorrectas");
-        }
+    public void setGrasas(double grasas) {
         this.grasas = grasas;
     }
 
@@ -111,10 +99,7 @@ public class Alimento {
     }
 
     public boolean isEmpty() {
-        return getNombre().isEmpty()
-                || getProteinas() < 0
-                || getGrasas() < 0
-                || getCarbohidratos() < 0;
+        return getNombre().isEmpty();
     }
 
 }

@@ -61,7 +61,7 @@ public class AlimentosController extends Controller<Alimento> {
         try {
             Alimento c = captar();
             if (c.isEmpty()) {
-                mensaje("A este alimento le faltan datos", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
                 getAlimentos().insertar(c);
                 mensaje("Alimento registrado", "exito");
@@ -86,7 +86,7 @@ public class AlimentosController extends Controller<Alimento> {
                     setAlimentosUpdated(true);
                     mensaje("Alimento modificado", "exito");
                 } else {
-                    mensaje("A este alimento le faltan datos", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -109,7 +109,7 @@ public class AlimentosController extends Controller<Alimento> {
                     obtener();
                     setAlimentosUpdated(true);
                 } else {
-                    mensaje("A este alimento le faltan datos", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -154,9 +154,9 @@ public class AlimentosController extends Controller<Alimento> {
     public Alimento captar() throws DAOException {
         Alimento c = new Alimento();
         c.setNombre(textNombre.getText());
-        c.setProteinas(Double.parseDouble(textProteina.getText()));
-        c.setGrasas(Double.parseDouble(textGrasas.getText()));
-        c.setCarbohidratos(Double.parseDouble(textCarbos.getText()));
+        c.setProteinas((textProteina.getText().isEmpty())?0:Double.parseDouble(textProteina.getText()));
+        c.setGrasas((textGrasas.getText().isEmpty())?0:Double.parseDouble(textGrasas.getText()));
+        c.setCarbohidratos((textCarbos.getText().isEmpty())?0:Double.parseDouble(textCarbos.getText()));
         return c;
     }
 
@@ -187,3 +187,4 @@ public class AlimentosController extends Controller<Alimento> {
     }
 
 }
+    

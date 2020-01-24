@@ -6,11 +6,17 @@
 package controlador;
 
 import DAO.DAOException;
+import archivo.PDF;
+import com.itextpdf.text.DocumentException;
 import static controlador.Controller.isClientesUpdated;
 import static controlador.Controller.setClientesUpdated;
+import java.io.IOException;
 import modelo.cliente.Cliente;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javafx.application.Application.STYLESHEET_CASPIAN;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -107,7 +113,7 @@ public class FooterClientesController extends Controller {
         }
         setMedidasUpdated(false);
         setMedidaUpdated(true);
-    }
+}
 
     /**
      * Si se actualiza o elimina un cliente, este método actualiza el combobox
@@ -145,6 +151,7 @@ public class FooterClientesController extends Controller {
 
     @Override
     public void mostrar() {
+      
     }
 
     @Override

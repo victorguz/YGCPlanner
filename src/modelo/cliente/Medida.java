@@ -298,7 +298,7 @@ public class Medida {
 
     @Override
     public String toString() {
-        return "MEDIDA DEL " + getFecha().format(DateTimeFormatter.ofPattern("d MMM")).toUpperCase();
+        return "Medida del " + getFecha().format(DateTimeFormatter.ofPattern("d MMM"));
     }
 
     public String getComplexionText() {

@@ -40,7 +40,7 @@ public class ClienteController extends Controller<Cliente> {
 
     @FXML
     protected ListView<Medida> listView;
-    
+
     @FXML
     private TextField textNombre;
 
@@ -75,12 +75,47 @@ public class ClienteController extends Controller<Cliente> {
 
     @FXML
     private ComboBox<String> comboSexo;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
         updated();
-        setRutinasUpdated(true);
-        setDietasUpdated(true);
+
+    }
+
+    /**
+     * Si se selecciona un cliente, este método lo muestra.
+     */
+    @Override
+    public void updated() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isClienteUpdated()) {
+                            mostrar();
+                            setClienteUpdated(false);
+                            obtenerMedidas();
+                        }
+                        if (isMedidasUpdated()) {
+                            obtenerMedidas();
+                        }
+                    }
+                };
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
     }
 
     private void setCombos() {
@@ -94,27 +129,11 @@ public class ClienteController extends Controller<Cliente> {
     @Override
     public Cliente captar() throws DAOException {
         Cliente a = new Cliente();
-        if (textNombre.getText().isEmpty()) {
-            mensaje("Digite un nombre", "vacio");
-        } else {
-            a.setNombre(textNombre.getText());
-        }
-        if (textApellido.getText().isEmpty()) {
-            mensaje("Digite un apellido", "vacio");
-        } else {
-            a.setApellido(textApellido.getText());
-        }
-        if (textEdad.getText().isEmpty()) {
-            mensaje("Digite una edad", "vacio");
-        } else {
-            a.setEdad(Integer.parseInt(textEdad.getText()));
-        }
+        a.setNombre(textNombre.getText());
+        a.setApellido(textApellido.getText());
+        a.setEdad(Integer.parseInt(textEdad.getText()));
         a.setTipoIdentificacion(comboTipoDoc.getSelectionModel().getSelectedItem());
-        if (textDocumento.getText().isEmpty()) {
-            mensaje("Digite un numero de documento", "vacio");
-        } else {
-            a.setIdentificacion(textDocumento.getText());
-        }
+        a.setIdentificacion(textDocumento.getText());
         a.setSexo(comboSexo.getSelectionModel().getSelectedItem());
         return a;
     }
@@ -137,10 +156,10 @@ public class ClienteController extends Controller<Cliente> {
         if (!getCliente().isEmpty()) {
             textNombre.setText(Operacion.nombreCamelCase(getCliente().getNombre()));
             textApellido.setText(Operacion.nombreCamelCase(getCliente().getApellido()));
-            selectCombo(comboTipoDoc,getCliente().getTipoIdentificacion());
+            selectCombo(comboTipoDoc, getCliente().getTipoIdentificacion());
             textDocumento.setText(getCliente().getIdentificacion());
             textEdad.setText(getCliente().getEdad() + "");
-            selectCombo(comboSexo,getCliente().getSexo());
+            selectCombo(comboSexo, getCliente().getSexo());
         }
     }
 
@@ -149,7 +168,7 @@ public class ClienteController extends Controller<Cliente> {
         try {
             Cliente c = captar();
             if (c.isEmpty()) {
-                mensaje("A este cliente le faltan datos", "aviso");
+                mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
                 getClientes().insertar(c);
                 setClientesUpdated(true);
@@ -200,73 +219,28 @@ public class ClienteController extends Controller<Cliente> {
             } else {
                 PDF f = new PDF(listView.getSelectionModel().getSelectedItem());
                 f.createPDF();
-                if (!(checkRutina.isSelected() && checkDieta.isSelected() && buttonBienvenida.isSelected())) {
-                    mensaje("Seleccione lo que desea ver en el documento", "aviso");
-                } else {
-                    if (buttonBienvenida.isSelected()) {
-                        f.addBienvenida();
-                    }
-                    if (buttonMedidas.isSelected()) {
-                        f.addMedidas();
-                    }
-                    if (checkRutina.isSelected()) {
-                        f.addRutina(comboRutinas.getSelectionModel().getSelectedItem());
-                    }
-                    if (checkDieta.isSelected()) {
-                        f.addDieta(comboDietas.getSelectionModel().getSelectedItem());
-                    }
-                    if (buttonEstadisticas.isSelected()) {
-                        mensaje("Las estadísticas no están disponibles en esta versión. Adquiera la versión PRO.", "Versión PRO");
-                    }
-                    f.close();
+                if (buttonBienvenida.isSelected()) {
+                    f.addBienvenida();
                 }
+                if (buttonMedidas.isSelected()) {
+                    f.addMedidas();
+                }
+                if (checkRutina.isSelected() && !rutinas.isEmpty()) {
+                    f.addRutina(comboRutinas.getSelectionModel().getSelectedItem());
+                }
+                if (checkDieta.isSelected() && !dietas.isEmpty()) {
+                    f.addDieta(comboDietas.getSelectionModel().getSelectedItem());
+                }
+                if (buttonEstadisticas.isSelected()) {
+                    mensaje("Las estadísticas no están disponibles en esta versión. Adquiera la versión PRO.", "Versión PRO");
+                }
+                f.close();
             }
         } catch (DocumentException | IOException ex) {
             excepcion(ex);
         } catch (DAOException ex) {
             Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    /**
-     * Si se selecciona un cliente, este método lo muestra.
-     */
-    @Override
-    public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isClienteUpdated()) {
-                            mostrar();
-                            setClienteUpdated(false);
-                            obtenerMedidas();
-                        }
-                        if (isMedidasUpdated()) {
-                            obtenerMedidas();
-                        }
-                        if (isRutinasUpdated()) {
-                            obtenerRutinas();
-                        }
-                        if (isDietasUpdated()) {
-                            obtenerDietas();
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
     }
 
     @Override
@@ -279,25 +253,29 @@ public class ClienteController extends Controller<Cliente> {
                 listView.setItems(medidas);
             }
         }
-    }
-
-    public void obtenerRutinas() {
-        if (rutinas.isEmpty()) {
-            checkRutina.setSelected(false);
-            checkRutina.setDisable(true);
-        } else {
-            comboRutinas.setItems(rutinas);
-            comboRutinas.getSelectionModel().select(0);
+        PDF pdf;
+        try {
+            pdf = new PDF(getMedida());
+            pdf.createPDF();
+            pdf.addBienvenida();
+            pdf.close();
+        } catch (DAOException ex) {
+            Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
+            Logger.getLogger(ClienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void obtenerDietas() {
-        if (dietas.isEmpty()) {
-            checkDieta.setSelected(false);
-            checkDieta.setDisable(true);
-        } else {
+    public void obtenerDietasYRutinas() {
+        if (!dietas.isEmpty()) {
             comboDietas.setItems(dietas);
             comboDietas.getSelectionModel().select(0);
+        }
+        if (!rutinas.isEmpty()) {
+            comboRutinas.setItems(rutinas);
+            comboRutinas.getSelectionModel().select(0);
         }
     }
 }

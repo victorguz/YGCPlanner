@@ -15,8 +15,12 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import controlador.Controller;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +29,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.cliente.Cliente;
+import modelo.Referencia;
 import modelo.cliente.Medida;
 import modelo.plan.Plan;
 
@@ -72,7 +76,7 @@ public class PDF {
         return medida;
     }
 
-    public void setMedida(Medida medida){
+    public void setMedida(Medida medida) {
         this.medida = medida;
     }
 
@@ -80,16 +84,18 @@ public class PDF {
         return dieta;
     }
 
-    public void setDieta(Plan dieta){
+    public void setDieta(Plan dieta) {
         this.dieta = dieta;
     }
-public Plan getRutina() {
+
+    public Plan getRutina() {
         return rutina;
     }
 
-    public void setRutina(Plan rutina){
+    public void setRutina(Plan rutina) {
         this.rutina = rutina;
     }
+
     public void setDocument(Document document) {
         this.document = document;
     }
@@ -99,7 +105,7 @@ public Plan getRutina() {
     }
 
     //YGC Fonts
-    public static Font getFont(String nombre, int size) {
+    public static Font getFont(String nombre, int size, int red, int green, int blue) {
         try {
             File quantify;
             if (nombre.equalsIgnoreCase("regular")) {
@@ -132,6 +138,7 @@ public Plan getRutina() {
             BaseFont base = BaseFont.createFont(quantify.getAbsolutePath(), BaseFont.WINANSI, BaseFont.EMBEDDED);
             Font font = new Font(base);
             font.setSize(size);
+            font.setColor(red, green, blue);
             return font;
         } catch (DocumentException | IOException ex) {
             Logger.getLogger(PDF.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,46 +146,130 @@ public Plan getRutina() {
         return null;
     }
 
-    public void createPDF() throws FileNotFoundException, DocumentException, IOException {
-        document = new Document(PageSize.LETTER, 50, 22, 50, 50);
-        PdfWriter.getInstance(document, new FileOutputStream(file));
-        document.open();
-        //Modificar metadatos del archivo:
-        document.addTitle("Plan " + getMedida().getCliente().getNombre() + " " + getMedida().getCliente().getApellido());
-        document.addAuthor("Yezid Guzman Coach");
-        document.addCreator("Yezid Guzman Coach");
+    public void createPDF() throws FileNotFoundException, DocumentException, IOException, DAOException {
+        Referencia ins = Controller.getReferencias().obtener("insta1");
+        Referencia fb = Controller.getReferencias().obtener("face1");
+        Referencia tel = Controller.getReferencias().obtener("tel1");
+
+        setDocument(new Document(PageSize.LETTER, 0, 0, 0, 0));
+        PdfWriter.getInstance(getDocument(), new FileOutputStream(file));
+        getDocument().open();
+        getDocument().addTitle("Plan de entrenamiento y alimentacion");
+        getDocument().addAuthor("Yezid Guzman Coach");
+        getDocument().addCreator("Yezid Guzman Coach");
         //Edición del archivo:
         Chapter chapter = new Chapter(1);
         chapter.setNumberDepth(0);
         Image black;
-        black = Image.getInstance(new File("src/imagen/black.png").toURL());
+        black = Image.getInstance(new File("src/imagen/black.jpg").toURL());
         black.scaleAbsolute(PageSize.LETTER);
         black.setAbsolutePosition(0, 0);
         chapter.add(black);
+        PdfPTable table = new PdfPTable(3);
+        Font fuente = getFont("bold", 15, 230, 230, 230);
 
-        Paragraph subInfo = new Paragraph("Información del cliente", getFont("bold", 14));
-        subInfo.setAlignment(Element.ALIGN_CENTER);
-        subInfo.setIndentationLeft(345);
-        subInfo.setSpacingBefore(65);
-        subInfo.setSpacingAfter(10);
-        chapter.add(subInfo);
-        document.add(chapter);
-        addBienvenida();
+        //Este ciclo nos ubica al final de la pagina
+        for (int i = 0; i < 81; i++) {
+            PdfPCell cell = new PdfPCell();
+            cell.setBorder(Rectangle.NO_BORDER);
+            Paragraph p = new Paragraph(" ", fuente);
+            p.setAlignment(Element.ALIGN_CENTER);
+            cell.addElement(p);
+            table.addCell(cell);
+        }
+
+        Paragraph tIg = new Paragraph("Ig:", fuente);
+        tIg.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell tIgCell = new PdfPCell();
+        tIgCell.addElement(tIg);
+        tIgCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(tIgCell);
+
+        Paragraph tFb = new Paragraph("Fb:", fuente);
+        tFb.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell tFbCell = new PdfPCell();
+        tFbCell.addElement(tFb);
+        tFbCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(tFbCell);
+
+        Paragraph tTel = new Paragraph("Tel:", fuente);
+        tTel.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell tTelCell = new PdfPCell();
+        tTelCell.addElement(tTel);
+        tTelCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(tTelCell);
+
+        Paragraph dIns = new Paragraph(ins.getDato(), fuente);
+        dIns.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell dInsCell = new PdfPCell();
+        dInsCell.addElement(dIns);
+        dInsCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(dInsCell);
+
+        Paragraph dFb = new Paragraph(fb.getDato(), fuente);
+        dFb.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell dFbCell = new PdfPCell();
+        dFbCell.addElement(dFb);
+        dFbCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(dFbCell);
+
+        Paragraph dTel = new Paragraph(tel.getDato(), fuente);
+        dTel.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell dTelCell = new PdfPCell();
+        dTelCell.addElement(dTel);
+        dTelCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(dTelCell);
+
+        chapter.add(table);
+        getDocument().add(chapter);
     }
 
-    public void addBienvenida() throws DocumentException, MalformedURLException, BadElementException, IOException {
+    public void addBienvenida() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
+        Referencia titulo = Controller.getReferencias().obtener("titulobienvenida");
+        Referencia bienvenida = Controller.getReferencias().obtener("bienvenida");
+
         Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/bienvenida.png").toURL());
+        page = Image.getInstance(new File("src/imagen/bienvenida.jpg").toURL());
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
-        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17));
-        subInfo.setAlignment(Element.ALIGN_CENTER);
-        subInfo.setSpacingAfter(30);
-        chapter.add(subInfo);
-        document.add(chapter);
+        PdfPTable table = new PdfPTable(1);
+        Font fuente = getFont("bold", 18, 230, 230, 230);
+
+        //Celda en blanco añadida para ocupar espacio
+        PdfPCell cell = new PdfPCell();
+        cell.setBorder(Rectangle.NO_BORDER);
+        Paragraph p = new Paragraph(" ", fuente);
+        p.setAlignment(Element.ALIGN_CENTER);
+        cell.addElement(p);
+
+        //Este ciclo nos ubica al final de la pagina
+        for (int i = 0; i < 16; i++) {
+
+            table.addCell(cell);
+        }
+
+        Paragraph pTitulo = new Paragraph(titulo.getDato().toUpperCase(), fuente);
+        pTitulo.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell pTituloCell = new PdfPCell();
+        pTituloCell.addElement(pTitulo);
+        pTituloCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(pTituloCell);
+
+        table.addCell(cell);
+        table.addCell(cell);
+
+        Paragraph pBienvenida = new Paragraph("\n"+bienvenida.getDato().toUpperCase(), getFont("regular", 14, 230, 230, 230));
+        pBienvenida.setAlignment(Element.ALIGN_CENTER);
+        PdfPCell pBienvenidaCell = new PdfPCell();
+        pBienvenidaCell.addElement(pBienvenida);
+        pBienvenidaCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(pBienvenidaCell);
+
+        chapter.add(table);
+        getDocument().add(chapter);
     }
 
     public void addRutina(Plan rutina) throws DocumentException, MalformedURLException, BadElementException, IOException {
@@ -186,11 +277,11 @@ public Plan getRutina() {
         Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/entrenamiento.png").toURL());
+        page = Image.getInstance(new File("src/imagen/entrenamiento.jpg").toURL());
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
-        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17));
+        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17, 0, 0, 0));
         subInfo.setAlignment(Element.ALIGN_CENTER);
         subInfo.setSpacingAfter(30);
         chapter.add(subInfo);
@@ -202,11 +293,11 @@ public Plan getRutina() {
         Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/alimentacion.png").toURL());
+        page = Image.getInstance(new File("src/imagen/alimentacion.jpg").toURL());
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
-        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17));
+        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17, 0, 0, 0));
         subInfo.setAlignment(Element.ALIGN_CENTER);
         subInfo.setSpacingAfter(30);
         chapter.add(subInfo);
@@ -217,11 +308,11 @@ public Plan getRutina() {
         Chapter chapter = new Chapter(2);
         chapter.setNumberDepth(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/medidas.png").toURL());
+        page = Image.getInstance(new File("src/imagen/medidas.jpg").toURL());
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
-        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17));
+        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17, 0, 0, 0));
         subInfo.setAlignment(Element.ALIGN_CENTER);
         subInfo.setSpacingAfter(30);
         chapter.add(subInfo);

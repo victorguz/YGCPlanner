@@ -27,7 +27,7 @@ public class Cliente {
 
     public Cliente(int clienteKey, String nombre, String apellido,
             String sexo, String identificacion,
-            String tipoIdentificacion, int edad)  {
+            String tipoIdentificacion, int edad) {
         setNombre(nombre);
         setApellido(apellido);
         setEdad(edad);
@@ -40,7 +40,7 @@ public class Cliente {
         return edad;
     }
 
-    public void setEdad(int edad)  {
+    public void setEdad(int edad) {
         this.edad = edad;
     }
 
@@ -48,7 +48,7 @@ public class Cliente {
         return nombre;
     }
 
-    public void setNombre(String nombre)  {
+    public void setNombre(String nombre) {
         this.nombre = nombre.toLowerCase();
     }
 
@@ -56,7 +56,7 @@ public class Cliente {
         return apellido;
     }
 
-    public void setApellido(String apellido)  {
+    public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
@@ -64,7 +64,7 @@ public class Cliente {
         return sexo;
     }
 
-    public void setSexo(String sexo)  {
+    public void setSexo(String sexo) {
         this.sexo = sexo.toLowerCase();
     }
 
@@ -72,7 +72,7 @@ public class Cliente {
         return clienteKey;
     }
 
-    public void setClienteKey(int clientekey)  {
+    public void setClienteKey(int clientekey) {
         this.clienteKey = clientekey;
     }
 
@@ -80,7 +80,7 @@ public class Cliente {
         return identificacion;
     }
 
-    public void setIdentificacion(String identificacion)  {
+    public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
     }
 
@@ -88,21 +88,18 @@ public class Cliente {
         return tipoIdentificacion;
     }
 
-    public void setTipoIdentificacion(String tipoIdentificacion)  {
+    public void setTipoIdentificacion(String tipoIdentificacion) {
         this.tipoIdentificacion = tipoIdentificacion;
     }
 
     @Override
     public String toString() {
-        return getNombre() + " " + getApellido();
+        return Operacion.nombreCamelCase(getNombre() + " " + getApellido());
     }
 
     public boolean isEmpty() {
         return getNombre().isEmpty()
-                || getApellido().isEmpty()
                 || getSexo().isEmpty()
-                || getEdad() <= 0
-                || getIdentificacion().isEmpty()
-                || getTipoIdentificacion().isEmpty();
+                || getIdentificacion().isEmpty();
     }
 }

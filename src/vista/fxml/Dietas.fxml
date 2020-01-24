@@ -60,7 +60,7 @@
                      <children>
                         <VBox styleClass="title">
                            <children>
-                              <Label text="Nombre" textFill="#b2b2b2">
+                              <Label text="Nombre*" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -342,7 +342,7 @@
                      <children>
                         <VBox styleClass="nada">
                            <children>
-                              <Label text="Dia de la semana" textFill="#757575">
+                              <Label text="Dia de la semana*" textFill="#757575">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
@@ -366,7 +366,7 @@
                         </VBox>
                         <VBox styleClass="nada">
                            <children>
-                              <Label text="Momento del día" textFill="#757575">
+                              <Label text="Momento del día*" textFill="#757575">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>

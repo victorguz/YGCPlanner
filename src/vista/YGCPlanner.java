@@ -5,6 +5,8 @@
  */
 package vista;
 
+import archivo.PDF;
+import controlador.Controller;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,9 +29,9 @@ public class YGCPlanner extends Application {
     public void start(Stage stage) {
         stagestatic = stage;
         Parent root;
-  try {
+        try {
             root = FXMLLoader.load(getClass().getResource("fxml/Home.fxml"));
- Scene scene = new Scene(root);
+            Scene scene = new Scene(root);
 //stage.setResizable(false);
             stage.setTitle("Dieta y ejercicio - Planificador Yezid Guzman Coach");
             stage.getIcons().add(new Image("/imagen/icono/icono24.png"));

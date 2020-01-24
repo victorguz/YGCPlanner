@@ -5,7 +5,6 @@
  */
 package modelo.plan;
 
-import DAO.DAOException;
 
 /**
  * En esta clase se registrarán todos los posibles ejercicios que el instructor
@@ -19,19 +18,18 @@ public class Ejercicio {
     private String nombre = "";
     private String descripcion = "";
     private String comentarios = "";
-    private int uso;
 
     public Ejercicio() {
     }
 
-    public Ejercicio(int ejerciciokey, String nombre, String descripcion, String comentarios) throws DAOException {
+    public Ejercicio(int ejerciciokey, String nombre, String descripcion, String comentarios) {
         setEjerciciokey(ejerciciokey);
         setNombre(nombre);
         setDescripcion(descripcion);
         setComentarios(comentarios);
     }
 
-    public Ejercicio(String nombre, String descripcion, String comentarios) throws DAOException {
+    public Ejercicio(String nombre, String descripcion, String comentarios) {
         setNombre(nombre);
         setDescripcion(descripcion);
         setComentarios(comentarios);
@@ -41,10 +39,7 @@ public class Ejercicio {
         return ejerciciokey;
     }
 
-    public void setEjerciciokey(int ejerciciokey) throws DAOException {
-        if (ejerciciokey < 0) {
-            throw new DAOException("La llave primaria no puede ser " + ejerciciokey);
-        }
+    public void setEjerciciokey(int ejerciciokey) {
         this.ejerciciokey = ejerciciokey;
     }
 
@@ -52,10 +47,7 @@ public class Ejercicio {
         return nombre;
     }
 
-    public void setNombre(String nombre) throws DAOException {
-        if (nombre.isEmpty()) {
-            throw new DAOException("Digite un nombre");
-        }
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -63,10 +55,7 @@ public class Ejercicio {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) throws DAOException {
-        if (descripcion.isEmpty()) {
-            throw new DAOException("Digite una descripcion");
-        }
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
@@ -74,17 +63,12 @@ public class Ejercicio {
         return comentarios;
     }
 
-    public void setComentarios(String comentarios) throws DAOException {
-        if (comentarios.isEmpty()) {
-            throw new DAOException("Digite un comentario");
-        }
+    public void setComentarios(String comentarios) {
         this.comentarios = comentarios;
     }
 
     public boolean isEmpty() {
-        return getNombre().isEmpty()
-                || getDescripcion().isEmpty()
-                || getComentarios().isEmpty();
+        return getNombre().isEmpty();
     }
 
     @Override

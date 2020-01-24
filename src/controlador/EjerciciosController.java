@@ -49,7 +49,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
             Ejercicio c = captar();
             if (c != null) {
                 if (c.isEmpty()) {
-                    mensaje("A este ejercicio le faltan datos", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 } else {
                     getEjercicios().insertar(c);
                     mensaje("Ejercicio registrado", "exito");
@@ -75,7 +75,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     obtener();
                     setEjerciciosUpdated(true);
                 } else {
-                    mensaje("A este ejercicio le faltan datos", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -98,7 +98,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     obtener();
                     setEjerciciosUpdated(true);
                 } else {
-                    mensaje("A este ejercicio le faltan datos", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -129,7 +129,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
     @Override
     public Ejercicio captar() throws DAOException {
         Ejercicio c = new Ejercicio();
-        c.setNombre(textNombre.getText());
+            c.setNombre(textNombre.getText());
         c.setDescripcion(textDescripcion.getText());
         c.setComentarios(textComentarios.getText());
         return c;

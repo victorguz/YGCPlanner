@@ -158,112 +158,55 @@ public class MedidaController extends Controller<Medida> {
 
     @Override
     public Medida captar() {
-        Medida k = new Medida();
-            if (getCliente().isEmpty()) {
-                k.setCliente(null);
-            } else {
-                k.setCliente(getCliente());
-            }
+        if (clientes.isEmpty()) {
+            return new Medida();
+        }else{Medida k = new Medida();
+            k.setCliente(getCliente());
             k.setFecha(datePicker.getValue());
-            k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
-            k.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
-            if (textPeso.getText().isEmpty()) {
-                k.setPeso(0);
-            } else {
-                k.setPeso(Double.parseDouble((textPeso.getText())));
-            }
-            if (textAltura.getText().isEmpty()) {
-                k.setAltura(0);
-            } else {
-                k.setAltura(Double.parseDouble(textAltura.getText()));
-            }
-            if (textMuneca.getText().isEmpty()) {
-                k.setMuneca(17);
-            } else {
-                k.setMuneca(Double.parseDouble(textMuneca.getText()));
-            }
-            if (textCuello.getText().isEmpty()) {
-                k.setCuello(0);
-            } else {
-                k.setCuello(Double.parseDouble(textCuello.getText()));
-            }
-            if (textCinturaAlta.getText().isEmpty()) {
-                k.setCinturaAlta(0);
-            } else {
-                k.setCinturaAlta(Double.parseDouble(textCinturaAlta.getText()));
-            }
-            if (textCinturaMedia.getText().isEmpty()) {
-                k.setCinturaMedia(0);
-            } else {
-                k.setCinturaMedia(Double.parseDouble(textCinturaMedia.getText()));
-            }
-            if (textCinturaBaja.getText().isEmpty()) {
-                k.setCinturaBaja(0);
-            } else {
-                k.setCinturaBaja(Double.parseDouble(textCinturaBaja.getText()));
-            }
-            if (textCadera.getText().isEmpty()) {
-                k.setCadera(0);
-            } else {
-                k.setCadera(Double.parseDouble(textCadera.getText()));
-            }
-            if (textPectorales.getText().isEmpty()) {
-                k.setPectoral(0);
-            } else {
-                k.setPectoral(Double.parseDouble(textPectorales.getText()));
-            }
-            if (textBicepDer.getText().isEmpty()) {
-                k.setBicepDer(0);
-            } else {
-                k.setBicepDer(Double.parseDouble(textBicepDer.getText()));
-            }
-            if (textBicepIzq.getText().isEmpty()) {
-                k.setBicepIzq(0);
-            } else {
-                k.setBicepIzq(Double.parseDouble(textBicepIzq.getText()));
-            }
-            if (textCuadricepDer.getText().isEmpty()) {
-                k.setCuadricepDer(0);
-            } else {
-                k.setCuadricepDer(Double.parseDouble(textCuadricepDer.getText()));
-            }
-            if (textCuadricepIzq.getText().isEmpty()) {
-                k.setCuadricepIzq(0);
-            } else {
-                k.setCuadricepIzq(Double.parseDouble(textCuadricepIzq.getText()));
-            }
-            if (textPantorrillaDer.getText().isEmpty()) {
-                k.setPantorrillaDer(0);
-            } else {
-                k.setPantorrillaDer(Double.parseDouble(textPantorrillaDer.getText()));
-            }
-            if (textPantorrillaIzq.getText().isEmpty()) {
-                k.setPantorrillaIzq(0);
-            } else {
-                k.setPantorrillaIzq(Double.parseDouble(textPantorrillaIzq.getText()));
-            }
-            //Pliegues
-            if (textBicipital.getText().isEmpty()) {
-                k.setBicipital(0);
-            } else {
-                k.setBicipital(Double.parseDouble(textBicipital.getText()));
-            }
-            if (textTricipital.getText().isEmpty()) {
-                k.setTricipital(0);
-            } else {
-                k.setTricipital(Double.parseDouble(textTricipital.getText()));
-            }
-            if (textSubescapular.getText().isEmpty()) {
-                k.setSubescapular(0);
-            } else {
-                k.setSubescapular(Double.parseDouble(textSubescapular.getText()));
-            }
-            if (textSuprailiaco.getText().isEmpty()) {
-                k.setSuprailiaco(0);
-            } else {
-                k.setSuprailiaco(Double.parseDouble(textSuprailiaco.getText()));
-            }
+            k.setActividad(comboActividad.getSelectionModel()
+                    .getSelectedItem());
+            k.setObjetivo(comboObjetivos.getSelectionModel()
+                    .getSelectedItem());
+            k.setPeso((textPeso.getText().isEmpty()) ? 0
+                    : Double.parseDouble((textPeso.getText())));
+            k.setAltura((textAltura.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textAltura.getText()));
+            k.setMuneca((textMuneca.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textMuneca.getText()));
+            k.setCuello((textCuello.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textCuello.getText()));
+            k.setCinturaAlta((textCinturaAlta.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textCinturaAlta.getText()));
+            k.setCinturaMedia((textCinturaMedia.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textCinturaMedia.getText()));
+            k.setCinturaBaja((textCinturaBaja.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textCinturaBaja.getText()));
+            k.setCadera((textCadera.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textCadera.getText()));
+            k.setPectoral((textPectorales.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textPectorales.getText()));
+            k.setBicepDer((textBicepDer.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textBicepDer.getText()));
+            k.setBicepIzq((textBicepIzq.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textBicepIzq.getText()));
+            k.setCuadricepDer((textCuadricepDer.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textCuadricepDer.getText()));
+            k.setCuadricepIzq((textCuadricepIzq.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textCuadricepIzq.getText()));
+            k.setPantorrillaDer((textPantorrillaDer.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textPantorrillaDer.getText()));
+            k.setPantorrillaIzq((textPantorrillaIzq.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textPantorrillaIzq.getText()));
+            k.setBicipital((textBicipital.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textBicipital.getText()));
+            k.setTricipital((textTricipital.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textTricipital.getText()));
+            k.setSubescapular((textSubescapular.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textSubescapular.getText()));
+            k.setSuprailiaco((textSuprailiaco.getText().isEmpty()) ? 0
+                    : Double.parseDouble(textSuprailiaco.getText()));
             return k;
+        }
     }
 
     @Override
@@ -272,9 +215,8 @@ public class MedidaController extends Controller<Medida> {
             mensaje("Seleccione un cliente", "aviso");
         } else {
             Medida m = captar();
-            if (m != null) {
                 if (m.isEmpty()) {
-                    mensaje("Aún faltan algunas medidas", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 } else {
                     try {
                         getMedidas().insertar(m);
@@ -283,7 +225,6 @@ public class MedidaController extends Controller<Medida> {
                     } catch (DAOException ex) {
                         excepcion(ex);
                     }
-                }
             }
         }
     }
@@ -372,7 +313,7 @@ public class MedidaController extends Controller<Medida> {
             mensaje("Seleccione un cliente", "aviso");
         } else {
             if (getMedida().isEmpty()) {
-                mensaje("Aún no ha registrado ninguna medida", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
                 try {
                     getMedidas().eliminar(getMedida());
@@ -393,7 +334,7 @@ public class MedidaController extends Controller<Medida> {
             if (!getMedida().isEmpty()) {
                 Medida k = captar();
                 if (k.isEmpty()) {
-                    mensaje("Aún faltan algunas medidas", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 } else {
                     try {
                         k.setMedidakey(getMedida().getMedidakey());
@@ -412,8 +353,8 @@ public class MedidaController extends Controller<Medida> {
 
     public void calcular() {
         Medida k = captar();
-                textComplexion.setText(""+k.getComplexionText());
-textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
+        textComplexion.setText("" + k.getComplexionText());
+        textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
         textPesoIdealCreff.setText("" + k.getPesoIdealCreff() + " Kg");
         textPesoIdealLorentz.setText("" + k.getPesoIdealLorentz() + " Kg");
         textPesoIdealMonnerotDumaine.setText("" + k.getPesoIdealMonnerotDumaine() + " Kg");

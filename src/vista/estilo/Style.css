@@ -81,8 +81,7 @@
 }
 .text-field:hover,.text-field:focused,.jfx-button:hover,.jfx-button:focused, 
 .toggle-button:hover, .toggle-button:focused, .text-area:hover, 
-.text-area:focused, .combo-box:hover, .combo-box:focused,
-.date-picker > .arrow-button:hover,.date-picker > .arrow-button:focused{
+.text-area:focused, .combo-box:hover, .combo-box:focused{
     -fx-border-color:  #630eb8;
 }
 .scroll-pane, .date-picker, .list-view, TextArea{

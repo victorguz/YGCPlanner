@@ -23,11 +23,9 @@ import SQLite.Plan.SQLiteEjxRutDAO;
 import org.sqlite.JDBC;
 import DAO.plan.AlxDietDAO;
 import DAO.plan.EjxRutDAO;
-import DAO.plan.PlanDAO;
-import SQLite.Plan.SQLiteDietasDAO;
 import SQLite.Plan.SQLitePlanesDAO;
-import SQLite.Plan.SQLiteRutinasDAO;
 import java.sql.SQLException;
+import DAO.plan.PlanesDAO;
 
 /**
  *
@@ -38,9 +36,9 @@ public class SQLiteDAOManager implements DAOManager {
     private Connection conex;
     private ClientesDAO clientes = null;
     private MedidasDAO medidas = null;
-    private PlanDAO rutinas = null;
-    private PlanDAO dietas = null;
-    private PlanDAO planes = null;
+    private PlanesDAO rutinas = null;
+    private PlanesDAO dietas = null;
+    private PlanesDAO planes = null;
     private EjerciciosDAO ejercicios = null;
     private EjxRutDAO ejerciciosRutinas = null;
     private AlimentosDAO alimentos = null;
@@ -73,20 +71,6 @@ public class SQLiteDAOManager implements DAOManager {
     }
 
     @Override
-    public PlanDAO getDietasDAO() {
-        if (dietas == null) {
-            dietas = new SQLiteDietasDAO(conex);
-        }
-        return dietas;
-    }
-@Override
-    public PlanDAO getPlanesDAO() {
-        if (planes == null) {
-            planes = new SQLitePlanesDAO(conex);
-        }
-        return planes;
-    }
-    @Override
     public AlimentosDAO getAlimentosDAO() {
         if (alimentos == null) {
             alimentos = new SQLiteAlimentosDAO(conex);
@@ -96,9 +80,9 @@ public class SQLiteDAOManager implements DAOManager {
     }
 
     @Override
-    public PlanDAO getRutinasDAO() {
+    public PlanesDAO getPlanesDAO() {
         if (rutinas == null) {
-            rutinas = new SQLiteRutinasDAO(conex);
+            rutinas = new SQLitePlanesDAO(conex);
         }
         return rutinas;
     }
@@ -134,4 +118,5 @@ public class SQLiteDAOManager implements DAOManager {
         }
         return referencias;
     }
+
 }

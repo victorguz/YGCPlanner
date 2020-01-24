@@ -6,20 +6,38 @@
 package SQLite.Plan;
 
 import DAO.DAOException;
+import controlador.Controller;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modelo.plan.Plan;
 
-public class SQLitePlanesDAO implements DAO.plan.PlanDAO {
+public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
 
     private Connection conex;
 
+    private final String INSERT = "INSERT INTO Planes(nombre, objetivo,"
+            + " descripcion, sexo, edad, tipo, usedate, usetime) "
+            + "values (?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String UPDATE = "UPDATE Planes SET nombre = ?, objetivo = ?,"
+            + " descripcion = ?, sexo = ?, edad  = ?, usedate = ?, usetime = ? WHERE plankey = ? ";
+    private final String DELETE = "DELETE FROM Planes WHERE Plankey = ?";
     private final String SELECT = "SELECT Plankey, nombre, objetivo,"
+            + " descripcion, sexo, edad FROM Planes "
+            + "where Plankey = ? ";
+    private final String WHERE = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad, tipo FROM Planes "
-            + "where Plankey = ?";
+            + "where tipo = ? order by nombre like ? desc";
+    private final String ALL = "SELECT Plankey, nombre, objetivo,"
+            + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? "
+            + "order by usetime desc, usedate desc";
 
     public SQLitePlanesDAO(Connection conex) {
         this.conex = conex;
@@ -27,7 +45,31 @@ public class SQLitePlanesDAO implements DAO.plan.PlanDAO {
 
     @Override
     public void insertar(Plan a) throws DAOException {
-        System.out.println("Plan: Método no funciona");
+        PreparedStatement s = null;
+        try {
+            s = conex.prepareStatement(INSERT);
+            s.setString(1, a.getNombre());
+            s.setString(2, a.getObjetivo());
+            s.setString(3, a.getDescripcion());
+            s.setString(4, a.getSexo());
+            s.setInt(5, a.getEdad());
+            s.setString(6, a.getTipo());
+            s.setDate(7, Date.valueOf(LocalDate.now()));
+            s.setTime(8, Time.valueOf(LocalTime.now()));
+            if (s.executeUpdate() == 0) {
+                throw new DAOException("Error al insertar plan");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
     }
 
     /**
@@ -36,18 +78,125 @@ public class SQLitePlanesDAO implements DAO.plan.PlanDAO {
      */
     @Override
     public void modificar(Plan a) throws DAOException {
-        System.out.println("Plan: Método no funciona");
+        PreparedStatement s = null;
+        try {
+            s = conex.prepareStatement(UPDATE);
+            s.setString(1, a.getNombre());
+            s.setString(2, a.getObjetivo());
+            s.setString(3, a.getDescripcion());
+            s.setString(4, a.getSexo());
+            s.setInt(5, a.getEdad());
+            s.setDate(6, Date.valueOf(LocalDate.now()));
+            s.setTime(7, Time.valueOf(LocalTime.now()));
+            s.setInt(8, a.getPlankey());
+            if (s.executeUpdate() == 0) {
+                throw new DAOException("Error al modificar plan");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
     }
 
     @Override
     public void eliminar(Plan a) throws DAOException {
-        System.out.println("Plan: Método no funciona");
+        PreparedStatement s = null;
+        try {
+            s = conex.prepareStatement(DELETE);
+            s.setInt(1, a.getPlankey());
+            if (s.executeUpdate() == 0) {
+                throw new DAOException("Error al eliminar plan");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
     }
 
     @Override
     public ObservableList<Plan> obtenerTodos() throws DAOException {
-            System.out.println("Plan: Método no funciona");
-return null;}
+        return null;
+    }
+
+    @Override
+    public ObservableList<Plan> obtenerRutinas() throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        ObservableList<Plan> l = FXCollections.observableArrayList();
+        try {
+            s = conex.prepareStatement(ALL);
+            s.setString(1, "rutina");
+            rs = s.executeQuery();
+            while (rs.next()) {
+                l.add(convertir(rs));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+        return l;
+    }
+
+    @Override
+    public ObservableList<Plan> obtenerDietas() throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        ObservableList<Plan> l = FXCollections.observableArrayList();
+        try {
+            s = conex.prepareStatement(ALL);
+            s.setString(1, "dieta");
+            rs = s.executeQuery();
+            while (rs.next()) {
+                l.add(convertir(rs));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+        return l;
+    }
 
     @Override
     public Plan obtener(String equal) throws DAOException {
@@ -84,21 +233,83 @@ return null;}
         return l;
     }
 
-    /**
-     *
-     * @param equal
-     * @return
-     * @throws DAOException
-     */
     @Override
     public ObservableList<Plan> obtenerTodos(String equal) throws DAOException {
-        System.out.println("Plan: Método no funciona");
-return null;    }
+        return null;
+    }
+
+    @Override
+    public ObservableList<Plan> obtenerRutinas(String equal) throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        ObservableList<Plan> l = FXCollections.observableArrayList();
+        try {
+            s = conex.prepareStatement(WHERE);
+            s.setString(1, "rutina");//tipo
+            s.setString(2, "%" + equal + "%");
+            rs = s.executeQuery();
+            while (rs.next()) {
+                l.add(convertir(rs));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+        return l;
+    }
+
+    @Override
+    public ObservableList<Plan> obtenerDietas(String equal) throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        ObservableList<Plan> l = FXCollections.observableArrayList();
+        try {
+            s = conex.prepareStatement(WHERE);
+            s.setString(1, "dieta");//tipo
+            s.setString(2, "%" + equal + "%");
+            rs = s.executeQuery();
+            while (rs.next()) {
+                l.add(convertir(rs));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+        return l;
+    }
 
     @Override
     public Plan convertir(ResultSet rs) throws DAOException {
         if (rs == null) {
-            throw new DAOException("Error al convertir Plan");
+            throw new DAOException("Error al convertir plan");
         }
         try {
             Plan c = new Plan();

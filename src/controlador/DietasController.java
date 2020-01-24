@@ -170,9 +170,45 @@ public class DietasController extends Controller<Plan> {
         comboObjetivos.getSelectionModel().select(0);
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
-        updated();
         setDietasUpdated(true);
+        updated();
         setAlimentosUpdated(true);
+    }
+
+    @Override
+    public void updated() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isDietasUpdated()) {
+                            obtener();
+                        }
+                        if (isMedidaUpdated()) {
+                            activateCheck();
+                        }
+                        if (isAlimentosUpdated()) {
+                            comboAlimentos.setItems(alimentos);
+                            comboAlimentos.getSelectionModel().select(0);
+                            selectAlimento();
+                            setAlimentosUpdated(false);
+                        }
+                    }
+                };
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
     }
 
     public void activateCheck() {
@@ -232,53 +268,13 @@ public class DietasController extends Controller<Plan> {
     }
 
     @Override
-    public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isDietasUpdated()) {
-                            obtener();
-                        }
-                        if (isMedidaUpdated()) {
-                            activateCheck();
-                        }
-                        if (isAlimentosUpdated()) {
-                            comboAlimentos.setItems(alimentos);
-                            comboAlimentos.getSelectionModel().select(0);
-                            selectAlimento();
-                            setAlimentosUpdated(false);
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
-    }
-
-    @Override
     public Plan captar() throws DAOException {
         Plan d = new Plan();
         d.setTipo("DIETA");
         d.setNombre(textNombre.getText());
         d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
-        if (textEdad.getText().isEmpty()) {
-            d.setEdad(0);
-        } else {
-            d.setEdad(Integer.parseInt(textEdad.getText()));
-        }
+        d.setEdad((textEdad.getText().isEmpty()) ? 0 : Integer.parseInt(textEdad.getText()));
         d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
         return d;
     }
@@ -288,9 +284,9 @@ public class DietasController extends Controller<Plan> {
         try {
             comboDieta.getItems().clear();
             if (textBuscar.getText().isEmpty()) {
-                dietas = getDietas().obtenerTodos();
+                dietas = getPlanes().obtenerDietas();
             } else {
-                dietas = getDietas().obtenerTodos(textBuscar.getText());
+                dietas = getPlanes().obtenerDietas(textBuscar.getText());
             }
             if (!dietas.isEmpty()) {
                 comboDieta.setItems(dietas);
@@ -332,9 +328,9 @@ public class DietasController extends Controller<Plan> {
             Plan m = captar();
             if (m != null) {
                 if (m.isEmpty()) {
-                    mensaje("Aún faltan algunos datos en el plan de alimentación", "aviso");
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 } else {
-                    getDietas().insertar(m);
+                    getPlanes().insertar(m);
                     obtener();
                     mensaje("Plan de alimentación registrado", "exito");
                 }
@@ -352,9 +348,9 @@ public class DietasController extends Controller<Plan> {
                 if (m != null) {
                     m.setPlankey(comboDieta.getSelectionModel().getSelectedItem().getPlankey());
                     if (m.isEmpty()) {
-                        mensaje("Aún faltan algunos datos en el plan de alimentación", "aviso");
+                        mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                     } else {
-                        getDietas().modificar(m);
+                        getPlanes().modificar(m);
                         textBuscar.setText(textNombre.getText());
                         obtener();
                         mensaje("Plan de alimentación modificado", "exito");
@@ -372,7 +368,7 @@ public class DietasController extends Controller<Plan> {
     public void eliminar() {
         try {
             if (!comboDieta.getItems().isEmpty()) {
-                getDietas().eliminar(comboDieta.getSelectionModel().getSelectedItem());
+                getPlanes().eliminar(comboDieta.getSelectionModel().getSelectedItem());
                 obtener();
                 mensaje("Plan de alimentación eliminado", "exito");
             } else {
@@ -463,7 +459,7 @@ public class DietasController extends Controller<Plan> {
                     getAlxdiets().insertar(a);
                     actualizarUso(a.getAlimento());
                     listView.getItems().add(a);
-            } else {
+                } else {
                     mensaje("AlxDiet vacío", "aviso");
                 }
             } else {
