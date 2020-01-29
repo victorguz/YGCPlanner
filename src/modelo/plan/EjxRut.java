@@ -5,6 +5,8 @@
  */
 package modelo.plan;
 
+import java.util.ArrayList;
+
 /**
  * Esta clase enlaza la Plan con los ejercicios, teniendo en cuenta que la
  * relación es de muchos a muchos.
@@ -20,22 +22,6 @@ public class EjxRut extends BasePlan {
 
     public EjxRut() {
 
-    }
-
-    public EjxRut(Plan Plan, Ejercicio ejercicio, int repeticiones, int series, String momento, String dia) {
-        super(Plan, momento, dia);
-        setEjercicio(ejercicio);
-        setRepeticiones(repeticiones);
-        setSeries(series);
-    }
-
-    public EjxRut(int ejxrutkey, Plan Plan, Ejercicio ejercicio, int repeticiones, int series, String momento, String dia, double peso) {
-        super(Plan, momento, dia);
-        setEjxrutkey(ejxrutkey);
-        setPlan(Plan);
-        setEjercicio(ejercicio);
-        setRepeticiones(repeticiones);
-        setSeries(series);
     }
 
     public int getEjxrutkey() {
@@ -72,7 +58,7 @@ public class EjxRut extends BasePlan {
 
     @Override
     public String toString() {
-        return getSeries() + " x " + getRepeticiones() + " de " + getEjercicio().getNombre();
+        return getCombinacion() + ": " + getSeries() + " x " + getRepeticiones() + " de " + getEjercicio().getNombre();
     }
 
     @Override
@@ -82,8 +68,11 @@ public class EjxRut extends BasePlan {
                 || getRepeticiones() <= 0
                 || getSeries() <= 0
                 || getPlan().isEmpty()
-                || getMomento().isEmpty()
                 || getDia().isEmpty();
     }
 
+    public ArrayList<String> toArray() {
+        ArrayList<String> n = new ArrayList<>();
+        return n;
+    }
 }

@@ -21,15 +21,13 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
     private Connection conex;
 
     private final String INSERT = "INSERT INTO AlxDiet(plankey, alimentokey, "
-            + "momento, dia, cantidad) values (?, ?, ?, ?, ?)";
-    private final String ALL = "SELECT alxdietkey, alimentokey, "
-            + "momento, dia, cantidad FROM AlxDiet WHERE plankey = ?";
-
+            + "momento, dia, cantidad, combinacion) values (?, ?, ?, ?, ?, ?)";
     private final String DELETE = "DELETE FROM AlxDiet WHERE alxdietkey = ?";
     private final String WHERE = "SELECT alxdietkey, alimentokey, "
-            + "momento, dia, cantidad FROM AlxDiet WHERE plankey = ? and dia = ? and momento = ?";
+            + "momento, dia, cantidad, combinacion FROM AlxDiet "
+            + "WHERE plankey = ? and dia = ? and momento = ? order by alxdietkey asc";
     private final String SELECT = "Select alxdietkey, alimentokey, "
-            + "momento, dia, cantidad FROM AlxDiet WHERE alimentokey = ? and dia = ? and momento = ?";
+            + "momento, dia, cantidad, combinacion FROM AlxDiet WHERE alimentokey = ? and dia = ? and momento = ?";
 
     public SQLiteAlxDietDAO(Connection conex) {
         this.conex = conex;
@@ -45,6 +43,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             s.setString(3, a.getMomento());
             s.setString(4, a.getDia());
             s.setDouble(5, a.getCantidad());
+            s.setString(6, a.getCombinacion());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar AlxDiet");
             }
@@ -134,35 +133,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
 
     @Override
     public ObservableList<AlxDiet> obtenerTodos(String plankey) throws DAOException {
-        PreparedStatement s = null;
-        ResultSet rs = null;
-        ObservableList<AlxDiet> l = FXCollections.observableArrayList();
-        try {
-            s = conex.prepareStatement(ALL);
-            s.setInt(1, Integer.parseInt(plankey));
-            rs = s.executeQuery();
-            while (rs.next()) {
-                l.add(convertir(rs));
-            }
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    throw new DAOException(ex);
-                }
-            }
-            if (s != null) {
-                try {
-                    s.close();
-                } catch (SQLException ex) {
-                    throw new DAOException(ex);
-                }
-            }
-        }
-        return l;
+        throw new DAOException("Este metodo no funciona");
     }
 
     @Override
@@ -177,6 +148,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             c.setMomento(rs.getString("momento"));
             c.setDia(rs.getString("dia"));
             c.setCantidad(rs.getDouble("cantidad"));
+            c.setCombinacion(rs.getString("combinacion"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

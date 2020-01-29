@@ -23,14 +23,14 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
     private Connection conex;
 
     private final String INSERT = "INSERT INTO EjxRut(plankey, Ejerciciokey, "
-            + "momento, dia, repeticiones, series) values (?, ?, ?, ?, ?, ?)";
+            + " dia, repeticiones, series, combinacion) values ( ?, ?, ?, ?, ?, ?)";
     private final String DELETE = "DELETE FROM EjxRut WHERE ejxrutkey = ?";
     private final String WHERE = "SELECT ejxrutkey, plankey, Ejerciciokey, "
-            + "momento, dia, repeticiones, series FROM ejxrut "
-            + "WHERE plankey = ? and dia = ? and momento = ?";
+            + " dia, repeticiones, series, combinacion FROM ejxrut "
+            + "WHERE plankey = ? and dia = ? order by ejxrutkey asc";
     private final String SELECT = "Select ejxrutkey, plankey, Ejerciciokey, "
-            + "momento, dia, repeticiones, series FROM ejxrut "
-            + "WHERE ejerciciokey = ? and dia = ? and momento = ?";
+            + " dia, repeticiones, series, combinacion FROM ejxrut "
+            + "WHERE ejerciciokey = ? and dia = ?";
 
     public SQLiteEjxRutDAO(Connection conex) {
         this.conex = conex;
@@ -43,10 +43,10 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             s = conex.prepareStatement(INSERT);
             s.setInt(1, a.getPlan().getPlankey());
             s.setInt(2, a.getEjercicio().getEjerciciokey());
-            s.setString(3, a.getMomento());
-            s.setString(4, a.getDia());
-            s.setInt(5, a.getSeries());
-            s.setInt(6, a.getRepeticiones());
+            s.setString(3, a.getDia());
+            s.setInt(4, a.getSeries());
+            s.setInt(5, a.getRepeticiones());
+            s.setString(6, a.getCombinacion());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar EjxRut");
             }
@@ -148,10 +148,10 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             EjxRut c = new EjxRut();
             c.setEjxrutkey(rs.getInt("ejxrutkey"));
             c.setEjercicio(Controller.getEjercicios().obtener("" + rs.getInt("Ejerciciokey")));
-            c.setMomento(rs.getString("momento"));
             c.setDia(rs.getString("dia"));
             c.setSeries(rs.getInt("series"));
             c.setRepeticiones(rs.getInt("repeticiones"));
+            c.setCombinacion(rs.getString("combinacion"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -159,7 +159,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
     }
 
     @Override
-    public ObservableList<EjxRut> obtenerTodos(int plankey, String dia, String momento) throws DAOException {
+    public ObservableList<EjxRut> obtenerTodos(int plankey, String dia) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<EjxRut> l = FXCollections.observableArrayList();
@@ -167,7 +167,6 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             s = conex.prepareStatement(WHERE);
             s.setInt(1, plankey);
             s.setString(2, dia);
-            s.setString(3, momento);
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));
@@ -194,7 +193,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
     }
 
     @Override
-    public EjxRut obtener(int ejerciciokey, String dia, String momento) throws DAOException {
+    public EjxRut obtener(int ejerciciokey, String dia) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         EjxRut l = null;
@@ -202,7 +201,6 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             s = conex.prepareStatement(SELECT);
             s.setInt(1, ejerciciokey);
             s.setString(2, dia);
-            s.setString(3, momento);
             rs = s.executeQuery();
             while (rs.next()) {
                 l = convertir(rs);

@@ -27,7 +27,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     private final String INSERT = "INSERT INTO EjercicioS(nombre, "
             + "descripcion, comentario, usedate, usetime) values (?, ?, ?, ?, ?)";
     private final String SELECTALL = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentario FROM EjercicioS order by usetime desc, usedate desc";
+            + "descripcion, comentario FROM EjercicioS order by usedate desc, usetime desc";
     private final String SELECTWHERE = "SELECT Ejerciciokey, nombre, "
             + "descripcion, comentario FROM EjercicioS order by NOMBRE LIKE ? desc";
     private final String SELECTONE = "SELECT Ejerciciokey, nombre, "

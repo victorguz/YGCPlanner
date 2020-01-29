@@ -199,10 +199,12 @@ public abstract class Controller<T> implements Initializable {
             return "Ya existe un cliente con esta identificación";
         } else if (ex.contains("planes.nombre")) {
             return "Ya existe un plan con este nombre";
-        } else if (ex.contains("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento")) {
-            return "Ya añadiste este alimento para este momento del día";
+        } else if (ex.contains("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento, alxdiet.dia, alxdiet.combinacion")) {
+            return "Esta opcion ya contiene este alimento";
         } else if (ex.contains("ejercicios.nombre")) {
             return "Ya existe un ejercicio con este nombre";
+        } else if (ex.contains("planes.nombre, planes.tipo")) {
+            return "Ya existe un plan con este nombre";
         } else if (ex.contains("alimentos.nombre")) {
             return "Ya existe un alimento con este nombre";
         } else if (ex.contains("NOT NULL")) {
@@ -214,8 +216,8 @@ public abstract class Controller<T> implements Initializable {
         } else if (ex.contains("no such column: ")) {
             String i = ex.substring(ex.indexOf("no such column: "));
             return "No se encontró la columna " + i + ", contacte al programador";
-        } else if (ex.contains("ejxrut.plankey, ejxrut.ejerciciokey, ejxrut.momento")) {
-            return "Ya añadiste este ejercicio para este momento del día";
+        } else if (ex.contains("ejxrut.plankey, ejxrut.ejerciciokey, ejxrut.dia, ejxrut.combinacion")) {
+            return "Este bloque ya contiene este ejercicio";
         } else {
             return ex;
         }

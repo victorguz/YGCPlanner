@@ -9,9 +9,9 @@
 
 <StackPane minWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DashController">
    <children>
-      <VBox alignment="TOP_CENTER" styleClass="nada">
+      <VBox alignment="TOP_CENTER" styleClass="vbox-fondo">
          <children>
-            <VBox alignment="TOP_CENTER">
+            <VBox alignment="TOP_CENTER" styleClass="vbox-blanco">
                <children>
                   <ImageView fitHeight="96.0" fitWidth="484.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -20,7 +20,7 @@
                   </ImageView>
                </children>
             </VBox>
-            <VBox>
+            <VBox styleClass="vbox-blanco">
                <children>
                   <Label text="Bienvenido a Dieta y Ejercicio" textAlignment="CENTER" wrapText="true">
                      <font>

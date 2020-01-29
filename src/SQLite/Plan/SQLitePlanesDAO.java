@@ -30,7 +30,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
             + " descripcion = ?, sexo = ?, edad  = ?, usedate = ?, usetime = ? WHERE plankey = ? ";
     private final String DELETE = "DELETE FROM Planes WHERE Plankey = ?";
     private final String SELECT = "SELECT Plankey, nombre, objetivo,"
-            + " descripcion, sexo, edad FROM Planes "
+            + " descripcion, sexo, edad, tipo FROM Planes "
             + "where Plankey = ? ";
     private final String WHERE = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad, tipo FROM Planes "

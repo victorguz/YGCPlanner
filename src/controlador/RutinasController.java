@@ -9,6 +9,7 @@ import DAO.DAOException;
 import static controlador.Controller.ejercicios;
 import static controlador.Controller.getEjercicios;
 import static controlador.Controller.isEjerciciosUpdated;
+import static controlador.Controller.mensaje;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -20,6 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import modelo.plan.AlxDiet;
 import modelo.plan.Ejercicio;
 import modelo.plan.EjxRut;
 import modelo.plan.Plan;
@@ -56,6 +58,9 @@ public class RutinasController extends Controller<Plan> {
 
     @FXML
     private ComboBox<Integer> comboRepeticiones;
+
+    @FXML
+    private ComboBox<String> comboBloques;
 
     @FXML
     private ToggleButton buttonDomingo;
@@ -102,6 +107,10 @@ public class RutinasController extends Controller<Plan> {
         comboRepeticiones.getSelectionModel().select(0);
         comboSeries.getItems().setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         comboSeries.getSelectionModel().select(0);
+        comboBloques.getItems().setAll("Bloque 1", "Bloque 2", "Bloque 3",
+                "Bloque 4", "Bloque 5", "Bloque 6", "Bloque 7",
+                "Bloque 8", "Bloque 9", "Bloque 10");
+        comboBloques.getSelectionModel().select(0);
         setRutinasUpdated(true);
         updated();
         setEjerciciosUpdated(true);
@@ -119,8 +128,20 @@ public class RutinasController extends Controller<Plan> {
                             obtener();
                         }
                         if (isEjerciciosUpdated()) {
-                            comboEjercicios.setItems(ejercicios);
-                            comboEjercicios.getSelectionModel().select(0);
+                            try {
+                                comboEjercicios.getItems().clear();
+                                if (textBuscarEjercicio.getText().isEmpty()) {
+                                    ejercicios = getEjercicios().obtenerTodos();
+                                } else {
+                                    ejercicios = getEjercicios().obtenerTodos(textBuscarEjercicio.getText());
+                                }
+                                if (!ejercicios.isEmpty()) {
+                                    comboEjercicios.setItems(ejercicios);
+                                    comboEjercicios.getSelectionModel().select(0);
+                                }
+                            } catch (DAOException ex) {
+                                excepcion(ex);
+                            }
                             setEjerciciosUpdated(false);
                         }
                     }
@@ -274,8 +295,8 @@ public class RutinasController extends Controller<Plan> {
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             a.setSeries(comboSeries.getSelectionModel().getSelectedItem());
             a.setRepeticiones(comboRepeticiones.getSelectionModel().getSelectedItem());
+            a.setCombinacion(comboBloques.getSelectionModel().getSelectedItem());
             a.setDia(getDia());
-            a.setMomento(getMomento());
             return a;
         } else {
             mensaje("Primero debe registrar un plan", "aviso");
@@ -298,7 +319,7 @@ public class RutinasController extends Controller<Plan> {
         } else {
             try {
                 EjxRut a = listView.getSelectionModel().getSelectedItem();
-                EjxRut b = getEjxruts().obtener(a.getEjercicio().getEjerciciokey(), a.getDia(), a.getMomento());
+                EjxRut b = getEjxruts().obtener(a.getEjercicio().getEjerciciokey(), a.getDia());
                 getEjxruts().eliminar(b);
                 listView.getItems().remove(a);
             } catch (DAOException ex) {
@@ -361,66 +382,95 @@ public class RutinasController extends Controller<Plan> {
         return null;
     }
 
-    public String getMomento() {
-        if (buttonEntreno.isSelected()) {
-            return EjxRut.ENTRENO;
-        }
-        if (buttonPre.isSelected()) {
-            return EjxRut.PREENTRENO;
-        }
-        if (buttonPost.isSelected()) {
-            return EjxRut.POSTENTRENO;
-        }
-        mensaje("Seleccione el momento del menú", "aviso");
-        return null;
-    }
-
-    public void getEntreno() throws DAOException {
-        if (getRutina() == null) {
+    public void getDomingo() throws DAOException {
+        if (getRutina().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
-            buttonEntreno.setSelected(false);
         } else {
-            String dia = getDia();
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonEntreno.setSelected(false);
-            } else {
+            if (buttonDomingo.isSelected()) {
                 listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia(), EjxRut.ENTRENO));
+                        .getPlankey(), getDia()));
+            } else {
+                listView.getItems().clear();
             }
         }
     }
 
-    public void getPre() throws DAOException {
-        if (getRutina() == null) {
+    public void getLunes() throws DAOException {
+        if (getRutina().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
-            buttonPre.setSelected(false);
         } else {
-            String dia = getDia();
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonPre.setSelected(false);
-            } else {
-                ObservableList<EjxRut> l = getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia(), EjxRut.PREENTRENO);
-                listView.setItems(l);
-            }
-        }
-    }
-
-    public void getPost() throws DAOException {
-        if (getRutina() == null) {
-            mensaje("Registre primero un plan", "aviso");
-            buttonPost.setSelected(false);
-        } else {
-            String dia = getDia();
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonPost.setSelected(false);
-            } else {
+            if (buttonLunes.isSelected()) {
                 listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia(), EjxRut.POSTENTRENO));
+                        .getPlankey(), getDia()));
+            } else {
+                listView.getItems().clear();
             }
         }
     }
+
+    public void getMartes() throws DAOException {
+        if (getRutina().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (buttonMartes.isSelected()) {
+                listView.setItems(getEjxruts().obtenerTodos(getRutina()
+                        .getPlankey(), getDia()));
+            } else {
+                listView.getItems().clear();
+            }
+        }
+    }
+
+    public void getMiercoles() throws DAOException {
+        if (getRutina().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (buttonMiercoles.isSelected()) {
+                listView.setItems(getEjxruts().obtenerTodos(getRutina()
+                        .getPlankey(), getDia()));
+            } else {
+                listView.getItems().clear();
+            }
+        }
+    }
+
+    public void getJueves() throws DAOException {
+        if (getRutina().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (buttonJueves.isSelected()) {
+                listView.setItems(getEjxruts().obtenerTodos(getRutina()
+                        .getPlankey(), getDia()));
+            } else {
+                listView.getItems().clear();
+            }
+        }
+    }
+
+    public void getViernes() throws DAOException {
+        if (getRutina().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (buttonViernes.isSelected()) {
+                listView.setItems(getEjxruts().obtenerTodos(getRutina()
+                        .getPlankey(), getDia()));
+            } else {
+                listView.getItems().clear();
+            }
+        }
+    }
+
+    public void getSabado() throws DAOException {
+        if (getRutina().isEmpty()) {
+            mensaje("Registre primero un plan", "aviso");
+        } else {
+            if (buttonSabado.isSelected()) {
+                listView.setItems(getEjxruts().obtenerTodos(getRutina()
+                        .getPlankey(), getDia()));
+            } else {
+                listView.getItems().clear();
+            }
+        }
+    }
+
 }

@@ -20,6 +20,8 @@ public class Medida {
 
     private int medidakey;
     private Cliente cliente;
+    private Plan dieta;
+    private Plan rutina;
     private LocalDate fecha;
     private double peso = 0;
     private double altura = 0;
@@ -45,62 +47,6 @@ public class Medida {
 
     //Registro de Funciones
     public Medida() {
-    }
-
-    public Medida(int historialKey, Cliente cliente,
-            Plan dieta, Plan rutina, LocalDate fecha,
-            double peso, double altura, double cinturaAlta,
-            double cinturaMedia, double cinturaBaja,
-            double cadera, double cuello, double pectoral,
-            double bicepIzq, double bicepDer,
-            double cuadricepIzq, double cuadricepDer,
-            double pantorrillaDer, double pantorrillaIzq,
-            String actividad) {
-        setMedidakey(historialKey);
-        setCliente(cliente);
-        setFecha(fecha);
-        setPeso(peso);
-        setAltura(altura);
-        setCinturaAlta(cinturaAlta);
-        setCinturaMedia(cinturaMedia);
-        setCinturaBaja(cinturaBaja);
-        setCadera(cadera);
-        setCuello(cuello);
-        setPectoral(pectoral);
-        setBicepDer(bicepDer);
-        setBicepIzq(bicepIzq);
-        setCuadricepDer(cuadricepDer);
-        setCuadricepIzq(cuadricepIzq);
-        setPantorrillaDer(pantorrillaDer);
-        setPantorrillaIzq(pantorrillaIzq);
-        setActividad(actividad);
-    }
-
-    public Medida(Cliente cliente,
-            Plan dieta, Plan rutina, LocalDate fecha,
-            double peso, double altura, double cinturaAlta,
-            double cinturaMedia, double cinturaBaja,
-            double cadera, double cuello, double pectoral,
-            double bicepIzq, double bicepDer,
-            double cuadricepIzq, double cuadricepDer,
-            double pantorrillaDer, double pantorrillaIzq, String actividad) {
-        setCliente(cliente);
-        setFecha(fecha);
-        setPeso(peso);
-        setAltura(altura);
-        setCinturaAlta(cinturaAlta);
-        setCinturaMedia(cinturaMedia);
-        setCinturaBaja(cinturaBaja);
-        setCadera(cadera);
-        setCuello(cuello);
-        setPectoral(pectoral);
-        setBicepDer(bicepDer);
-        setBicepIzq(bicepIzq);
-        setCuadricepDer(cuadricepDer);
-        setCuadricepIzq(cuadricepIzq);
-        setPantorrillaDer(pantorrillaDer);
-        setPantorrillaIzq(pantorrillaIzq);
-        setActividad(actividad);
     }
 
     public double getPeso() {
@@ -221,7 +167,7 @@ public class Medida {
     }
 
     public void setActividad(String actividad) {
-        this.actividad = actividad.toLowerCase();
+        this.actividad = actividad;
     }
 
     public LocalDate getFecha() {
@@ -244,6 +190,22 @@ public class Medida {
         this.cliente = cliente;
     }
 
+    public Plan getDieta() {
+        return dieta;
+    }
+
+    public void setDieta(Plan dieta) {
+        this.dieta = dieta;
+    }
+
+    public Plan getRutina() {
+        return rutina;
+    }
+
+    public void setRutina(Plan rutina) {
+        this.rutina = rutina;
+    }
+
     public void setMedidakey(int medidakey) {
         this.medidakey = medidakey;
     }
@@ -253,7 +215,7 @@ public class Medida {
     }
 
     public void setObjetivo(String objetivo) {
-        this.objetivo = objetivo.toLowerCase();
+        this.objetivo = objetivo;
     }
 
     public double getTricipital() {
@@ -672,7 +634,70 @@ public class Medida {
                 || getSuprailiaco() <= 0
                 || getSubescapular() <= 0
                 || getObjetivo().isEmpty()
-                || getActividad().isEmpty();
+                || getActividad().isEmpty()
+                || getDieta()==null
+                || getRutina()==null;
 
     }
+
+    public String[][] toArray() {
+        String[][] n = new String[26][2];
+
+        n[0][0] = "FECHA DE MEDIDA";
+        n[1][0] = "PESO";
+        n[2][0] = "PESO IDEAL";
+        n[3][0] = "GRADO DE OBESIDAD";
+        n[4][0] = "% GRASA CORPORAL";
+        n[5][0] = "GRASA CORPORAL";
+        n[6][0] = "% MASA LIBRE DE GRASA";
+        n[7][0] = "MASA LIBRE DE GRASA";
+        n[8][0] = "KCAL MANTENIMIENTO";
+        n[9][0] = "KCAL SUPERAVIT";
+        n[10][0] = "PLIEGUE TRICIPITAL";
+        n[11][0] = "PLIEGUE BICIPITAL";
+        n[12][0] = "PLIEGUE SUPRAILIACO";
+        n[13][0] = "PLIEGUE SUBESCAPULAR";
+        n[14][0] = "CUELLO";
+        n[15][0] = "BICEP IZQUIERDO";
+        n[16][0] = "BICEP DERECHO";
+        n[17][0] = "PECTORALES";
+        n[18][0] = "CINTURA ALTA";
+        n[19][0] = "CINTURA MEDIA";
+        n[20][0] = "CINTURA BAJA";
+        n[21][0] = "CADERA";
+        n[22][0] = "CUADRICEP IZQUIERDO";
+        n[23][0] = "CUADRICEP DERECHO";
+        n[24][0] = "PANTORRILLA IZQUIERDA";
+        n[25][0] = "PANTORRILLA DERECHA";
+
+        n[0][1] = getFecha().format(DateTimeFormatter.ofPattern("d MMM Y")).toUpperCase();
+        n[1][1] = getPeso() + " Kg";
+        n[2][1] = getPesoIdealCreff() + " Kg";
+        n[3][1] = getGradoObesidad().toUpperCase();
+        n[4][1] = getPorcentajeGrasaSiri() + " %";
+        n[5][1] = getPesoGrasaCorporal() + " Kg";
+        n[6][1] = getPorcentajeMasaMagra() + " %";
+        n[7][1] = getMasaLibreDeGrasa() + " Kg";
+        n[8][1] = getCaloriasMantenimiento() + "";
+        n[9][1] = getSuperavitODeficit() + "";
+        n[10][1] = getTricipital() + " mm";
+        n[11][1] = getBicipital() + " mm";
+        n[12][1] = getSuprailiaco() + " mm";
+        n[13][1] = getSubescapular() + " mm";
+        n[14][1] = getCuello() + " cm";
+        n[15][1] = getBicepIzq() + " cm";
+        n[16][1] = getBicepDer() + " cm";
+        n[17][1] = getPectoral() + " cm";
+        n[18][1] = getCinturaAlta() + " cm";
+        n[19][1] = getCinturaMedia() + " cm";
+        n[20][1] = getCinturaBaja() + " cm";
+        n[21][1] = getCadera() + " cm";
+        n[22][1] = getCuadricepIzq() + " cm";
+        n[23][1] = getCuadricepDer() + " cm";
+        n[24][1] = getPantorrillaIzq() + " cm";
+        n[25][1] = getPantorrillaDer() + " cm";
+
+        return n;
+    }
+
 }

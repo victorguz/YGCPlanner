@@ -20,12 +20,19 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import modelo.plan.Plan;
 
 /**
  *
  * @author 201621279487
  */
 public class MedidaController extends Controller<Medida> {
+
+    @FXML
+    private ComboBox<Plan> comboRutinas;
+
+    @FXML
+    private ComboBox<Plan> comboDietas;
 
     @FXML
     private ComboBox<String> comboObjetivos;
@@ -160,11 +167,13 @@ public class MedidaController extends Controller<Medida> {
     public Medida captar() {
         if (clientes.isEmpty()) {
             return new Medida();
-        }else{Medida k = new Medida();
+        } else {
+            Medida k = new Medida();
             k.setCliente(getCliente());
             k.setFecha(datePicker.getValue());
-            k.setActividad(comboActividad.getSelectionModel()
-                    .getSelectedItem());
+            k.setDieta(comboDietas.getSelectionModel().getSelectedItem());
+            k.setRutina(comboRutinas.getSelectionModel().getSelectedItem());
+            k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
             k.setObjetivo(comboObjetivos.getSelectionModel()
                     .getSelectedItem());
             k.setPeso((textPeso.getText().isEmpty()) ? 0
@@ -215,16 +224,16 @@ public class MedidaController extends Controller<Medida> {
             mensaje("Seleccione un cliente", "aviso");
         } else {
             Medida m = captar();
-                if (m.isEmpty()) {
-                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-                } else {
-                    try {
-                        getMedidas().insertar(m);
-                        mensaje("Medida registrada", "exito");
-                        setMedidasUpdated(true);
-                    } catch (DAOException ex) {
-                        excepcion(ex);
-                    }
+            if (m.isEmpty()) {
+                mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+            } else {
+                try {
+                    getMedidas().insertar(m);
+                    mensaje("Medida registrada", "exito");
+                    setMedidasUpdated(true);
+                } catch (DAOException ex) {
+                    excepcion(ex);
+                }
             }
         }
     }
@@ -313,7 +322,7 @@ public class MedidaController extends Controller<Medida> {
             mensaje("Seleccione un cliente", "aviso");
         } else {
             if (getMedida().isEmpty()) {
-                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+                mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
                 try {
                     getMedidas().eliminar(getMedida());
@@ -369,6 +378,17 @@ public class MedidaController extends Controller<Medida> {
         textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
         textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
         labelObjetivo.setText("Calorías para " + k.getObjetivo().toLowerCase());
+    }
+
+    public void obtenerDietasYRutinas() {
+        if (!dietas.isEmpty()) {
+            comboDietas.setItems(dietas);
+            comboDietas.getSelectionModel().select(0);
+        }
+        if (!rutinas.isEmpty()) {
+            comboRutinas.setItems(rutinas);
+            comboRutinas.getSelectionModel().select(0);
+        }
     }
 
     /**

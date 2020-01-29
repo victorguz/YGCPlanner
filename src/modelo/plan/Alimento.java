@@ -5,7 +5,6 @@
  */
 package modelo.plan;
 
-import DAO.DAOException;
 import controlador.Operacion;
 
 /**
@@ -25,21 +24,6 @@ public class Alimento {
 
     }
 
-    public Alimento(String nombre, double proteinas, double grasas, double carbohidratos) {
-        setNombre(nombre);
-        setProteinas(proteinas);
-        setGrasas(grasas);
-        setCarbohidratos(carbohidratos);
-    }
-
-    public Alimento(int alimentoKey, String nombre, double proteinas, double grasas, double carbohidratos) {
-        setAlimentokey(alimentoKey);
-        setNombre(nombre);
-        setProteinas(proteinas);
-        setGrasas(grasas);
-        setCarbohidratos(carbohidratos);
-    }
-
     public int getAlimentokey() {
         return alimentokey;
     }
@@ -53,7 +37,7 @@ public class Alimento {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = Operacion.nombreCamelCase(nombre);
+        this.nombre = (nombre);
     }
 
 
@@ -95,7 +79,7 @@ public class Alimento {
 
     @Override
     public String toString() {
-        return getNombre();
+        return Operacion.inicialMayuscula(getNombre());
     }
 
     public boolean isEmpty() {

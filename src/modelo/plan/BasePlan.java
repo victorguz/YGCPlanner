@@ -5,15 +5,14 @@
  */
 package modelo.plan;
 
-
 /**
  *
  * @author Victor
  */
 public abstract class BasePlan {
 
-    protected String momento = "";
     private String dia = "";
+    private String combinacion = "";
     private Plan plan;
     public static final String DOMINGO = "DOMINGO";
     public static final String LUNES = "LUNES";
@@ -34,20 +33,6 @@ public abstract class BasePlan {
     public BasePlan() {
     }
 
-    public BasePlan(Plan plan, String momento, String dia) {
-        setPlan(plan);
-        setMomento(momento);
-        setDia(dia);
-    }
-
-    public String getMomento() {
-        return momento;
-    }
-
-    public void setMomento(String momento) {
-        this.momento = momento;
-    }
-
     public String getDia() {
         return dia;
     }
@@ -56,16 +41,22 @@ public abstract class BasePlan {
         this.dia = dia;
     }
 
-    public boolean isEmpty() {
-        return getPlan().isEmpty() || getMomento().isEmpty()
-                || getDia().isEmpty();
-    }
+    public abstract boolean isEmpty();
 
     public Plan getPlan() {
         return plan;
     }
 
-    public void setPlan(Plan plan){
+    public void setPlan(Plan plan) {
         this.plan = plan;
     }
+
+    public String getCombinacion() {
+        return combinacion;
+    }
+
+    public void setCombinacion(String combinacion) {
+        this.combinacion = combinacion;
+    }
+
 }

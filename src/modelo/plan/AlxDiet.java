@@ -6,6 +6,7 @@
 package modelo.plan;
 
 import DAO.DAOException;
+import java.util.ArrayList;
 
 /**
  * Esta clase enlaza los alimentos con las dietas, teniendo en cuenta que su
@@ -18,21 +19,9 @@ public class AlxDiet extends BasePlan {
     private int alxdietkey;
     private Alimento alimento;
     private double cantidad = 0;
+    protected String momento = "";
 
     public AlxDiet() {
-    }
-
-    public AlxDiet(Alimento alimento, Plan plan, String momento, String dia, double cantidad) throws DAOException {
-        super(plan, momento, dia);
-        setAlimento(alimento);
-        setCantidad(cantidad);
-    }
-
-    public AlxDiet(int alxdietkey, Alimento alimento, Plan plan, String momento, String dia, double cantidad) throws DAOException {
-        super(plan, momento, dia);
-        setAlxdietkey(alxdietkey);
-        setAlimento(alimento);
-        setCantidad(cantidad);
     }
 
     public int getAlxdietkey() {
@@ -62,6 +51,14 @@ public class AlxDiet extends BasePlan {
         this.cantidad = cantidad;
     }
 
+    public String getMomento() {
+        return momento;
+    }
+
+    public void setMomento(String momento) {
+        this.momento = momento;
+    }
+
     public double getKilocaloriasxpeso() {
         return getAlimento().getKilocalorias() * getCantidad() / 100;
     }
@@ -80,14 +77,22 @@ public class AlxDiet extends BasePlan {
 
     @Override
     public String toString() {
-        String a=((getAlimento().getUnidad().contains("unidad"))?" ":" gramos de ");
-        return getCantidad() +a+ getAlimento().toString()+((a.equals(" "))?"s":"");
+        String a = ((getAlimento().getUnidad().contains("unidad")) ? " unidades de " : " gramos de ");
+        return getCombinacion() + ": " + getCantidad() + a + getAlimento().toString();
     }
 
     @Override
     public boolean isEmpty() {
-        return getPlan().isEmpty() || getMomento().isEmpty()
-                || getDia().isEmpty() || getAlimento().isEmpty() || getCantidad() <= 0;
+        return getPlan().isEmpty()
+                || getMomento().isEmpty()
+                || getDia().isEmpty()
+                || getAlimento().isEmpty()
+                || getCombinacion().isEmpty()
+                || getCantidad() <= 0;
     }
 
+    public ArrayList<String> toArray() {
+        ArrayList<String> n = new ArrayList<>();
+        return n;
+    }
 }

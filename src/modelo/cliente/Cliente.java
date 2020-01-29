@@ -5,8 +5,8 @@
  */
 package modelo.cliente;
 
-import DAO.DAOException;
 import controlador.Operacion;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,17 +25,6 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int clienteKey, String nombre, String apellido,
-            String sexo, String identificacion,
-            String tipoIdentificacion, int edad) {
-        setNombre(nombre);
-        setApellido(apellido);
-        setEdad(edad);
-        setSexo(sexo);
-        setIdentificacion(identificacion);
-        setTipoIdentificacion(tipoIdentificacion);
-    }
-
     public int getEdad() {
         return edad;
     }
@@ -49,7 +38,7 @@ public class Cliente {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre.toLowerCase();
+        this.nombre = nombre;
     }
 
     public String getApellido() {
@@ -65,7 +54,7 @@ public class Cliente {
     }
 
     public void setSexo(String sexo) {
-        this.sexo = sexo.toLowerCase();
+        this.sexo = sexo;
     }
 
     public int getClienteKey() {
@@ -101,5 +90,16 @@ public class Cliente {
         return getNombre().isEmpty()
                 || getSexo().isEmpty()
                 || getIdentificacion().isEmpty();
+    }
+    
+    public ArrayList<String> toArray(){
+        ArrayList<String> n=new ArrayList<>();
+        n.add(getNombre());
+        n.add(getApellido());
+        n.add(getTipoIdentificacion());
+        n.add(getIdentificacion());
+        n.add(getEdad()+"");
+        n.add(getSexo());
+        return n;
     }
 }

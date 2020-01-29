@@ -2,88 +2,30 @@
 * Style css
 */
 .root{
-    -fx-font-size: 16pt;
-    -fx-font-family: "Arial";
+    -fx-font-family: SansSerif;
 }
-.back{
-    -fx-font-size:12px;
-    -fx-background-color: rgb(240,240,240);
-    -fx-padding: 7 7 3 7;
+.vbox-fondo{
+    -fx-effect: null;
+    -fx-background-color: null;
+    -fx-spacing: 10;
+    -fx-padding: 10;
+    -fx-alignment: null;
 }
-.backfoot{
-    -fx-font-size:12px;
-    -fx-background-color: rgb(240,240,240);
-    -fx-padding: 7;
-}
-.backside{
-    -fx-font-size:12px;
-    -fx-background-color: rgb(240,240,240);
-    -fx-padding: 7 3.5 3.5 7;
-}
-.jfx-button, .toggle-button,.date-picker > .arrow-button{
-    -fx-background-color: white;
-    -fx-background-radius: 4;
-    -fx-border-color:  rgb(230,230,230);
-    -fx-border-radius: 4;
-    -fx-border-width: 1;
-    -fx-text-fill: black;
-    -fx-pref-height: 33;
-}
-.delete-button{
-    -fx-background-color:  #f17777;
-    -fx-background-radius: 4;
-    -fx-border-color:  rgb(230,230,230);
-    -fx-border-radius: 4;
-    -fx-border-width: 1;
-    -fx-text-fill: white;
-    -fx-pref-height: 33;
-}
-.arroww, .arroww:selected, .arroww:pressed{
+.vbox-blanco{
+    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
     -fx-background-color: white;
     -fx-background-radius: 0;
-    -fx-border-color:  white;
-    -fx-border-radius: 0;
-    -fx-pref-height: 0;
-    -fx-pref-width: 300;
+    -fx-spacing: 17;
+    -fx-padding: 15;
+    -fx-alignment: TOP_CENTER;
 }
-.top{
-    -fx-background-color: white;
-    -fx-background-radius: 4 4 0 0;
-    -fx-border-color:  rgb(230,230,230);
-    -fx-border-radius: 4 4 0 0;
-    -fx-border-width: 1 1 0 1;
-    -fx-pref-height: 27;
-    -fx-pref-width: 27;
+.flowpane-centrado{
+    -fx-row-valignment: center;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+    -fx-alignment: CENTER;
 }
-.center{
-    -fx-background-color: white;
-    -fx-background-radius: 0;
-    -fx-border-color:  rgb(230,230,230);
-    -fx-border-radius: 0;
-    -fx-border-width: 0 1 0 1;
-    -fx-pref-height: 27;
-    -fx-pref-width: 27;
-}
-.bottom {
-    -fx-background-color: white;
-    -fx-background-radius: 0 0 4 4;
-    -fx-border-color:  rgb(230,230,230);
-    -fx-border-radius: 0 0 4 4;
-    -fx-border-width: 0 1 1 1;
-    -fx-pref-height: 27;
-    -fx-pref-width: 27;
-}
-.toggle-button:selected{
-    -fx-background-color: rgb(240,240,240);
-}
-.toggle-button:pressed{
-    -fx-background-color: rgb(230,230,230);
-}
-.text-field:hover,.text-field:focused,.jfx-button:hover,.jfx-button:focused, 
-.toggle-button:hover, .toggle-button:focused, .text-area:hover, 
-.text-area:focused, .combo-box:hover, .combo-box:focused{
-    -fx-border-color:  #630eb8;
-}
+
 .scroll-pane, .date-picker, .list-view, TextArea{
     -fx-background-insets: 0;
     -fx-padding: 0;
@@ -96,12 +38,40 @@
 .scroll-pane .corner {
     -fx-background-insets: 0;
 }
+.button, .toggle-button,.date-picker > .arrow-button{
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-text-fill: black;
+}
+.delete-button{
+    -fx-background-color:  #f17777;
+    -fx-background-radius: 4;
+    -fx-border-color:  #EF6363;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-text-fill: white;
+}
+.toggle-button:selected{
+    -fx-background-color: rgb(215,215,215);  
+}
+.button:pressed, .toggle-button:pressed{
+    -fx-background-color: rgb(215,215,215);
+    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
+}
+.text-field:hover,.text-field:focused,.button:hover, 
+.toggle-button:hover, .text-area:hover, 
+.text-area:focused, .combo-box:hover{
+    -fx-background-color: rgb(240,240,240);  
+    -fx-text-fill: black;
+}
 .text-field, .text-area,.combo-box, .list-view{
     -fx-background-color: white;
     -fx-background-radius: 4;
     -fx-border-color:  rgb(230,230,230);
     -fx-border-radius: 4;
-    -fx-border-insets: 2.5 5 2.5 5;    
     -fx-text-fill: black;
 }
 
@@ -112,81 +82,10 @@
 }
 .date-picker > .arrow-button {
     -fx-background-radius: 4;/*-fx-padding: 0px;*/
-    -fx-pref-height: 27;
 }
 
 .date-picker > .arrow-button > .arrow {
     -fx-background-radius: 4;/*-fx-padding: 0px;*/
 }
-.flowpane{
-    -fx-row-valignment: center;
-    -fx-vgap: 17;
-    -fx-alignment: CENTER;
-}
-VBox{
-    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
-    -fx-background-color: white;
-    -fx-background-radius: 4;
-    -fx-spacing: 17;
-    -fx-padding: 15;
-    -fx-alignment: TOP_CENTER;
-}
-.footer{
-    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
-    -fx-background-color: white;
-    -fx-background-radius: 4;
-    -fx-spacing: 10;
-    -fx-padding: 10;
-    -fx-alignment: TOP_CENTER;
-}
-
-.nada{
-    -fx-effect: null;
-    -fx-background-color: null;
-    -fx-spacing: 10;
-    -fx-padding: 0;
-    -fx-alignment: null;
-}
-.white{
-    -fx-effect: null;
-    -fx-background-color: white;
-    -fx-spacing: 0;
-    -fx-padding: 0;
-    -fx-alignment: null;
-}
-.title{
-    -fx-effect: null;
-    -fx-background-color: null;
-    -fx-spacing: 0;
-    -fx-padding: 0;
-    -fx-alignment: null;
-}
-.x{
-    -fx-effect: null;
-    -fx-background-color: null;
-    -fx-spacing: 0;
-    -fx-padding: 0;
-    -fx-alignment: center;
-}
 
 
-/*
-    The tab bar
-*/
-.tab .tab-label{
-    -fx-text-fill: black;
-    -fx-background-radius: 0;
-    -fx-font-family: Arial;
-}
-.jfx-tab-pane .headers-region {
-    -fx-background-color: white;    
-}
-.jfx-tab-pane .tab-header-background {
-    -fx-background-color: rgb(99,14,194);
-    -fx-background-radius: 0;
-}
-.jfx-tab-pane .tab-selected-line {
-    -fx-stroke: #630eb8;
-    -fx-background-radius: 0;
-
-}

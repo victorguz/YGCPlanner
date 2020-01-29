@@ -5,6 +5,8 @@
  */
 package modelo.plan;
 
+import controlador.Operacion;
+
 
 /**
  * En esta clase se registrarán todos los posibles ejercicios que el instructor
@@ -20,19 +22,6 @@ public class Ejercicio {
     private String comentarios = "";
 
     public Ejercicio() {
-    }
-
-    public Ejercicio(int ejerciciokey, String nombre, String descripcion, String comentarios) {
-        setEjerciciokey(ejerciciokey);
-        setNombre(nombre);
-        setDescripcion(descripcion);
-        setComentarios(comentarios);
-    }
-
-    public Ejercicio(String nombre, String descripcion, String comentarios) {
-        setNombre(nombre);
-        setDescripcion(descripcion);
-        setComentarios(comentarios);
     }
 
     public int getEjerciciokey() {
@@ -73,7 +62,7 @@ public class Ejercicio {
 
     @Override
     public String toString() {
-        return getNombre();
+        return Operacion.inicialMayuscula(getNombre());
     }
 
 }

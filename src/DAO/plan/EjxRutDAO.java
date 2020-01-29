@@ -13,7 +13,7 @@ import modelo.plan.EjxRut;
 
 public interface EjxRutDAO extends DAO<EjxRut, String> {
 
-    public ObservableList<EjxRut> obtenerTodos(int plankey, String dia, String momento) throws DAOException;
+    public ObservableList<EjxRut> obtenerTodos(int plankey, String dia) throws DAOException;
 
-    public EjxRut obtener(int ejerciciokey, String dia, String momento) throws DAOException;
+    public EjxRut obtener(int ejerciciokey, String dia) throws DAOException;
 }

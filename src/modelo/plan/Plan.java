@@ -5,6 +5,9 @@
  */
 package modelo.plan;
 
+import controlador.Operacion;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -88,11 +91,16 @@ public class Plan {
 
     @Override
     public String toString() {
-        return getNombre();
+        return Operacion.nombreCamelCase(getNombre());
     }
 
     public boolean isEmpty() {
         return getNombre().isEmpty()
                 || getTipo().isEmpty();
     }
+    
+        public ArrayList<String> toArray(){
+        ArrayList<String> n=new ArrayList<>();
+        return n;
+        }
 }

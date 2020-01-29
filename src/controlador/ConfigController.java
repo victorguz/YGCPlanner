@@ -6,12 +6,12 @@
 package controlador;
 
 import DAO.DAOException;
-import com.jfoenix.controls.JFXCheckBox;
 import static controlador.Controller.getReferencias;
 import static controlador.Controller.mensaje;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import modelo.Referencia;
@@ -22,7 +22,7 @@ public class ConfigController extends Controller<Referencia> {
     private TextField textTel1;
 
     @FXML
-    private JFXCheckBox checkWhatsapp1;
+    private CheckBox checkWhatsapp1;
 
     @FXML
     private TextField textWeb1;
@@ -37,7 +37,7 @@ public class ConfigController extends Controller<Referencia> {
     private TextField textFace1;
 
     @FXML
-    private JFXCheckBox checkdash;
+    private CheckBox checkdash;
 
     @FXML
     private TextField textTitulo;

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
@@ -17,18 +15,18 @@
 
 <StackPane alignment="TOP_LEFT" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ClienteController">
    <children>
-      <VBox styleClass="nada">
+      <VBox styleClass="vbox-fondo">
          <children>
-            <VBox>
+            <VBox styleClass="vbox-blanco">
                <children>
                   <ImageView fx:id="img" fitHeight="172.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../imagen/icono/man.png" />
                      </image>
                   </ImageView>
-                  <FlowPane styleClass="flowpane">
+                  <FlowPane styleClass="flowpane-centrado">
                      <children>
-                        <VBox styleClass="title">
+                        <VBox>
                            <children>
                               <Label text="Nombre" textFill="#b2b2b2">
                                  <padding>
@@ -38,7 +36,7 @@
                               <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="110.0" promptText="Nombre" />
                            </children>
                         </VBox>
-                        <VBox styleClass="title">
+                        <VBox>
                            <children>
                               <Label text="Apellido" textFill="#b2b2b2">
                                  <padding>
@@ -48,33 +46,29 @@
                               <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="110.0" promptText="Apellido" />
                            </children>
                         </VBox>
-                        <HBox>
+                        <VBox>
                            <children>
-                              <VBox styleClass="title">
-                                 <children>
-                                    <Label text="T. doc." textFill="#b2b2b2">
-                                       <padding>
-                                          <Insets left="6.0" />
-                                       </padding>
-                                    </Label>
-                                    <ComboBox fx:id="comboTipoDoc" prefHeight="27.0" promptText="CC" />
-                                 </children>
-                              </VBox>
-                              <VBox styleClass="title">
-                                 <children>
-                                    <Label text="N° documento" textFill="#b2b2b2">
-                                       <padding>
-                                          <Insets left="6.0" />
-                                       </padding>
-                                    </Label>
-                                    <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="100.0" promptText="N° documento" />
-                                 </children>
-                              </VBox>
+                              <Label text="Tipo de documento" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboTipoDoc" prefHeight="27.0" promptText="Cédula de ciudadanía" />
                            </children>
-                        </HBox>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label text="N° documento" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="100.0" promptText="N° documento" />
+                           </children>
+                        </VBox>
                         <HBox>
                            <children>
-                              <VBox styleClass="title">
+                              <VBox>
                                  <children>
                                     <Label text="Edad" textFill="#b2b2b2">
                                        <padding>
@@ -84,7 +78,7 @@
                                     <TextField fx:id="textEdad" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="50.0" promptText="Edad" />
                                  </children>
                               </VBox>
-                              <VBox styleClass="title">
+                              <VBox>
                                  <children>
                                     <Label text="Sexo" textFill="#b2b2b2">
                                        <padding>
@@ -98,90 +92,67 @@
                         </HBox>
                      </children>
                   </FlowPane>
-                  <FlowPane alignment="CENTER" hgap="10.0" styleClass="flowpane">
+                  <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
                      <children>
-                        <JFXButton onAction="#eliminar" styleClass="delete-button" text="Eliminar">
+                        <Button onAction="#eliminar" styleClass="delete-button" text="Eliminar">
                            <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagen/icono/xb.png" />
                                  </image>
                               </ImageView>
                            </graphic>
-                        </JFXButton>
-                        <JFXButton onAction="#limpiar" text="Limpiar">
+                        </Button>
+                        <Button onAction="#limpiar" text="Limpiar">
                            <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagen/icono/clearb.png" />
                                  </image>
                               </ImageView>
                            </graphic>
-                        </JFXButton>
-                        <JFXButton onAction="#modificar" text="Modificar">
+                        </Button>
+                        <Button onAction="#modificar" text="Modificar">
                            <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../imagen/icono/update1b.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton onAction="#registrar" text="Registrar">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../imagen/icono/newb.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                  </FlowPane>
-               </children>
-            </VBox>
-            <VBox>
-               <children>
-                  <HBox alignment="CENTER" spacing="10.0">
-                     <children>
-                        <ToggleButton id="sidebuttons" fx:id="buttonBienvenida" alignment="BASELINE_LEFT" text="Bienvenida" textFill="#757575" />
-                        <ToggleButton id="sidebuttons" fx:id="buttonMedidas" alignment="BASELINE_LEFT" text="Medidas" textFill="#757575" />
-                        <ToggleButton id="sidebuttons" fx:id="buttonEstadisticas" alignment="BASELINE_LEFT" text="Estadísticas" textFill="#757575" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="10.0">
-                     <children>
-                        <JFXCheckBox fx:id="checkRutina" checkedColor="#2ba3ff" contentDisplay="GRAPHIC_ONLY" style="-fx-border-color: rgb(230,230,230); -fx-border-radius: 4;" text="Entrenamiento">
-                           <graphic>
-                              <ComboBox fx:id="comboRutinas" maxWidth="200.0" promptText="Plan de entrenamiento" />
-                           </graphic>
-                        </JFXCheckBox>
-                        <JFXCheckBox fx:id="checkDieta" checkedColor="#2ba3ff" contentDisplay="GRAPHIC_ONLY" style="-fx-border-color: rgb(230,230,230); -fx-border-radius: 4;" text="Alimentación">
-                           <graphic>
-                              <ComboBox fx:id="comboDietas" maxWidth="200.0" promptText="Plan de alimentación" />
-                           </graphic>
-                        </JFXCheckBox>
-                        <JFXButton contentDisplay="GRAPHIC_ONLY" onAction="#obtenerDietasYRutinas" style="-fx-background-radius: 50; -fx-border-radius: 50;" text="Modificar">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../imagen/icono/updateb.png" />
                                  </image>
                               </ImageView>
                            </graphic>
-                        </JFXButton>
+                        </Button>
+                        <Button onAction="#registrar" text="Registrar">
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../imagen/icono/doneb.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
-                  </HBox>
-                  <ListView fx:id="listView" prefHeight="152.0" prefWidth="400.0" />
-                  <JFXButton onAction="#imprimir" text="Imprimir">
+                  </FlowPane>
+               </children>
+            </VBox>
+            <VBox styleClass="vbox-blanco">
+               <children>
+                  <FlowPane styleClass="flowpane-centrado">
+                     <children>
+                        <ToggleButton id="sidebuttons" fx:id="buttonBienvenida" alignment="BASELINE_LEFT" text="Bienvenida" textFill="#757575" />
+                        <ToggleButton id="sidebuttons" fx:id="buttonMedidas" alignment="BASELINE_LEFT" text="Medidas" textFill="#757575" />
+                        <ToggleButton id="sidebuttons" fx:id="buttonDieta" alignment="BASELINE_LEFT" text="Alimentacion" textFill="#757575" />
+                        <ToggleButton id="sidebuttons" fx:id="buttonRutina" alignment="BASELINE_LEFT" text="Entrenamiento" textFill="#757575" />
+                     </children>
+                  </FlowPane>
+                  <Button graphicTextGap="10.0" onAction="#imprimir" text="Imprimir">
                      <graphic>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../imagen/icono/pdfb.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                  </JFXButton>
+                  </Button>
                </children>
             </VBox>
          </children>

@@ -6,8 +6,8 @@
 package controlador;
 
 import DAO.DAOException;
-import com.jfoenix.controls.JFXCheckBox;
 import static controlador.Controller.alimentos;
+import static controlador.Controller.excepcion;
 import static controlador.Controller.getAlimentos;
 import static controlador.Controller.isAlimentosUpdated;
 import java.net.URL;
@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -34,6 +35,9 @@ public class DietasController extends Controller<Plan> {
 
     @FXML
     private ComboBox<Alimento> comboAlimentos;
+
+    @FXML
+    private ComboBox<String> comboOpciones;
 
     @FXML
     private TextField textBuscarAlimento;
@@ -159,7 +163,7 @@ public class DietasController extends Controller<Plan> {
     private TextField textCantidad;
 
     @FXML
-    JFXCheckBox checkCal;
+    CheckBox checkCal;
 
     @FXML
     private Label labelunidad;
@@ -170,6 +174,8 @@ public class DietasController extends Controller<Plan> {
         comboObjetivos.getSelectionModel().select(0);
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
+        comboOpciones.getItems().setAll("Opcion 1", "Opcion 2", "Opcion 3");
+        comboOpciones.getSelectionModel().select(0);
         setDietasUpdated(true);
         updated();
         setAlimentosUpdated(true);
@@ -190,9 +196,20 @@ public class DietasController extends Controller<Plan> {
                             activateCheck();
                         }
                         if (isAlimentosUpdated()) {
-                            comboAlimentos.setItems(alimentos);
-                            comboAlimentos.getSelectionModel().select(0);
-                            selectAlimento();
+                            try {
+                                comboAlimentos.getItems().clear();
+                                if (textBuscarAlimento.getText().isEmpty()) {
+                                    alimentos = getAlimentos().obtenerTodos();
+                                } else {
+                                    alimentos = getAlimentos().obtenerTodos(textBuscarAlimento.getText());
+                                }
+                                if (!alimentos.isEmpty()) {
+                                    comboAlimentos.setItems(alimentos);
+                                    comboAlimentos.getSelectionModel().select(0);
+                                }
+                            } catch (DAOException ex) {
+                                excepcion(ex);
+                            }
                             setAlimentosUpdated(false);
                         }
                     }
@@ -270,7 +287,7 @@ public class DietasController extends Controller<Plan> {
     @Override
     public Plan captar() throws DAOException {
         Plan d = new Plan();
-        d.setTipo("DIETA");
+        d.setTipo("dieta");
         d.setNombre(textNombre.getText());
         d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
@@ -416,6 +433,7 @@ public class DietasController extends Controller<Plan> {
             AlxDiet a = new AlxDiet();
             a.setPlan(getDieta());
             a.setAlimento(comboAlimentos.getSelectionModel().getSelectedItem());
+            a.setCombinacion(comboOpciones.getSelectionModel().getSelectedItem());
             if (textCantidad.getText().isEmpty()) {
                 mensaje("Digite la cantidad de " + a.getAlimento().getNombre().toLowerCase(), "aviso");
                 return null;
@@ -459,11 +477,7 @@ public class DietasController extends Controller<Plan> {
                     getAlxdiets().insertar(a);
                     actualizarUso(a.getAlimento());
                     listView.getItems().add(a);
-                } else {
-                    mensaje("AlxDiet vacío", "aviso");
                 }
-            } else {
-                mensaje("AlxDiet nulo", "aviso");
             }
         } catch (DAOException ex) {
             excepcion(ex);
@@ -536,12 +550,16 @@ public class DietasController extends Controller<Plan> {
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonDesayuno.setSelected(false);
+            if (buttonDesayuno.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonDesayuno.setSelected(false);
+                } else {
+                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.DESAYUNO));
+                }
             } else {
-                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                        .getPlankey(), getDia(), AlxDiet.DESAYUNO));
+                listView.getItems().clear();
             }
         }
     }
@@ -551,12 +569,16 @@ public class DietasController extends Controller<Plan> {
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonAlmuerzo.setSelected(false);
+            if (buttonAlmuerzo.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonAlmuerzo.setSelected(false);
+                } else {
+                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.ALMUERZO));
+                }
             } else {
-                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                        .getPlankey(), getDia(), AlxDiet.ALMUERZO));
+                listView.getItems().clear();
             }
         }
     }
@@ -566,12 +588,16 @@ public class DietasController extends Controller<Plan> {
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonCena.setSelected(false);
+            if (buttonCena.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonCena.setSelected(false);
+                } else {
+                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.CENA));
+                }
             } else {
-                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                        .getPlankey(), getDia(), AlxDiet.CENA));
+                listView.getItems().clear();
             }
         }
     }
@@ -581,12 +607,16 @@ public class DietasController extends Controller<Plan> {
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonMer.setSelected(false);
+            if (buttonMer.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonMer.setSelected(false);
+                } else {
+                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.MERIENDA));
+                }
             } else {
-                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                        .getPlankey(), getDia(), AlxDiet.MERIENDA));
+                listView.getItems().clear();
             }
         }
     }
@@ -596,12 +626,16 @@ public class DietasController extends Controller<Plan> {
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonExtra.setSelected(false);
+            if (buttonExtra.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonExtra.setSelected(false);
+                } else {
+                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.EXTRA));
+                }
             } else {
-                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                        .getPlankey(), getDia(), AlxDiet.EXTRA));
+                listView.getItems().clear();
             }
         }
     }
@@ -611,12 +645,16 @@ public class DietasController extends Controller<Plan> {
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonPre.setSelected(false);
+            if (buttonPre.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonPre.setSelected(false);
+                } else {
+                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.PREENTRENO));
+                }
             } else {
-                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                        .getPlankey(), getDia(), AlxDiet.PREENTRENO));
+                listView.getItems().clear();
             }
         }
     }
@@ -626,12 +664,16 @@ public class DietasController extends Controller<Plan> {
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (dia.isEmpty()) {
-                mensaje("Seleccione un día primero", "aviso");
-                buttonPost.setSelected(false);
+            if (buttonPost.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonPost.setSelected(false);
+                } else {
+                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.POSTENTRENO));
+                }
             } else {
-                listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                        .getPlankey(), getDia(), AlxDiet.POSTENTRENO));
+                listView.getItems().clear();
             }
         }
     }
