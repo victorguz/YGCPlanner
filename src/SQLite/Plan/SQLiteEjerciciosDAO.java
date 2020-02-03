@@ -49,7 +49,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
      * @throws DAOException
      */
     @Override
-    public void insertar(Ejercicio a) throws DAOException {
+    public void insert(Ejercicio a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
@@ -75,7 +75,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     }
 
     @Override
-    public void modificar(Ejercicio a) throws DAOException {
+    public void update(Ejercicio a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
@@ -102,7 +102,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     }
 
     @Override
-    public void eliminar(Ejercicio a) throws DAOException {
+    public void delete(Ejercicio a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
@@ -124,7 +124,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     }
 
     @Override
-    public ObservableList<Ejercicio> obtenerTodos() throws DAOException {
+    public ObservableList<Ejercicio> all() throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Ejercicio> ejercicios = FXCollections.observableArrayList();
@@ -156,18 +156,18 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     }
 
     @Override
-    public Ejercicio obtener(String equal) throws DAOException {
+    public Ejercicio select(Integer ejerciciokey) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         Ejercicio c = null;
         try {
             s = conex.prepareStatement(SELECTONE);
-            s.setString(1, equal);
+            s.setInt(1, ejerciciokey);
             rs = s.executeQuery();
             if (rs.next()) {
                 c = convertir(rs);
             } else {
-                throw new DAOException("Ejercicio no encontrado: "+equal);
+                throw new DAOException("Ejercicio no encontrado: "+ejerciciokey);
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -191,7 +191,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
     }
 
     @Override
-    public ObservableList<Ejercicio> obtenerTodos(String equal) throws DAOException {
+    public ObservableList<Ejercicio> where(String equal) throws DAOException {
 
         PreparedStatement s = null;
         ResultSet rs = null;

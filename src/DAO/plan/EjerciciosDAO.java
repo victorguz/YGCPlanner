@@ -9,6 +9,6 @@ import DAO.DAO;
 import modelo.plan.Ejercicio;
 
 
-public interface EjerciciosDAO extends DAO<Ejercicio, String> {
+public interface EjerciciosDAO extends DAO<Ejercicio, Integer> {
 
 }

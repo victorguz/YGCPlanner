@@ -10,6 +10,5 @@ import java.time.LocalDate;
 import modelo.cliente.Medida;
 
 
-public interface MedidasDAO extends DAO<Medida, String> {
-public abstract Medida obtener(int clientekey, LocalDate fecha) throws Exception;
+public interface MedidasDAO extends DAO<Medida, Integer> {
 }

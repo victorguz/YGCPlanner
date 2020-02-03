@@ -50,7 +50,7 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
      * @throws DAOException
      */
     @Override
-    public void insertar(Alimento a) throws DAOException {
+    public void insert(Alimento a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
@@ -78,7 +78,7 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
     }
 
     @Override
-    public void modificar(Alimento a) throws DAOException {
+    public void update(Alimento a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
@@ -107,7 +107,7 @@ s.setInt(8, a.getAlimentokey());
     }
 
     @Override
-    public void eliminar(Alimento a) throws DAOException {
+    public void delete(Alimento a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
@@ -129,7 +129,7 @@ s.setInt(8, a.getAlimentokey());
     }
 
     @Override
-    public ObservableList<Alimento> obtenerTodos() throws DAOException {
+    public ObservableList<Alimento> all() throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Alimento> alimentos = FXCollections.observableArrayList();
@@ -161,13 +161,13 @@ s.setInt(8, a.getAlimentokey());
     }
 
     @Override
-    public Alimento obtener(String equal) throws DAOException {
+    public Alimento select(Integer alimentokey) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         Alimento a = null;
         try {
             s = conex.prepareStatement(SELECT);
-            s.setInt(1, Integer.parseInt(equal));
+            s.setInt(1, alimentokey);
             rs = s.executeQuery();
             if (rs.next()) {
                 a = convertir(rs);
@@ -196,7 +196,7 @@ s.setInt(8, a.getAlimentokey());
     }
 
     @Override
-    public ObservableList<Alimento> obtenerTodos(String equal) throws DAOException {
+    public ObservableList<Alimento> where(String equal) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Alimento> list = FXCollections.observableArrayList();

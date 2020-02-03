@@ -645,7 +645,7 @@ public class Medida {
 
         n[0][0] = "FECHA DE MEDIDA";
         n[1][0] = "PESO";
-        n[2][0] = "PESO IDEAL";
+        n[2][0] = "GRADO DE ACTIVIDAD";
         n[3][0] = "GRADO DE OBESIDAD";
         n[4][0] = "% GRASA CORPORAL";
         n[5][0] = "GRASA CORPORAL";
@@ -672,7 +672,8 @@ public class Medida {
 
         n[0][1] = getFecha().format(DateTimeFormatter.ofPattern("d MMM Y")).toUpperCase();
         n[1][1] = getPeso() + " Kg";
-        n[2][1] = getPesoIdealCreff() + " Kg";
+        int s=getActividad().indexOf(": ");
+        n[2][1] = getActividad().substring(s+1).toUpperCase();
         n[3][1] = getGradoObesidad().toUpperCase();
         n[4][1] = getPorcentajeGrasaSiri() + " %";
         n[5][1] = getPesoGrasaCorporal() + " Kg";

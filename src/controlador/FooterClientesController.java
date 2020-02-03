@@ -82,9 +82,9 @@ public class FooterClientesController extends Controller {
         try {
             comboClientes.getItems().clear();
             if (textBuscar.getText().isEmpty()) {
-                clientes = getClientes().obtenerTodos();
+                clientes = getClientes().all();
             } else {
-                clientes = getClientes().obtenerTodos(textBuscar.getText());
+                clientes = getClientes().where(textBuscar.getText());
             }
             if (!clientes.isEmpty()) {
                 comboClientes.setItems(clientes);
@@ -102,7 +102,7 @@ public class FooterClientesController extends Controller {
         comboMedidas.getItems().clear();
         if (!getCliente().isEmpty()) {
             try {
-                medidas = getMedidas().obtenerTodos("" + getCliente().getClienteKey());
+                medidas = getMedidas().where("" + getCliente().getClienteKey());
                 if (!medidas.isEmpty()) {
                     comboMedidas.setItems(medidas);
                     selectMedida(0);

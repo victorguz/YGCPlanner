@@ -228,7 +228,7 @@ public class MedidaController extends Controller<Medida> {
                 mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
                 try {
-                    getMedidas().insertar(m);
+                    getMedidas().insert(m);
                     mensaje("Medida registrada", "exito");
                     setMedidasUpdated(true);
                 } catch (DAOException ex) {
@@ -325,7 +325,7 @@ public class MedidaController extends Controller<Medida> {
                 mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
                 try {
-                    getMedidas().eliminar(getMedida());
+                    getMedidas().delete(getMedida());
                     setMedidasUpdated(true);
                     mensaje("Medida eliminada", "exito");
                 } catch (DAOException ex) {
@@ -347,7 +347,7 @@ public class MedidaController extends Controller<Medida> {
                 } else {
                     try {
                         k.setMedidakey(getMedida().getMedidakey());
-                        getMedidas().modificar(k);
+                        getMedidas().update(k);
                         setMedidasUpdated(true);
                         mensaje("Medida modificada", "exito");
                     } catch (DAOException ex) {

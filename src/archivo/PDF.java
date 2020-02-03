@@ -22,19 +22,21 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import controlador.Controller;
+import controlador.Operacion;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import modelo.Referencia;
 import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
+import modelo.plan.AlxDiet;
+import modelo.plan.EjxRut;
 import modelo.plan.Plan;
 
 /**
@@ -44,10 +46,9 @@ import modelo.plan.Plan;
 public class PDF {
 
     private Cliente cliente = new Cliente();
-    private Plan dieta = new Plan();
-    private Plan rutina = new Plan();
     private File file;
     private Document document;
+    private Chapter chapter;
 
     public PDF() throws IOException {
         setFile("");
@@ -75,22 +76,6 @@ public class PDF {
 
     public File getFile() {
         return file;
-    }
-
-    public Plan getDieta() {
-        return dieta;
-    }
-
-    public void setDieta(Plan dieta) {
-        this.dieta = dieta;
-    }
-
-    public Plan getRutina() {
-        return rutina;
-    }
-
-    public void setRutina(Plan rutina) {
-        this.rutina = rutina;
     }
 
     public void setDocument(Document document) {
@@ -144,9 +129,9 @@ public class PDF {
     }
 
     public void createPDF() throws FileNotFoundException, DocumentException, IOException, DAOException {
-        Referencia ins = Controller.getReferencias().obtener("insta1");
-        Referencia fb = Controller.getReferencias().obtener("face1");
-        Referencia tel = Controller.getReferencias().obtener("tel1");
+        Referencia ins = Controller.getReferencias().select("insta1");
+        Referencia fb = Controller.getReferencias().select("face1");
+        Referencia tel = Controller.getReferencias().select("tel1");
 
         setDocument(new Document(PageSize.LETTER, 0, 0, 0, 0));
         PdfWriter.getInstance(getDocument(), new FileOutputStream(file));
@@ -155,7 +140,7 @@ public class PDF {
         getDocument().addAuthor("Yezid Guzman Coach");
         getDocument().addCreator("Yezid Guzman Coach");
         //Edición del archivo:
-        Chapter chapter = new Chapter(1);
+        chapter = new Chapter(1);
         chapter.setNumberDepth(0);
         Image black;
         black = Image.getInstance(new File("src/imagen/black.jpg").toURL());
@@ -216,10 +201,10 @@ public class PDF {
     }
 
     public void addBienvenida() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
-        Referencia titulo = Controller.getReferencias().obtener("titulobienvenida");
-        Referencia bienvenida = Controller.getReferencias().obtener("bienvenida");
+        Referencia titulo = Controller.getReferencias().select("titulobienvenida");
+        Referencia bienvenida = Controller.getReferencias().select("bienvenida");
 
-        Chapter chapter = new Chapter(2);
+        chapter = new Chapter(0);
         chapter.setNumberDepth(0);
         Image page;
         page = Image.getInstance(new File("src/imagen/bienvenida.jpg").toURL());
@@ -257,9 +242,9 @@ public class PDF {
 
     public void addMedidas() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
         if (getCliente() != null) {
-            ObservableList<Medida> medidas = Controller.getMedidas().obtenerTodos(getCliente().getClienteKey() + "");
+            ObservableList<Medida> medidas = Controller.getMedidas().where(getCliente().getClienteKey() + "");
             if (!medidas.isEmpty()) {
-                Chapter chapter = new Chapter(2);
+                chapter = new Chapter(0);
                 chapter.setNumberDepth(0);
                 Image page;
                 page = Image.getInstance(new File("src/imagen/medidas.jpg").toURL());
@@ -460,7 +445,7 @@ public class PDF {
                     tablaMedidas.addCell(cellMedidaIntermedio);
 
                     PdfPCell cellMedidaFin = new PdfPCell();
-                    Paragraph pMedidaFin = new Paragraph("Medida actual ("+medidas.size()+")", getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedidaFin = new Paragraph("Medida actual (" + medidas.size() + ")", getFont("bold", 11, 230, 230, 230));
                     cellMedidaFin.setBackgroundColor(new BaseColor(24, 22, 33));
                     pMedidaFin.setAlignment(Element.ALIGN_CENTER);
                     cellMedidaFin.addElement(pMedidaFin);
@@ -478,18 +463,18 @@ public class PDF {
 
                         //Datos de medida medida 1
                         PdfPCell cell1 = new PdfPCell();
-                        Paragraph l1 = new Paragraph(medidas.get(medidas.size()-1).toArray()[i][1], fuente);
+                        Paragraph l1 = new Paragraph(medidas.get(medidas.size() - 1).toArray()[i][1], fuente);
                         l1.setAlignment(Element.ALIGN_CENTER);
                         cell1.addElement(l1);
                         tablaMedidas.addCell(cell1);
 
                         //Datos de medida medida 2
                         PdfPCell cell2 = new PdfPCell();
-                        Paragraph l2 = new Paragraph(medidas.get(n-1).toArray()[i][1], fuente);
+                        Paragraph l2 = new Paragraph(medidas.get(n - 1).toArray()[i][1], fuente);
                         l2.setAlignment(Element.ALIGN_CENTER);
                         cell2.addElement(l2);
                         tablaMedidas.addCell(cell2);
-                        
+
                         //Datos de medida medida 3
                         PdfPCell cell3 = new PdfPCell();
                         Paragraph l3 = new Paragraph(medidas.get(0).toArray()[i][1], fuente);
@@ -509,36 +494,363 @@ public class PDF {
         }
     }
 
-    public void addRutina() throws DocumentException, MalformedURLException, BadElementException, IOException {
-        Chapter chapter = new Chapter(2);
-        chapter.setNumberDepth(0);
+    public void addDieta() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
+        chapter = new Chapter(0);
+        Image page;
+        page = Image.getInstance(new File("src/imagen/alimentacionT.jpg").toURL());
+        page.scaleAbsolute(PageSize.LETTER);
+        page.setAbsolutePosition(0, 0);
+        chapter.add(page);
+
+        Font titulo = getFont("bold", 14, 30, 30, 30);
+        Font parrafoPeque = getFont("light", 11, 30, 30, 30);
+
+        Plan dieta = Controller.getMedidas().where("" + getCliente().getClienteKey()).get(0).getDieta();
+
+        chapter.setIndentationLeft(100);
+        chapter.setIndentationRight(100);
+
+        Paragraph t = new Paragraph(dieta.getNombre().toUpperCase(), titulo);
+        t.setSpacingBefore(80);
+        t.setAlignment(Element.ALIGN_CENTER);
+        chapter.add(t);
+
+        Paragraph n = new Paragraph("Hola " + Operacion.nombreCamelCase(getCliente().getNombre()) + " "
+                + "es un gusto vivir contigo el reto de buscar tu mejor "
+                + "versión, seguro que juntos seremos mejores.\n\n"
+                + "Lo siguiente es una guía donde encontraras un plan "
+                + "de alimentación enfocado a tus necesidades y objetivos. "
+                + "Recuerda que esto es un trabajo de dos y el objetivo "
+                + "número uno debe ser adquirir buenos hábitos los cuales "
+                + "nos garantizan como resultados un mejor estilo de vida "
+                + "y como consecuencia un mejor estado físico, "
+                + "apariencia y salud.\n\n"
+                + "Es importante saber también que el siguiente "
+                + "menú es una guía y aunque es importante que te "
+                + "comprometas con tu objetivo y lo hagas al pie "
+                + "de la letra el encargado de darle variabilidad "
+                + "eres tú sustituyendo los alimentos por otros que "
+                + "te brinden un aporte similar pero que no "
+                + "interrumpan tus objetivos."
+                + "\n\n"
+                + "¡VAMOS CON TODA!", parrafoPeque);
+        n.setSpacingBefore(20);
+        n.setAlignment(Element.ALIGN_CENTER);
+
+        chapter.add(n);
+
+        if (!dieta.getDescripcion().isEmpty()) {
+            Paragraph d = new Paragraph("DESCRIPCIÓN DEL PLAN: ", titulo);
+            d.setSpacingBefore(40);
+            d.setAlignment(Element.ALIGN_CENTER);
+            Paragraph p = new Paragraph(dieta.getDescripcion().toUpperCase(), parrafoPeque);
+            p.setSpacingBefore(20);
+            p.setAlignment(Element.ALIGN_CENTER);
+            chapter.add(d); 
+            
+            chapter.add(p);
+        }
+
+        document.add(chapter);
+
+        addAlimentos(dieta.getPlankey(), AlxDiet.LUNES);
+        addAlimentos(dieta.getPlankey(), AlxDiet.MARTES);
+        addAlimentos(dieta.getPlankey(), AlxDiet.MIERCOLES);
+        addAlimentos(dieta.getPlankey(), AlxDiet.JUEVES);
+        addAlimentos(dieta.getPlankey(), AlxDiet.VIERNES);
+        addAlimentos(dieta.getPlankey(), AlxDiet.SABADO);
+        addAlimentos(dieta.getPlankey(), AlxDiet.DOMINGO);
+    }
+
+    public void addAlimentos(int plankey, String dia) throws DAOException, MalformedURLException, IOException, BadElementException, DocumentException {
+        ObservableList<AlxDiet> list = Controller.getAlxdiets().where(plankey, dia);
+        if (!list.isEmpty()) {
+            String DESAYUNO = "";
+            String ALMUERZO = "";
+            String CENA = "";
+            String PREENTRENO = "";
+            String POSTENTRENO = "";
+            String SNACKAM = "";
+            String SNACKPM = "";
+            for (AlxDiet alx : list) {
+                switch (alx.getMomento()) {
+                    case AlxDiet.DESAYUNO:
+                        DESAYUNO += alx.toString() + ", ";
+                        break;
+                    case AlxDiet.ALMUERZO:
+                        ALMUERZO += alx.toString() + ", ";
+                        break;
+                    case AlxDiet.CENA:
+                        CENA += alx.toString() + ", ";
+                        break;
+                    case AlxDiet.POSTENTRENO:
+                        POSTENTRENO += alx.toString() + ", ";
+                        break;
+                    case AlxDiet.PREENTRENO:
+                        PREENTRENO += alx.toString() + ", ";
+                        break;
+                    case AlxDiet.SNACKAM:
+                        SNACKAM += alx.toString() + ", ";
+                        break;
+                    case AlxDiet.SNACKPM:
+                        SNACKPM += alx.toString() + ", ";
+                        break;
+                }
+            }
+
+            Font tituloPeque = getFont("bold", 12, 30, 30, 30);
+            Font parrafo = getFont("light", 10, 30, 30, 30);
+
+            Paragraph t = new Paragraph();
+            t.setFont(tituloPeque);
+            t.add(dia);
+            t.setAlignment(Element.ALIGN_CENTER);
+            t.setSpacingBefore(60);
+            t.setSpacingAfter(10);
+            Paragraph p;
+            if (!DESAYUNO.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(AlxDiet.DESAYUNO, tituloPeque));
+                p.add(new Paragraph(DESAYUNO + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!SNACKAM.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(AlxDiet.SNACKAM, tituloPeque));
+                p.add(new Paragraph(SNACKAM + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!ALMUERZO.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(AlxDiet.ALMUERZO, tituloPeque));
+                p.add(new Paragraph(ALMUERZO + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!SNACKPM.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(AlxDiet.SNACKPM, tituloPeque));
+                p.add(new Paragraph(SNACKPM + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!CENA.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(AlxDiet.CENA, tituloPeque));
+                p.add(new Paragraph(CENA + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!PREENTRENO.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(AlxDiet.PREENTRENO, tituloPeque));
+                p.add(new Paragraph(PREENTRENO + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!POSTENTRENO.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(AlxDiet.POSTENTRENO, tituloPeque));
+                p.add(new Paragraph(POSTENTRENO + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            chapter = new Chapter(0);
+            Image page;
+            page = Image.getInstance(new File("src/imagen/alimentacion.jpg").toURL());
+            page.scaleAbsolute(PageSize.LETTER);
+            page.setAbsolutePosition(0, 0);
+            chapter.add(page);
+
+            chapter.setIndentationLeft(60);
+            chapter.setIndentationRight(60);
+            chapter.add(t);
+
+            document.add(chapter);
+        }
+    }
+
+    public void addRutina() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
+        chapter = new Chapter(0);
         Image page;
         page = Image.getInstance(new File("src/imagen/entrenamiento.jpg").toURL());
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
-        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17, 0, 0, 0));
-        subInfo.setAlignment(Element.ALIGN_CENTER);
-        subInfo.setSpacingAfter(30);
-        chapter.add(subInfo);
+
+        Font titulo = getFont("bold", 14, 30, 30, 30);
+        Font parrafoPeque = getFont("light", 11, 30, 30, 30);
+
+        Plan rutina = Controller.getMedidas().where("" + getCliente().getClienteKey()).get(0).getRutina();
+
+        chapter.setIndentationLeft(100);
+        chapter.setIndentationRight(100);
+
+        Paragraph t = new Paragraph(rutina.getNombre().toUpperCase(), titulo);
+        t.setSpacingBefore(80);
+        t.setAlignment(Element.ALIGN_CENTER);
+        chapter.add(t);
+
+        Paragraph n = new Paragraph("Hola " + Operacion.nombreCamelCase(getCliente().getNombre()) + " "
+                + "es un gusto vivir contigo el reto de buscar tu mejor "
+                + "versión, seguro que juntos seremos mejores.\n\n"
+                + "Lo siguiente es una guía donde encontraras un plan "
+                + "de alimentación enfocado a tus necesidades y objetivos. "
+                + "Recuerda que esto es un trabajo de dos y el objetivo "
+                + "número uno debe ser adquirir buenos hábitos los cuales "
+                + "nos garantizan como resultados un mejor estilo de vida "
+                + "y como consecuencia un mejor estado físico, "
+                + "apariencia y salud.\n\n"
+                + "Es importante saber también que el siguiente "
+                + "menú es una guía y aunque es importante que te "
+                + "comprometas con tu objetivo y lo hagas al pie "
+                + "de la letra el encargado de darle variabilidad "
+                + "eres tú sustituyendo los alimentos por otros que "
+                + "te brinden un aporte similar pero que no "
+                + "interrumpan tus objetivos."
+                + "\n\n"
+                + "¡VAMOS CON TODA!", parrafoPeque);
+        n.setSpacingBefore(20);
+        n.setAlignment(Element.ALIGN_CENTER);
+
+        chapter.add(n);
+
+        if (!rutina.getDescripcion().isEmpty()) {
+            Paragraph d = new Paragraph("DESCRIPCIÓN DEL PLAN: ", titulo);
+            d.setSpacingBefore(40);
+            d.setAlignment(Element.ALIGN_CENTER);
+            Paragraph p = new Paragraph(rutina.getDescripcion().toUpperCase(), parrafoPeque);
+            p.setSpacingBefore(20);
+            p.setAlignment(Element.ALIGN_CENTER);
+            chapter.add(d); 
+            
+            chapter.add(p);
+        }
+
         document.add(chapter);
+
+        addEjercicios(rutina.getPlankey(), EjxRut.LUNES);
+        addEjercicios(rutina.getPlankey(), EjxRut.MARTES);
+        addEjercicios(rutina.getPlankey(), EjxRut.MIERCOLES);
+        addEjercicios(rutina.getPlankey(), EjxRut.JUEVES);
+        addEjercicios(rutina.getPlankey(), EjxRut.VIERNES);
+        addEjercicios(rutina.getPlankey(), EjxRut.SABADO);
+        addEjercicios(rutina.getPlankey(), EjxRut.DOMINGO);
     }
 
-    public void addDieta() throws DocumentException, MalformedURLException, BadElementException, IOException {
-        Chapter chapter = new Chapter(2);
-        chapter.setNumberDepth(0);
-        Image page;
-        page = Image.getInstance(new File("src/imagen/alimentacion.jpg").toURL());
-        page.scaleAbsolute(PageSize.LETTER);
-        page.setAbsolutePosition(0, 0);
-        chapter.add(page);
-        Paragraph subInfo = new Paragraph("Lunes", getFont("black", 17, 0, 0, 0));
-        subInfo.setAlignment(Element.ALIGN_CENTER);
-        subInfo.setSpacingAfter(30);
-        chapter.add(subInfo);
-        document.add(chapter);
-    }
+    public void addEjercicios(int plankey, String dia) throws DAOException, MalformedURLException, IOException, BadElementException, DocumentException {
+        ObservableList<EjxRut> list = Controller.getEjxruts().where(plankey, dia);
+        if (!list.isEmpty()) {
+            String BLOQUE1 = "";
+            String BLOQUE2 = "";
+            String BLOQUE3 = "";
+            String BLOQUE4 = "";
+            String BLOQUE5 = "";
+            for (EjxRut ejx : list) {
+                switch (ejx.getMomento()) {
+                    case EjxRut.BLOQUE1:
+                        BLOQUE1 += ejx.toString() + ", ";
+                        break;
+                    case EjxRut.BLOQUE2:
+                        BLOQUE2 += ejx.toString() + ", ";
+                        break;
+                    case EjxRut.BLOQUE3:
+                        BLOQUE3 += ejx.toString() + ", ";
+                        break;
+                    case EjxRut.BLOQUE4:
+                        BLOQUE4 += ejx.toString() + ", ";
+                        break;
+                    case EjxRut.BLOQUE5:
+                        BLOQUE5 += ejx.toString() + ", ";
+                        break;
+                }
+            }
 
+            Font tituloPeque = getFont("bold", 12, 30, 30, 30);
+            Font parrafo = getFont("light", 10, 30, 30, 30);
+
+            Paragraph t = new Paragraph();
+            t.setFont(tituloPeque);
+            t.add(dia);
+            t.setAlignment(Element.ALIGN_CENTER);
+            t.setSpacingBefore(60);
+            t.setSpacingAfter(10);
+            Paragraph p;
+            if (!BLOQUE1.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(EjxRut.BLOQUE1, tituloPeque));
+                p.add(new Paragraph(BLOQUE1 + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!BLOQUE2.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(EjxRut.BLOQUE2, tituloPeque));
+                p.add(new Paragraph(BLOQUE2 + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!BLOQUE3.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(EjxRut.BLOQUE3, tituloPeque));
+                p.add(new Paragraph(BLOQUE3 + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!BLOQUE4.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(EjxRut.BLOQUE4, tituloPeque));
+                p.add(new Paragraph(BLOQUE4 + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            if (!BLOQUE5.isEmpty()) {
+                p = new Paragraph();
+                p.setAlignment(Element.ALIGN_LEFT);
+                p.add(new Paragraph(EjxRut.BLOQUE5, tituloPeque));
+                p.add(new Paragraph(BLOQUE5 + ".", parrafo));
+                p.setSpacingBefore(10);
+                t.add(p);
+            }
+
+            chapter = new Chapter(0);
+            Image page;
+            page = Image.getInstance(new File("src/imagen/entrenamiento.jpg").toURL());
+            page.scaleAbsolute(PageSize.LETTER);
+            page.setAbsolutePosition(0, 0);
+            chapter.add(page);
+
+            chapter.setIndentationLeft(60);
+            chapter.setIndentationRight(60);
+            chapter.add(t);
+
+            document.add(chapter);
+        }
+    }
     public void close() throws IOException {
         document.close();
         Desktop.getDesktop().open(file);

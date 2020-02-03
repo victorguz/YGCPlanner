@@ -75,7 +75,7 @@ public class HomeController extends Controller<StackPane> {
     public void initialize(URL url, ResourceBundle rb) {
         obtener();
 try {
-            if (getReferencias().obtener("dash").getDato().equalsIgnoreCase("false")) {
+            if (getReferencias().select("dash").getDato().equalsIgnoreCase("false")) {
             buttonClientes.setSelected(true);
                 mostrar(Clientes);
             } else {

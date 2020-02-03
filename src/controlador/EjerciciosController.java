@@ -51,7 +51,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                 if (c.isEmpty()) {
                     mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 } else {
-                    getEjercicios().insertar(c);
+                    getEjercicios().insert(c);
                     mensaje("Ejercicio registrado", "exito");
                     obtener();
                     setEjerciciosUpdated(true);
@@ -69,7 +69,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                 Ejercicio a = captar();
                 if (!a.isEmpty()) {
                     a.setEjerciciokey(comboEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
-                    getEjercicios().modificar(a);
+                    getEjercicios().update(a);
                     mensaje("Ejercicio modificado", "exito");
                     textBuscarEjercicio.setText(textNombre.getText());
                     obtener();
@@ -93,7 +93,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
                 Ejercicio a = captar();
                 if (!a.isEmpty()) {
                     a.setEjerciciokey(comboEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
-                    getEjercicios().eliminar(a);
+                    getEjercicios().delete(a);
                     mensaje("Ejercicio eliminado", "exito");
                     obtener();
                     setEjerciciosUpdated(true);
@@ -140,9 +140,9 @@ public class EjerciciosController extends Controller<Ejercicio> {
         try {
             comboEjercicios.getItems().clear();
             if (textBuscarEjercicio.getText().isEmpty()) {
-                ejercicios = getEjercicios().obtenerTodos();
+                ejercicios = getEjercicios().all();
             } else {
-                ejercicios = getEjercicios().obtenerTodos(textBuscarEjercicio.getText());
+                ejercicios = getEjercicios().where(textBuscarEjercicio.getText());
             }
             if (!ejercicios.isEmpty()) {
                 comboEjercicios.setItems(ejercicios);

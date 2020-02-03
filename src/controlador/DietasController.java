@@ -37,9 +37,6 @@ public class DietasController extends Controller<Plan> {
     private ComboBox<Alimento> comboAlimentos;
 
     @FXML
-    private ComboBox<String> comboOpciones;
-
-    @FXML
     private TextField textBuscarAlimento;
 
     @FXML
@@ -154,10 +151,10 @@ public class DietasController extends Controller<Plan> {
     private ToggleButton buttonPost;
 
     @FXML
-    private ToggleButton buttonMer;
+    private ToggleButton buttonAm;
 
     @FXML
-    private ToggleButton buttonExtra;
+    private ToggleButton buttonPm;
 
     @FXML
     private TextField textCantidad;
@@ -174,8 +171,6 @@ public class DietasController extends Controller<Plan> {
         comboObjetivos.getSelectionModel().select(0);
         comboSexo.setItems(sexos);
         comboSexo.getSelectionModel().select(0);
-        comboOpciones.getItems().setAll("Opcion 1", "Opcion 2", "Opcion 3");
-        comboOpciones.getSelectionModel().select(0);
         setDietasUpdated(true);
         updated();
         setAlimentosUpdated(true);
@@ -199,9 +194,9 @@ public class DietasController extends Controller<Plan> {
                             try {
                                 comboAlimentos.getItems().clear();
                                 if (textBuscarAlimento.getText().isEmpty()) {
-                                    alimentos = getAlimentos().obtenerTodos();
+                                    alimentos = getAlimentos().all();
                                 } else {
-                                    alimentos = getAlimentos().obtenerTodos(textBuscarAlimento.getText());
+                                    alimentos = getAlimentos().where(textBuscarAlimento.getText());
                                 }
                                 if (!alimentos.isEmpty()) {
                                     comboAlimentos.setItems(alimentos);
@@ -301,9 +296,9 @@ public class DietasController extends Controller<Plan> {
         try {
             comboDieta.getItems().clear();
             if (textBuscar.getText().isEmpty()) {
-                dietas = getPlanes().obtenerDietas();
+                dietas = getPlanes().allDietas();
             } else {
-                dietas = getPlanes().obtenerDietas(textBuscar.getText());
+                dietas = getPlanes().whereDietas(textBuscar.getText());
             }
             if (!dietas.isEmpty()) {
                 comboDieta.setItems(dietas);
@@ -318,7 +313,7 @@ public class DietasController extends Controller<Plan> {
     public void obtenerAlimentos() {
         try {
             comboAlimentos.getItems().clear();
-            alimentos = getAlimentos().obtenerTodos(textBuscarAlimento.getText());
+            alimentos = getAlimentos().where(textBuscarAlimento.getText());
             if (!alimentos.isEmpty()) {
                 comboAlimentos.setItems(alimentos);
                 comboAlimentos.getSelectionModel().select(0);
@@ -347,7 +342,7 @@ public class DietasController extends Controller<Plan> {
                 if (m.isEmpty()) {
                     mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 } else {
-                    getPlanes().insertar(m);
+                    getPlanes().insert(m);
                     obtener();
                     mensaje("Plan de alimentación registrado", "exito");
                 }
@@ -367,7 +362,7 @@ public class DietasController extends Controller<Plan> {
                     if (m.isEmpty()) {
                         mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                     } else {
-                        getPlanes().modificar(m);
+                        getPlanes().update(m);
                         textBuscar.setText(textNombre.getText());
                         obtener();
                         mensaje("Plan de alimentación modificado", "exito");
@@ -385,7 +380,7 @@ public class DietasController extends Controller<Plan> {
     public void eliminar() {
         try {
             if (!comboDieta.getItems().isEmpty()) {
-                getPlanes().eliminar(comboDieta.getSelectionModel().getSelectedItem());
+                getPlanes().delete(comboDieta.getSelectionModel().getSelectedItem());
                 obtener();
                 mensaje("Plan de alimentación eliminado", "exito");
             } else {
@@ -433,7 +428,6 @@ public class DietasController extends Controller<Plan> {
             AlxDiet a = new AlxDiet();
             a.setPlan(getDieta());
             a.setAlimento(comboAlimentos.getSelectionModel().getSelectedItem());
-            a.setCombinacion(comboOpciones.getSelectionModel().getSelectedItem());
             if (textCantidad.getText().isEmpty()) {
                 mensaje("Digite la cantidad de " + a.getAlimento().getNombre().toLowerCase(), "aviso");
                 return null;
@@ -460,8 +454,7 @@ public class DietasController extends Controller<Plan> {
         } else {
             try {
                 AlxDiet a = listView.getSelectionModel().getSelectedItem();
-                AlxDiet b = getAlxdiets().obtener(a.getAlimento().getAlimentokey(), a.getDia(), a.getMomento());
-                getAlxdiets().eliminar(b);
+                getAlxdiets().delete(a);
                 listView.getItems().remove(a);
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -474,7 +467,7 @@ public class DietasController extends Controller<Plan> {
             AlxDiet a = getAlxDiet();
             if (a != null) {
                 if (!a.isEmpty()) {
-                    getAlxdiets().insertar(a);
+                    getAlxdiets().insert(a);
                     actualizarUso(a.getAlimento());
                     listView.getItems().add(a);
                 }
@@ -486,7 +479,7 @@ public class DietasController extends Controller<Plan> {
 
     public void actualizarUso(Alimento a) {
         try {
-            getAlimentos().modificar(a);
+            getAlimentos().update(a);
             setAlimentosUpdated(true);
         } catch (DAOException ex) {
             excepcion(ex);
@@ -535,11 +528,11 @@ public class DietasController extends Controller<Plan> {
         if (buttonPre.isSelected()) {
             return AlxDiet.PREENTRENO;
         }
-        if (buttonMer.isSelected()) {
-            return AlxDiet.MERIENDA;
+        if (buttonAm.isSelected()) {
+            return AlxDiet.SNACKAM;
         }
-        if (buttonExtra.isSelected()) {
-            return AlxDiet.EXTRA;
+        if (buttonPm.isSelected()) {
+            return AlxDiet.SNACKPM;
         }
         mensaje("Seleccione el momento del menú", "aviso");
         return null;
@@ -555,7 +548,7 @@ public class DietasController extends Controller<Plan> {
                     mensaje("Seleccione un día primero", "aviso");
                     buttonDesayuno.setSelected(false);
                 } else {
-                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                    listView.setItems(getAlxdiets().where(getDieta()
                             .getPlankey(), getDia(), AlxDiet.DESAYUNO));
                 }
             } else {
@@ -574,7 +567,7 @@ public class DietasController extends Controller<Plan> {
                     mensaje("Seleccione un día primero", "aviso");
                     buttonAlmuerzo.setSelected(false);
                 } else {
-                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                    listView.setItems(getAlxdiets().where(getDieta()
                             .getPlankey(), getDia(), AlxDiet.ALMUERZO));
                 }
             } else {
@@ -593,7 +586,7 @@ public class DietasController extends Controller<Plan> {
                     mensaje("Seleccione un día primero", "aviso");
                     buttonCena.setSelected(false);
                 } else {
-                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                    listView.setItems(getAlxdiets().where(getDieta()
                             .getPlankey(), getDia(), AlxDiet.CENA));
                 }
             } else {
@@ -602,18 +595,18 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    public void getMerienda() throws DAOException {
+    public void getSnackAm() throws DAOException {
         String dia = getDia();
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonMer.isSelected()) {
+            if (buttonAm.isSelected()) {
                 if (dia.isEmpty()) {
                     mensaje("Seleccione un día primero", "aviso");
-                    buttonMer.setSelected(false);
+                    buttonAm.setSelected(false);
                 } else {
-                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.MERIENDA));
+                    listView.setItems(getAlxdiets().where(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.SNACKAM));
                 }
             } else {
                 listView.getItems().clear();
@@ -621,18 +614,18 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    public void getExtra() throws DAOException {
+    public void getSnackPm() throws DAOException {
         String dia = getDia();
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonExtra.isSelected()) {
+            if (buttonPm.isSelected()) {
                 if (dia.isEmpty()) {
                     mensaje("Seleccione un día primero", "aviso");
-                    buttonExtra.setSelected(false);
+                    buttonPm.setSelected(false);
                 } else {
-                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.EXTRA));
+                    listView.setItems(getAlxdiets().where(getDieta()
+                            .getPlankey(), getDia(), AlxDiet.SNACKPM));
                 }
             } else {
                 listView.getItems().clear();
@@ -650,7 +643,7 @@ public class DietasController extends Controller<Plan> {
                     mensaje("Seleccione un día primero", "aviso");
                     buttonPre.setSelected(false);
                 } else {
-                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                    listView.setItems(getAlxdiets().where(getDieta()
                             .getPlankey(), getDia(), AlxDiet.PREENTRENO));
                 }
             } else {
@@ -669,7 +662,7 @@ public class DietasController extends Controller<Plan> {
                     mensaje("Seleccione un día primero", "aviso");
                     buttonPost.setSelected(false);
                 } else {
-                    listView.setItems(getAlxdiets().obtenerTodos(getDieta()
+                    listView.setItems(getAlxdiets().where(getDieta()
                             .getPlankey(), getDia(), AlxDiet.POSTENTRENO));
                 }
             } else {

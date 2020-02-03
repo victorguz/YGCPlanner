@@ -30,7 +30,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     }
 
     @Override
-    public void insertar(Referencia a) throws DAOException {
+    public void insert(Referencia a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
@@ -60,7 +60,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
      * @throws DAOException
      */
     @Override
-    public void modificar(Referencia a) throws DAOException {
+    public void update(Referencia a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
@@ -84,7 +84,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     }
 
     @Override
-    public void eliminar(Referencia a) throws DAOException {
+    public void delete(Referencia a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
@@ -106,7 +106,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     }
 
     @Override
-    public ObservableList<Referencia> obtenerTodos() throws DAOException {
+    public ObservableList<Referencia> all() throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Referencia> l = FXCollections.observableArrayList();
@@ -138,7 +138,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     }
 
     @Override
-    public Referencia obtener(String equal) throws DAOException {
+    public Referencia select(String equal) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         Referencia l = null;
@@ -173,7 +173,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     }
 
     @Override
-    public ObservableList<Referencia> obtenerTodos(String Referencia) throws DAOException {
+    public ObservableList<Referencia> where(String Referencia) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Referencia> l = FXCollections.observableArrayList();

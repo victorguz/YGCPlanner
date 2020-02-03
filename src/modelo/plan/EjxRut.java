@@ -19,7 +19,13 @@ public class EjxRut extends BasePlan {
     private Ejercicio ejercicio = new Ejercicio();
     private int repeticiones;
     private int series;
-
+    
+    //Momentos entrenamiento
+    public static final String BLOQUE1 = "BLOQUE 1";
+    public static final String BLOQUE2 = "BLOQUE 2";
+    public static final String BLOQUE3 = "BLOQUE 3";
+    public static final String BLOQUE4 = "BLOQUE 4";
+    public static final String BLOQUE5 = "BLOQUE 5";
     public EjxRut() {
 
     }
@@ -58,7 +64,7 @@ public class EjxRut extends BasePlan {
 
     @Override
     public String toString() {
-        return getCombinacion() + ": " + getSeries() + " x " + getRepeticiones() + " de " + getEjercicio().getNombre();
+        return getSeries() + " x " + getRepeticiones() + " de " + getEjercicio().getNombre();
     }
 
     @Override

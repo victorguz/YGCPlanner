@@ -13,7 +13,6 @@ import static controlador.Controller.mensaje;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -60,9 +59,6 @@ public class RutinasController extends Controller<Plan> {
     private ComboBox<Integer> comboRepeticiones;
 
     @FXML
-    private ComboBox<String> comboBloques;
-
-    @FXML
     private ToggleButton buttonDomingo;
 
     @FXML
@@ -84,13 +80,19 @@ public class RutinasController extends Controller<Plan> {
     private ToggleButton buttonSabado;
 
     @FXML
-    private ToggleButton buttonPre;
+    private ToggleButton buttonBloque1;
 
     @FXML
-    private ToggleButton buttonEntreno;
+    private ToggleButton buttonBloque2;
 
     @FXML
-    private ToggleButton buttonPost;
+    private ToggleButton buttonBloque3;
+
+    @FXML
+    private ToggleButton buttonBloque4;
+
+    @FXML
+    private ToggleButton buttonBloque5;
 
     @FXML
     private ListView<EjxRut> listView;
@@ -107,10 +109,6 @@ public class RutinasController extends Controller<Plan> {
         comboRepeticiones.getSelectionModel().select(0);
         comboSeries.getItems().setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         comboSeries.getSelectionModel().select(0);
-        comboBloques.getItems().setAll("Bloque 1", "Bloque 2", "Bloque 3",
-                "Bloque 4", "Bloque 5", "Bloque 6", "Bloque 7",
-                "Bloque 8", "Bloque 9", "Bloque 10");
-        comboBloques.getSelectionModel().select(0);
         setRutinasUpdated(true);
         updated();
         setEjerciciosUpdated(true);
@@ -131,9 +129,9 @@ public class RutinasController extends Controller<Plan> {
                             try {
                                 comboEjercicios.getItems().clear();
                                 if (textBuscarEjercicio.getText().isEmpty()) {
-                                    ejercicios = getEjercicios().obtenerTodos();
+                                    ejercicios = getEjercicios().all();
                                 } else {
-                                    ejercicios = getEjercicios().obtenerTodos(textBuscarEjercicio.getText());
+                                    ejercicios = getEjercicios().where(textBuscarEjercicio.getText());
                                 }
                                 if (!ejercicios.isEmpty()) {
                                     comboEjercicios.setItems(ejercicios);
@@ -177,9 +175,9 @@ public class RutinasController extends Controller<Plan> {
         try {
             comboRutinas.getItems().clear();
             if (textBuscar.getText().isEmpty()) {
-                rutinas = getPlanes().obtenerRutinas();
+                rutinas = getPlanes().allRutinas();
             } else {
-                rutinas = getPlanes().obtenerRutinas(textBuscar.getText());
+                rutinas = getPlanes().whereRutinas(textBuscar.getText());
             }
             if (!rutinas.isEmpty()) {
                 comboRutinas.setItems(rutinas);
@@ -194,7 +192,7 @@ public class RutinasController extends Controller<Plan> {
     public void obtenerEjercicios() {
         try {
             comboEjercicios.getItems().clear();
-            ejercicios = getEjercicios().obtenerTodos(textBuscarEjercicio.getText());
+            ejercicios = getEjercicios().where(textBuscarEjercicio.getText());
             if (!ejercicios.isEmpty()) {
                 comboEjercicios.setItems(ejercicios);
                 comboEjercicios.getSelectionModel().select(0);
@@ -212,7 +210,7 @@ public class RutinasController extends Controller<Plan> {
                 if (m.isEmpty()) {
                     mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 } else {
-                    getPlanes().insertar(m);
+                    getPlanes().insert(m);
                     obtener();
                     mensaje("Plan de entrenamiento registrado", "exito");
                 }
@@ -232,7 +230,7 @@ public class RutinasController extends Controller<Plan> {
                     if (m.isEmpty()) {
                         mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                     } else {
-                        getPlanes().modificar(m);
+                        getPlanes().update(m);
                         textBuscar.setText(textNombre.getText());
                         obtener();
                         mensaje("Plan de entrenamiento modificado", "exito");
@@ -250,7 +248,7 @@ public class RutinasController extends Controller<Plan> {
     public void eliminar() {
         try {
             if (!comboRutinas.getItems().isEmpty()) {
-                getPlanes().eliminar(comboRutinas.getSelectionModel().getSelectedItem());
+                getPlanes().delete(comboRutinas.getSelectionModel().getSelectedItem());
                 obtener();
                 mensaje("Plan de entrenamiento eliminado", "exito");
             } else {
@@ -288,19 +286,39 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public EjxRut getEjxRut() {
+    public EjxRut captarEjxRut() {
         if (!comboRutinas.getItems().isEmpty()) {
             EjxRut a = new EjxRut();
             a.setPlan(getRutina());
             a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
             a.setSeries(comboSeries.getSelectionModel().getSelectedItem());
             a.setRepeticiones(comboRepeticiones.getSelectionModel().getSelectedItem());
-            a.setCombinacion(comboBloques.getSelectionModel().getSelectedItem());
             a.setDia(getDia());
+            a.setDia(getMomento());
             return a;
         } else {
             mensaje("Primero debe registrar un plan", "aviso");
         }
+        return null;
+    }
+
+    public String getMomento() {
+        if (buttonBloque1.isSelected()) {
+            return EjxRut.BLOQUE1;
+        }
+        if (buttonBloque2.isSelected()) {
+            return EjxRut.BLOQUE2;
+        }
+        if (buttonBloque3.isSelected()) {
+            return EjxRut.BLOQUE3;
+        }
+        if (buttonBloque5.isSelected()) {
+            return EjxRut.BLOQUE4;
+        }
+        if (buttonBloque5.isSelected()) {
+            return EjxRut.BLOQUE5;
+        }
+        mensaje("Seleccione el bloque para el ejercicio", "aviso");
         return null;
     }
 
@@ -319,8 +337,7 @@ public class RutinasController extends Controller<Plan> {
         } else {
             try {
                 EjxRut a = listView.getSelectionModel().getSelectedItem();
-                EjxRut b = getEjxruts().obtener(a.getEjercicio().getEjerciciokey(), a.getDia());
-                getEjxruts().eliminar(b);
+                getEjxruts().delete(a);
                 listView.getItems().remove(a);
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -330,10 +347,10 @@ public class RutinasController extends Controller<Plan> {
 
     public void addEjercicio() {
         try {
-            EjxRut a = getEjxRut();
+            EjxRut a = captarEjxRut();
             if (a != null) {
                 if (!a.isEmpty()) {
-                    getEjxruts().insertar(a);
+                    getEjxruts().insert(a);
                     actualizarUso(a.getEjercicio());
                     listView.getItems().add(a);
                 } else {
@@ -349,7 +366,7 @@ public class RutinasController extends Controller<Plan> {
 
     public void actualizarUso(Ejercicio a) {
         try {
-            getEjercicios().modificar(a);
+            getEjercicios().update(a);
             setEjerciciosUpdated(true);
         } catch (DAOException ex) {
             excepcion(ex);
@@ -382,95 +399,98 @@ public class RutinasController extends Controller<Plan> {
         return null;
     }
 
-    public void getDomingo() throws DAOException {
+    public void getBloque1() throws DAOException {
+        String dia = getDia();
         if (getRutina().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonDomingo.isSelected()) {
-                listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia()));
+            if (buttonBloque1.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonBloque1.setSelected(false);
+                } else {
+                    listView.setItems(getEjxruts().where(getRutina()
+                            .getPlankey(), getDia(), EjxRut.BLOQUE1));
+                }
             } else {
                 listView.getItems().clear();
             }
         }
     }
 
-    public void getLunes() throws DAOException {
+    public void getBloque2() throws DAOException {
+        String dia = getDia();
         if (getRutina().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonLunes.isSelected()) {
-                listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia()));
+            if (buttonBloque2.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonBloque2.setSelected(false);
+                } else {
+                    listView.setItems(getEjxruts().where(getRutina()
+                            .getPlankey(), getDia(), EjxRut.BLOQUE2));
+                }
             } else {
                 listView.getItems().clear();
             }
         }
     }
 
-    public void getMartes() throws DAOException {
+    public void getBloque3() throws DAOException {
+        String dia = getDia();
         if (getRutina().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonMartes.isSelected()) {
-                listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia()));
+            if (buttonBloque3.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonBloque3.setSelected(false);
+                } else {
+                    listView.setItems(getEjxruts().where(getRutina()
+                            .getPlankey(), getDia(), EjxRut.BLOQUE3));
+                }
             } else {
                 listView.getItems().clear();
             }
         }
     }
 
-    public void getMiercoles() throws DAOException {
+    public void getBloque4() throws DAOException {
+        String dia = getDia();
         if (getRutina().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonMiercoles.isSelected()) {
-                listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia()));
+            if (buttonBloque4.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonBloque4.setSelected(false);
+                } else {
+                    listView.setItems(getEjxruts().where(getRutina()
+                            .getPlankey(), getDia(), EjxRut.BLOQUE4));
+                }
             } else {
                 listView.getItems().clear();
             }
         }
     }
 
-    public void getJueves() throws DAOException {
+    public void getBloque5() throws DAOException {
+        String dia = getDia();
         if (getRutina().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonJueves.isSelected()) {
-                listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia()));
+            if (buttonBloque5.isSelected()) {
+                if (dia.isEmpty()) {
+                    mensaje("Seleccione un día primero", "aviso");
+                    buttonBloque5.setSelected(false);
+                } else {
+                    listView.setItems(getEjxruts().where(getRutina()
+                            .getPlankey(), getDia(), EjxRut.BLOQUE5));
+                }
             } else {
                 listView.getItems().clear();
             }
         }
     }
-
-    public void getViernes() throws DAOException {
-        if (getRutina().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonViernes.isSelected()) {
-                listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia()));
-            } else {
-                listView.getItems().clear();
-            }
-        }
-    }
-
-    public void getSabado() throws DAOException {
-        if (getRutina().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonSabado.isSelected()) {
-                listView.setItems(getEjxruts().obtenerTodos(getRutina()
-                        .getPlankey(), getDia()));
-            } else {
-                listView.getItems().clear();
-            }
-        }
-    }
-
 }

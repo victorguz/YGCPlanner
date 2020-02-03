@@ -308,16 +308,6 @@
                      <children>
                         <VBox>
                            <children>
-                              <Label text="Opción" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ComboBox fx:id="comboOpciones" promptText="Opcion 1" visibleRowCount="5" />
-                           </children>
-                        </VBox>
-                        <VBox>
-                           <children>
                               <Label text="Buscar alimento" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
@@ -380,12 +370,12 @@
                               <ToggleGroup fx:id="momento" />
                            </toggleGroup>
                         </ToggleButton>
+                        <ToggleButton fx:id="buttonAm" mnemonicParsing="false" onAction="#getSnackAm" prefWidth="90.0" text="Snack AM" toggleGroup="$momento" />
                         <ToggleButton fx:id="buttonAlmuerzo" mnemonicParsing="false" onAction="#getAlmuerzo" prefWidth="90.0" text="Almuerzo" toggleGroup="$momento" />
+                        <ToggleButton fx:id="buttonPm" mnemonicParsing="false" onAction="#getSnackPm" prefWidth="90.0" text="Snack PM" toggleGroup="$momento" />
                         <ToggleButton fx:id="buttonCena" mnemonicParsing="false" onAction="#getCena" prefWidth="90.0" text="Cena" toggleGroup="$momento" />
                         <ToggleButton fx:id="buttonPre" mnemonicParsing="false" onAction="#getPre" prefWidth="90.0" text="Pre-entreno" toggleGroup="$momento" />
                         <ToggleButton fx:id="buttonPost" mnemonicParsing="false" onAction="#getPost" prefWidth="90.0" text="Post-entreno" toggleGroup="$momento" />
-                        <ToggleButton fx:id="buttonMer" mnemonicParsing="false" onAction="#getMerienda" prefWidth="90.0" text="Merienda" toggleGroup="$momento" />
-                        <ToggleButton fx:id="buttonExtra" mnemonicParsing="false" onAction="#getExtra" prefWidth="90.0" text="Extra" toggleGroup="$momento" />
                      </children>
                   </FlowPane>
                </children>

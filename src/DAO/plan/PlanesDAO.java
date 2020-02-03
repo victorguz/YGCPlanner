@@ -14,13 +14,13 @@ import modelo.plan.Plan;
  *
  * @author Victor
  */
-public interface PlanesDAO extends DAO<Plan, String> {
+public interface PlanesDAO extends DAO<Plan, Integer> {
 
-    public ObservableList<Plan> obtenerRutinas(String equal) throws DAOException;
+    public ObservableList<Plan> whereRutinas(String equal) throws DAOException;
 
-    public ObservableList<Plan> obtenerRutinas() throws DAOException;
+    public ObservableList<Plan> allRutinas() throws DAOException;
 
-    public ObservableList<Plan> obtenerDietas(String equal) throws DAOException;
+    public ObservableList<Plan> whereDietas(String equal) throws DAOException;
 
-    public ObservableList<Plan> obtenerDietas() throws DAOException;
+    public ObservableList<Plan> allDietas() throws DAOException;
 }

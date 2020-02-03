@@ -9,6 +9,6 @@ import DAO.DAO;
 import modelo.cliente.Cliente;
 
 
-public interface ClientesDAO extends DAO<Cliente, String> {
+public interface ClientesDAO extends DAO<Cliente, Integer> {
 
 }

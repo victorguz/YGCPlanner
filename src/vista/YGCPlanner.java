@@ -35,7 +35,6 @@ public class YGCPlanner extends Application {
         try {
             root = FXMLLoader.load(getClass().getResource("fxml/Home.fxml"));
             Scene scene = new Scene(root);
-//stage.setResizable(false);
             stage.setTitle("Dieta y ejercicio - Planificador Yezid Guzman Coach");
             stage.getIcons().add(new Image("/imagen/icono/icono24.png"));
             stage.setScene(scene);

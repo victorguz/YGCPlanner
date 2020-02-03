@@ -10,6 +10,6 @@ import modelo.cliente.Cliente;
 import modelo.plan.Alimento;
 
 
-public interface AlimentosDAO extends DAO<Alimento, String> {
+public interface AlimentosDAO extends DAO<Alimento, Integer> {
 
 }

@@ -6,7 +6,6 @@
 package SQLite.Plan;
 
 import DAO.DAOException;
-import controlador.Controller;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -44,7 +43,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
     }
 
     @Override
-    public void insertar(Plan a) throws DAOException {
+    public void insert(Plan a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
@@ -77,7 +76,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
      * @throws DAOException
      */
     @Override
-    public void modificar(Plan a) throws DAOException {
+    public void update(Plan a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
@@ -106,7 +105,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
     }
 
     @Override
-    public void eliminar(Plan a) throws DAOException {
+    public void delete(Plan a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
@@ -128,12 +127,12 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
     }
 
     @Override
-    public ObservableList<Plan> obtenerTodos() throws DAOException {
+    public ObservableList<Plan> all() throws DAOException {
         return null;
     }
 
     @Override
-    public ObservableList<Plan> obtenerRutinas() throws DAOException {
+    public ObservableList<Plan> allRutinas() throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Plan> l = FXCollections.observableArrayList();
@@ -166,7 +165,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
     }
 
     @Override
-    public ObservableList<Plan> obtenerDietas() throws DAOException {
+    public ObservableList<Plan> allDietas() throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Plan> l = FXCollections.observableArrayList();
@@ -199,13 +198,13 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
     }
 
     @Override
-    public Plan obtener(String equal) throws DAOException {
+    public Plan select(Integer equal) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         Plan l = null;
         try {
             s = conex.prepareStatement(SELECT);
-            s.setInt(1, Integer.parseInt(equal));
+            s.setInt(1, equal);
             rs = s.executeQuery();
             if (rs.next()) {
                 l = convertir(rs);
@@ -234,12 +233,12 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
     }
 
     @Override
-    public ObservableList<Plan> obtenerTodos(String equal) throws DAOException {
+    public ObservableList<Plan> where(String equal) throws DAOException {
         return null;
     }
 
     @Override
-    public ObservableList<Plan> obtenerRutinas(String equal) throws DAOException {
+    public ObservableList<Plan> whereRutinas(String equal) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Plan> l = FXCollections.observableArrayList();
@@ -273,7 +272,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
     }
 
     @Override
-    public ObservableList<Plan> obtenerDietas(String equal) throws DAOException {
+    public ObservableList<Plan> whereDietas(String equal) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Plan> l = FXCollections.observableArrayList();

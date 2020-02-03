@@ -19,7 +19,15 @@ public class AlxDiet extends BasePlan {
     private int alxdietkey;
     private Alimento alimento;
     private double cantidad = 0;
-    protected String momento = "";
+
+    //Momentos alimenticios
+    public static final String DESAYUNO = "DESAYUNO";
+    public static final String ALMUERZO = "ALMUERZO";
+    public static final String CENA = "CENA";
+    public static final String PREENTRENO = "PREENTRENO";
+    public static final String POSTENTRENO = "POSTENTRENO";
+    public static final String SNACKAM = "SNACK AM";
+    public static final String SNACKPM = "SNACK PM";
 
     public AlxDiet() {
     }
@@ -51,14 +59,6 @@ public class AlxDiet extends BasePlan {
         this.cantidad = cantidad;
     }
 
-    public String getMomento() {
-        return momento;
-    }
-
-    public void setMomento(String momento) {
-        this.momento = momento;
-    }
-
     public double getKilocaloriasxpeso() {
         return getAlimento().getKilocalorias() * getCantidad() / 100;
     }
@@ -78,7 +78,7 @@ public class AlxDiet extends BasePlan {
     @Override
     public String toString() {
         String a = ((getAlimento().getUnidad().contains("unidad")) ? " unidades de " : " gramos de ");
-        return getCombinacion() + ": " + getCantidad() + a + getAlimento().toString();
+        return getCantidad() + a + getAlimento().toString();
     }
 
     @Override
@@ -87,7 +87,6 @@ public class AlxDiet extends BasePlan {
                 || getMomento().isEmpty()
                 || getDia().isEmpty()
                 || getAlimento().isEmpty()
-                || getCombinacion().isEmpty()
                 || getCantidad() <= 0;
     }
 

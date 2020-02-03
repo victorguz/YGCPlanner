@@ -161,16 +161,6 @@
                      <children>
                         <VBox>
                            <children>
-                              <Label text="Bloque" textFill="#b2b2b2">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                              <ComboBox fx:id="comboBloques" promptText="Bloque 1" visibleRowCount="5" />
-                           </children>
-                        </VBox>
-                        <VBox>
-                           <children>
                               <Label text="Buscar ejercicio" textFill="#b2b2b2">
                                  <padding>
                                     <Insets left="6.0" />
@@ -196,7 +186,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboSeries" prefHeight="27.0" promptText="Series" visibleRowCount="5" />
+                              <ComboBox fx:id="comboSeries" promptText="Series" visibleRowCount="5" />
                            </children>
                         </VBox>
                         <VBox>
@@ -206,7 +196,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboRepeticiones" prefHeight="27.0" promptText="Repeticiones" visibleRowCount="5" />
+                              <ComboBox fx:id="comboRepeticiones" promptText="Repeticiones" visibleRowCount="5" />
                            </children>
                         </VBox>
                      </children>
@@ -218,17 +208,35 @@
                   </Label>
                   <FlowPane hgap="10.0" styleClass="flowpane-centrado" vgap="10.0">
                      <children>
-                        <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" onAction="#getDomingo" prefWidth="90.0" text="Domingo">
+                        <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" prefWidth="90.0" text="Domingo">
                            <toggleGroup>
                               <ToggleGroup fx:id="dias" />
                            </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" onAction="#getLunes" prefWidth="90.0" text="Lunes" toggleGroup="$dias" />
-                        <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" onAction="#getMartes" prefWidth="90.0" text="Martes" toggleGroup="$dias" />
-                        <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" onAction="#getMiercoles" prefWidth="90.0" text="Miercoles" toggleGroup="$dias" />
-                        <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" onAction="#getJueves" prefWidth="90.0" text="Jueves" toggleGroup="$dias" />
-                        <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" onAction="#getViernes" prefWidth="90.0" text="Viernes" toggleGroup="$dias" />
-                        <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" onAction="#getSabado" prefWidth="90.0" text="Sábado" toggleGroup="$dias" />
+                        <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" prefWidth="90.0" text="Lunes" toggleGroup="$dias" />
+                        <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" prefWidth="90.0" text="Martes" toggleGroup="$dias" />
+                        <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" prefWidth="90.0" text="Miercoles" toggleGroup="$dias" />
+                        <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" prefWidth="90.0" text="Jueves" toggleGroup="$dias" />
+                        <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" prefWidth="90.0" text="Viernes" toggleGroup="$dias" />
+                        <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" prefWidth="90.0" text="Sábado" toggleGroup="$dias" />
+                     </children>
+                  </FlowPane>
+                  <Label text="Bloque de ejercicios*" textFill="#757575">
+                     <padding>
+                        <Insets left="6.0" />
+                     </padding>
+                  </Label>
+                  <FlowPane fx:id="momentos" hgap="10.0" styleClass="flowpane-centrado" vgap="10.0">
+                     <children>
+                        <ToggleButton fx:id="buttonBloque1" mnemonicParsing="false" onAction="#getBloque1" prefWidth="90.0" text="Bloque 1">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="momento" />
+                           </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="buttonBloque2" mnemonicParsing="false" onAction="#getBloque2" prefWidth="90.0" text="Bloque 2" toggleGroup="$momento" />
+                        <ToggleButton fx:id="buttonBloque3" mnemonicParsing="false" onAction="#getBloque3" prefWidth="90.0" text="Bloque 3" toggleGroup="$momento" />
+                        <ToggleButton fx:id="buttonBloque4" mnemonicParsing="false" onAction="#getBloque4" prefWidth="90.0" text="Bloque 4" toggleGroup="$momento" />
+                        <ToggleButton fx:id="buttonBloque5" mnemonicParsing="false" onAction="#getBloque5" prefWidth="90.0" text="Bloque 5" toggleGroup="$momento" />
                      </children>
                   </FlowPane>
                </children>

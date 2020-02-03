@@ -144,7 +144,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
     }
 
     @Override
-    public ObservableList<Medida> obtenerTodos() throws DAOException {
+    public ObservableList<Medida> all() throws DAOException {
         System.out.println("Este método no funciona.");
         return null;
     }
@@ -156,7 +156,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
      * @throws DAOException
      */
     @Override
-    public ObservableList<Medida> obtenerTodos(String clientekey) throws DAOException {
+    public ObservableList<Medida> where(String clientekey) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Medida> m = FXCollections.observableArrayList();
@@ -189,45 +189,10 @@ public class SQLiteMedidasDAO implements MedidasDAO {
     }
 
     @Override
-    public Medida obtener(String equal) throws DAOException {
+    public Medida select(Integer equal) throws DAOException {
         throw new DAOException("Este metodo no funciona");
     }
 
-    @Override
-    public Medida obtener(int clientekey, LocalDate fecha) throws DAOException {
-        PreparedStatement s = null;
-        ResultSet rs = null;
-        Medida c = null;
-        try {
-            s = conex.prepareStatement(GETONE);
-            s.setInt(1, clientekey);
-            s.setDate(2, Date.valueOf(fecha));
-            rs = s.executeQuery();
-            if (rs.next()) {
-                c = convertir(rs);
-            } else {
-                throw new DAOException("Medida no encontrada");
-            }
-        } catch (SQLException ex) {
-            throw new DAOException(ex);
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    throw new DAOException(ex);
-                }
-            }
-            if (s != null) {
-                try {
-                    s.close();
-                } catch (SQLException ex) {
-                    throw new DAOException(ex);
-                }
-            }
-        }
-        return c;
-    }
 
     @Override
     public Medida convertir(ResultSet rs) throws DAOException {
@@ -238,7 +203,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             Cliente c = new Cliente();
             Medida m = new Medida();
             m.setMedidakey(rs.getInt("medidakey"));
-            m.setCliente(Controller.getClientes().obtener("" + rs.getInt("clienteKey")));
+            m.setCliente(Controller.getClientes().select(rs.getInt("clienteKey")));
             m.setFecha(rs.getDate("fecha").toLocalDate());
             m.setPeso(rs.getDouble("peso"));
             m.setAltura(rs.getDouble("ALTURA"));
@@ -261,8 +226,8 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             m.setObjetivo((rs.getString("objetivo")));
             m.setActividad((rs.getString("actividad")));
             m.setMuneca(rs.getDouble("muneca"));
-            m.setRutina(Controller.getPlanes().obtener(rs.getInt("rutinakey")+""));
-            m.setDieta(Controller.getPlanes().obtener(rs.getInt("dietakey")+""));
+            m.setRutina(Controller.getPlanes().select(rs.getInt("rutinakey")));
+            m.setDieta(Controller.getPlanes().select(rs.getInt("dietakey")));
             
             return m;
         } catch (SQLException ex) {
@@ -275,7 +240,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
      * @throws DAOException
      */
     @Override
-    public void insertar(Medida a) throws DAOException {
+    public void insert(Medida a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
@@ -321,7 +286,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
     }
 
     @Override
-    public void modificar(Medida a) throws DAOException {
+    public void update(Medida a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
@@ -367,7 +332,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
     }
 
     @Override
-    public void eliminar(Medida a) throws DAOException {
+    public void delete(Medida a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);

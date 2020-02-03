@@ -20,17 +20,13 @@ import java.io.IOException;
 import modelo.cliente.Cliente;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import modelo.cliente.Medida;
-import modelo.plan.Plan;
 
 /**
  *
@@ -60,9 +56,6 @@ public class ClienteController extends Controller<Cliente> {
     private ToggleButton buttonMedidas;
 
     @FXML
-    private ToggleButton buttonEstadisticas;
-    
-    @FXML
     private ToggleButton buttonRutina;
 
     @FXML
@@ -75,7 +68,6 @@ public class ClienteController extends Controller<Cliente> {
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
         updated();
-
     }
 
     /**
@@ -92,10 +84,6 @@ public class ClienteController extends Controller<Cliente> {
                         if (isClienteUpdated()) {
                             mostrar();
                             setClienteUpdated(false);
-                            obtenerMedidas();
-                        }
-                        if (isMedidasUpdated()) {
-                            obtenerMedidas();
                         }
                     }
                 };
@@ -165,7 +153,7 @@ public class ClienteController extends Controller<Cliente> {
             if (c.isEmpty()) {
                 mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
-                getClientes().insertar(c);
+                getClientes().insert(c);
                 setClientesUpdated(true);
                 mensaje("Cliente registrado", "exito");
             }
@@ -178,7 +166,7 @@ public class ClienteController extends Controller<Cliente> {
     public void eliminar() {
         if (!getCliente().isEmpty()) {
             try {
-                getClientes().eliminar(getCliente());
+                getClientes().delete(getCliente());
                 setClientesUpdated(true);
                 mensaje("Cliente eliminado", "exito");
             } catch (DAOException ex) {
@@ -196,7 +184,7 @@ public class ClienteController extends Controller<Cliente> {
             try {
                 Cliente c = captar();
                 c.setClienteKey(getCliente().getClienteKey());
-                getClientes().modificar(c);
+                getClientes().update(c);
                 setClientesUpdated(true);
                 mensaje("Cliente modificado", "exito");
             } catch (DAOException ex) {
@@ -215,14 +203,18 @@ public class ClienteController extends Controller<Cliente> {
             if (buttonBienvenida.isSelected()) {
                 f.addBienvenida();
             }
-            if (buttonMedidas.isSelected()) {
-                f.addMedidas();
-            }
-            if (buttonRutina.isSelected()) {
-                f.addRutina();
-            }
-            if (buttonDieta.isSelected()) {
-                f.addDieta();
+            if (medidas.isEmpty()) {
+                mensaje("Este cliente no tiene medidas, ni planes asignados", "error");
+            } else {
+                if (buttonMedidas.isSelected()) {
+                    f.addMedidas();
+                }
+                if (buttonRutina.isSelected()) {
+                    f.addRutina();
+                }
+                if (buttonDieta.isSelected()) {
+                    f.addDieta();
+                }
             }
             f.close();
         } catch (DocumentException | IOException | DAOException ex) {
@@ -232,23 +224,6 @@ public class ClienteController extends Controller<Cliente> {
 
     @Override
     public void obtener() {
-    }
-
-    public void obtenerMedidas() {
-        PDF pdf;
-        try {
-            pdf = new PDF(getCliente());
-            pdf.createPDF();
-            //pdf.addBienvenida();
-            pdf.addMedidas();
-            /* obtenerDietasYRutinas();
-            if (!comboDietas.getItems().isEmpty()) {
-                pdf.addDieta(comboDietas.getSelectionModel().getSelectedItem());
-            }*/
-            pdf.close();
-        } catch (DAOException | IOException | DocumentException ex) {
-            excepcion(ex);
-        }
     }
 
 }

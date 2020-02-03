@@ -46,7 +46,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
         this.conex = conex;
     }
     @Override
-    public void insertar(Cliente a) throws DAOException {
+    public void insert(Cliente a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
@@ -75,7 +75,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
     }
 
     @Override
-    public void modificar(Cliente a) throws DAOException {
+    public void update(Cliente a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
@@ -105,7 +105,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
     }
 
     @Override
-    public void eliminar(Cliente a) throws DAOException {
+    public void delete(Cliente a) throws DAOException {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
@@ -127,7 +127,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
     }
 
     @Override
-    public ObservableList<Cliente> obtenerTodos() throws DAOException {
+    public ObservableList<Cliente> all() throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Cliente> clientes = FXCollections.observableArrayList();
@@ -160,13 +160,13 @@ public class SQLiteClientesDAO implements ClientesDAO {
     }
 
     @Override
-    public Cliente obtener(String equal) throws DAOException {
+    public Cliente select(Integer clientekey) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         Cliente c = null;
         try {
             s = conex.prepareStatement(ONE);
-            s.setInt(1, Integer.parseInt(equal));
+            s.setInt(1, clientekey);
             rs = s.executeQuery();
             if (rs.next()) {
                 c = convertir(rs);
@@ -195,7 +195,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
     }
 
     @Override
-    public ObservableList<Cliente> obtenerTodos(String equal) throws DAOException {
+    public ObservableList<Cliente> where(String equal) throws DAOException {
 
         PreparedStatement s = null;
         ResultSet rs = null;

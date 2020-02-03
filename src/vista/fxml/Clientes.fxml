@@ -9,7 +9,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -33,7 +32,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="110.0" promptText="Nombre" />
+                              <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" prefWidth="110.0" promptText="Nombre" />
                            </children>
                         </VBox>
                         <VBox>
@@ -43,7 +42,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="110.0" promptText="Apellido" />
+                              <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" prefWidth="110.0" promptText="Apellido" />
                            </children>
                         </VBox>
                         <VBox>
@@ -53,7 +52,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="comboTipoDoc" prefHeight="27.0" promptText="Cédula de ciudadanía" />
+                              <ComboBox fx:id="comboTipoDoc" promptText="Cédula de ciudadanía" />
                            </children>
                         </VBox>
                         <VBox>
@@ -63,33 +62,29 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" prefHeight="27.0" prefWidth="100.0" promptText="N° documento" />
+                              <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" prefWidth="100.0" promptText="N° documento" />
                            </children>
                         </VBox>
-                        <HBox>
+                        <VBox>
                            <children>
-                              <VBox>
-                                 <children>
-                                    <Label text="Edad" textFill="#b2b2b2">
-                                       <padding>
-                                          <Insets left="6.0" />
-                                       </padding>
-                                    </Label>
-                                    <TextField fx:id="textEdad" onKeyTyped="#consumeDigits" prefHeight="27.0" prefWidth="50.0" promptText="Edad" />
-                                 </children>
-                              </VBox>
-                              <VBox>
-                                 <children>
-                                    <Label text="Sexo" textFill="#b2b2b2">
-                                       <padding>
-                                          <Insets left="6.0" />
-                                       </padding>
-                                    </Label>
-                                    <ComboBox fx:id="comboSexo" prefHeight="27.0" promptText="Hombre" />
-                                 </children>
-                              </VBox>
+                              <Label text="Edad" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textEdad" onKeyTyped="#consumeDigits" prefWidth="50.0" promptText="Edad" />
                            </children>
-                        </HBox>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label text="Sexo" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboSexo" promptText="Hombre" />
+                           </children>
+                        </VBox>
                      </children>
                   </FlowPane>
                   <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">

@@ -58,23 +58,23 @@ public class ConfigController extends Controller<Referencia> {
     public void registrar() {
         try {
             Referencia dash = getDash();
-            getReferencias().insertar(dash);
+            getReferencias().insert(dash);
             Referencia tel1 = getTel1();
-            getReferencias().insertar(tel1);
+            getReferencias().insert(tel1);
             Referencia web1 = getWeb1();
-            getReferencias().insertar(web1);
+            getReferencias().insert(web1);
             Referencia correo1 = getCorreo1();
-            getReferencias().insertar(correo1);
+            getReferencias().insert(correo1);
             Referencia face1 = getFace1();
-            getReferencias().insertar(face1);
+            getReferencias().insert(face1);
             Referencia insta1 = getInsta1();
-            getReferencias().insertar(insta1);
+            getReferencias().insert(insta1);
             Referencia bienvenida = getBienvenida();
-            getReferencias().insertar(bienvenida);
+            getReferencias().insert(bienvenida);
             Referencia titulobienvenida = getTituloBienvenida();
-            getReferencias().insertar(titulobienvenida);
+            getReferencias().insert(titulobienvenida);
             Referencia wa1 = getWhatsapp1();
-            getReferencias().insertar(wa1);
+            getReferencias().insert(wa1);
         } catch (DAOException ex) {
             excepcion(ex);
         }
@@ -84,23 +84,23 @@ public class ConfigController extends Controller<Referencia> {
     public void modificar() {
         try {
              Referencia dash = getDash();
-            getReferencias().modificar(dash);
+            getReferencias().update(dash);
             Referencia tel1 = getTel1();
-            getReferencias().modificar(tel1);
+            getReferencias().update(tel1);
             Referencia web1 = getWeb1();
-            getReferencias().modificar(web1);
+            getReferencias().update(web1);
             Referencia correo1 = getCorreo1();
-            getReferencias().modificar(correo1);
+            getReferencias().update(correo1);
             Referencia face1 = getFace1();
-            getReferencias().modificar(face1);
+            getReferencias().update(face1);
             Referencia insta1 = getInsta1();
-            getReferencias().modificar(insta1);
+            getReferencias().update(insta1);
             Referencia bienvenida = getBienvenida();
-            getReferencias().modificar(bienvenida);
+            getReferencias().update(bienvenida);
             Referencia titulobienvenida = getTituloBienvenida();
-            getReferencias().modificar(titulobienvenida);
+            getReferencias().update(titulobienvenida);
             Referencia wa1 = getWhatsapp1();
-            getReferencias().modificar(wa1);
+            getReferencias().update(wa1);
             mensaje("Configuración modificada", "exito");
         } catch (DAOException ex) {
             excepcion(ex);
@@ -237,15 +237,15 @@ public class ConfigController extends Controller<Referencia> {
     @Override
     public void obtener() {
         try {
-            setTel1(getReferencias().obtener("tel1"));
-            setWeb1(getReferencias().obtener("web1"));
-            setCorreo1(getReferencias().obtener("correo1"));
-            setInsta1(getReferencias().obtener("insta1"));
-            setFace1(getReferencias().obtener("face1"));
-            setWhatsapp1(getReferencias().obtener("wa1"));
-            setTituloBienvenida(getReferencias().obtener("titulobienvenida"));
-            setBienvenida(getReferencias().obtener("bienvenida"));
-            setDash(getReferencias().obtener("dash"));
+            setTel1(getReferencias().select("tel1"));
+            setWeb1(getReferencias().select("web1"));
+            setCorreo1(getReferencias().select("correo1"));
+            setInsta1(getReferencias().select("insta1"));
+            setFace1(getReferencias().select("face1"));
+            setWhatsapp1(getReferencias().select("wa1"));
+            setTituloBienvenida(getReferencias().select("titulobienvenida"));
+            setBienvenida(getReferencias().select("bienvenida"));
+            setDash(getReferencias().select("dash"));
         } catch (DAOException ex) {
             excepcion(ex);
         }

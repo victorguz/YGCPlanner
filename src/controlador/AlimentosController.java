@@ -63,7 +63,7 @@ public class AlimentosController extends Controller<Alimento> {
             if (c.isEmpty()) {
                     mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
-                getAlimentos().insertar(c);
+                getAlimentos().insert(c);
                 mensaje("Alimento registrado", "exito");
                 obtener();
                 setAlimentosUpdated(true);
@@ -80,7 +80,7 @@ public class AlimentosController extends Controller<Alimento> {
                 Alimento a = captar();
                 if (!a.isEmpty()) {
                     a.setAlimentokey(comboAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
-                    getAlimentos().modificar(a);
+                    getAlimentos().update(a);
                     textBuscarAlimento.setText(textNombre.getText());
                     obtener();
                     setAlimentosUpdated(true);
@@ -104,7 +104,7 @@ public class AlimentosController extends Controller<Alimento> {
                 Alimento a = captar();
                 if (!a.isEmpty()) {
                     a.setAlimentokey(comboAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
-                    getAlimentos().eliminar(a);
+                    getAlimentos().delete(a);
                     mensaje("Alimento eliminado", "exito");
                     obtener();
                     setAlimentosUpdated(true);
@@ -165,9 +165,9 @@ public class AlimentosController extends Controller<Alimento> {
         try {
             comboAlimentos.getItems().clear();
             if (textBuscarAlimento.getText().isEmpty()) {
-                alimentos = getAlimentos().obtenerTodos();
+                alimentos = getAlimentos().all();
             } else {
-                alimentos = getAlimentos().obtenerTodos(textBuscarAlimento.getText());
+                alimentos = getAlimentos().where(textBuscarAlimento.getText());
             }
             if (!alimentos.isEmpty()) {
                 comboAlimentos.setItems(alimentos);

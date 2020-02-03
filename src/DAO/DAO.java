@@ -21,17 +21,17 @@ import org.sqlite.JDBC;
 public interface DAO<T, K> {
 
 
-    void insertar(T a) throws DAOException;
+    void insert(T a) throws DAOException;
 
-    void modificar(T a) throws DAOException;
+    void update(T a) throws DAOException;
 
-    void eliminar(T a) throws DAOException;
+    void delete(T a) throws DAOException;
 
     T convertir(ResultSet rs) throws DAOException;
 
-    ObservableList<T> obtenerTodos() throws DAOException;
+    ObservableList<T> all() throws DAOException;
 
-    ObservableList<T> obtenerTodos(String dato) throws DAOException;
+    ObservableList<T> where(String dato) throws DAOException;
 
-    T obtener(String equal) throws DAOException;
+    T select(K equal) throws DAOException;
 }

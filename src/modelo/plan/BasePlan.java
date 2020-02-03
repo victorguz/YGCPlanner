@@ -12,8 +12,9 @@ package modelo.plan;
 public abstract class BasePlan {
 
     private String dia = "";
-    private String combinacion = "";
+    private String momento = "";
     private Plan plan;
+    //Dias
     public static final String DOMINGO = "DOMINGO";
     public static final String LUNES = "LUNES";
     public static final String MARTES = "MARTES";
@@ -21,14 +22,7 @@ public abstract class BasePlan {
     public static final String JUEVES = "JUEVES";
     public static final String VIERNES = "VIERNES";
     public static final String SABADO = "SABADO";
-    public static final String DESAYUNO = "DESAYUNO";
-    public static final String ALMUERZO = "ALMUERZO";
-    public static final String CENA = "CENA";
-    public static final String PREENTRENO = "PREENTRENO";
-    public static final String POSTENTRENO = "POSTENTRENO";
-    public static final String ENTRENO = "ENTRENO";
-    public static final String MERIENDA = "MERIENDA";
-    public static final String EXTRA = "EXTRA";
+    
 
     public BasePlan() {
     }
@@ -51,12 +45,12 @@ public abstract class BasePlan {
         this.plan = plan;
     }
 
-    public String getCombinacion() {
-        return combinacion;
+    public String getMomento() {
+        return momento;
     }
 
-    public void setCombinacion(String combinacion) {
-        this.combinacion = combinacion;
+    public void setMomento(String momento) {
+        this.momento = momento;
     }
 
 }
