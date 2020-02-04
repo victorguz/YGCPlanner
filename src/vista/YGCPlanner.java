@@ -28,15 +28,12 @@ public class YGCPlanner extends Application {
 
     @Override
     public void start(Stage stage) {
-        Font.loadFont(getClass().getResource
-            ("/fonts/Roboto-Black.ttf").toExternalForm(), 10);
         stagestatic = stage;
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("fxml/Home.fxml"));
             Scene scene = new Scene(root);
             stage.setTitle("Dieta y ejercicio - Planificador Yezid Guzman Coach");
-            stage.getIcons().add(new Image("/imagen/icono/icono24.png"));
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
