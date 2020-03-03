@@ -5,32 +5,18 @@ package archivo;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import DAO.DAOException;
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chapter;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import controlador.Controller;
 import controlador.Operacion;
-import java.awt.Desktop;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import modelo.Referencia;
 import modelo.cliente.Cliente;
@@ -39,8 +25,14 @@ import modelo.plan.AlxDiet;
 import modelo.plan.EjxRut;
 import modelo.plan.Plan;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
- *
  * @author 201621279487
  */
 public class PDF {
@@ -64,28 +56,6 @@ public class PDF {
         setFile(url);
     }
 
-    public void setFile(String url) throws IOException {
-        if (url.isEmpty()) {
-            url = System.getProperty("user.home") + "\\Desktop\\" + getCliente().getNombre() + "_" + getCliente().getApellido() + ".pdf";
-        }
-        this.file = new File(url);
-        if (!this.file.exists()) {
-            this.file.createNewFile();
-        }
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
-    }
-
-    public Document getDocument() {
-        return document;
-    }
-
     //YGC Fonts
     public static Font getFont(String nombre, int size, int red, int green, int blue) {
         try {
@@ -94,26 +64,14 @@ public class PDF {
                 quantify = new File("src/fonts/Roboto-Regular.ttf");
             } else if (nombre.equalsIgnoreCase("thin")) {
                 quantify = new File("src/fonts/Roboto-Thin.ttf");
-            } else if (nombre.equalsIgnoreCase("thin-italic")) {
-                quantify = new File("src/fonts/Roboto-ThinItalic.ttf");
             } else if (nombre.equalsIgnoreCase("medium")) {
                 quantify = new File("src/fonts/Roboto-Medium.ttf");
-            } else if (nombre.equalsIgnoreCase("medium-italic")) {
-                quantify = new File("src/fonts/Roboto-MediumItalic.ttf");
             } else if (nombre.equalsIgnoreCase("light")) {
                 quantify = new File("src/fonts/Roboto-Light.ttf");
-            } else if (nombre.equalsIgnoreCase("light-italic")) {
-                quantify = new File("src/fonts/Roboto-LightItalic.ttf");
-            } else if (nombre.equalsIgnoreCase("italic")) {
-                quantify = new File("src/fonts/Roboto-Italic.ttf");
             } else if (nombre.equalsIgnoreCase("bold")) {
                 quantify = new File("src/fonts/Roboto-Bold.ttf");
-            } else if (nombre.equalsIgnoreCase("bold-italic")) {
-                quantify = new File("src/fonts/Roboto-BoldItalic.ttf");
             } else if (nombre.equalsIgnoreCase("black")) {
                 quantify = new File("src/fonts/Roboto-Black.ttf");
-            } else if (nombre.equalsIgnoreCase("black-italic")) {
-                quantify = new File("src/fonts/Roboto-BlackItalic.ttf");
             } else {
                 quantify = new File("src/fonts/Roboto-Regular.ttf");
             }
@@ -128,7 +86,29 @@ public class PDF {
         return null;
     }
 
-    public void createPDF() throws FileNotFoundException, DocumentException, IOException, DAOException {
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(String url) throws IOException {
+        if (url.isEmpty()) {
+            url = System.getProperty("user.home") + "\\Desktop\\" + getCliente().getNombre() + "_" + getCliente().getApellido() + ".pdf";
+        }
+        this.file = new File(url);
+        if (!this.file.exists()) {
+            this.file.createNewFile();
+        }
+    }
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
+
+    public void createPDF() throws DocumentException, IOException, DAOException {
         Referencia ins = Controller.getReferencias().select("insta1");
         Referencia fb = Controller.getReferencias().select("face1");
         Referencia tel = Controller.getReferencias().select("tel1");
@@ -143,7 +123,7 @@ public class PDF {
         chapter = new Chapter(1);
         chapter.setNumberDepth(0);
         Image black;
-        black = Image.getInstance(new File("src/imagen/black.jpg").toURL());
+        black = Image.getInstance("src/imagen/black.jpg");
         black.scaleAbsolute(PageSize.LETTER);
         black.setAbsolutePosition(0, 0);
         chapter.add(black);
@@ -200,14 +180,14 @@ public class PDF {
         getDocument().add(chapter);
     }
 
-    public void addBienvenida() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
+    public void addBienvenida() throws DocumentException, IOException, DAOException {
         Referencia titulo = Controller.getReferencias().select("titulobienvenida");
         Referencia bienvenida = Controller.getReferencias().select("bienvenida");
 
         chapter = new Chapter(0);
         chapter.setNumberDepth(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/bienvenida.jpg").toURL());
+        page = Image.getInstance("src/imagen/bienvenida.jpg");
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
@@ -224,9 +204,9 @@ public class PDF {
 
         Paragraph pBienvenida = new Paragraph("\n"
                 + ((bienvenida.getDato().length() > 305)
-                        ? bienvenida.getDato().substring(0, 305)
-                        : bienvenida.getDato())
-                        .toUpperCase(),
+                ? bienvenida.getDato().substring(0, 305)
+                : bienvenida.getDato())
+                .toUpperCase(),
                 getFont("thin", 14, 230, 230, 230));
         pBienvenida.setSpacingBefore(40);
         pBienvenida.setIndentationLeft(100);
@@ -240,7 +220,7 @@ public class PDF {
         getDocument().add(chapter);
     }
 
-    public void addMedidas() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
+    public void addMedidas() throws DocumentException, IOException, DAOException {
         if (getCliente() != null) {
             ObservableList<Medida> medidas = Controller.getMedidas().where(getCliente().getClienteKey() + "");
             if (!medidas.isEmpty()) {
@@ -253,6 +233,7 @@ public class PDF {
                 chapter.add(page);
 
                 Font fuente = getFont("light", 10, 30, 30, 30);
+                Font bold = getFont("bold", 11, 230, 230, 230);
                 //Informacion del cliente
                 //NOMBRE
                 Paragraph p = new Paragraph(
@@ -269,28 +250,28 @@ public class PDF {
                 PdfPTable tablaCliente = new PdfPTable(4);
                 //Titulos para datos del cliente
                 PdfPCell cellComplexion = new PdfPCell();
-                Paragraph pComplexion = new Paragraph("COMPLEXION FISICA", getFont("bold", 11, 230, 230, 230));
+                Paragraph pComplexion = new Paragraph("COMPLEXION FISICA", bold);
                 cellComplexion.setBackgroundColor(new BaseColor(24, 22, 33));
                 pComplexion.setAlignment(Element.ALIGN_CENTER);
                 cellComplexion.addElement(pComplexion);
                 tablaCliente.addCell(cellComplexion);
 
                 PdfPCell cellEdad = new PdfPCell();
-                Paragraph pEdad = new Paragraph("EDAD", getFont("bold", 11, 230, 230, 230));
+                Paragraph pEdad = new Paragraph("EDAD", bold);
                 cellEdad.setBackgroundColor(new BaseColor(24, 22, 33));
                 pEdad.setAlignment(Element.ALIGN_CENTER);
                 cellEdad.addElement(pEdad);
                 tablaCliente.addCell(cellEdad);
 
                 PdfPCell cellAltura = new PdfPCell();
-                Paragraph pAltura = new Paragraph("ALTURA", getFont("bold", 11, 230, 230, 230));
+                Paragraph pAltura = new Paragraph("ALTURA", bold);
                 cellAltura.setBackgroundColor(new BaseColor(24, 22, 33));
                 pAltura.setAlignment(Element.ALIGN_CENTER);
                 cellAltura.addElement(pAltura);
                 tablaCliente.addCell(cellAltura);
 
                 PdfPCell cellSexo = new PdfPCell();
-                Paragraph pSexo = new Paragraph("SEXO", getFont("bold", 11, 230, 230, 230));
+                Paragraph pSexo = new Paragraph("SEXO", bold);
                 cellSexo.setBackgroundColor(new BaseColor(24, 22, 33));
                 pSexo.setAlignment(Element.ALIGN_CENTER);
                 cellSexo.addElement(pSexo);
@@ -338,7 +319,7 @@ public class PDF {
                 if (medidas.size() == 1) {
                     tablaMedidas = new PdfPTable(2);
                     PdfPCell cellMedida = new PdfPCell();
-                    Paragraph pMedida = new Paragraph("Detalle", getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedida = new Paragraph("Detalle", bold);
                     cellMedida.setBackgroundColor(new BaseColor(24, 22, 33));
                     cellMedida.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                     pMedida.setAlignment(Element.ALIGN_CENTER);
@@ -374,21 +355,21 @@ public class PDF {
                 if (medidas.size() == 2) {
                     tablaMedidas = new PdfPTable(3);
                     PdfPCell cellMedida = new PdfPCell();
-                    Paragraph pMedida = new Paragraph("Detalle", getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedida = new Paragraph("Detalle", bold);
                     cellMedida.setBackgroundColor(new BaseColor(24, 22, 33));
                     pMedida.setAlignment(Element.ALIGN_CENTER);
                     cellMedida.addElement(pMedida);
                     tablaMedidas.addCell(cellMedida);
 
                     PdfPCell cellMedida1 = new PdfPCell();
-                    Paragraph pMedida1 = new Paragraph("Medida 1", getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedida1 = new Paragraph("Medida 1", bold);
                     cellMedida1.setBackgroundColor(new BaseColor(24, 22, 33));
                     pMedida1.setAlignment(Element.ALIGN_CENTER);
                     cellMedida1.addElement(pMedida1);
                     tablaMedidas.addCell(cellMedida1);
 
                     PdfPCell cellMedidaFin = new PdfPCell();
-                    Paragraph pMedidaFin = new Paragraph("Medida actual", getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedidaFin = new Paragraph("Medida actual", bold);
                     cellMedidaFin.setBackgroundColor(new BaseColor(24, 22, 33));
                     pMedidaFin.setAlignment(Element.ALIGN_CENTER);
                     cellMedidaFin.addElement(pMedidaFin);
@@ -424,28 +405,28 @@ public class PDF {
                     int n = (int) Math.ceil(medidas.size() / 2 + 0.1);
                     tablaMedidas = new PdfPTable(4);
                     PdfPCell cellMedida = new PdfPCell();
-                    Paragraph pMedida = new Paragraph("Detalle", getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedida = new Paragraph("Detalle", bold);
                     cellMedida.setBackgroundColor(new BaseColor(24, 22, 33));
                     pMedida.setAlignment(Element.ALIGN_CENTER);
                     cellMedida.addElement(pMedida);
                     tablaMedidas.addCell(cellMedida);
 
                     PdfPCell cellMedida1 = new PdfPCell();
-                    Paragraph pMedida1 = new Paragraph("Medida 1", getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedida1 = new Paragraph("Medida 1", bold);
                     cellMedida1.setBackgroundColor(new BaseColor(24, 22, 33));
                     pMedida1.setAlignment(Element.ALIGN_CENTER);
                     cellMedida1.addElement(pMedida1);
                     tablaMedidas.addCell(cellMedida1);
 
                     PdfPCell cellMedidaIntermedio = new PdfPCell();
-                    Paragraph pMedidaIntermedio = new Paragraph("Medida " + n, getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedidaIntermedio = new Paragraph("Medida " + n, bold);
                     cellMedidaIntermedio.setBackgroundColor(new BaseColor(24, 22, 33));
                     pMedidaIntermedio.setAlignment(Element.ALIGN_CENTER);
                     cellMedidaIntermedio.addElement(pMedidaIntermedio);
                     tablaMedidas.addCell(cellMedidaIntermedio);
 
                     PdfPCell cellMedidaFin = new PdfPCell();
-                    Paragraph pMedidaFin = new Paragraph("Medida actual (" + medidas.size() + ")", getFont("bold", 11, 230, 230, 230));
+                    Paragraph pMedidaFin = new Paragraph("Medida actual (" + medidas.size() + ")", bold);
                     cellMedidaFin.setBackgroundColor(new BaseColor(24, 22, 33));
                     pMedidaFin.setAlignment(Element.ALIGN_CENTER);
                     cellMedidaFin.addElement(pMedidaFin);
@@ -494,7 +475,7 @@ public class PDF {
         }
     }
 
-    public void addDieta() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
+    public void addDieta() throws DocumentException, IOException, DAOException {
         chapter = new Chapter(0);
         Image page;
         page = Image.getInstance(new File("src/imagen/alimentacionT.jpg").toURL());
@@ -514,26 +495,9 @@ public class PDF {
         t.setSpacingBefore(80);
         t.setAlignment(Element.ALIGN_CENTER);
         chapter.add(t);
-
-        Paragraph n = new Paragraph("Hola " + Operacion.nombreCamelCase(getCliente().getNombre()) + " "
-                + "es un gusto vivir contigo el reto de buscar tu mejor "
-                + "versión, seguro que juntos seremos mejores.\n\n"
-                + "Lo siguiente es una guía donde encontraras un plan "
-                + "de alimentación enfocado a tus necesidades y objetivos. "
-                + "Recuerda que esto es un trabajo de dos y el objetivo "
-                + "número uno debe ser adquirir buenos hábitos los cuales "
-                + "nos garantizan como resultados un mejor estilo de vida "
-                + "y como consecuencia un mejor estado físico, "
-                + "apariencia y salud.\n\n"
-                + "Es importante saber también que el siguiente "
-                + "menú es una guía y aunque es importante que te "
-                + "comprometas con tu objetivo y lo hagas al pie "
-                + "de la letra el encargado de darle variabilidad "
-                + "eres tú sustituyendo los alimentos por otros que "
-                + "te brinden un aporte similar pero que no "
-                + "interrumpan tus objetivos."
-                + "\n\n"
-                + "¡VAMOS CON TODA!", parrafoPeque);
+        Referencia r = Controller.getReferencias().select("textodieta");
+        Paragraph n = new Paragraph("Hola "
+                + Operacion.nombreCamelCase(getCliente().getNombre()) + r.getDato().toUpperCase(), parrafoPeque);
         n.setSpacingBefore(20);
         n.setAlignment(Element.ALIGN_CENTER);
 
@@ -546,8 +510,8 @@ public class PDF {
             Paragraph p = new Paragraph(dieta.getDescripcion().toUpperCase(), parrafoPeque);
             p.setSpacingBefore(20);
             p.setAlignment(Element.ALIGN_CENTER);
-            chapter.add(d); 
-            
+            chapter.add(d);
+
             chapter.add(p);
         }
 
@@ -562,7 +526,7 @@ public class PDF {
         addAlimentos(dieta.getPlankey(), AlxDiet.DOMINGO);
     }
 
-    public void addAlimentos(int plankey, String dia) throws DAOException, MalformedURLException, IOException, BadElementException, DocumentException {
+    public void addAlimentos(int plankey, String dia) throws DAOException, IOException, DocumentException {
         ObservableList<AlxDiet> list = Controller.getAlxdiets().where(plankey, dia);
         if (!list.isEmpty()) {
             String DESAYUNO = "";
@@ -686,7 +650,7 @@ public class PDF {
         }
     }
 
-    public void addRutina() throws DocumentException, MalformedURLException, BadElementException, IOException, DAOException {
+    public void addRutina() throws DocumentException, IOException, DAOException {
         chapter = new Chapter(0);
         Image page;
         page = Image.getInstance(new File("src/imagen/entrenamiento.jpg").toURL());
@@ -706,26 +670,8 @@ public class PDF {
         t.setSpacingBefore(80);
         t.setAlignment(Element.ALIGN_CENTER);
         chapter.add(t);
-
-        Paragraph n = new Paragraph("Hola " + Operacion.nombreCamelCase(getCliente().getNombre()) + " "
-                + "es un gusto vivir contigo el reto de buscar tu mejor "
-                + "versión, seguro que juntos seremos mejores.\n\n"
-                + "Lo siguiente es una guía donde encontraras un plan "
-                + "de alimentación enfocado a tus necesidades y objetivos. "
-                + "Recuerda que esto es un trabajo de dos y el objetivo "
-                + "número uno debe ser adquirir buenos hábitos los cuales "
-                + "nos garantizan como resultados un mejor estilo de vida "
-                + "y como consecuencia un mejor estado físico, "
-                + "apariencia y salud.\n\n"
-                + "Es importante saber también que el siguiente "
-                + "menú es una guía y aunque es importante que te "
-                + "comprometas con tu objetivo y lo hagas al pie "
-                + "de la letra el encargado de darle variabilidad "
-                + "eres tú sustituyendo los alimentos por otros que "
-                + "te brinden un aporte similar pero que no "
-                + "interrumpan tus objetivos."
-                + "\n\n"
-                + "¡VAMOS CON TODA!", parrafoPeque);
+        Referencia r = Controller.getReferencias().select("textorutina");
+        Paragraph n = new Paragraph("Hola " + Operacion.nombreCamelCase(getCliente().getNombre()) + r.getDato().toUpperCase(), parrafoPeque);
         n.setSpacingBefore(20);
         n.setAlignment(Element.ALIGN_CENTER);
 
@@ -738,8 +684,8 @@ public class PDF {
             Paragraph p = new Paragraph(rutina.getDescripcion().toUpperCase(), parrafoPeque);
             p.setSpacingBefore(20);
             p.setAlignment(Element.ALIGN_CENTER);
-            chapter.add(d); 
-            
+            chapter.add(d);
+
             chapter.add(p);
         }
 
@@ -754,7 +700,7 @@ public class PDF {
         addEjercicios(rutina.getPlankey(), EjxRut.DOMINGO);
     }
 
-    public void addEjercicios(int plankey, String dia) throws DAOException, MalformedURLException, IOException, BadElementException, DocumentException {
+    public void addEjercicios(int plankey, String dia) throws DAOException, IOException, DocumentException {
         ObservableList<EjxRut> list = Controller.getEjxruts().where(plankey, dia);
         if (!list.isEmpty()) {
             String BLOQUE1 = "";
@@ -839,7 +785,7 @@ public class PDF {
 
             chapter = new Chapter(0);
             Image page;
-            page = Image.getInstance(new File("src/imagen/entrenamiento.jpg").toURL());
+            page = Image.getInstance("/imagen/entrenamiento.jpg");
             page.scaleAbsolute(PageSize.LETTER);
             page.setAbsolutePosition(0, 0);
             chapter.add(page);
@@ -851,6 +797,7 @@ public class PDF {
             document.add(chapter);
         }
     }
+
     public void close() throws IOException {
         document.close();
         Desktop.getDesktop().open(file);

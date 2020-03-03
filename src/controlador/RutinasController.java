@@ -6,27 +6,18 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.ejercicios;
-import static controlador.Controller.getEjercicios;
-import static controlador.Controller.isEjerciciosUpdated;
-import static controlador.Controller.mensaje;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import modelo.plan.AlxDiet;
+import javafx.scene.control.*;
 import modelo.plan.Ejercicio;
 import modelo.plan.EjxRut;
 import modelo.plan.Plan;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
- *
  * @author 201621279487
  */
 public class RutinasController extends Controller<Plan> {
@@ -244,10 +235,24 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
+    private void eliminarEjxRuts() {
+        if (!listView.getItems().isEmpty()) {
+            for (EjxRut a :
+                    listView.getItems()) {
+                try {
+                    getEjxruts().delete(a);
+                } catch (DAOException e) {
+                    excepcion(e);
+                }
+            }
+        }
+    }
+
     @Override
     public void eliminar() {
         try {
             if (!comboRutinas.getItems().isEmpty()) {
+                eliminarEjxRuts();
                 getPlanes().delete(comboRutinas.getSelectionModel().getSelectedItem());
                 obtener();
                 mensaje("Plan de entrenamiento eliminado", "exito");

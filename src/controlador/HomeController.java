@@ -6,6 +6,11 @@
 package controlador;
 
 import DAO.DAOException;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.StackPane;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -13,28 +18,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.StackPane;
 
 /**
- *
  * @author Victor
  */
 public class HomeController extends Controller<StackPane> {
-
-    /**
-     * StackPane principal, contiene todos los demás frames
-     */
-    @FXML
-    protected StackPane holderPane;
-    /**
-     * StackPane que está ubicado en la parte inferior
-     */
-    @FXML
-    public StackPane footer;
 
     //
     //Los siguientes son los frames o escenas a los módulos que hacen
@@ -49,7 +37,16 @@ public class HomeController extends Controller<StackPane> {
     public static StackPane Ejercicios;
     public static StackPane Config;
     public static StackPane Dash;
-
+    /**
+     * StackPane que está ubicado en la parte inferior
+     */
+    @FXML
+    public StackPane footer;
+    /**
+     * StackPane principal, contiene todos los demás frames
+     */
+    @FXML
+    protected StackPane holderPane;
     @FXML
     private ToggleButton buttonClientes;
 
@@ -74,9 +71,9 @@ public class HomeController extends Controller<StackPane> {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         obtener();
-try {
+        try {
             if (getReferencias().select("dash").getDato().equalsIgnoreCase("false")) {
-            buttonClientes.setSelected(true);
+                buttonClientes.setSelected(true);
                 mostrar(Clientes);
             } else {
                 buttonClientes.setSelected(false);
@@ -84,7 +81,8 @@ try {
             }
         } catch (DAOException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-        }    }
+        }
+    }
 
     @Override
     public void obtener() {
@@ -190,7 +188,7 @@ try {
             node = new StackPane();
         }
         holderPane.getChildren().clear();
-        holderPane.getChildren().add((Node) node);
+        holderPane.getChildren().add(node);
         fadeTransition(node, 700);
     }
 

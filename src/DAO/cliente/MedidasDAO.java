@@ -6,7 +6,6 @@
 package DAO.cliente;
 
 import DAO.DAO;
-import java.time.LocalDate;
 import modelo.cliente.Medida;
 
 

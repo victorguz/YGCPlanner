@@ -6,9 +6,10 @@
 package modelo.cliente;
 
 import controlador.Operacion;
+import modelo.plan.Plan;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import modelo.plan.Plan;
 
 /**
  * El proposito de esta clase es almacenar las medidas que cada cliente va
@@ -182,6 +183,10 @@ public class Medida {
         return medidakey;
     }
 
+    public void setMedidakey(int medidakey) {
+        this.medidakey = medidakey;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -204,10 +209,6 @@ public class Medida {
 
     public void setRutina(Plan rutina) {
         this.rutina = rutina;
-    }
-
-    public void setMedidakey(int medidakey) {
-        this.medidakey = medidakey;
     }
 
     public String getObjetivo() {
@@ -337,7 +338,6 @@ public class Medida {
 
     /**
      * Formula de peso ideal aproximado
-     *
      */
     public double getPesoIdealAprox() {
         return Operacion.redondear(getAltura() - 100);
@@ -345,7 +345,6 @@ public class Medida {
 
     /**
      * Formula de peso ideal de Lorentz
-     *
      */
     public double getPesoIdealLorentz() {
         switch (getCliente().getSexo()) {
@@ -360,7 +359,6 @@ public class Medida {
 
     /**
      * Formula de peso ideal de Lorentz
-     *
      */
     public double getPesoIdealMonnerotDumaine() {
         return Operacion.redondear((getAltura() - 100 + 4 * getMuneca()) / 2);
@@ -369,8 +367,6 @@ public class Medida {
     /**
      * Índice de masa corporal: Peso sobre altura al cuadrado, el resultado es
      * en kg/m^2
-     *
-     *
      */
     public double getIndiceMasaCorporal() {
         double a = (getAltura() / 100) * (getAltura() / 100);
@@ -380,8 +376,6 @@ public class Medida {
     /**
      * Índice cinturaAlta-altura Es una medida de la distribución de la grasa
      * corporal más preciso que el imc.
-     *
-     *
      */
     public double getIndiceCinturaAltura() {
         return Operacion.redondear(getCinturaMedia() / getAltura());
@@ -413,7 +407,6 @@ public class Medida {
 
     /**
      * Obtiene las calorías que debe consumir la persona dependiendo de su TMB
-     *
      *
      * @return
      */
@@ -504,20 +497,16 @@ public class Medida {
     /**
      * La densidad corporal se obtiene mediante la ecuación de regresión lineal
      * propuesta por Durning & Womersley en 1974
-     *
-     *
      */
     public double getDensidadCorporalPorPliegues() {
         return Operacion.redondear(getCoeficienteC() - (getCoeficienteM()
                 * Math.log10(getTricipital() + getBicipital()
-                        + getSubescapular() + getSuprailiaco())));
+                + getSubescapular() + getSuprailiaco())));
     }
 
     /**
      * La ecuación de Siri (1956) utiliza la densidad corporal para calcular el
      * porcentaje de masa grasa
-     *
-     *
      */
     public double getPorcentajeGrasaSiri() {
         return Operacion.redondear(((4.95 / getDensidadCorporalPorPliegues()) - 4.5) * 100);
@@ -526,8 +515,6 @@ public class Medida {
     /**
      * Para calcular el peso de la grasa corporal se utiliza el porcentaje de
      * masa grasa (Siri) y el peso en kg de la persona dividido entre 100.
-     *
-     *
      */
     public double getPesoGrasaCorporal() {
         return Operacion.redondear(getPorcentajeGrasaSiri() * getPeso() / 100);
@@ -536,8 +523,6 @@ public class Medida {
     /**
      * Para calcular el porcentaje de masa magra se divide el porcentaje de
      * grasa (siri) entre el peso total en kg
-     *
-     *
      */
     public double getPorcentajeMasaMagra() {
         return Operacion.redondear(100 - getPorcentajeGrasaSiri());
@@ -546,8 +531,6 @@ public class Medida {
     /**
      * Para calcular la masa magra (masa libre de grasa) se utiliza el peso en
      * kg y el peso de grasa corporal (Siri)
-     *
-     *
      */
     public double getMasaLibreDeGrasa() {
         return Operacion.redondear(getPeso() - getPesoGrasaCorporal());
@@ -635,8 +618,8 @@ public class Medida {
                 || getSubescapular() <= 0
                 || getObjetivo().isEmpty()
                 || getActividad().isEmpty()
-                || getDieta()==null
-                || getRutina()==null;
+                || getDieta() == null
+                || getRutina() == null;
 
     }
 
@@ -672,8 +655,8 @@ public class Medida {
 
         n[0][1] = getFecha().format(DateTimeFormatter.ofPattern("d MMM Y")).toUpperCase();
         n[1][1] = getPeso() + " Kg";
-        int s=getActividad().indexOf(": ");
-        n[2][1] = getActividad().substring(s+1).toUpperCase();
+        int s = getActividad().indexOf(": ");
+        n[2][1] = getActividad().substring(s + 1).toUpperCase();
         n[3][1] = getGradoObesidad().toUpperCase();
         n[4][1] = getPorcentajeGrasaSiri() + " %";
         n[5][1] = getPesoGrasaCorporal() + " Kg";

@@ -8,7 +8,6 @@ package modelo.plan;
 import controlador.Operacion;
 
 /**
- *
  * @author Victor
  */
 public class Alimento {

@@ -8,28 +8,16 @@ package SQLite.cliente;
 
 import DAO.DAOException;
 import DAO.cliente.ClientesDAO;
-import modelo.cliente.Cliente;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import modelo.cliente.Cliente;
+
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class SQLiteClientesDAO implements ClientesDAO {
 
-    Connection conex;
-    final String INSERT = "INSERT INTO clientes (nombre, apellido, "
-            + "sexo, tipoidentificacion, identificacion, edad, usedate, usetime) "
-            + "values (?,?,?,?,?,?,?,?)";
-    final String UPDATE = "UPDATE clientes SET nombre = ?, apellido = ?, "
-            + "sexo = ?, tipoidentificacion = ?, identificacion = ?, edad = ?, "
-            + " usedate = ?, usetime = ? where clientekey = ?";
-    final String DELETE = "DELETE from clientes where clientekey = ?";
     static String ONE = "SELECT clientekey, nombre, apellido, sexo, "
             + "tipoidentificacion, identificacion, edad "
             + "from clientes where clientekey = ?";
@@ -38,13 +26,22 @@ public class SQLiteClientesDAO implements ClientesDAO {
             + "from clientes "
             + "order by nombre like ? DESC,"
             + " apellido like ? DESC";
+    final String INSERT = "INSERT INTO clientes (nombre, apellido, "
+            + "sexo, tipoidentificacion, identificacion, edad, usedate, usetime) "
+            + "values (?,?,?,?,?,?,?,?)";
+    final String UPDATE = "UPDATE clientes SET nombre = ?, apellido = ?, "
+            + "sexo = ?, tipoidentificacion = ?, identificacion = ?, edad = ?, "
+            + " usedate = ?, usetime = ? where clientekey = ?";
+    final String DELETE = "DELETE from clientes where clientekey = ?";
     final String ALL = "SELECT clientekey, nombre, apellido, sexo, "
             + "tipoidentificacion, identificacion, edad "
             + " from clientes order by usetime desc, usedate desc";
+    Connection conex;
 
     public SQLiteClientesDAO(Connection conex) {
         this.conex = conex;
     }
+
     @Override
     public void insert(Cliente a) throws DAOException {
         PreparedStatement s = null;
@@ -68,7 +65,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
                 try {
                     s.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
         }
@@ -98,7 +95,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
                 try {
                     s.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
         }
@@ -120,7 +117,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
                 try {
                     s.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
         }
@@ -145,14 +142,14 @@ public class SQLiteClientesDAO implements ClientesDAO {
                 try {
                     rs.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
             if (s != null) {
                 try {
                     s.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
         }
@@ -180,14 +177,14 @@ public class SQLiteClientesDAO implements ClientesDAO {
                 try {
                     rs.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
             if (s != null) {
                 try {
                     s.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
         }
@@ -215,14 +212,14 @@ public class SQLiteClientesDAO implements ClientesDAO {
                 try {
                     rs.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
             if (s != null) {
                 try {
                     s.close();
                 } catch (SQLException ex) {
-            throw new DAOException(ex);
+                    throw new DAOException(ex);
                 }
             }
         }

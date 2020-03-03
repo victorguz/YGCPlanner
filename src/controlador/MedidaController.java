@@ -6,12 +6,6 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.isMedidaUpdated;
-import static controlador.Controller.setMedidaUpdated;
-import modelo.cliente.Medida;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,135 +14,99 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import modelo.cliente.Medida;
 import modelo.plan.Plan;
 
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+
 /**
- *
  * @author 201621279487
  */
 public class MedidaController extends Controller<Medida> {
 
+    ObservableList<String> actividades = FXCollections.observableArrayList();
     @FXML
     private ComboBox<Plan> comboRutinas;
-
     @FXML
     private ComboBox<Plan> comboDietas;
-
     @FXML
     private ComboBox<String> comboObjetivos;
-
     @FXML
     private DatePicker datePicker;
-
     @FXML
     private ComboBox<String> comboActividad;
-
     @FXML
     private TextField textPeso;
-
     @FXML
     private TextField textAltura;
-
     @FXML
     private TextField textMuneca;
-
     @FXML
     private TextField textCuello;
-
     @FXML
     private TextField textCinturaAlta;
-
     @FXML
     private TextField textCinturaMedia;
-
     @FXML
     private TextField textCinturaBaja;
-
     @FXML
     private TextField textCadera;
-
     @FXML
     private TextField textPectorales;
-
     @FXML
     private TextField textBicepIzq;
-
     @FXML
     private TextField textBicepDer;
-
     @FXML
     private TextField textCuadricepIzq;
-
     @FXML
     private TextField textCuadricepDer;
-
     @FXML
     private TextField textPantorrillaIzq;
-
     @FXML
     private TextField textPantorrillaDer;
-
     @FXML
     private TextField textTricipital;
-
     @FXML
     private TextField textBicipital;
-
     @FXML
     private TextField textSubescapular;
-
     @FXML
     private TextField textSuprailiaco;
-
     @FXML
     private TextField textComplexion;
-
     @FXML
     private TextField textGradoObesidad;
-
     @FXML
     private TextField textDensidad;
-
     @FXML
     private TextField textPesoIdealCreff;
-
     @FXML
     private TextField textPesoIdealAprox;
-
     @FXML
     private TextField textPesoIdealLorentz;
-
     @FXML
     private TextField textPesoIdealMonnerotDumaine;
-
     @FXML
     private TextField textIMC;
-
     @FXML
     private TextField textPorcentajeGrasa;
-
     @FXML
     private TextField textPorcentajeMasa;
-
     @FXML
     private TextField textPesoGrasa;
-
     @FXML
     private TextField textMasaLibre;
-
     @FXML
     private TextField textHarrys;
-
     @FXML
     private TextField textMifflin;
-
     @FXML
     private Label labelObjetivo;
-
     @FXML
     private TextField textSuperavit;
-
-    ObservableList<String> actividades = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

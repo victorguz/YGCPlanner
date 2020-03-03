@@ -6,162 +6,108 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.alimentos;
-import static controlador.Controller.excepcion;
-import static controlador.Controller.getAlimentos;
-import static controlador.Controller.isAlimentosUpdated;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import modelo.plan.Alimento;
 import modelo.plan.AlxDiet;
 import modelo.plan.Plan;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
- *
  * @author 201621279487
  */
 public class DietasController extends Controller<Plan> {
 
     @FXML
+    CheckBox checkCal;
+    @FXML
     private ComboBox<Alimento> comboAlimentos;
-
     @FXML
     private TextField textBuscarAlimento;
-
     @FXML
     private ComboBox<Plan> comboDieta;
-
     @FXML
     private TextField textNombre;
-
     @FXML
     private ComboBox<String> comboObjetivos;
-
     @FXML
     private ComboBox<String> comboSexo;
-
     @FXML
     private TextArea textDescripcion;
-
     @FXML
     private TextField textKcal;
-
     @FXML
     private TextField textCarbohidratos;
-
     @FXML
     private TextField textGrasas;
-
     @FXML
     private TextField textProteinas;
-
     @FXML
     private Label carbosDistribucion;
-
     @FXML
     private Label proteinasDistribucion;
-
     @FXML
     private Label grasasDistribucion;
-
     @FXML
     private Label gramosPlan;
-
     @FXML
     private Label kcalPlan;
-
     @FXML
     private Label carbosPlan;
-
     @FXML
     private Label proteinasPlan;
-
     @FXML
     private Label grasasPlan;
-
     @FXML
     private Label gramosMenu;
-
     @FXML
     private Label kcalMenu;
-
     @FXML
     private Label carbosMenu;
-
     @FXML
     private Label proteinasMenu;
-
     @FXML
     private Label grasasMenu;
-
     @FXML
     private ListView<AlxDiet> listView;
-
     @FXML
     private ToggleButton buttonDomingo;
-
     @FXML
     private ToggleGroup dias;
-
     @FXML
     private ToggleButton buttonLunes;
-
     @FXML
     private ToggleButton buttonMartes;
-
     @FXML
     private ToggleButton buttonMiercoles;
-
     @FXML
     private ToggleButton buttonJueves;
-
     @FXML
     private ToggleButton buttonViernes;
-
     @FXML
     private ToggleButton buttonSabado;
-
     @FXML
     private ToggleButton buttonDesayuno;
-
     @FXML
     private ToggleGroup momento;
-
     @FXML
     private ToggleButton buttonAlmuerzo;
-
     @FXML
     private ToggleButton buttonCena;
-
     @FXML
     private ToggleButton buttonPre;
-
     @FXML
     private ToggleButton buttonPost;
-
     @FXML
     private ToggleButton buttonAm;
-
     @FXML
     private ToggleButton buttonPm;
-
     @FXML
     private TextField textCantidad;
-
-    @FXML
-    CheckBox checkCal;
-
     @FXML
     private Label labelunidad;
 
@@ -248,15 +194,13 @@ public class DietasController extends Controller<Plan> {
     /**
      * Este método calcula los macronutrientes calculando la distribución
      * porcentual digitada por el usuario.
-     *
+     * <p>
      * PD: Se puede hacer así: que al ingresar un numero en un textfield y la
      * suma de lo que hay en los tres se pasa de 100, entonces la diferencia se
      * divide entre dos y se le resta a los que no se están modificando. Si la
      * resta excede el monto de 0 en uno, se le debe restar al otro y si el otro
      * llega a cero, querrá decir que el que se está modificando llegó al tope
      * máximo de 100
-     *
-     *
      */
     public void calcular() {
         //Obtener calorías
@@ -376,10 +320,24 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
+    private void eliminarAlxDiets() {
+        if (!listView.getItems().isEmpty()) {
+            for (AlxDiet a :
+                    listView.getItems()) {
+                try {
+                    getAlxdiets().delete(a);
+                } catch (DAOException e) {
+                    excepcion(e);
+                }
+            }
+        }
+    }
+
     @Override
     public void eliminar() {
         try {
             if (!comboDieta.getItems().isEmpty()) {
+                eliminarAlxDiets();
                 getPlanes().delete(comboDieta.getSelectionModel().getSelectedItem());
                 obtener();
                 mensaje("Plan de alimentación eliminado", "exito");

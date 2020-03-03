@@ -6,29 +6,21 @@
 package SQLite;
 
 import DAO.DAOException;
-import DAO.cliente.ClientesDAO;
-import DAO.cliente.MedidasDAO;
 import DAO.DAOManager;
 import DAO.ReferenciasDAO;
-import DAO.plan.AlimentosDAO;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import DAO.plan.EjerciciosDAO;
+import DAO.cliente.ClientesDAO;
+import DAO.cliente.MedidasDAO;
+import DAO.plan.*;
+import SQLite.Plan.*;
 import SQLite.cliente.SQLiteClientesDAO;
 import SQLite.cliente.SQLiteMedidasDAO;
-import SQLite.Plan.SQLiteAlxDietDAO;
-import SQLite.Plan.SQLiteAlimentosDAO;
-import SQLite.Plan.SQLiteEjerciciosDAO;
-import SQLite.Plan.SQLiteEjxRutDAO;
 import org.sqlite.JDBC;
-import DAO.plan.AlxDietDAO;
-import DAO.plan.EjxRutDAO;
-import SQLite.Plan.SQLitePlanesDAO;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import DAO.plan.PlanesDAO;
 
 /**
- *
  * @author Victor
  */
 public class SQLiteDAOManager implements DAOManager {

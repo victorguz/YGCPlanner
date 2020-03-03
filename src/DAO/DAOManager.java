@@ -6,15 +6,10 @@
 package DAO;
 
 import DAO.cliente.ClientesDAO;
-import DAO.plan.AlimentosDAO;
 import DAO.cliente.MedidasDAO;
-import DAO.plan.EjerciciosDAO;
-import DAO.plan.AlxDietDAO;
-import DAO.plan.EjxRutDAO;
-import DAO.plan.PlanesDAO;
+import DAO.plan.*;
 
 /**
- *
  * @author Victor
  */
 public interface DAOManager {

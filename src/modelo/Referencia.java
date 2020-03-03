@@ -7,7 +7,6 @@ package modelo;
 
 
 /**
- *
  * @author Victor
  */
 public class Referencia {
@@ -38,11 +37,11 @@ public class Referencia {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion)  {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public void setDescripcion(String descripcion, String unQue)  {
+    public void setDescripcion(String descripcion, String unQue) {
         this.descripcion = descripcion;
     }
 
@@ -50,17 +49,16 @@ public class Referencia {
         return nombre;
     }
 
-    public void setNombre(String nombre)  {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
     /**
-     *
      * @param nombre Dato a guardar como nombre
-     * @param unQue Titulo de la referencia
+     * @param unQue  Titulo de la referencia
      * @
      */
-    public void setNombre(String nombre, String unQue)  {
+    public void setNombre(String nombre, String unQue) {
         this.nombre = nombre;
     }
 
@@ -69,21 +67,20 @@ public class Referencia {
     }
 
     /**
-     *
      * @param dato Dato a guardar como dato
      * @
      */
-    public void setDato(String dato)  {
+    public void setDato(String dato) {
         this.dato = dato;
     }
 
-    public void setLink(String link, String unQue)  {
+    public void setLink(String link, String unQue) {
         this.dato = link;
     }
 
     @Override
     public String toString() {
-        return getNombre()+ "\t" + getDescripcion()+ "\t" +getDato();
+        return getNombre() + "\t" + getDescripcion() + "\t" + getDato();
     }
 
     public boolean isEmpty() {

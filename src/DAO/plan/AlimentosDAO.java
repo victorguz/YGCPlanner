@@ -6,7 +6,6 @@
 package DAO.plan;
 
 import DAO.DAO;
-import modelo.cliente.Cliente;
 import modelo.plan.Alimento;
 
 

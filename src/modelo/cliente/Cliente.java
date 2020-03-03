@@ -6,10 +6,10 @@
 package modelo.cliente;
 
 import controlador.Operacion;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author 201621279487
  */
 public class Cliente {
@@ -91,14 +91,14 @@ public class Cliente {
                 || getSexo().isEmpty()
                 || getIdentificacion().isEmpty();
     }
-    
-    public ArrayList<String> toArray(){
-        ArrayList<String> n=new ArrayList<>();
+
+    public ArrayList<String> toArray() {
+        ArrayList<String> n = new ArrayList<>();
         n.add(getNombre());
         n.add(getApellido());
         n.add(getTipoIdentificacion());
         n.add(getIdentificacion());
-        n.add(getEdad()+"");
+        n.add(getEdad() + "");
         n.add(getSexo());
         return n;
     }

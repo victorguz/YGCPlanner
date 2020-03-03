@@ -6,16 +6,14 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.getEjercicios;
-import static controlador.Controller.mensaje;
-import static controlador.Controller.setEjerciciosUpdated;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import modelo.plan.Ejercicio;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class EjerciciosController extends Controller<Ejercicio> {
 
@@ -129,7 +127,7 @@ public class EjerciciosController extends Controller<Ejercicio> {
     @Override
     public Ejercicio captar() throws DAOException {
         Ejercicio c = new Ejercicio();
-            c.setNombre(textNombre.getText());
+        c.setNombre(textNombre.getText());
         c.setDescripcion(textDescripcion.getText());
         c.setComentarios(textComentarios.getText());
         return c;

@@ -7,21 +7,15 @@ package SQLite.Plan;
 
 import DAO.DAOException;
 import DAO.plan.AlimentosDAO;
-import modelo.plan.Alimento;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import modelo.plan.Alimento;
+
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class SQLiteAlimentosDAO implements AlimentosDAO {
-
-    private Connection conex;
 
     private final String INSERT = "INSERT INTO ALIMENTOS(nombre, "
             + "  proteinas, grasas, carbohidratos, usedate, usetime, unidad)"
@@ -38,6 +32,7 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
             + " proteinas = ?, grasas = ?, carbohidratos  = ? , "
             + "usedate = ?, usetime = ? , unidad = ? WHERE alimentokey = ? ";
     private final String DELETE = "DELETE FROM ALIMENTOS WHERE alimentokey = ?";
+    private Connection conex;
 
     public SQLiteAlimentosDAO(Connection conex) {
         this.conex = conex;
@@ -89,7 +84,7 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
             s.setDate(5, Date.valueOf(LocalDate.now()));
             s.setTime(6, Time.valueOf(LocalTime.now()));
             s.setString(7, a.getUnidad());
-s.setInt(8, a.getAlimentokey());
+            s.setInt(8, a.getAlimentokey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar Alimento");
             }

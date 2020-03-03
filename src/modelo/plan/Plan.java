@@ -6,11 +6,11 @@
 package modelo.plan;
 
 import controlador.Operacion;
+
 import java.util.ArrayList;
 
 
 /**
- *
  * @author Victor
  */
 public class Plan {
@@ -26,15 +26,7 @@ public class Plan {
     public Plan() {
     }
 
-    public int getPlankey() {
-        return plankey;
-    }
-
-    public void setPlankey(int plankey)  {
-        this.plankey = plankey;
-    }
-
-    public Plan(String nombre, String objetivo, String descripcion, String sexo, int edad)  {
+    public Plan(String nombre, String objetivo, String descripcion, String sexo, int edad) {
         setNombre(nombre);
         setObjetivo(objetivo);
         setDescripcion(descripcion);
@@ -42,11 +34,19 @@ public class Plan {
         setEdad(edad);
     }
 
+    public int getPlankey() {
+        return plankey;
+    }
+
+    public void setPlankey(int plankey) {
+        this.plankey = plankey;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre)  {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -54,7 +54,7 @@ public class Plan {
         return objetivo;
     }
 
-    public void setObjetivo(String objetivo){
+    public void setObjetivo(String objetivo) {
         this.objetivo = objetivo;
     }
 
@@ -62,7 +62,7 @@ public class Plan {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion)  {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
@@ -70,7 +70,7 @@ public class Plan {
         return sexo;
     }
 
-    public void setSexo(String sexo)  {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
@@ -78,15 +78,15 @@ public class Plan {
         return tipo;
     }
 
-    public void setTipo(String tipo)  {
-                this.tipo = tipo;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public int getEdad() {
         return edad;
     }
 
-    public void setEdad(int edad)  {
+    public void setEdad(int edad) {
     }
 
     @Override
@@ -98,9 +98,9 @@ public class Plan {
         return getNombre().isEmpty()
                 || getTipo().isEmpty();
     }
-    
-        public ArrayList<String> toArray(){
-        ArrayList<String> n=new ArrayList<>();
+
+    public ArrayList<String> toArray() {
+        ArrayList<String> n = new ArrayList<>();
         return n;
-        }
+    }
 }

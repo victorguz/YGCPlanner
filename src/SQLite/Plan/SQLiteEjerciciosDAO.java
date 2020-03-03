@@ -7,22 +7,16 @@ package SQLite.Plan;
 
 import DAO.DAOException;
 import DAO.plan.EjerciciosDAO;
-import modelo.plan.Ejercicio;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import modelo.plan.Ejercicio;
+
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class SQLiteEjerciciosDAO implements EjerciciosDAO {
 //int ejerciciokey, String nombre, String descripcion, String comentarios
-
-    private Connection conex;
 
     private final String INSERT = "INSERT INTO EjercicioS(nombre, "
             + "descripcion, comentario, usedate, usetime) values (?, ?, ?, ?, ?)";
@@ -36,10 +30,11 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
             + "descripcion = ? , comentario  = ?, usedate = ?, usetime = ?  "
             + "WHERE ejerciciokey = ? ";
     private final String DELETE = "DELETE FROM EjercicioS WHERE NOMBRE = ?";
+    private Connection conex;
 
     public SQLiteEjerciciosDAO(Connection conex) {
-          this.conex = conex;
-  }
+        this.conex = conex;
+    }
 
     /**
      * nombre, " + "categoria, kilocalorias, proteinas, " + "grasas,
@@ -167,7 +162,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
             if (rs.next()) {
                 c = convertir(rs);
             } else {
-                throw new DAOException("Ejercicio no encontrado: "+ejerciciokey);
+                throw new DAOException("Ejercicio no encontrado: " + ejerciciokey);
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -198,7 +193,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
         ObservableList<Ejercicio> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(SELECTWHERE);
-            s.setString(1, "%"+equal+"%");
+            s.setString(1, "%" + equal + "%");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));

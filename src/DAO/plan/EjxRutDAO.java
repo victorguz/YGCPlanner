@@ -12,7 +12,8 @@ import modelo.plan.EjxRut;
 
 public interface EjxRutDAO extends DAO<EjxRut, String> {
 
-    public ObservableList<EjxRut> where(int plankey, String dia) throws DAOException;
-    public ObservableList<EjxRut> where(int plankey, String dia, String momento) throws DAOException;
+    ObservableList<EjxRut> where(int plankey, String dia) throws DAOException;
+
+    ObservableList<EjxRut> where(int plankey, String dia, String momento) throws DAOException;
 
 }

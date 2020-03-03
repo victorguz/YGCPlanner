@@ -11,7 +11,8 @@ import javafx.collections.ObservableList;
 import modelo.plan.AlxDiet;
 
 public interface AlxDietDAO extends DAO<AlxDiet, Integer> {
-    public ObservableList<AlxDiet> where(int plankey, String dia) throws DAOException;
-    public ObservableList<AlxDiet> where(int plankey, String dia, String momento) throws DAOException;
+    ObservableList<AlxDiet> where(int plankey, String dia) throws DAOException;
+
+    ObservableList<AlxDiet> where(int plankey, String dia, String momento) throws DAOException;
 
 }

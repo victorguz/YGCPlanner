@@ -6,21 +6,15 @@
 package SQLite.Plan;
 
 import DAO.DAOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modelo.plan.Plan;
 
-public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-    private Connection conex;
+public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
 
     private final String INSERT = "INSERT INTO Planes(nombre, objetivo,"
             + " descripcion, sexo, edad, tipo, usedate, usetime) "
@@ -37,6 +31,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
     private final String ALL = "SELECT Plankey, nombre, objetivo,"
             + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? "
             + "order by usetime desc, usedate desc";
+    private Connection conex;
 
     public SQLitePlanesDAO(Connection conex) {
         this.conex = conex;

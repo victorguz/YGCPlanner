@@ -6,6 +6,7 @@
 package modelo.plan;
 
 import DAO.DAOException;
+
 import java.util.ArrayList;
 
 /**
@@ -16,10 +17,6 @@ import java.util.ArrayList;
  */
 public class AlxDiet extends BasePlan {
 
-    private int alxdietkey;
-    private Alimento alimento;
-    private double cantidad = 0;
-
     //Momentos alimenticios
     public static final String DESAYUNO = "DESAYUNO";
     public static final String ALMUERZO = "ALMUERZO";
@@ -28,6 +25,9 @@ public class AlxDiet extends BasePlan {
     public static final String POSTENTRENO = "POSTENTRENO";
     public static final String SNACKAM = "SNACK AM";
     public static final String SNACKPM = "SNACK PM";
+    private int alxdietkey;
+    private Alimento alimento;
+    private double cantidad = 0;
 
     public AlxDiet() {
     }

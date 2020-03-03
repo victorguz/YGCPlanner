@@ -6,20 +6,18 @@
 package SQLite.Plan;
 
 import DAO.DAOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import DAO.plan.EjxRutDAO;
 import controlador.Controller;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modelo.plan.EjxRut;
 
-public class SQLiteEjxRutDAO implements EjxRutDAO {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-    //int ejxrutkey, int plankey, int ejerciciokey, int repeticiones, String momento, String dia, double peso
-    private Connection conex;
+public class SQLiteEjxRutDAO implements EjxRutDAO {
 
     private final String INSERT = "INSERT INTO EjxRut(plankey, Ejerciciokey, "
             + " dia, repeticiones, series, momento) values (?, ?, ?, ?, ?, ?)";
@@ -30,6 +28,8 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
     private final String WHERE2 = "SELECT ejxrutkey, plankey, Ejerciciokey, "
             + " dia, repeticiones, series, momento FROM ejxrut "
             + "WHERE plankey = ? and dia = ? and momento = ? order by ejxrutkey asc";
+    //int ejxrutkey, int plankey, int ejerciciokey, int repeticiones, String momento, String dia, double peso
+    private Connection conex;
 
     public SQLiteEjxRutDAO(Connection conex) {
         this.conex = conex;
@@ -101,7 +101,6 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
     }
 
     /**
-     *
      * @param ejxrutkey
      * @return
      * @throws DAOException

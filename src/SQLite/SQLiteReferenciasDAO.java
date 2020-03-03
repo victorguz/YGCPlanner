@@ -6,17 +6,16 @@
 package SQLite;
 
 import DAO.DAOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modelo.Referencia;
 
-public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-    private Connection conex;
+public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
 
     private final String INSERT = "INSERT INTO referencias (nombre, descripcion, link) values (?,?,?)";
     private final String SELECT = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where nombre = ?";
@@ -24,6 +23,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     private final String SELECTALL = "SELECT Referenciakey, nombre, descripcion, link FROM Referencias";
     private final String UPDATE = "UPDATE Referencias SET descripcion = ?, link = ? WHERE nombre = ?";
     private final String DELETE = "DELETE FROM Referencias WHERE Referenciakey = ?";
+    private Connection conex;
 
     public SQLiteReferenciasDAO(Connection conex) {
         this.conex = conex;
@@ -64,7 +64,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
-           s.setString(3, a.getNombre());
+            s.setString(3, a.getNombre());
             s.setString(1, a.getDescripcion());
             s.setString(2, a.getDato());
             if (s.executeUpdate() == 0) {
@@ -112,7 +112,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         ObservableList<Referencia> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(SELECTALL);
-            rs=s.executeQuery();
+            rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));
             }
@@ -149,7 +149,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
             if (rs.next()) {
                 l = convertir(rs);
             } else {
-                throw new DAOException("Referencia no encontrada: "+equal);
+                throw new DAOException("Referencia no encontrada: " + equal);
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -179,7 +179,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         ObservableList<Referencia> l = FXCollections.observableArrayList();
         try {
             s = conex.prepareStatement(SELECTWHERE);
-            s.setString(1, "%"+Referencia+"%");
+            s.setString(1, "%" + Referencia + "%");
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));
@@ -210,7 +210,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         if (rs == null) {
             throw new DAOException("Error al convertir Referencia");
         }
-        try { 
+        try {
             Referencia c = new Referencia();
             c.setReferenciakey(rs.getInt("Referenciakey"));
             c.setNombre(rs.getString("nombre"));

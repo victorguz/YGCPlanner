@@ -5,18 +5,14 @@
  */
 package DAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javafx.collections.ObservableList;
-import org.sqlite.JDBC;
+
+import java.sql.ResultSet;
 
 /**
- *
- * @author Victor
  * @param <T>
  * @param <K>
+ * @author Victor
  */
 public interface DAO<T, K> {
 

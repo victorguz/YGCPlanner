@@ -11,16 +11,15 @@ import javafx.collections.ObservableList;
 import modelo.plan.Plan;
 
 /**
- *
  * @author Victor
  */
 public interface PlanesDAO extends DAO<Plan, Integer> {
 
-    public ObservableList<Plan> whereRutinas(String equal) throws DAOException;
+    ObservableList<Plan> whereRutinas(String equal) throws DAOException;
 
-    public ObservableList<Plan> allRutinas() throws DAOException;
+    ObservableList<Plan> allRutinas() throws DAOException;
 
-    public ObservableList<Plan> whereDietas(String equal) throws DAOException;
+    ObservableList<Plan> whereDietas(String equal) throws DAOException;
 
-    public ObservableList<Plan> allDietas() throws DAOException;
+    ObservableList<Plan> allDietas() throws DAOException;
 }

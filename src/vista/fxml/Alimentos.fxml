@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" prefWidth="537.0" xmlns="http://javafx.com/javafx/8.0.171"
+           fx:controller="controlador.AlimentosController">
+    <children>
+        <VBox alignment="TOP_CENTER" styleClass="vbox-fondo">
+            <children>
+                <VBox styleClass="vbox-blanco">
+                    <children>
+                        <FlowPane styleClass="flowpane-centrado">
+                            <children>
+                                <VBox>
+                                    <children>
+                                        <Label text="Buscar alimento" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textBuscarAlimento" onAction="#obtener"
+                                                   onKeyTyped="#consumeDigits" prefWidth="130.0"
+                                                   promptText="Buscar alimento"/>
+                                    </children>
+                                </VBox>
+                                <VBox>
+                                    <children>
+                                        <Label text="Seleccionar alimento" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <ComboBox fx:id="comboAlimentos" maxWidth="300.0" onAction="#mostrar"
+                                                  promptText="ALIMENTOS"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </FlowPane>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" styleClass="vbox-blanco">
+                    <children>
+                        <Label text="Información del alimento (Porción de 100g)" textFill="#757575">
+                            <VBox.margin>
+                                <Insets/>
+                            </VBox.margin>
+                        </Label>
+                        <FlowPane alignment="CENTER" prefHeight="111.0" styleClass="flowpane-centrado">
+                            <children>
+                                <VBox>
+                                    <children>
+                                        <Label text="Nombre" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textNombre" prefWidth="130.0" promptText="Nombre"/>
+                                    </children>
+                                </VBox>
+                                <VBox>
+                                    <children>
+                                        <Label text="Proteinas" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textProteina" prefWidth="130.0" promptText="Proteinas"/>
+                                    </children>
+                                </VBox>
+                                <VBox>
+                                    <children>
+                                        <Label text="Grasas" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textGrasas" prefWidth="130.0" promptText="Grasas"/>
+                                    </children>
+                                </VBox>
+                                <VBox>
+                                    <children>
+                                        <Label text="Carbohidratos" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textCarbos" prefWidth="130.0" promptText="Carbohidratos"/>
+                                    </children>
+                                </VBox>
+                                <VBox>
+                                    <children>
+                                        <Label text="Kilocalorias" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textKilocalorias" editable="false" prefWidth="130.0"
+                                                   promptText="Kilocalorias"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </FlowPane>
+                        <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
+                            <children>
+                                <Button onAction="#eliminar" styleClass="delete-button" text="Eliminar">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../imagen/icono/xb.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                                <Button onAction="#limpiar" text="Limpiar">
+                                    <graphic>
+                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../imagen/icono/clearb.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                                <Button onAction="#modificar" text="Modificar">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../imagen/icono/updateb.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                                <Button onAction="#registrar" text="Registrar">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../imagen/icono/doneb.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </FlowPane>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" styleClass="vbox-blanco">
+                    <children>
+                        <Label text="Resumen en porciones de 1g" textFill="#757575"/>
+                        <FlowPane alignment="CENTER" styleClass="flowpane-centrado">
+                            <children>
+                                <VBox>
+                                    <children>
+                                        <Label text="Kilocalorias" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textKilocalorias1" editable="false" prefWidth="130.0"
+                                                   promptText="Kilocalorias"/>
+                                    </children>
+                                </VBox>
+                                <VBox>
+                                    <children>
+                                        <Label text="Proteinas" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textProteina1" editable="false" prefWidth="130.0"
+                                                   promptText="Proteinas"/>
+                                    </children>
+                                </VBox>
+                                <VBox>
+                                    <children>
+                                        <Label text="Grasas" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textGrasas1" editable="false" prefWidth="130.0"
+                                                   promptText="Grasas"/>
+                                    </children>
+                                </VBox>
+                                <VBox>
+                                    <children>
+                                        <Label text="Carbohidratos" textFill="#b2b2b2">
+
+                                            <padding>
+                                                <Insets left="6.0"/>
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textCarbos1" editable="false" prefWidth="130.0"
+                                                   promptText="Carbohidratos"/>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </FlowPane>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </children>
+</StackPane>

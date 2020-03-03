@@ -8,28 +8,20 @@ package controlador;
 import DAO.DAOException;
 import archivo.PDF;
 import com.itextpdf.text.DocumentException;
-import static controlador.Controller.getCliente;
-import static controlador.Controller.getClientes;
-import static controlador.Controller.isClienteUpdated;
-import static controlador.Controller.isMedidasUpdated;
-import static controlador.Controller.mensaje;
-import static controlador.Controller.setClienteUpdated;
-import static controlador.Controller.setClientesUpdated;
-import static controlador.Controller.sexos;
-import java.io.IOException;
-import modelo.cliente.Cliente;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
- *
  * @author 201621279487
  */
 public class ClienteController extends Controller<Cliente> {
@@ -132,7 +124,6 @@ public class ClienteController extends Controller<Cliente> {
 
     /**
      * Llena los campos de la vista con los datos del cliente
-     *
      */
     @Override
     public void mostrar() {
@@ -162,12 +153,26 @@ public class ClienteController extends Controller<Cliente> {
         }
     }
 
+    private void eliminarMedidas() {
+        if (!medidas.isEmpty()) {
+            for (Medida medida :
+                    medidas) {
+                try {
+                    Controller.getMedidas().delete(medida);
+                } catch (DAOException e) {
+                    excepcion(e);
+                }
+            }
+        }
+    }
+
     @Override
     public void eliminar() {
         if (!getCliente().isEmpty()) {
             try {
                 getClientes().delete(getCliente());
                 setClientesUpdated(true);
+                eliminarMedidas();
                 mensaje("Cliente eliminado", "exito");
             } catch (DAOException ex) {
                 excepcion(ex);

@@ -1,0 +1,33 @@
+Licencia de Dieta y Ejercicio - Planificador de Yezid Guzmán Coach
+
+
+Terminos y condiciones del uso y licenciamiento de Dieta y Ejercicio.
+
+Dieta y Ejercicio, en adelante "software" es un producto de software diseñado y desarrollado por Victor Guzmán Berrio, 
+en adelante "el autor". 
+
+Los términos y condiciones en que el software puede ser utilizado:
+
+Este software y los productos generados por este es privado y sólo puede ser ejecutado, 
+utilizado, copiado, modificado, cedido, distribuído, vendido, alquilado, reproducido o 
+almacenado con previo permiso del autor. Realizar alguna de estas acciones puede estar 
+sujeto a gestión judicial.
+
+Quien adquiera derechos para utilizar una copia de este software no está en el derecho de copiar, modificar, 
+distribuir, vender, alquilar, reproducir o almacenar en máquinas distintas a 
+la que se ha instalado en el momento de la adquisición.
+
+Quien adquiera derechos de copia y distribución de este software está en todo el derecho de ejecutar, utilizar,
+copiar, ceder, distribuir, vender, alquilar, reproducir o almacenar este software. 
+
+Quien adquiera una copia del código fuente de este software puede realizar modificaciones en el 
+código, copias, distribuir,vender, utilizar, alquilar, reproducir o almacenar el código 
+fuente y/o compilaciones de este, haciendo alución siempre al autor original y su perfil de github.
+
+
+Información del autor: 
+Victor Guzmán Berrío 
+Github: @victorguz
+Ig: @victorguzb
+Blog: ingeblog.com
+

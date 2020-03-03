@@ -6,7 +6,6 @@
 package controlador;
 
 /**
- *
  * @author 57300
  */
 public class Operacion {

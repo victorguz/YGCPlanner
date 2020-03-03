@@ -6,29 +6,19 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.getReferencias;
-import static controlador.Controller.mensaje;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import modelo.Referencia;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class ConfigController extends Controller<Referencia> {
 
     @FXML
     private TextField textTel1;
-
-    @FXML
-    private CheckBox checkWhatsapp1;
-
-    @FXML
-    private TextField textWeb1;
-
-    @FXML
-    private TextField textCorreo1;
 
     @FXML
     private TextField textInsta1;
@@ -44,6 +34,12 @@ public class ConfigController extends Controller<Referencia> {
 
     @FXML
     private TextArea textBienvenida;
+
+    @FXML
+    private TextArea textRutina;
+
+    @FXML
+    private TextArea textDieta;
 
     @Override
     public void updated() {
@@ -61,10 +57,6 @@ public class ConfigController extends Controller<Referencia> {
             getReferencias().insert(dash);
             Referencia tel1 = getTel1();
             getReferencias().insert(tel1);
-            Referencia web1 = getWeb1();
-            getReferencias().insert(web1);
-            Referencia correo1 = getCorreo1();
-            getReferencias().insert(correo1);
             Referencia face1 = getFace1();
             getReferencias().insert(face1);
             Referencia insta1 = getInsta1();
@@ -73,8 +65,10 @@ public class ConfigController extends Controller<Referencia> {
             getReferencias().insert(bienvenida);
             Referencia titulobienvenida = getTituloBienvenida();
             getReferencias().insert(titulobienvenida);
-            Referencia wa1 = getWhatsapp1();
-            getReferencias().insert(wa1);
+            Referencia rutina = getRutina();
+            getReferencias().insert(rutina);
+            Referencia dieta = getDieta();
+            getReferencias().insert(dieta);
         } catch (DAOException ex) {
             excepcion(ex);
         }
@@ -83,24 +77,22 @@ public class ConfigController extends Controller<Referencia> {
     @Override
     public void modificar() {
         try {
-             Referencia dash = getDash();
+            Referencia dash = getDash();
             getReferencias().update(dash);
             Referencia tel1 = getTel1();
             getReferencias().update(tel1);
-            Referencia web1 = getWeb1();
-            getReferencias().update(web1);
-            Referencia correo1 = getCorreo1();
-            getReferencias().update(correo1);
             Referencia face1 = getFace1();
             getReferencias().update(face1);
             Referencia insta1 = getInsta1();
             getReferencias().update(insta1);
             Referencia bienvenida = getBienvenida();
             getReferencias().update(bienvenida);
+            Referencia rutina = getRutina();
+            getReferencias().update(rutina);
+            Referencia dieta = getDieta();
+            getReferencias().update(dieta);
             Referencia titulobienvenida = getTituloBienvenida();
             getReferencias().update(titulobienvenida);
-            Referencia wa1 = getWhatsapp1();
-            getReferencias().update(wa1);
             mensaje("Configuración modificada", "exito");
         } catch (DAOException ex) {
             excepcion(ex);
@@ -136,31 +128,6 @@ public class ConfigController extends Controller<Referencia> {
         textTel1.setText(ref.getDato());
     }
 
-
-    public Referencia getWeb1() {
-        Referencia web = new Referencia();
-        web.setNombre("web1");
-        web.setDescripcion("pagina web 1");
-        web.setDato(textWeb1.getText());
-        return web;
-    }
-
-    public void setWeb1(Referencia web) {
-        textWeb1.setText(web.getDato());
-    }
-
-    public Referencia getCorreo1() {
-        Referencia ref = new Referencia();
-        ref.setNombre("correo1");
-        ref.setDescripcion("correo electronico 1");
-        ref.setDato(textCorreo1.getText());
-        return ref;
-    }
-
-    public void setCorreo1(Referencia ref) {
-        textCorreo1.setText(ref.getDato());
-    }
-
     public Referencia getTituloBienvenida() {
         Referencia ref = new Referencia();
         ref.setNombre("titulobienvenida");
@@ -185,8 +152,28 @@ public class ConfigController extends Controller<Referencia> {
         textBienvenida.setText(ref.getDato());
     }
 
-    public void setDash(Referencia ref) {
-        checkdash.setSelected(Boolean.valueOf(ref.getDato()));
+    public Referencia getRutina() {
+        Referencia ref = new Referencia();
+        ref.setNombre("textrutina");
+        ref.setDescripcion("texto de presentación para la rutina");
+        ref.setDato(textRutina.getText());
+        return ref;
+    }
+
+    public void setRutina(Referencia ref) {
+        textRutina.setText(ref.getDato());
+    }
+
+    public Referencia getDieta() {
+        Referencia ref = new Referencia();
+        ref.setNombre("textdieta");
+        ref.setDescripcion("texto de presentación para la dieta");
+        ref.setDato(textDieta.getText());
+        return ref;
+    }
+
+    public void setDieta(Referencia ref) {
+        textDieta.setText(ref.getDato());
     }
 
     public Referencia getDash() {
@@ -195,6 +182,10 @@ public class ConfigController extends Controller<Referencia> {
         ref.setDescripcion("activa o desactiva el dashboard como pantalla inicial");
         ref.setDato(checkdash.isSelected() + "");
         return ref;
+    }
+
+    public void setDash(Referencia ref) {
+        checkdash.setSelected(Boolean.valueOf(ref.getDato()));
     }
 
     public Referencia getInsta1() {
@@ -221,30 +212,16 @@ public class ConfigController extends Controller<Referencia> {
         textFace1.setText(web.getDato());
     }
 
-    public Referencia getWhatsapp1() {
-        Referencia web = new Referencia();
-        web.setNombre("wa1");
-        web.setDescripcion("si el telefono 1 tiene whatsapp");
-        web.setDato(checkWhatsapp1.isSelected() + "");
-        return web;
-    }
-
-    public void setWhatsapp1(Referencia web) {
-        checkWhatsapp1.setSelected(Boolean.valueOf(web.getDato()));
-    }
-
-
     @Override
     public void obtener() {
         try {
             setTel1(getReferencias().select("tel1"));
-            setWeb1(getReferencias().select("web1"));
-            setCorreo1(getReferencias().select("correo1"));
             setInsta1(getReferencias().select("insta1"));
             setFace1(getReferencias().select("face1"));
-            setWhatsapp1(getReferencias().select("wa1"));
             setTituloBienvenida(getReferencias().select("titulobienvenida"));
             setBienvenida(getReferencias().select("bienvenida"));
+            setRutina(getReferencias().select("textrutina"));
+            setDieta(getReferencias().select("textdieta"));
             setDash(getReferencias().select("dash"));
         } catch (DAOException ex) {
             excepcion(ex);

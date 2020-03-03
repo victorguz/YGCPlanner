@@ -6,19 +6,18 @@
 package SQLite.Plan;
 
 import DAO.DAOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import DAO.plan.AlxDietDAO;
 import controlador.Controller;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modelo.plan.AlxDiet;
 
-public class SQLiteAlxDietDAO implements AlxDietDAO {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-    private Connection conex;
+public class SQLiteAlxDietDAO implements AlxDietDAO {
 
     private final String INSERT = "INSERT INTO AlxDiet(plankey, alimentokey, "
             + "momento, dia, cantidad) values (?, ?, ?, ?, ?)";
@@ -29,6 +28,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             + "WHERE plankey = ? and dia = ? and momento = ? order by alxdietkey asc";
     private final String ALL = "SELECT plankey, alxdietkey, alimentokey, "
             + "momento, dia, cantidad FROM AlxDiet WHERE plankey = ? and dia = ? order by dia, momento";
+    private Connection conex;
 
     public SQLiteAlxDietDAO(Connection conex) {
         this.conex = conex;
@@ -95,7 +95,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
     public ObservableList<AlxDiet> all() throws DAOException {
         throw new DAOException("Este metodo no funciona");
     }
-    
+
     @Override
     public ObservableList<AlxDiet> where(int plankey, String dia) throws DAOException {
         PreparedStatement s = null;

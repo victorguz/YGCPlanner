@@ -6,13 +6,13 @@
 package controlador;
 
 import DAO.DAOException;
-import static controlador.Controller.mensaje;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import modelo.plan.Alimento;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class AlimentosController extends Controller<Alimento> {
 
@@ -61,7 +61,7 @@ public class AlimentosController extends Controller<Alimento> {
         try {
             Alimento c = captar();
             if (c.isEmpty()) {
-                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+                mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
                 getAlimentos().insert(c);
                 mensaje("Alimento registrado", "exito");
@@ -154,9 +154,9 @@ public class AlimentosController extends Controller<Alimento> {
     public Alimento captar() throws DAOException {
         Alimento c = new Alimento();
         c.setNombre(textNombre.getText());
-        c.setProteinas((textProteina.getText().isEmpty())?0:Double.parseDouble(textProteina.getText()));
-        c.setGrasas((textGrasas.getText().isEmpty())?0:Double.parseDouble(textGrasas.getText()));
-        c.setCarbohidratos((textCarbos.getText().isEmpty())?0:Double.parseDouble(textCarbos.getText()));
+        c.setProteinas((textProteina.getText().isEmpty()) ? 0 : Double.parseDouble(textProteina.getText()));
+        c.setGrasas((textGrasas.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasas.getText()));
+        c.setCarbohidratos((textCarbos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbos.getText()));
         return c;
     }
 

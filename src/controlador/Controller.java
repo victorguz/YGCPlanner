@@ -9,18 +9,10 @@ import DAO.DAOException;
 import DAO.ReferenciasDAO;
 import DAO.cliente.ClientesDAO;
 import DAO.cliente.MedidasDAO;
-import DAO.plan.AlimentosDAO;
-import DAO.plan.AlxDietDAO;
-import DAO.plan.EjerciciosDAO;
-import DAO.plan.EjxRutDAO;
+import DAO.plan.*;
 import SQLite.SQLiteDAOManager;
 import ds.desktop.notify.DesktopNotify;
 import ds.desktop.notify.NotifyTheme;
-import java.awt.Color;
-import java.awt.Toolkit;
-import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,39 +28,26 @@ import modelo.cliente.Medida;
 import modelo.plan.Alimento;
 import modelo.plan.Ejercicio;
 import modelo.plan.Plan;
-import DAO.plan.PlanesDAO;
+
+import java.awt.*;
+import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- *
- * @author 201621279487
  * @param <T>
+ * @author 201621279487
  */
 public abstract class Controller<T> implements Initializable {
 
-    /**
-     * TextField que está contenido en la mayoría de frames
-     */
-    @FXML
-    protected TextField textBuscar;
-
-    @FXML
-    protected TextField textEdad;
-
-    protected static ObservableList<Cliente> clientes = FXCollections.observableArrayList();
-
-    protected static ObservableList<Medida> medidas = FXCollections.observableArrayList();
-
-    protected static ObservableList<Plan> rutinas = FXCollections.observableArrayList();
-
-    protected static ObservableList<Plan> dietas = FXCollections.observableArrayList();
-
-    public static ObservableList<Alimento> alimentos = FXCollections.observableArrayList();
-
-    protected static ObservableList<Ejercicio> ejercicios = FXCollections.observableArrayList();
-
     protected static final ObservableList<String> sexos = FXCollections.observableArrayList("Hombre", "Mujer");
     protected static final ObservableList<String> objetivos = FXCollections.observableArrayList("Perder", "Aumentar", "Mantener");
-
+    public static ObservableList<Alimento> alimentos = FXCollections.observableArrayList();
+    protected static ObservableList<Cliente> clientes = FXCollections.observableArrayList();
+    protected static ObservableList<Medida> medidas = FXCollections.observableArrayList();
+    protected static ObservableList<Plan> rutinas = FXCollections.observableArrayList();
+    protected static ObservableList<Plan> dietas = FXCollections.observableArrayList();
+    protected static ObservableList<Ejercicio> ejercicios = FXCollections.observableArrayList();
     private static SQLiteDAOManager manager;
     private static Cliente cliente;
     private static boolean clientesUpdated;
@@ -81,6 +60,13 @@ public abstract class Controller<T> implements Initializable {
     private static boolean alimentosUpdated;
     private static boolean ejerciciosUpdated;
     private static boolean onConfig;
+    /**
+     * TextField que está contenido en la mayoría de frames
+     */
+    @FXML
+    protected TextField textBuscar;
+    @FXML
+    protected TextField textEdad;
 
     public static boolean isEjerciciosUpdated() {
         return ejerciciosUpdated;
@@ -141,13 +127,6 @@ public abstract class Controller<T> implements Initializable {
         return getManager().getReferenciasDAO();
     }
 
-    public static void prueba() {
-        NotifyTheme nt = NotifyTheme.Light;
-        nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
-        DesktopNotify.setDefaultTheme(nt);
-        DesktopNotify.showDesktopMessage("PRUEBA", "Esto es una prueba");
-    }
-
     public static void mensaje(String mensaje, String tipo) {
         NotifyTheme nt = NotifyTheme.Light;
         nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
@@ -193,7 +172,7 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static String getResultOrException(String ex) {
-        if (ex.contains("medidas.clienteKey, medidas.fecha")) {
+        if (ex.contains("medidas.clientekey, medidas.fecha")) {
             return "Este cliente ya tiene medidas en esta fecha";
         } else if (ex.contains("clientes.identificacion")) {
             return "Ya existe un cliente con esta identificación";
@@ -254,9 +233,7 @@ public abstract class Controller<T> implements Initializable {
             return false;
         }
     }
-  public void consumeIntegers(KeyEvent e) {
-        getIntegers(e);
-    }
+
     public static boolean getLetters(KeyEvent e) {
         Pattern patron = Pattern.compile("[A-Za-z]*\\s*[áéíóúñÁÉÍÓÚÑ]*");
         Matcher mevento = patron.matcher(e.getCharacter());
@@ -290,10 +267,6 @@ public abstract class Controller<T> implements Initializable {
         }
     }
 
-    public void consumeCorreo(KeyEvent e) {
-        getCorreo(e);
-    }
-
     public static boolean getWeb(KeyEvent e) {
         Pattern patron = Pattern.compile("\\w*[/.:]*");
         Matcher mevento = patron.matcher(e.getCharacter());
@@ -303,10 +276,6 @@ public abstract class Controller<T> implements Initializable {
             consume(e);
             return false;
         }
-    }
-
-    public void consumeWeb(KeyEvent e) {
-        getWeb(e);
     }
 
     public static boolean getTel(KeyEvent e) {
@@ -320,6 +289,129 @@ public abstract class Controller<T> implements Initializable {
         }
     }
 
+    public static boolean isOnConfig() {
+        return onConfig;
+    }
+
+    public static void setOnConfig(boolean aOnConfig) {
+        onConfig = aOnConfig;
+    }
+
+    public static Cliente getCliente() {
+        if (cliente == null) {
+            cliente = new Cliente();
+        }
+        return cliente;
+    }
+
+    public static void setCliente(Cliente c) {
+        cliente = c;
+    }
+
+    public static boolean isClientesUpdated() {
+        return clientesUpdated;
+    }
+
+    /**
+     * Cuando se actualiza la lista de clientes cambia estado a actualizado
+     * (true)
+     *
+     * @param c
+     */
+    public static void setClientesUpdated(boolean c) {
+        clientesUpdated = c;
+    }
+
+    public static boolean isClienteUpdated() {
+        return clienteUpdated;
+    }
+
+    /**
+     * Cuando se actualiza el cliente, cambia estado a actualizado (true)
+     *
+     * @param c
+     */
+    public static void setClienteUpdated(boolean c) {
+        clienteUpdated = c;
+    }
+
+    public static Medida getMedida() {
+        if (medida == null) {
+            medida = new Medida();
+        }
+        return medida;
+    }
+
+    public static void setMedida(Medida c) {
+        medida = c;
+    }
+
+    public static boolean isMedidasUpdated() {
+        return medidasUpdated;
+    }
+
+    /**
+     * Cuando se actualiza la lista de medidas cambia estado a actualizado
+     * (true)
+     *
+     * @param c
+     */
+    public static void setMedidasUpdated(boolean c) {
+        medidasUpdated = c;
+    }
+
+    public static boolean isMedidaUpdated() {
+        return medidaUpdated;
+    }
+
+    /**
+     * Cuando se actualiza la variable de medida cambia estado a actualizado
+     * (true)
+     *
+     * @param c
+     */
+    public static void setMedidaUpdated(boolean c) {
+        medidaUpdated = c;
+    }
+
+    public static boolean isDietasUpdated() {
+        return dietasUpdated;
+    }
+
+    /**
+     * Cuando se actualiza la lista de dietas cambia estado a actualizado (true)
+     *
+     * @param c
+     */
+    public static void setDietasUpdated(boolean c) {
+        dietasUpdated = c;
+    }
+
+    public static boolean isRutinasUpdated() {
+        return rutinasUpdated;
+    }
+
+    /**
+     * Cuando se actualiza la lista de rutina cambia estado a actualizado (true)
+     *
+     * @param c
+     */
+    public static void setRutinasUpdated(boolean c) {
+        rutinasUpdated = c;
+    }
+
+    public void consumeIntegers(KeyEvent e) {
+        getIntegers(e);
+    }
+
+    public void consumeCorreo(KeyEvent e) {
+        getCorreo(e);
+    }
+
+    public void consumeWeb(KeyEvent e) {
+        getWeb(e);
+    }
+
     public void consumeTel(KeyEvent e) {
         getTel(e);
     }
@@ -327,8 +419,6 @@ public abstract class Controller<T> implements Initializable {
     public void consumeDouble(KeyEvent e) {
         getDouble(e);
     }
-
-  
 
     public void consumeLetters(KeyEvent e) {
         getLetters(e);
@@ -367,116 +457,5 @@ public abstract class Controller<T> implements Initializable {
     public abstract void eliminar();
 
     public abstract void limpiar();
-
-    public static boolean isOnConfig() {
-        return onConfig;
-    }
-
-    public static void setOnConfig(boolean aOnConfig) {
-        onConfig = aOnConfig;
-    }
-
-    public static Cliente getCliente() {
-        if (cliente == null) {
-            cliente = new Cliente();
-        }
-        return cliente;
-    }
-
-    public static void setCliente(Cliente c) {
-        cliente = c;
-    }
-
-    /**
-     * Cuando se actualiza la lista de clientes cambia estado a actualizado
-     * (true)
-     *
-     * @param c
-     */
-    public static void setClientesUpdated(boolean c) {
-        clientesUpdated = c;
-    }
-
-    public static boolean isClientesUpdated() {
-        return clientesUpdated;
-    }
-
-    /**
-     * Cuando se actualiza el cliente, cambia estado a actualizado (true)
-     *
-     * @param c
-     */
-    public static void setClienteUpdated(boolean c) {
-        clienteUpdated = c;
-    }
-
-    public static boolean isClienteUpdated() {
-        return clienteUpdated;
-    }
-
-    public static Medida getMedida() {
-        if (medida == null) {
-            medida = new Medida();
-        }
-        return medida;
-    }
-
-    public static void setMedida(Medida c) {
-        medida = c;
-    }
-
-    /**
-     * Cuando se actualiza la lista de medidas cambia estado a actualizado
-     * (true)
-     *
-     * @param c
-     */
-    public static void setMedidasUpdated(boolean c) {
-        medidasUpdated = c;
-    }
-
-    public static boolean isMedidasUpdated() {
-        return medidasUpdated;
-    }
-
-    /**
-     * Cuando se actualiza la variable de medida cambia estado a actualizado
-     * (true)
-     *
-     * @param c
-     */
-    public static void setMedidaUpdated(boolean c) {
-        medidaUpdated = c;
-    }
-
-    public static boolean isMedidaUpdated() {
-        return medidaUpdated;
-    }
-
-    /**
-     * Cuando se actualiza la lista de dietas cambia estado a actualizado (true)
-     *
-     * @param c
-     */
-    public static void setDietasUpdated(boolean c) {
-        dietasUpdated = c;
-    }
-
-    public static boolean isDietasUpdated() {
-        return dietasUpdated;
-    }
-
-    /**
-     * Cuando se actualiza la lista de rutina cambia estado a actualizado (true)
-     *
-     * @param c
-     */
-    public static void setRutinasUpdated(boolean c) {
-        rutinasUpdated = c;
-    }
-
-    public static boolean isRutinasUpdated() {
-        return rutinasUpdated;
-    }
 
 }

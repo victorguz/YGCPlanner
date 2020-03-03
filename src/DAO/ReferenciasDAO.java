@@ -8,7 +8,6 @@ package DAO;
 import modelo.Referencia;
 
 /**
- *
  * @author Victor
  */
 public interface ReferenciasDAO extends DAO<Referencia, String> {

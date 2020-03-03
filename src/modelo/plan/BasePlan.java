@@ -6,14 +6,10 @@
 package modelo.plan;
 
 /**
- *
  * @author Victor
  */
 public abstract class BasePlan {
 
-    private String dia = "";
-    private String momento = "";
-    private Plan plan;
     //Dias
     public static final String DOMINGO = "DOMINGO";
     public static final String LUNES = "LUNES";
@@ -22,7 +18,10 @@ public abstract class BasePlan {
     public static final String JUEVES = "JUEVES";
     public static final String VIERNES = "VIERNES";
     public static final String SABADO = "SABADO";
-    
+    private String dia = "";
+    private String momento = "";
+    private Plan plan;
+
 
     public BasePlan() {
     }

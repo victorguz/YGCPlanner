@@ -6,27 +6,20 @@
 package SQLite.cliente;
 
 import DAO.DAOException;
-import modelo.cliente.Medida;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import DAO.cliente.MedidasDAO;
 import controlador.Controller;
-import controlador.Operacion;
-import java.sql.Date;
-import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modelo.cliente.Cliente;
+import modelo.cliente.Medida;
+
+import java.sql.*;
 
 /**
- *
  * @author Victor
  */
 public class SQLiteMedidasDAO implements MedidasDAO {
 
-    Connection conex;
     final String INSERT = "INSERT INTO "
             + "medidas("
             + "CLIENTEKEY,"
@@ -138,6 +131,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             + "dietakey, "
             + "rutinakey "
             + " from medidas where clientekey = ? ORDER BY fecha DESC";//1
+    Connection conex;
 
     public SQLiteMedidasDAO(Connection conex) {
         this.conex = conex;
@@ -150,7 +144,6 @@ public class SQLiteMedidasDAO implements MedidasDAO {
     }
 
     /**
-     *
      * @param clientekey
      * @return
      * @throws DAOException
@@ -228,7 +221,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             m.setMuneca(rs.getDouble("muneca"));
             m.setRutina(Controller.getPlanes().select(rs.getInt("rutinakey")));
             m.setDieta(Controller.getPlanes().select(rs.getInt("dietakey")));
-            
+
             return m;
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -307,7 +300,7 @@ public class SQLiteMedidasDAO implements MedidasDAO {
             s.setDouble(15, a.getTricipital());
             s.setDouble(16, a.getSubescapular());
             s.setDouble(17, a.getSuprailiaco());
-            s.setDate(18,Date.valueOf(a.getFecha()));
+            s.setDate(18, Date.valueOf(a.getFecha()));
             s.setDouble(19, a.getCuello());
             s.setString(20, a.getObjetivo().toLowerCase());
             s.setString(21, a.getActividad().toLowerCase());

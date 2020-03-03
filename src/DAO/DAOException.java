@@ -8,7 +8,6 @@ package DAO;
 import java.sql.SQLException;
 
 /**
- *
  * @author Victor
  */
 public class DAOException extends SQLException {
@@ -27,5 +26,5 @@ public class DAOException extends SQLException {
     public DAOException(Throwable cause) {
         super(cause);
     }
-    
+
 }
