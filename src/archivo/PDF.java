@@ -227,7 +227,7 @@ public class PDF {
                 chapter = new Chapter(0);
                 chapter.setNumberDepth(0);
                 Image page;
-                page = Image.getInstance(new File("src/imagen/medidas.jpg").toURL());
+                page = Image.getInstance("src/imagen/medidas.jpg");
                 page.scaleAbsolute(PageSize.LETTER);
                 page.setAbsolutePosition(0, 0);
                 chapter.add(page);
@@ -478,7 +478,7 @@ public class PDF {
     public void addDieta() throws DocumentException, IOException, DAOException {
         chapter = new Chapter(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/alimentacionT.jpg").toURL());
+        page = Image.getInstance("src/imagen/alimentacionT.jpg");
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
@@ -497,7 +497,7 @@ public class PDF {
         chapter.add(t);
         Referencia r = Controller.getReferencias().select("textodieta");
         Paragraph n = new Paragraph("Hola "
-                + Operacion.nombreCamelCase(getCliente().getNombre()) + r.getDato().toUpperCase(), parrafoPeque);
+                + Operacion.camelCase(getCliente().getNombre()) + r.getDato().toUpperCase(), parrafoPeque);
         n.setSpacingBefore(20);
         n.setAlignment(Element.ALIGN_CENTER);
 
@@ -637,7 +637,7 @@ public class PDF {
 
             chapter = new Chapter(0);
             Image page;
-            page = Image.getInstance(new File("src/imagen/alimentacion.jpg").toURL());
+            page = Image.getInstance("src/imagen/alimentacion.jpg");
             page.scaleAbsolute(PageSize.LETTER);
             page.setAbsolutePosition(0, 0);
             chapter.add(page);
@@ -653,7 +653,7 @@ public class PDF {
     public void addRutina() throws DocumentException, IOException, DAOException {
         chapter = new Chapter(0);
         Image page;
-        page = Image.getInstance(new File("src/imagen/entrenamiento.jpg").toURL());
+        page = Image.getInstance("src/imagen/entrenamiento.jpg");
         page.scaleAbsolute(PageSize.LETTER);
         page.setAbsolutePosition(0, 0);
         chapter.add(page);
@@ -671,7 +671,7 @@ public class PDF {
         t.setAlignment(Element.ALIGN_CENTER);
         chapter.add(t);
         Referencia r = Controller.getReferencias().select("textorutina");
-        Paragraph n = new Paragraph("Hola " + Operacion.nombreCamelCase(getCliente().getNombre()) + r.getDato().toUpperCase(), parrafoPeque);
+        Paragraph n = new Paragraph("Hola " + Operacion.camelCase(getCliente().getNombre()) + r.getDato().toUpperCase(), parrafoPeque);
         n.setSpacingBefore(20);
         n.setAlignment(Element.ALIGN_CENTER);
 

@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="YGCPlanner:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/YGCPlanner_jar</output-path>
+    <root id="archive" name="YGCPlanner.jar">
+      <element id="module-output" name="YGCPlanner" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/librerias/DS_Desktop_Notify.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/librerias/sqlite-jdbc-3.27.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/librerias/itextpdf-5.5.13.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

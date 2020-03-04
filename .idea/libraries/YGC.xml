@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="YGC">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/YGC.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

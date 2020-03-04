@@ -32,16 +32,10 @@ public class EjerciciosController extends Controller<Ejercicio> {
     private TextArea textComentarios;
 
     @Override
-    public void updated() {
-    }
-
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
         obtener();
-        updated();
     }
 
-    @Override
     public void registrar() {
         try {
             Ejercicio c = captar();
@@ -60,7 +54,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
         }
     }
 
-    @Override
     public void modificar() {
         if (!comboEjercicios.getItems().isEmpty()) {
             try {
@@ -84,7 +77,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
         }
     }
 
-    @Override
     public void eliminar() {
         if (!comboEjercicios.getItems().isEmpty()) {
             try {
@@ -107,14 +99,12 @@ public class EjerciciosController extends Controller<Ejercicio> {
         }
     }
 
-    @Override
     public void limpiar() {
         textNombre.setText("");
         textDescripcion.setText("");
         textComentarios.setText("");
     }
 
-    @Override
     public void mostrar() {
         if (!comboEjercicios.getItems().isEmpty()) {
             Ejercicio c = comboEjercicios.getSelectionModel().getSelectedItem();
@@ -124,7 +114,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
         }
     }
 
-    @Override
     public Ejercicio captar() throws DAOException {
         Ejercicio c = new Ejercicio();
         c.setNombre(textNombre.getText());
@@ -133,7 +122,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
         return c;
     }
 
-    @Override
     public void obtener() {
         try {
             comboEjercicios.getItems().clear();

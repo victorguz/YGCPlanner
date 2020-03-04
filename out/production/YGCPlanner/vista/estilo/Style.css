@@ -1,0 +1,91 @@
+/*
+* Style css
+*/
+.root{
+    -fx-font-family: SansSerif;
+}
+.vbox-fondo{
+    -fx-effect: null;
+    -fx-background-color: null;
+    -fx-spacing: 10;
+    -fx-padding: 10;
+    -fx-alignment: null;
+}
+.vbox-blanco{
+    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+    -fx-spacing: 17;
+    -fx-padding: 15;
+    -fx-alignment: TOP_CENTER;
+}
+.flowpane-centrado{
+    -fx-row-valignment: center;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+    -fx-alignment: CENTER;
+}
+
+.scroll-pane, .date-picker, .list-view, TextArea{
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane:focused, .date-picker:focused{
+    -fx-background-insets: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-insets: 0;
+}
+.button, .toggle-button,.date-picker > .arrow-button{
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-text-fill: black;
+}
+.delete-button{
+    -fx-background-color:  #f17777;
+    -fx-background-radius: 4;
+    -fx-border-color:  #EF6363;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-text-fill: white;
+}
+.toggle-button:selected{
+    -fx-background-color: rgb(215,215,215);  
+}
+.button:pressed, .toggle-button:pressed{
+    -fx-background-color: rgb(215,215,215);
+    -fx-effect: dropshadow(gaussian, rgba(200, 200, 200, 1), 10, 0.5, 0.0, 0.0);
+}
+.text-field:hover,.text-field:focused,.button:hover, 
+.toggle-button:hover, .text-area:hover, 
+.text-area:focused, .combo-box:hover{
+    -fx-background-color: rgb(240,240,240);  
+    -fx-text-fill: black;
+}
+.text-field, .text-area,.combo-box, .list-view{
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 4;
+    -fx-text-fill: black;
+}
+
+.date-picker{
+    -fx-background-color: white;
+    -fx-border-radius: 4;  
+    -fx-text-fill: black;
+}
+.date-picker > .arrow-button {
+    -fx-background-radius: 4;/*-fx-padding: 0px;*/
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-radius: 4;/*-fx-padding: 0px;*/
+}
+
+

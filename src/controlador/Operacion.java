@@ -10,16 +10,18 @@ package controlador;
  */
 public class Operacion {
 
-    public static String nombreCamelCase(String cadena) {
+    public static String camelCase(String cadena) {
         if (cadena.contains(" ")) {
             String[] b = cadena.split(" ");
             String k = "";
             for (String c : b) {
-                cadena = (c.charAt(0) + "").toUpperCase() + c.substring(1).toLowerCase();
-                if (k.isEmpty()) {
-                    k = cadena;
-                } else {
-                    k += " " + cadena;
+                if (!c.isEmpty()) {
+                    cadena = (c.charAt(0) + "").toUpperCase() + c.substring(1).toLowerCase();
+                    if (k.isEmpty()) {
+                        k = cadena;
+                    } else {
+                        k += " " + cadena;
+                    }
                 }
             }
             return k;

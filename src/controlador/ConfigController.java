@@ -41,16 +41,12 @@ public class ConfigController extends Controller<Referencia> {
     @FXML
     private TextArea textDieta;
 
-    @Override
-    public void updated() {
-    }
 
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
         obtener();
     }
 
-    @Override
+
     public void registrar() {
         try {
             Referencia dash = getDash();
@@ -74,7 +70,7 @@ public class ConfigController extends Controller<Referencia> {
         }
     }
 
-    @Override
+
     public void modificar() {
         try {
             Referencia dash = getDash();
@@ -97,23 +93,6 @@ public class ConfigController extends Controller<Referencia> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
-    }
-
-    @Override
-    public void eliminar() {
-    }
-
-    @Override
-    public void limpiar() {
-    }
-
-    @Override
-    public void mostrar() {
-    }
-
-    @Override
-    public Referencia captar() {
-        return null;
     }
 
     public Referencia getTel1() {
@@ -212,7 +191,7 @@ public class ConfigController extends Controller<Referencia> {
         textFace1.setText(web.getDato());
     }
 
-    @Override
+
     public void obtener() {
         try {
             setTel1(getReferencias().select("tel1"));

@@ -17,21 +17,10 @@ public class Plan {
 
     private int plankey;
     private String nombre = "";
-    private String objetivo = "";
     private String descripcion = "";
-    private String sexo = "";
     private String tipo = "";
-    private int edad;
 
     public Plan() {
-    }
-
-    public Plan(String nombre, String objetivo, String descripcion, String sexo, int edad) {
-        setNombre(nombre);
-        setObjetivo(objetivo);
-        setDescripcion(descripcion);
-        setSexo(sexo);
-        setEdad(edad);
     }
 
     public int getPlankey() {
@@ -50,28 +39,12 @@ public class Plan {
         this.nombre = nombre;
     }
 
-    public String getObjetivo() {
-        return objetivo;
-    }
-
-    public void setObjetivo(String objetivo) {
-        this.objetivo = objetivo;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
     }
 
     public String getTipo() {
@@ -82,16 +55,9 @@ public class Plan {
         this.tipo = tipo;
     }
 
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-    }
-
     @Override
     public String toString() {
-        return Operacion.nombreCamelCase(getNombre());
+        return Operacion.camelCase(getNombre());
     }
 
     public boolean isEmpty() {

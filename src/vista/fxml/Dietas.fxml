@@ -31,7 +31,7 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboDieta" minWidth="150.0" onAction="#mostrar"
+                                        <ComboBox fx:id="comboDieta" maxWidth="200.0" onAction="#mostrar"
                                                   promptText="PLAN" visibleRowCount="5"/>
                                     </children>
                                 </VBox>
@@ -56,49 +56,13 @@
                                             </padding>
                                         </Label>
                                         <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre"/>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Objetivo" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0"/>
-                                            </padding>
-                                        </Label>
-                                        <ComboBox fx:id="comboObjetivos" promptText="OBJETIVO" visibleRowCount="5"/>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Sexo" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0"/>
-                                            </padding>
-                                        </Label>
-                                        <ComboBox fx:id="comboSexo" promptText="SEXO" visibleRowCount="5"/>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Edad" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0"/>
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textEdad" onKeyTyped="#consumeIntegers" prefWidth="50.0"
-                                                   promptText="Edad"/>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
                                         <Label text="Descripción del plan" textFill="#b2b2b2">
                                             <padding>
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <TextArea fx:id="textDescripcion" minWidth="0.0" prefHeight="70.0"
-                                                  prefWidth="370.0" promptText="Descripción del plan (500 caracteres)"
-                                                  wrapText="true"/>
+                                        <TextArea fx:id="textDescripcion" prefHeight="70.0"
+                                                  promptText="Descripción del plan (500 caracteres)" wrapText="true"/>
                                     </children>
                                 </VBox>
                                 <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
@@ -234,41 +198,6 @@
                                 </VBox>
                             </children>
                         </FlowPane>
-                        <Label text="Gramos de macronutrientes en este plan de alimentación" textFill="#757575"/>
-                        <FlowPane styleClass="flowpane-centrado">
-                            <children>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="KCal"/>
-                                        <Label fx:id="kcalPlan" alignment="BASELINE_CENTER" text="0.0"/>
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Gramos de comida"/>
-                                        <Label fx:id="gramosPlan" alignment="BASELINE_CENTER" text="0.0"/>
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Proteinas"/>
-                                        <Label fx:id="proteinasPlan" alignment="BASELINE_CENTER" text="0.0"/>
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Carbos"/>
-                                        <Label fx:id="carbosPlan" alignment="BASELINE_CENTER" text="0.0"/>
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Grasas"/>
-                                        <Label fx:id="grasasPlan" alignment="BASELINE_CENTER" text="0.0"/>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </FlowPane>
                         <Label text="Gramos de macronutrientes en este menú" textFill="#757575"/>
                         <FlowPane styleClass="flowpane-centrado">
                             <children>
@@ -331,7 +260,7 @@
                                             </padding>
                                         </Label>
                                         <ComboBox fx:id="comboAlimentos" onAction="#selectAlimento" prefWidth="140.0"
-                                                  promptText="Gelatina" visibleRowCount="5"/>
+                                                  promptText="Seleccionar alimento" visibleRowCount="5"/>
                                     </children>
                                 </VBox>
                                 <VBox>

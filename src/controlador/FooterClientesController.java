@@ -9,6 +9,8 @@ import DAO.DAOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
 
@@ -21,16 +23,27 @@ import java.util.ResourceBundle;
 public class FooterClientesController extends Controller {
 
     @FXML
+    private ImageView img;
+
+    @FXML
     private ComboBox<Cliente> comboClientes;
 
     @FXML
     private ComboBox<Medida> comboMedidas;
 
-    @Override
+
     public void initialize(URL url, ResourceBundle rb) {
         updated();
         setClientesUpdated(true);
         setMedidasUpdated(true);
+    }
+
+    public void cambiarImagen(String sexo) {
+        if (sexo.equalsIgnoreCase("hombre")) {
+            img.setImage(new Image("/imagen/icono/man.png"));
+        } else {
+            img.setImage(new Image("/imagen/icono/woman.png"));
+        }
     }
 
     public void select(int i) {
@@ -40,6 +53,7 @@ public class FooterClientesController extends Controller {
         } else {
             setCliente(new Cliente());
         }
+        cambiarImagen(getCliente().getSexo());
         obtenerMedidas();
     }
 
@@ -49,6 +63,7 @@ public class FooterClientesController extends Controller {
         } else {
             setCliente(new Cliente());
         }
+        cambiarImagen(getCliente().getSexo());
         obtenerMedidas();
     }
 
@@ -69,7 +84,7 @@ public class FooterClientesController extends Controller {
         }
     }
 
-    @Override
+
     public void obtener() {
         try {
             comboClientes.getItems().clear();
@@ -111,13 +126,13 @@ public class FooterClientesController extends Controller {
      * Si se actualiza o elimina un cliente, este método actualiza el combobox
      * que contiene los clientes.
      */
-    @Override
+
     public void updated() {
         Thread t = new Thread(new Runnable() {
-            @Override
+
             public void run() {
                 Runnable updater = new Runnable() {
-                    @Override
+
                     public void run() {
                         if (isClientesUpdated()) {
                             obtener();
@@ -141,29 +156,4 @@ public class FooterClientesController extends Controller {
         t.start();
     }
 
-    @Override
-    public void mostrar() {
-
-    }
-
-    @Override
-    public Object captar() {
-        return null;
-    }
-
-    @Override
-    public void registrar() {
-    }
-
-    @Override
-    public void modificar() {
-    }
-
-    @Override
-    public void eliminar() {
-    }
-
-    @Override
-    public void limpiar() {
-    }
 }

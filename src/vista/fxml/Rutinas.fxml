@@ -31,8 +31,8 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboRutinas" minWidth="150.0" onAction="#mostrar"
-                                                  promptText="Plan" visibleRowCount="5"/>
+                                        <ComboBox fx:id="comboRutinas" maxWidth="200.0" onAction="#mostrar"
+                                                  promptText="Seleccionar plan" visibleRowCount="5"/>
                                     </children>
                                 </VBox>
                             </children>
@@ -56,46 +56,12 @@
                                             </padding>
                                         </Label>
                                         <TextField fx:id="textNombre" prefWidth="130.0" promptText="Nombre"/>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Objetivo" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0"/>
-                                            </padding>
-                                        </Label>
-                                        <ComboBox fx:id="comboObjetivos" promptText="Objetivo" visibleRowCount="5"/>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Sexo" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0"/>
-                                            </padding>
-                                        </Label>
-                                        <ComboBox fx:id="comboSexo" promptText="Sexo" visibleRowCount="5"/>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Edad" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0"/>
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textEdad" prefWidth="50.0" promptText="Edad"/>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
                                         <Label text="Descripción del plan" textFill="#b2b2b2">
                                             <padding>
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <TextArea fx:id="textDescripcion" prefHeight="70.0" prefWidth="377.0"
+                                        <TextArea fx:id="textDescripcion" prefHeight="70.0"
                                                   promptText="Descripción del plan (500 caracteres)" wrapText="true"/>
                                     </children>
                                 </VBox>

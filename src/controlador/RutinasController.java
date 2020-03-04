@@ -29,12 +29,6 @@ public class RutinasController extends Controller<Plan> {
     private TextField textNombre;
 
     @FXML
-    private ComboBox<String> comboObjetivos;
-
-    @FXML
-    private ComboBox<String> comboSexo;
-
-    @FXML
     private TextArea textDescripcion;
 
     @FXML
@@ -88,12 +82,8 @@ public class RutinasController extends Controller<Plan> {
     @FXML
     private ListView<EjxRut> listView;
 
-    @Override
+
     public void initialize(URL location, ResourceBundle resources) {
-        comboObjetivos.setItems(objetivos);
-        comboObjetivos.getSelectionModel().select(0);
-        comboSexo.setItems(sexos);
-        comboSexo.getSelectionModel().select(0);
         for (int i = 5; i <= 200; i = i + 5) {
             comboRepeticiones.getItems().add(i);
         }
@@ -105,13 +95,13 @@ public class RutinasController extends Controller<Plan> {
         setEjerciciosUpdated(true);
     }
 
-    @Override
+
     public void updated() {
         Thread t = new Thread(new Runnable() {
-            @Override
+
             public void run() {
                 Runnable updater = new Runnable() {
-                    @Override
+
                     public void run() {
                         if (isRutinasUpdated()) {
                             obtener();
@@ -149,19 +139,16 @@ public class RutinasController extends Controller<Plan> {
         t.start();
     }
 
-    @Override
+
     public Plan captar() throws DAOException {
         Plan d = new Plan();
         d.setTipo("rutina");
         d.setNombre(textNombre.getText());
-        d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
-        d.setEdad((textEdad.getText().isEmpty()) ? 0 : Integer.parseInt(textEdad.getText()));
-        d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
         return d;
     }
 
-    @Override
+
     public void obtener() {
         try {
             comboRutinas.getItems().clear();
@@ -193,7 +180,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @Override
+
     public void registrar() {
         try {
             Plan m = captar();
@@ -211,7 +198,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @Override
+
     public void modificar() {
         try {
             if (!comboRutinas.getItems().isEmpty()) {
@@ -248,7 +235,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @Override
+
     public void eliminar() {
         try {
             if (!comboRutinas.getItems().isEmpty()) {
@@ -264,7 +251,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    @Override
+
     public void limpiar() {
         textBuscar.setText("");
         textNombre.setText("");
@@ -272,15 +259,12 @@ public class RutinasController extends Controller<Plan> {
         textBuscar.setText("");
     }
 
-    @Override
+
     public void mostrar() {
         if (!comboRutinas.getItems().isEmpty()) {
             Plan d = comboRutinas.getSelectionModel().getSelectedItem();
             textNombre.setText(d.getNombre());
-            selectCombo(comboObjetivos, d.getObjetivo());
             textDescripcion.setText(d.getDescripcion());
-            textEdad.setText(d.getEdad() + "");
-            selectCombo(comboSexo, comboSexo.getSelectionModel().getSelectedItem());
         }
     }
 

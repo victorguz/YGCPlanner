@@ -40,8 +40,6 @@ import java.util.regex.Pattern;
  */
 public abstract class Controller<T> implements Initializable {
 
-    protected static final ObservableList<String> sexos = FXCollections.observableArrayList("Hombre", "Mujer");
-    protected static final ObservableList<String> objetivos = FXCollections.observableArrayList("Perder", "Aumentar", "Mantener");
     public static ObservableList<Alimento> alimentos = FXCollections.observableArrayList();
     protected static ObservableList<Cliente> clientes = FXCollections.observableArrayList();
     protected static ObservableList<Medida> medidas = FXCollections.observableArrayList();
@@ -65,8 +63,6 @@ public abstract class Controller<T> implements Initializable {
      */
     @FXML
     protected TextField textBuscar;
-    @FXML
-    protected TextField textEdad;
 
     public static boolean isEjerciciosUpdated() {
         return ejerciciosUpdated;
@@ -438,24 +434,5 @@ public abstract class Controller<T> implements Initializable {
             }
         }
     }
-
-    /**
-     * Método para implementación de hilo
-     */
-    public abstract void updated();
-
-    public abstract void mostrar();
-
-    public abstract T captar() throws DAOException;
-
-    public abstract void obtener();
-
-    public abstract void registrar();
-
-    public abstract void modificar();
-
-    public abstract void eliminar();
-
-    public abstract void limpiar();
 
 }

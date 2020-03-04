@@ -16,20 +16,20 @@ import java.time.LocalTime;
 
 public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
 
-    private final String INSERT = "INSERT INTO Planes(nombre, objetivo,"
-            + " descripcion, sexo, edad, tipo, usedate, usetime) "
+    private final String INSERT = "INSERT INTO Planes(nombre, "
+            + " descripcion, tipo, usedate, usetime) "
             + "values (?, ?, ?, ?, ?, ?, ?, ?)";
-    private final String UPDATE = "UPDATE Planes SET nombre = ?, objetivo = ?,"
+    private final String UPDATE = "UPDATE Planes SET nombre = ?, "
             + " descripcion = ?, sexo = ?, edad  = ?, usedate = ?, usetime = ? WHERE plankey = ? ";
     private final String DELETE = "DELETE FROM Planes WHERE Plankey = ?";
     private final String SELECT = "SELECT Plankey, nombre, objetivo,"
-            + " descripcion, sexo, edad, tipo FROM Planes "
+            + " descripcion, tipo FROM Planes "
             + "where Plankey = ? ";
-    private final String WHERE = "SELECT Plankey, nombre, objetivo,"
-            + " descripcion, sexo, edad, tipo FROM Planes "
+    private final String WHERE = "SELECT Plankey, nombre,"
+            + " descripcion, tipo FROM Planes "
             + "where tipo = ? order by nombre like ? desc";
-    private final String ALL = "SELECT Plankey, nombre, objetivo,"
-            + " descripcion, sexo, edad , tipo FROM Planes where tipo = ? "
+    private final String ALL = "SELECT Plankey, nombre, "
+            + " descripcion, tipo FROM Planes where tipo = ? "
             + "order by usetime desc, usedate desc";
     private Connection conex;
 
@@ -43,13 +43,10 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
         try {
             s = conex.prepareStatement(INSERT);
             s.setString(1, a.getNombre());
-            s.setString(2, a.getObjetivo());
-            s.setString(3, a.getDescripcion());
-            s.setString(4, a.getSexo());
-            s.setInt(5, a.getEdad());
-            s.setString(6, a.getTipo());
-            s.setDate(7, Date.valueOf(LocalDate.now()));
-            s.setTime(8, Time.valueOf(LocalTime.now()));
+            s.setString(2, a.getDescripcion());
+            s.setString(3, a.getTipo());
+            s.setDate(4, Date.valueOf(LocalDate.now()));
+            s.setTime(5, Time.valueOf(LocalTime.now()));
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar plan");
             }
@@ -76,13 +73,10 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
         try {
             s = conex.prepareStatement(UPDATE);
             s.setString(1, a.getNombre());
-            s.setString(2, a.getObjetivo());
-            s.setString(3, a.getDescripcion());
-            s.setString(4, a.getSexo());
-            s.setInt(5, a.getEdad());
-            s.setDate(6, Date.valueOf(LocalDate.now()));
-            s.setTime(7, Time.valueOf(LocalTime.now()));
-            s.setInt(8, a.getPlankey());
+            s.setString(2, a.getDescripcion());
+            s.setDate(3, Date.valueOf(LocalDate.now()));
+            s.setTime(4, Time.valueOf(LocalTime.now()));
+            s.setInt(5, a.getPlankey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar plan");
             }
@@ -309,10 +303,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
             Plan c = new Plan();
             c.setPlankey(rs.getInt("Plankey"));
             c.setNombre(rs.getString("nombre"));
-            c.setObjetivo(rs.getString("objetivo"));
             c.setDescripcion(rs.getString("descripcion"));
-            c.setSexo(rs.getString("sexo"));
-            c.setEdad(rs.getInt("edad"));
             c.setTipo(rs.getString("tipo"));
             return c;
         } catch (SQLException ex) {

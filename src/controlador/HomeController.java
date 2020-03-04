@@ -31,7 +31,6 @@ public class HomeController extends Controller<StackPane> {
     public static StackPane Clientes;
     public static StackPane FooterClientes;
     public static StackPane Dietas;
-    public static StackPane Medidas;
     public static StackPane Rutinas;
     public static StackPane Alimentos;
     public static StackPane Ejercicios;
@@ -51,9 +50,6 @@ public class HomeController extends Controller<StackPane> {
     private ToggleButton buttonClientes;
 
     @FXML
-    private ToggleButton buttonMedidas;
-
-    @FXML
     private ToggleButton buttonDietas;
 
     @FXML
@@ -68,9 +64,9 @@ public class HomeController extends Controller<StackPane> {
     @FXML
     private ToggleButton buttonConfig;
 
-    @Override
+
     public void initialize(URL url, ResourceBundle rb) {
-        obtener();
+        cargar();
         try {
             if (getReferencias().select("dash").getDato().equalsIgnoreCase("false")) {
                 buttonClientes.setSelected(true);
@@ -84,15 +80,13 @@ public class HomeController extends Controller<StackPane> {
         }
     }
 
-    @Override
-    public void obtener() {
+    public void cargar() {
         try {
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
             Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
             FooterClientes = FXMLLoader.load(new File("src/vista/fxml/FooterClientes.fxml").toURL());
             setFooter(FooterClientes);
             Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
-            Medidas = FXMLLoader.load(new File("src/vista/fxml/Medidas.fxml").toURL());
             Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
             Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
@@ -116,15 +110,6 @@ public class HomeController extends Controller<StackPane> {
     private void switchClientes() {
         if (buttonClientes.isSelected()) {
             mostrar(Clientes);
-        } else {
-            mostrar(Dash);
-        }
-    }
-
-    @FXML
-    private void switchMedidas() {
-        if (buttonMedidas.isSelected()) {
-            mostrar(Medidas);
         } else {
             mostrar(Dash);
         }
@@ -179,7 +164,7 @@ public class HomeController extends Controller<StackPane> {
      * Si se presiona un botón del home, actualiza el estado correspondiente
      * para que los otros formularddios respondan
      */
-    @Override
+
     public void updated() {
     }
 
@@ -192,28 +177,5 @@ public class HomeController extends Controller<StackPane> {
         fadeTransition(node, 700);
     }
 
-    @Override
-    public StackPane captar() throws DAOException {
-        return null;
-    }
 
-    @Override
-    public void registrar() {
-    }
-
-    @Override
-    public void modificar() {
-    }
-
-    @Override
-    public void eliminar() {
-    }
-
-    @Override
-    public void limpiar() {
-    }
-
-    @Override
-    public void mostrar() {
-    }
 }

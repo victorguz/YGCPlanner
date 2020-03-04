@@ -47,16 +47,12 @@ public class AlimentosController extends Controller<Alimento> {
     @FXML
     private TextField textCarbos1;
 
-    @Override
-    public void updated() {
-    }
 
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
         obtener();
     }
 
-    @Override
+
     public void registrar() {
         try {
             Alimento c = captar();
@@ -73,7 +69,7 @@ public class AlimentosController extends Controller<Alimento> {
         }
     }
 
-    @Override
+
     public void modificar() {
         if (!comboAlimentos.getItems().isEmpty()) {
             try {
@@ -97,7 +93,7 @@ public class AlimentosController extends Controller<Alimento> {
         }
     }
 
-    @Override
+
     public void eliminar() {
         if (!comboAlimentos.getItems().isEmpty()) {
             try {
@@ -120,7 +116,7 @@ public class AlimentosController extends Controller<Alimento> {
         }
     }
 
-    @Override
+
     public void limpiar() {
         textNombre.setText("");
         textProteina.setText("");
@@ -133,7 +129,7 @@ public class AlimentosController extends Controller<Alimento> {
         textKilocalorias1.setText("");
     }
 
-    @Override
+
     public void mostrar() {
         if (!comboAlimentos.getItems().isEmpty()) {
             Alimento c = comboAlimentos.getSelectionModel().getSelectedItem();
@@ -150,7 +146,7 @@ public class AlimentosController extends Controller<Alimento> {
         }
     }
 
-    @Override
+
     public Alimento captar() throws DAOException {
         Alimento c = new Alimento();
         c.setNombre(textNombre.getText());
@@ -160,7 +156,7 @@ public class AlimentosController extends Controller<Alimento> {
         return c;
     }
 
-    @Override
+
     public void obtener() {
         try {
             comboAlimentos.getItems().clear();

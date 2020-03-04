@@ -33,10 +33,6 @@ public class DietasController extends Controller<Plan> {
     @FXML
     private TextField textNombre;
     @FXML
-    private ComboBox<String> comboObjetivos;
-    @FXML
-    private ComboBox<String> comboSexo;
-    @FXML
     private TextArea textDescripcion;
     @FXML
     private TextField textKcal;
@@ -53,31 +49,9 @@ public class DietasController extends Controller<Plan> {
     @FXML
     private Label grasasDistribucion;
     @FXML
-    private Label gramosPlan;
-    @FXML
-    private Label kcalPlan;
-    @FXML
-    private Label carbosPlan;
-    @FXML
-    private Label proteinasPlan;
-    @FXML
-    private Label grasasPlan;
-    @FXML
-    private Label gramosMenu;
-    @FXML
-    private Label kcalMenu;
-    @FXML
-    private Label carbosMenu;
-    @FXML
-    private Label proteinasMenu;
-    @FXML
-    private Label grasasMenu;
-    @FXML
     private ListView<AlxDiet> listView;
     @FXML
     private ToggleButton buttonDomingo;
-    @FXML
-    private ToggleGroup dias;
     @FXML
     private ToggleButton buttonLunes;
     @FXML
@@ -111,24 +85,20 @@ public class DietasController extends Controller<Plan> {
     @FXML
     private Label labelunidad;
 
-    @Override
+
     public void initialize(URL location, ResourceBundle resources) {
-        comboObjetivos.setItems(objetivos);
-        comboObjetivos.getSelectionModel().select(0);
-        comboSexo.setItems(sexos);
-        comboSexo.getSelectionModel().select(0);
         setDietasUpdated(true);
         updated();
         setAlimentosUpdated(true);
     }
 
-    @Override
+
     public void updated() {
         Thread t = new Thread(new Runnable() {
-            @Override
+
             public void run() {
                 Runnable updater = new Runnable() {
-                    @Override
+
                     public void run() {
                         if (isDietasUpdated()) {
                             obtener();
@@ -157,7 +127,7 @@ public class DietasController extends Controller<Plan> {
                 };
                 while (true) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException ex) {
                     }
                     // UI update is run on the Application thread
@@ -223,19 +193,16 @@ public class DietasController extends Controller<Plan> {
         carbosDistribucion.setText(carbohidratos + "");
     }
 
-    @Override
+
     public Plan captar() throws DAOException {
         Plan d = new Plan();
         d.setTipo("dieta");
         d.setNombre(textNombre.getText());
-        d.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
         d.setDescripcion(textDescripcion.getText());
-        d.setEdad((textEdad.getText().isEmpty()) ? 0 : Integer.parseInt(textEdad.getText()));
-        d.setSexo(comboSexo.getSelectionModel().getSelectedItem());
         return d;
     }
 
-    @Override
+
     public void obtener() {
         try {
             comboDieta.getItems().clear();
@@ -278,7 +245,7 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    @Override
+
     public void registrar() {
         try {
             Plan m = captar();
@@ -296,7 +263,7 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    @Override
+
     public void modificar() {
         try {
             if (!comboDieta.getItems().isEmpty()) {
@@ -333,7 +300,7 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    @Override
+
     public void eliminar() {
         try {
             if (!comboDieta.getItems().isEmpty()) {
@@ -349,7 +316,7 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    @Override
+
     public void limpiar() {
         textBuscar.setText("");
         textNombre.setText("");
@@ -362,15 +329,12 @@ public class DietasController extends Controller<Plan> {
         textGrasas.setText("");
     }
 
-    @Override
+
     public void mostrar() {
         if (!comboDieta.getItems().isEmpty()) {
             Plan d = comboDieta.getSelectionModel().getSelectedItem();
             textNombre.setText(d.getNombre());
-            selectCombo(comboObjetivos, d.getObjetivo());
             textDescripcion.setText(d.getDescripcion());
-            textEdad.setText(d.getEdad() + "");
-            selectCombo(comboSexo, comboSexo.getSelectionModel().getSelectedItem());
         }
     }
 
