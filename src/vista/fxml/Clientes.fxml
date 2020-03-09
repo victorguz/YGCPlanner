@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" xmlns="http://javafx.com/javafx/8.0.171"
-           fx:controller="controlador.ClienteController">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane alignment="TOP_LEFT" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ClienteController">
     <children>
         <VBox styleClass="vbox-fondo">
             <children>
@@ -13,22 +22,17 @@
                     <children>
                         <FlowPane styleClass="flowpane-centrado">
                             <children>
-                                <ToggleButton id="sidebuttons" fx:id="buttonBienvenida" alignment="BASELINE_LEFT"
-                                              text="Bienvenida" textFill="#757575"/>
-                                <ToggleButton id="sidebuttons" fx:id="buttonMedidas" alignment="BASELINE_LEFT"
-                                              text="Medidas" textFill="#757575"/>
-                                <ToggleButton id="sidebuttons" fx:id="buttonDieta" alignment="BASELINE_LEFT"
-                                              text="Alimentacion" textFill="#757575"/>
-                                <ToggleButton id="sidebuttons" fx:id="buttonRutina" alignment="BASELINE_LEFT"
-                                              text="Entrenamiento" textFill="#757575"/>
+                                <ToggleButton id="sidebuttons" fx:id="buttonBienvenida" alignment="BASELINE_LEFT" text="Bienvenida" textFill="#757575" />
+                                <ToggleButton id="sidebuttons" fx:id="buttonMedidas" alignment="BASELINE_LEFT" text="Medidas" textFill="#757575" />
+                                <ToggleButton id="sidebuttons" fx:id="buttonDieta" alignment="BASELINE_LEFT" text="Alimentacion" textFill="#757575" />
+                                <ToggleButton id="sidebuttons" fx:id="buttonRutina" alignment="BASELINE_LEFT" text="Entrenamiento" textFill="#757575" />
                             </children>
                         </FlowPane>
-                        <Button contentDisplay="TOP" minWidth="100.0" onAction="#imprimir" prefHeight="60.0"
-                                prefWidth="100.0" text="Imprimir">
+                        <Button contentDisplay="TOP" minWidth="100.0" onAction="#imprimir" prefHeight="60.0" prefWidth="100.0" text="Imprimir">
                             <graphic>
                                 <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/pdfb.png"/>
+                                        <Image url="@../../imagen/icono/pdfb.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -37,141 +41,166 @@
                 </HBox>
                 <VBox styleClass="vbox-blanco">
                     <children>
-                        <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
-                            <children>
-                                <Button onAction="#eliminarCliente" styleClass="delete-button" text="Eliminar">
-                                    <graphic>
-                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../imagen/icono/xb.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </Button>
-                                <Button onAction="#limpiarCliente" text="Limpiar">
-                                    <graphic>
-                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../imagen/icono/clearb.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </Button>
-                                <Button onAction="#modificarCliente" text="Modificar">
-                                    <graphic>
-                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../imagen/icono/updateb.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </Button>
-                                <Button onAction="#registrarCliente" text="Registrar">
-                                    <graphic>
-                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
-                                                   preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../imagen/icono/doneb.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </Button>
-                            </children>
-                        </FlowPane>
-                        <ImageView fx:id="img" fitHeight="172.0" fitWidth="146.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fx:id="img" fitHeight="172.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../imagen/icono/man.png"/>
+                                <Image url="@../../imagen/icono/man.png" />
                             </image>
                         </ImageView>
+                  <FlowPane styleClass="flowpane-centrado">
+                     <children>
+                        <VBox>
+                           <children>
+                              <Label text="Buscar" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="textBuscar" onAction="#obtenerClientes" onKeyTyped="#consumeDigits" prefWidth="110.0" promptText="Buscar" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label text="Seleccionar cliente" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="comboClientes" prefHeight="25.0" promptText="Seleccionar cliente" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </FlowPane>
                         <FlowPane styleClass="flowpane-centrado">
                             <children>
                                 <VBox>
                                     <children>
                                         <Label text="Nombre" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" prefWidth="110.0"
-                                                   promptText="Nombre"/>
+                                        <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" prefWidth="110.0" promptText="Nombre" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Apellido" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" prefWidth="110.0"
-                                                   promptText="Apellido"/>
+                                        <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" prefWidth="110.0" promptText="Apellido" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Tipo de documento" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboTipoDoc" promptText="Cédula de ciudadanía"/>
+                                        <ComboBox fx:id="comboTipoDoc" promptText="Cédula de ciudadanía" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="N° documento" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" prefWidth="100.0"
-                                                   promptText="N° documento"/>
+                                        <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" prefWidth="100.0" promptText="N° documento" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Edad" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textEdad" onKeyTyped="#consumeDigits" prefWidth="50.0"
-                                                   promptText="Edad"/>
+                                        <TextField fx:id="textEdad" onKeyTyped="#consumeDigits" prefWidth="50.0" promptText="Edad" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Sexo" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboSexo" onAction="#cambiarImagen" promptText="Hombre"/>
+                                        <ComboBox fx:id="comboSexo" onAction="#cambiarImagen" promptText="Hombre" />
                                     </children>
                                 </VBox>
+                            </children>
+                        </FlowPane>
+                        <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
+                            <children>
+                                <Button onAction="#eliminarCliente" styleClass="delete-button" text="Eliminar">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../imagen/icono/xb.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                                <Button onAction="#limpiarCliente" text="Limpiar">
+                                    <graphic>
+                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../imagen/icono/clearb.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                                <Button onAction="#modificarCliente" text="Modificar">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../imagen/icono/updateb.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                                <Button onAction="#registrarCliente" text="Registrar">
+                                    <graphic>
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../imagen/icono/doneb.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
                             </children>
                         </FlowPane>
                     </children>
                 </VBox>
                 <VBox styleClass="vbox-blanco">
                     <children>
-                        <Label text="Medidas antropométricas (cm-kg)" textFill="#757575"/>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label text="Seleccionar medida" textFill="#b2b2b2">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <ComboBox fx:id="comboMedidas" prefHeight="25.0" prefWidth="271.0" promptText="Seleccionar medida" />
+                     </children>
+                  </VBox>
+                        <Label text="Medidas antropométricas (cm-kg)" textFill="#757575" />
                         <FlowPane styleClass="flowpane-centrado">
                             <children>
                                 <VBox>
                                     <children>
                                         <Label text="Fecha de medida*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
                                         <DatePicker fx:id="datePicker" prefWidth="271.0" promptText="Fecha de medida">
                                             <VBox.margin>
-                                                <Insets/>
+                                                <Insets />
                                             </VBox.margin>
                                         </DatePicker>
                                     </children>
@@ -180,272 +209,267 @@
                                     <children>
                                         <Label text="Plan de entrenamiento*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboRutinas" maxWidth="130.0"
-                                                  promptText="Plan de entrenamiento"/>
+                              <HBox>
+                                 <children>
+                                              <ComboBox fx:id="comboRutinas" maxWidth="130.0" promptText="Plan de entrenamiento" />
+                                    <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerRutinas" text="Cargar alimentos">
+                                       <graphic>
+                                          <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/updateb.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <padding>
+                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                       </padding>
+                                    </Button>
+                                 </children>
+                              </HBox>
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Plan de alimentacion*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboDietas" maxWidth="130.0"
-                                                  promptText="Plan de alimentación"/>
+                              <HBox>
+                                 <children>
+                                              <ComboBox fx:id="comboDietas" maxWidth="130.0" promptText="Plan de alimentación" />
+                                    <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerDietas" text="Cargar alimentos">
+                                       <graphic>
+                                          <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../imagen/icono/updateb.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <padding>
+                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                       </padding>
+                                    </Button>
+                                 </children>
+                              </HBox>
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Grado de actividad*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboActividad" onAction="#calcular" prefWidth="130.0"
-                                                  promptText="Grado de actividad"/>
+                                        <ComboBox fx:id="comboActividad" onAction="#calcular" prefWidth="130.0" promptText="Grado de actividad" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Objetivo*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboObjetivos" onAction="#calcular" onMouseClicked="#calcular"
-                                                  prefWidth="130.0" promptText="Objetivo"/>
+                                        <ComboBox fx:id="comboObjetivos" onAction="#calcular" onMouseClicked="#calcular" prefWidth="130.0" promptText="Objetivo" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Peso*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPeso" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Peso"/>
+                                        <TextField fx:id="textPeso" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Peso" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Altura*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textAltura" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Altura"/>
+                                        <TextField fx:id="textAltura" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Altura" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Muñeca*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textMuneca" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Muñeca"/>
+                                        <TextField fx:id="textMuneca" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Muñeca" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Bicep izq" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textBicepIzq" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Bicep Izq"/>
+                                        <TextField fx:id="textBicepIzq" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicep Izq" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Bicep der" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textBicepDer" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Bicep Der"/>
+                                        <TextField fx:id="textBicepDer" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicep Der" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Cuello" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textCuello" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuello"/>
+                                        <TextField fx:id="textCuello" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuello" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Pectorales" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPectorales" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Pectorales/Busto"/>
+                                        <TextField fx:id="textPectorales" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pectorales/Busto" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Cintura alta" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textCinturaAlta" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Cintura Alta"/>
+                                        <TextField fx:id="textCinturaAlta" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Alta" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Cintura media*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textCinturaMedia" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Cintura Media"/>
+                                        <TextField fx:id="textCinturaMedia" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Media" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Cintura baja" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textCinturaBaja" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Cintura Baja"/>
+                                        <TextField fx:id="textCinturaBaja" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Baja" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Cadera" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textCadera" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cadera"/>
+                                        <TextField fx:id="textCadera" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cadera" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Cuadricep izq" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textCuadricepIzq" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Cuadricep Izq"/>
+                                        <TextField fx:id="textCuadricepIzq" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuadricep Izq" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Cuadricep der" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textCuadricepDer" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Cuadriceps Der"/>
+                                        <TextField fx:id="textCuadricepDer" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuadriceps Der" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Pantorrilla izq" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPantorrillaIzq" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Pantorrilla Izq"/>
+                                        <TextField fx:id="textPantorrillaIzq" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pantorrilla Izq" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Pantorrilla der" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPantorrillaDer" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Pantorrilla Der"/>
+                                        <TextField fx:id="textPantorrillaDer" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pantorrilla Der" />
                                     </children>
                                 </VBox>
                             </children>
                         </FlowPane>
-                        <Label text="Pliegues cutaneos (mm)" textFill="#757575"/>
+                        <Label text="Pliegues cutaneos (mm)" textFill="#757575" />
                         <FlowPane styleClass="flowpane-centrado">
                             <children>
                                 <VBox>
                                     <children>
                                         <Label text="Tricipital*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textTricipital" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Tricipital"/>
+                                        <TextField fx:id="textTricipital" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Tricipital" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Bicipital*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textBicipital" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Bicipital"/>
+                                        <TextField fx:id="textBicipital" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicipital" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Subescapular*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textSubescapular" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Subescapular"/>
+                                        <TextField fx:id="textSubescapular" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Subescapular" />
                                     </children>
                                 </VBox>
                                 <VBox>
                                     <children>
                                         <Label text="Suprailiaco*" textFill="#b2b2b2">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textSuprailiaco" onKeyReleased="#calcular"
-                                                   onKeyTyped="#consumeDouble" prefWidth="130.0"
-                                                   promptText="Suprailiaco"/>
+                                        <TextField fx:id="textSuprailiaco" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Suprailiaco" />
                                     </children>
                                 </VBox>
                             </children>
@@ -454,40 +478,36 @@
                             <children>
                                 <Button onAction="#eliminarMedida" styleClass="delete-button" text="Eliminar">
                                     <graphic>
-                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../imagen/icono/xb.png"/>
+                                                <Image url="@../../imagen/icono/xb.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
                                 <Button onAction="#limpiarMedida" text="Limpiar">
                                     <graphic>
-                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../imagen/icono/clearb.png"/>
+                                                <Image url="@../../imagen/icono/clearb.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
                                 <Button onAction="#modificarMedida" text="Modificar">
                                     <graphic>
-                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../imagen/icono/updateb.png"/>
+                                                <Image url="@../../imagen/icono/updateb.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
                                 <Button onAction="#registrarMedida" text="Registrar">
                                     <graphic>
-                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../imagen/icono/doneb.png"/>
+                                                <Image url="@../../imagen/icono/doneb.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -498,189 +518,157 @@
                 </VBox>
                 <VBox styleClass="vbox-blanco">
                     <children>
-                        <Label text="Cálculos a partir de las medidas antropométricas" textFill="#757575"/>
-                        <FlowPane columnHalignment="CENTER" hgap="10.0" onKeyReleased="#updated"
-                                  styleClass="flowpane-centrado" vgap="10.0">
+                        <Label text="Cálculos a partir de las medidas antropométricas" textFill="#757575" />
+                        <FlowPane columnHalignment="CENTER" hgap="10.0" styleClass="flowpane-centrado" vgap="10.0">
                             <children>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Complexión física" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Complexión física" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textComplexion" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="Complexión física"/>
+                                        <TextField fx:id="textComplexion" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Complexión física" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Grado de obesidad" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Grado de obesidad" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textGradoObesidad" editable="false" prefHeight="27.0"
-                                                   promptText="Grado de obesidad"/>
+                                        <TextField fx:id="textGradoObesidad" editable="false" prefHeight="27.0" promptText="Grado de obesidad" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Peso ideal aprox" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Peso ideal aprox" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPesoIdealAprox" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="Peso ideal aprox"/>
+                                        <TextField fx:id="textPesoIdealAprox" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal aprox" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Peso ideal Creff" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Peso ideal Creff" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPesoIdealCreff" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="Peso ideal Creff"/>
+                                        <TextField fx:id="textPesoIdealCreff" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Creff" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Peso ideal Lorentz" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Peso ideal Lorentz" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPesoIdealLorentz" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="Peso ideal Lorentz"/>
+                                        <TextField fx:id="textPesoIdealLorentz" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Lorentz" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Peso ideal Monnerot-Dumaine"
-                                               textFill="#b2b2b2" wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Peso ideal Monnerot-Dumaine" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPesoIdealMonnerotDumaine" editable="false"
-                                                   prefHeight="27.0" prefWidth="90.0"
-                                                   promptText="Peso ideal Monnerot-Dumaine"/>
+                                        <TextField fx:id="textPesoIdealMonnerotDumaine" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Monnerot-Dumaine" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" ellipsisString="corporal"
-                                               text="Densidad corporal (Siri)" textFill="#b2b2b2" wrapText="true">
+                                        <Label alignment="TOP_LEFT" ellipsisString="corporal" text="Densidad corporal (Siri)" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textDensidad" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="Densidad corporal (Siri)"/>
+                                        <TextField fx:id="textDensidad" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Densidad corporal (Siri)" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Indice de masa corporal" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Indice de masa corporal" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textIMC" editable="false" prefHeight="27.0" prefWidth="90.0"
-                                                   promptText="Indice de masa corporal"/>
+                                        <TextField fx:id="textIMC" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Indice de masa corporal" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="\% Grasa corporal (Siri)" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="\% Grasa corporal (Siri)" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPorcentajeGrasa" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="\% Grasa corporal (Siri)"/>
+                                        <TextField fx:id="textPorcentajeGrasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="\% Grasa corporal (Siri)" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="\% Masa magra (Siri)" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="\% Masa magra (Siri)" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPorcentajeMasa" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="\% Masa magra (Siri)"/>
+                                        <TextField fx:id="textPorcentajeMasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="\% Masa magra (Siri)" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Peso grasa corporal (Siri)" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Peso grasa corporal (Siri)" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textPesoGrasa" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="Peso grasa corporal (Siri)"/>
+                                        <TextField fx:id="textPesoGrasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso grasa corporal (Siri)" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="Masa libre de grasa (Siri)" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="Masa libre de grasa (Siri)" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textMasaLibre" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="Masa libre de grasa (Siri)"/>
+                                        <TextField fx:id="textMasaLibre" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Masa libre de grasa (Siri)" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="TMB Harrys Benedict" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="TMB Harrys Benedict" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textHarrys" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="TMB Harrys Benedict"/>
+                                        <TextField fx:id="textHarrys" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="TMB Harrys Benedict" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label alignment="TOP_LEFT" text="TMB Mifflin St. Jeorge" textFill="#b2b2b2"
-                                               wrapText="true">
+                                        <Label alignment="TOP_LEFT" text="TMB Mifflin St. Jeorge" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textMifflin" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="TMB Mifflin St. Jeorge"/>
+                                        <TextField fx:id="textMifflin" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="TMB Mifflin St. Jeorge" />
                                     </children>
                                 </VBox>
                                 <VBox styleClass="x">
                                     <children>
-                                        <Label fx:id="labelObjetivo" alignment="TOP_LEFT" text="Calorías en superavit"
-                                               textFill="#b2b2b2" wrapText="true">
+                                        <Label fx:id="labelObjetivo" alignment="TOP_LEFT" text="Calorías en superavit" textFill="#b2b2b2" wrapText="true">
                                             <padding>
-                                                <Insets left="6.0"/>
+                                                <Insets left="6.0" />
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textSuperavit" editable="false" prefHeight="27.0"
-                                                   prefWidth="90.0" promptText="Calorías en superavit"/>
+                                        <TextField fx:id="textSuperavit" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Calorías en superavit" />
                                     </children>
                                 </VBox>
                             </children>

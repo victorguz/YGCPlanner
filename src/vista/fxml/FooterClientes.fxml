@@ -36,7 +36,7 @@
                                         <Insets left="6.0"/>
                                     </padding>
                                 </Label>
-                                <ComboBox fx:id="comboClientes" maxWidth="300.0" onAction="#select" prefHeight="25.0"
+                                <ComboBox fx:id="comboClientes" maxWidth="300.0" onAction="#selectCliente" prefHeight="25.0"
                                           promptText="CLIENTES" visibleRowCount="5"/>
                             </children>
                         </VBox>

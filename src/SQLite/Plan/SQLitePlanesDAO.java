@@ -18,11 +18,11 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
 
     private final String INSERT = "INSERT INTO Planes(nombre, "
             + " descripcion, tipo, usedate, usetime) "
-            + "values (?, ?, ?, ?, ?, ?, ?, ?)";
+            + "values (?, ?, ?, ?, ?)";
     private final String UPDATE = "UPDATE Planes SET nombre = ?, "
-            + " descripcion = ?, sexo = ?, edad  = ?, usedate = ?, usetime = ? WHERE plankey = ? ";
+            + " descripcion = ?, usedate = ?, usetime = ? WHERE plankey = ? ";
     private final String DELETE = "DELETE FROM Planes WHERE Plankey = ?";
-    private final String SELECT = "SELECT Plankey, nombre, objetivo,"
+    private final String SELECT = "SELECT Plankey, nombre, "
             + " descripcion, tipo FROM Planes "
             + "where Plankey = ? ";
     private final String WHERE = "SELECT Plankey, nombre,"

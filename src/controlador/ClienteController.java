@@ -30,6 +30,9 @@ public class ClienteController extends Controller<Cliente> {
     /*Objetos del modulo de clientes*/
 
     @FXML
+    protected TextField textBuscar;
+
+    @FXML
     protected ListView<Medida> listView;
 
     @FXML
@@ -55,7 +58,8 @@ public class ClienteController extends Controller<Cliente> {
 
     @FXML
     private ToggleButton buttonDieta;
-
+    @FXML
+    private ComboBox<Cliente> comboClientes;
     @FXML
     private ComboBox<String> comboSexo;
 
@@ -145,46 +149,14 @@ public class ClienteController extends Controller<Cliente> {
     private Label labelObjetivo;
     @FXML
     private TextField textSuperavit;
+    @FXML
+    private ComboBox<Medida> comboMedidas;
 
     /*Logica de negocio o funciones*/
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
-        updated();
-    }
-
-    /**
-     * Si se selecciona un cliente, este método lo muestra.
-     */
-    public void updated() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Runnable updater = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isClienteUpdated()) {
-                            mostrarCliente();
-                            setClienteUpdated(false);
-                        }
-                        if (isRutinasUpdated() || isDietasUpdated()) {
-                            obtenerDietasYRutinas();
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
     }
 
     private void setCombos() {
@@ -201,7 +173,7 @@ public class ClienteController extends Controller<Cliente> {
         comboActividad.getSelectionModel().select(0);
         comboObjetivos.getItems().setAll("Perder", "Aumentar", "Mantener");
         comboObjetivos.getSelectionModel().select(0);
-
+        obtenerClientes();
     }
 
     public Cliente captarCliente() throws DAOException {
@@ -245,7 +217,7 @@ public class ClienteController extends Controller<Cliente> {
                 mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
                 getClientes().insert(c);
-                setClientesUpdated(true);
+                obtenerClientes();
                 mensaje("Cliente registrado", "exito");
             }
         } catch (DAOException ex) {
@@ -270,8 +242,8 @@ public class ClienteController extends Controller<Cliente> {
         if (!getCliente().isEmpty()) {
             try {
                 getClientes().delete(getCliente());
-                setClientesUpdated(true);
                 eliminarMedidas();
+                obtenerClientes();
                 mensaje("Cliente eliminado", "exito");
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -288,7 +260,7 @@ public class ClienteController extends Controller<Cliente> {
                 Cliente c = captarCliente();
                 c.setClienteKey(getCliente().getClienteKey());
                 getClientes().update(c);
-                setClientesUpdated(true);
+                obtenerClientes();
                 mensaje("Cliente modificado", "exito");
             } catch (DAOException ex) {
                 excepcion(ex);
@@ -395,7 +367,7 @@ public class ClienteController extends Controller<Cliente> {
                 try {
                     getMedidas().insert(m);
                     mensaje("Medida registrada", "exito");
-                    setMedidasUpdated(true);
+                    obtenerMedidas();
                 } catch (DAOException ex) {
                     excepcion(ex);
                 }
@@ -486,7 +458,7 @@ public class ClienteController extends Controller<Cliente> {
             } else {
                 try {
                     getMedidas().delete(getMedida());
-                    setMedidasUpdated(true);
+                    obtenerMedidas();
                     mensaje("Medida eliminada", "exito");
                 } catch (DAOException ex) {
                     excepcion(ex);
@@ -508,7 +480,7 @@ public class ClienteController extends Controller<Cliente> {
                     try {
                         k.setMedidakey(getMedida().getMedidakey());
                         getMedidas().update(k);
-                        setMedidasUpdated(true);
+                        obtenerMedidas();
                         mensaje("Medida modificada", "exito");
                     } catch (DAOException ex) {
                         excepcion(ex);
@@ -540,19 +512,18 @@ public class ClienteController extends Controller<Cliente> {
         labelObjetivo.setText("Calorías para " + k.getObjetivo().toLowerCase());
     }
 
-    public void obtenerDietasYRutinas() {
+    public void obtenerDietas() {
         if (!dietas.isEmpty()) {
             comboDietas.setItems(dietas);
             comboDietas.getSelectionModel().select(0);
         }
+    }
+    public void obtenerRutinas() {
         if (!rutinas.isEmpty()) {
             comboRutinas.setItems(rutinas);
             comboRutinas.getSelectionModel().select(0);
         }
-        setRutinasUpdated(false);
-        setDietasUpdated(false);
     }
-
     public void cambiarImagen() {
         if (comboSexo.getSelectionModel().getSelectedItem().equalsIgnoreCase("hombre")) {
             img.setImage(new Image("/imagen/icono/man.png"));
@@ -560,5 +531,85 @@ public class ClienteController extends Controller<Cliente> {
             img.setImage(new Image("/imagen/icono/woman.png"));
         }
     }
+
+    public void selectCliente(int i) {
+        if (!comboClientes.getItems().isEmpty()) {
+            comboClientes.getSelectionModel().select(i);
+            setCliente(comboClientes.getSelectionModel().getSelectedItem());
+        } else {
+            setCliente(new Cliente());
+        }
+        mostrarCliente();
+        cambiarImagen();
+        obtenerMedidas();
+    }
+
+    public void selectCliente() {
+        if (!comboClientes.getItems().isEmpty()) {
+            setCliente(comboClientes.getSelectionModel().getSelectedItem());
+        } else {
+            setCliente(new Cliente());
+        }
+        mostrarCliente();
+        cambiarImagen();
+        obtenerMedidas();
+    }
+
+    public void selectMedida(int i) {
+        if (!comboMedidas.getItems().isEmpty()) {
+            comboMedidas.getSelectionModel().select(i);
+            setMedida(comboMedidas.getSelectionModel().getSelectedItem());
+            mostrarMedida();
+        } else {
+            mostrarMedida();
+            setMedida(new Medida());
+        }
+    }
+
+    public void selectMedida() {
+        if (!comboMedidas.getItems().isEmpty()) {
+            setMedida(comboMedidas.getSelectionModel().getSelectedItem());
+            mostrarMedida();
+        } else {
+            setMedida(new Medida());
+            mostrarMedida();
+        }
+    }
+
+
+    public void obtenerClientes() {
+        try {
+            comboClientes.getItems().clear();
+            if (textBuscar.getText().isEmpty()) {
+                clientes = getClientes().all();
+            } else {
+                clientes = getClientes().where(textBuscar.getText());
+            }
+            if (!clientes.isEmpty()) {
+                comboClientes.setItems(clientes);
+                selectCliente(0);
+                obtenerMedidas();
+            }
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void obtenerMedidas() {
+        comboMedidas.getItems().clear();
+        if (!getCliente().isEmpty()) {
+            try {
+                medidas = getMedidas().where("" + getCliente().getClienteKey());
+                if (!medidas.isEmpty()) {
+                    comboMedidas.setItems(medidas);
+                    selectMedida(0);
+                }
+            } catch (DAOException ex) {
+                excepcion(ex);
+            }
+        }
+    }
+
+
 
 }

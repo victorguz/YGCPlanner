@@ -42,7 +42,7 @@ public class Main extends Application {
             stage.getIcons().add(new Image("/imagen/icono/icono16.png"));
             stage.show();
         } catch (IOException ex) {
-            excepcion(ex);
+            ex.printStackTrace();
         }
     }
 

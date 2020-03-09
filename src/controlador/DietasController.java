@@ -88,65 +88,7 @@ public class DietasController extends Controller<Plan> {
 
     public void initialize(URL location, ResourceBundle resources) {
         setDietasUpdated(true);
-        updated();
         setAlimentosUpdated(true);
-    }
-
-
-    public void updated() {
-        Thread t = new Thread(new Runnable() {
-
-            public void run() {
-                Runnable updater = new Runnable() {
-
-                    public void run() {
-                        if (isDietasUpdated()) {
-                            obtener();
-                        }
-                        if (isMedidaUpdated()) {
-                            activateCheck();
-                        }
-                        if (isAlimentosUpdated()) {
-                            try {
-                                comboAlimentos.getItems().clear();
-                                if (textBuscarAlimento.getText().isEmpty()) {
-                                    alimentos = getAlimentos().all();
-                                } else {
-                                    alimentos = getAlimentos().where(textBuscarAlimento.getText());
-                                }
-                                if (!alimentos.isEmpty()) {
-                                    comboAlimentos.setItems(alimentos);
-                                    comboAlimentos.getSelectionModel().select(0);
-                                }
-                            } catch (DAOException ex) {
-                                excepcion(ex);
-                            }
-                            setAlimentosUpdated(false);
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
-    }
-
-    public void activateCheck() {
-        if (medidas.isEmpty()) {
-            checkCal.setDisable(true);
-        } else {
-            checkCal.setDisable(false);
-        }
-        checkCal.setSelected(false);
-        textKcal.setDisable(false);
     }
 
     public void setKcal() {

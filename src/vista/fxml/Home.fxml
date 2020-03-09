@@ -1,98 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="582.0"
-            prefWidth="752.0" stylesheets="@../estilo/Style.css" xmlns="http://javafx.com/javafx/8.0.171"
-            fx:controller="controlador.HomeController">
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="582.0" prefWidth="752.0" stylesheets="@../estilo/Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.HomeController">
     <center>
-        <ScrollPane fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pickOnBounds="false" styleClass="root"
-                    vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+        <ScrollPane fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pickOnBounds="false" styleClass="root" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
             <content>
-                <StackPane fx:id="holderPane" alignment="BASELINE_CENTER" styleClass="back"/>
+                <StackPane fx:id="holderPane" alignment="BASELINE_CENTER" styleClass="back" />
             </content>
         </ScrollPane>
     </center>
-    <top>
-        <StackPane fx:id="footer" BorderPane.alignment="CENTER"/>
-    </top>
     <bottom>
         <StackPane BorderPane.alignment="CENTER">
             <children>
                 <HBox styleClass="vbox-blanco">
                     <children>
-                        <ToggleButton id="sidebuttons" fx:id="buttonClientes" contentDisplay="TOP"
-                                      onAction="#switchClientes" prefHeight="50.0" prefWidth="100.0" text="Clientes"
-                                      textFill="#757575">
+                        <ToggleButton id="sidebuttons" fx:id="buttonClientes" contentDisplay="TOP" onAction="#switchClientes" prefHeight="50.0" prefWidth="100.0" text="Clientes" textFill="#757575">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true"
-                                           preserveRatio="true">
+                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/baseline_face_black_18.png"/>
+                                        <Image url="@../../imagen/icono/baseline_face_black_18.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                             <toggleGroup>
-                                <ToggleGroup fx:id="Home"/>
+                                <ToggleGroup fx:id="Home" />
                             </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton id="sidebuttons" fx:id="buttonDietas" contentDisplay="TOP"
-                                      onAction="#switchDietas" prefHeight="50.0" prefWidth="100.0" text="Nutrición"
-                                      textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonDietas" contentDisplay="TOP" onAction="#switchDietas" prefHeight="50.0" prefWidth="100.0" text="Nutrición" textFill="#757575" toggleGroup="$Home">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true"
-                                           preserveRatio="true">
+                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/baseline_favorite_border_black_18.png"/>
+                                        <Image url="@../../imagen/icono/baseline_favorite_border_black_18.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </ToggleButton>
-                        <ToggleButton id="sidebuttons" fx:id="buttonRutinas" contentDisplay="TOP"
-                                      onAction="#switchRutinas" prefHeight="50.0" prefWidth="100.0" text="Entrenamiento"
-                                      textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonRutinas" contentDisplay="TOP" onAction="#switchRutinas" prefHeight="50.0" prefWidth="100.0" text="Entrenamiento" textFill="#757575" toggleGroup="$Home">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true"
-                                           preserveRatio="true">
+                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/baseline_accessibility_new_black_18.png"/>
+                                        <Image url="@../../imagen/icono/baseline_accessibility_new_black_18.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </ToggleButton>
-                        <ToggleButton id="sidebuttons" fx:id="buttonAlimentos" contentDisplay="TOP"
-                                      onAction="#switchAlimentos" prefHeight="50.0" prefWidth="100.0" text="Alimentos"
-                                      textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonAlimentos" contentDisplay="TOP" onAction="#switchAlimentos" prefHeight="50.0" prefWidth="100.0" text="Alimentos" textFill="#757575" toggleGroup="$Home">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true"
-                                           preserveRatio="true">
+                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/baseline_fastfood_black_18.png"/>
+                                        <Image url="@../../imagen/icono/baseline_fastfood_black_18.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </ToggleButton>
-                        <ToggleButton id="sidebuttons" fx:id="buttonEjercicios" contentDisplay="TOP"
-                                      onAction="#switchEjercicios" prefHeight="50.0" prefWidth="100.0" text="Ejercicios"
-                                      textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonEjercicios" contentDisplay="TOP" onAction="#switchEjercicios" prefHeight="50.0" prefWidth="100.0" text="Ejercicios" textFill="#757575" toggleGroup="$Home">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true"
-                                           preserveRatio="true">
+                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/baseline_fitness_center_black_18.png"/>
+                                        <Image url="@../../imagen/icono/baseline_fitness_center_black_18.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </ToggleButton>
-                        <ToggleButton id="sidebuttons" fx:id="buttonConfig" contentDisplay="TOP"
-                                      onAction="#switchConfig" prefHeight="50.0" prefWidth="100.0" text="Configuracion"
-                                      textFill="#757575" toggleGroup="$Home">
+                        <ToggleButton id="sidebuttons" fx:id="buttonConfig" contentDisplay="TOP" onAction="#switchConfig" prefHeight="50.0" prefWidth="100.0" text="Configuracion" textFill="#757575" toggleGroup="$Home">
                             <graphic>
-                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true"
-                                           preserveRatio="true">
+                                <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/baseline_dashboard_black_18.png"/>
+                                        <Image url="@../../imagen/icono/baseline_dashboard_black_18.png" />
                                     </image>
                                 </ImageView>
                             </graphic>

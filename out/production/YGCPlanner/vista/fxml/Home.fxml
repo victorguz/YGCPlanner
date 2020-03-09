@@ -17,14 +17,11 @@
             </content>
         </ScrollPane>
     </center>
-   <top>
-          <StackPane fx:id="footer" BorderPane.alignment="CENTER" />
-   </top>
-   <bottom>
+    <bottom>
         <StackPane BorderPane.alignment="CENTER">
             <children>
-            <HBox styleClass="vbox-blanco">
-               <children>
+                <HBox styleClass="vbox-blanco">
+                    <children>
                         <ToggleButton id="sidebuttons" fx:id="buttonClientes" contentDisplay="TOP" onAction="#switchClientes" prefHeight="50.0" prefWidth="100.0" text="Clientes" textFill="#757575">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" opacity="0.51" pickOnBounds="true" preserveRatio="true">
@@ -82,9 +79,9 @@
                                 </ImageView>
                             </graphic>
                         </ToggleButton>
-               </children>
-            </HBox>
+                    </children>
+                </HBox>
             </children>
         </StackPane>
-   </bottom>
+    </bottom>
 </BorderPane>

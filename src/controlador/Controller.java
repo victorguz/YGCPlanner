@@ -48,13 +48,9 @@ public abstract class Controller<T> implements Initializable {
     protected static ObservableList<Ejercicio> ejercicios = FXCollections.observableArrayList();
     private static SQLiteDAOManager manager;
     private static Cliente cliente;
-    private static boolean clientesUpdated;
-    private static boolean clienteUpdated;
     private static Medida medida;
-    private static boolean medidasUpdated;
     private static boolean dietasUpdated;
     private static boolean rutinasUpdated;
-    private static boolean medidaUpdated;
     private static boolean alimentosUpdated;
     private static boolean ejerciciosUpdated;
     private static boolean onConfig;
@@ -121,6 +117,22 @@ public abstract class Controller<T> implements Initializable {
 
     public static ReferenciasDAO getReferencias() throws DAOException {
         return getManager().getReferenciasDAO();
+    }
+
+    public static Cliente getCliente() {
+        return cliente;
+    }
+
+    public static void setCliente(Cliente cliente) {
+        Controller.cliente = cliente;
+    }
+
+    public static Medida getMedida() {
+        return medida;
+    }
+
+    public static void setMedida(Medida medida) {
+        Controller.medida = medida;
     }
 
     public static void mensaje(String mensaje, String tipo) {
@@ -291,83 +303,6 @@ public abstract class Controller<T> implements Initializable {
 
     public static void setOnConfig(boolean aOnConfig) {
         onConfig = aOnConfig;
-    }
-
-    public static Cliente getCliente() {
-        if (cliente == null) {
-            cliente = new Cliente();
-        }
-        return cliente;
-    }
-
-    public static void setCliente(Cliente c) {
-        cliente = c;
-    }
-
-    public static boolean isClientesUpdated() {
-        return clientesUpdated;
-    }
-
-    /**
-     * Cuando se actualiza la lista de clientes cambia estado a actualizado
-     * (true)
-     *
-     * @param c
-     */
-    public static void setClientesUpdated(boolean c) {
-        clientesUpdated = c;
-    }
-
-    public static boolean isClienteUpdated() {
-        return clienteUpdated;
-    }
-
-    /**
-     * Cuando se actualiza el cliente, cambia estado a actualizado (true)
-     *
-     * @param c
-     */
-    public static void setClienteUpdated(boolean c) {
-        clienteUpdated = c;
-    }
-
-    public static Medida getMedida() {
-        if (medida == null) {
-            medida = new Medida();
-        }
-        return medida;
-    }
-
-    public static void setMedida(Medida c) {
-        medida = c;
-    }
-
-    public static boolean isMedidasUpdated() {
-        return medidasUpdated;
-    }
-
-    /**
-     * Cuando se actualiza la lista de medidas cambia estado a actualizado
-     * (true)
-     *
-     * @param c
-     */
-    public static void setMedidasUpdated(boolean c) {
-        medidasUpdated = c;
-    }
-
-    public static boolean isMedidaUpdated() {
-        return medidaUpdated;
-    }
-
-    /**
-     * Cuando se actualiza la variable de medida cambia estado a actualizado
-     * (true)
-     *
-     * @param c
-     */
-    public static void setMedidaUpdated(boolean c) {
-        medidaUpdated = c;
     }
 
     public static boolean isDietasUpdated() {

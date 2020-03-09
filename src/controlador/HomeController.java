@@ -29,7 +29,6 @@ public class HomeController extends Controller<StackPane> {
     //referencia sus nombres
     //
     public static StackPane Clientes;
-    public static StackPane FooterClientes;
     public static StackPane Dietas;
     public static StackPane Rutinas;
     public static StackPane Alimentos;
@@ -84,8 +83,6 @@ public class HomeController extends Controller<StackPane> {
         try {
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
             Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
-            FooterClientes = FXMLLoader.load(new File("src/vista/fxml/FooterClientes.fxml").toURL());
-            setFooter(FooterClientes);
             Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
             Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
@@ -98,12 +95,6 @@ public class HomeController extends Controller<StackPane> {
         } finally {
             mostrar(new StackPane());
         }
-    }
-
-    protected void setFooter(StackPane node) {
-        footer.getChildren().clear();
-        footer.getChildren().add(node);
-        fadeTransition(node, 700);
     }
 
     @FXML
