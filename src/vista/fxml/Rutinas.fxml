@@ -38,14 +38,13 @@
                                           </Label>
                                     <GridPane hgap="10.0" vgap="10.0">
                                       <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
-                                        <ColumnConstraints hgrow="SOMETIMES" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
                                       </columnConstraints>
                                       <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
                                                     <Label minWidth="100.0" text="Buscar plan" textFill="#b2b2b2">
@@ -54,24 +53,36 @@
                                                         </padding>
                                                     </Label>
                                                     <TextField fx:id="textBuscar" minWidth="20.0" onAction="#obtener" onKeyTyped="#consumeDigits" promptText="Buscar plan" GridPane.columnIndex="1" />
-                                                    <Label minWidth="100.0" text="Seleccionar plan" textFill="#b2b2b2" GridPane.rowIndex="1">
+                                                    <Label minWidth="100.0" text="Seleccionar plan" textFill="#b2b2b2" GridPane.columnIndex="2">
                                                         <padding>
                                                             <Insets left="6.0" />
                                                         </padding>
                                                     </Label>
-                                                    <ComboBox fx:id="comboRutinas" minWidth="20.0" onAction="#mostrar" promptText="Seleccionar plan" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                    <Label minWidth="100.0" text="Nombre" textFill="#b2b2b2" GridPane.rowIndex="2">
+                                                    <ComboBox fx:id="comboRutinas" minWidth="20.0" onAction="#mostrar" promptText="Seleccionar plan" visibleRowCount="5" GridPane.columnIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                                    <Label minWidth="100.0" text="Nombre" textFill="#b2b2b2">
                                                         <padding>
                                                             <Insets left="6.0" />
                                                         </padding>
                                                     </Label>
-                                                    <TextField fx:id="textNombre" minWidth="20.0" promptText="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                    <Label minWidth="100.0" text="Descripción del plan" textFill="#b2b2b2" GridPane.rowIndex="3">
+                                                    <TextField fx:id="textNombre" minWidth="20.0" promptText="Nombre" GridPane.columnIndex="1" />
+                                                    <Label minWidth="100.0" text="Descripción del plan" textFill="#b2b2b2" GridPane.rowIndex="1">
                                                         <padding>
                                                             <Insets left="6.0" />
                                                         </padding>
                                                     </Label>
-                                                    <TextArea fx:id="textDescripcion" minWidth="20.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                    <TextArea fx:id="textDescripcion" minWidth="20.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                           <FlowPane alignment="CENTER" styleClass="flowpane-centrado">
@@ -135,17 +146,16 @@
                                           <Insets />
                                        </VBox.margin>
                                     </Label>
-                                    <GridPane>
-                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                       </rowConstraints>
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
                                        <children>
                                           <Label minWidth="100.0" text="Buscar ejercicio" textFill="#b2b2b2" wrapText="true">
                                              <padding>
@@ -153,24 +163,36 @@
                                              </padding>
                                           </Label>
                                           <TextField fx:id="textBuscarEjercicioEjercicio" minWidth="20.0" onAction="#obtener" onKeyTyped="#consumeDigits" promptText="Buscar ejercicio" GridPane.columnIndex="1" />
-                                          <Label minWidth="100.0" text="Seleccionar ejercicio" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
+                                          <Label minWidth="100.0" text="Seleccionar ejercicio" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
                                              <padding>
                                                 <Insets left="6.0" />
                                              </padding>
                                           </Label>
-                                          <ComboBox fx:id="comboEjerciciosEjercicios" minWidth="20.0" onAction="#mostrar" promptText="EJERCICIOS" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <Label minWidth="100.0" text="Nombre" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
+                                          <ComboBox fx:id="comboEjerciciosEjercicios" minWidth="20.0" onAction="#mostrar" promptText="EJERCICIOS" GridPane.columnIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label minWidth="100.0" text="Nombre" textFill="#b2b2b2" wrapText="true">
                                              <padding>
                                                 <Insets left="6.0" />
                                              </padding>
                                           </Label>
-                                          <TextField fx:id="textNombreEjercicio" minWidth="20.0" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <Label minWidth="100.0" text="Descripción del ejercicio" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="3">
+                                          <TextField fx:id="textNombreEjercicio" minWidth="20.0" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="1" />
+                                          <Label minWidth="100.0" text="Descripción del ejercicio" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
                                              <padding>
                                                 <Insets left="6.0" />
                                              </padding>
                                           </Label>
-                                          <TextArea fx:id="textDescripcionEjercicio" minWidth="20.0" onKeyTyped="#consumeDigits" promptText="Descripción del ejercicio (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <TextArea fx:id="textDescripcionEjercicio" minWidth="20.0" onKeyTyped="#consumeDigits" promptText="Descripción del ejercicio (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                     <FlowPane fx:id="botones1" alignment="CENTER" hgap="10.0" styleClass="flowpane">
@@ -226,16 +248,15 @@
                         <Label minWidth="100.0" text="Alimentos de la dieta" textFill="#757575" wrapText="true" />
                   <GridPane hgap="10.0" vgap="10.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
-                      <ColumnConstraints hgrow="SOMETIMES" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                                   <Label minWidth="100.0" text="Buscar ejercicio" textFill="#b2b2b2" wrapText="true">
@@ -244,36 +265,36 @@
                                       </padding>
                                   </Label>
                                   <TextField fx:id="textBuscarEjercicio" minWidth="20.0" onAction="#obtenerEjercicios" onKeyTyped="#consumeDigits" promptText="Buscar ejercicio" GridPane.columnIndex="1" />
-                                  <Label minWidth="100.0" text="Seleccionar ejercicio" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
+                                  <Label minWidth="100.0" text="Seleccionar ejercicio" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
-                                  <ComboBox fx:id="comboEjercicios" minWidth="20.0" promptText="Ejercicios" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                  <Label minWidth="100.0" text="Series" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
+                                  <ComboBox fx:id="comboEjercicios" minWidth="20.0" promptText="Ejercicios" visibleRowCount="5" GridPane.columnIndex="3" />
+                                  <Label minWidth="100.0" text="Series" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
-                                  <ComboBox fx:id="comboSeries" minWidth="20.0" promptText="Series" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                  <Label minWidth="100.0" text="Repeticiones" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="3">
+                                  <ComboBox fx:id="comboSeries" minWidth="20.0" promptText="Series" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                  <Label minWidth="100.0" text="Repeticiones" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
-                                  <ComboBox fx:id="comboRepeticiones" minWidth="20.0" promptText="Repeticiones" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label minWidth="100.0" text="Día de la semana *" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="4">
+                                  <ComboBox fx:id="comboRepeticiones" minWidth="20.0" promptText="Repeticiones" visibleRowCount="5" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label minWidth="100.0" text="Día de la semana *" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
                            <padding>
                               <Insets left="6.0" />
                            </padding>
                         </Label>
-                        <Label minWidth="100.0" text="Bloque de ejercicios *" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="5">
+                        <Label minWidth="100.0" text="Bloque de ejercicios *" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <padding>
                               <Insets left="6.0" />
                            </padding>
                         </Label>
-                        <ComboBox fx:id="comboDia" minWidth="20.0" promptText="Día de la semana *" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <ComboBox fx:id="comboBloque" minWidth="20.0" promptText="Bloque de ejercicios *" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <ComboBox fx:id="comboDia" minWidth="20.0" onAction="#getBloque" promptText="Día de la semana *" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="comboBloques" minWidth="20.0" onAction="#getBloque" promptText="Bloque de ejercicios *" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                         <FlowPane styleClass="flowpane-centrado">

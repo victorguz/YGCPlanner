@@ -452,14 +452,20 @@ public class DietasController extends Controller<Plan> {
         return c;
     }
 
-
+String buscar="";
+    public void buscarAlimento(ActionEvent e){
+        TextField t= (TextField) e.getSource();
+        buscar=t.getText();
+        obtenerAlimentos();
+    }
     public void obtenerAlimentos() {
         try {
             comboAlimentosAlimentos.getItems().clear();
-            if (textBuscarAlimentoAlimentos.getText().isEmpty()) {
+            comboAlimentos.getItems().clear();
+            if (buscar.isEmpty()) {
                 alimentos = getAlimentos().all();
             } else {
-                alimentos = getAlimentos().where(textBuscarAlimentoAlimentos.getText());
+                alimentos = getAlimentos().where(buscar);
             }
             if (!alimentos.isEmpty()) {
                 comboAlimentosAlimentos.setItems(alimentos);

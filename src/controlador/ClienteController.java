@@ -312,8 +312,29 @@ public class ClienteController extends Controller<Cliente> {
             Medida k = new Medida();
             k.setCliente(getCliente());
             k.setFecha(datePicker.getValue());
-            k.setDieta(comboDietas.getSelectionModel().getSelectedItem());
-            k.setRutina(comboRutinas.getSelectionModel().getSelectedItem());
+            if(comboRutinas.getItems().isEmpty()){
+                obtenerRutinas();
+                if(comboRutinas.getItems().isEmpty()){
+                    mensaje("Primero registe un plan de entrenamiento","aviso");
+                    return new Medida();
+                }else{
+                    k.setRutina(comboRutinas.getSelectionModel().getSelectedItem());
+                }
+            }else{
+                k.setRutina(comboRutinas.getSelectionModel().getSelectedItem());
+            }
+
+            if(comboDietas.getItems().isEmpty()){
+                obtenerRutinas();
+                if(comboDietas.getItems().isEmpty()){
+                    mensaje("Primero registe un plan de alimentación","aviso");
+                    return new Medida();
+                }else{
+                    k.setDieta(comboDietas.getSelectionModel().getSelectedItem());
+                }
+            }else{
+                k.setDieta(comboDietas.getSelectionModel().getSelectedItem());
+            }
             k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
             k.setObjetivo(comboObjetivos.getSelectionModel()
                     .getSelectedItem());
@@ -542,23 +563,23 @@ public class ClienteController extends Controller<Cliente> {
         if (!comboClientes.getItems().isEmpty()) {
             comboClientes.getSelectionModel().select(i);
             setCliente(comboClientes.getSelectionModel().getSelectedItem());
+            mostrarCliente();
+            cambiarImagen();
+            obtenerMedidas();
         } else {
             setCliente(new Cliente());
         }
-        mostrarCliente();
-        cambiarImagen();
-        obtenerMedidas();
     }
 
     public void selectCliente() {
         if (!comboClientes.getItems().isEmpty()) {
             setCliente(comboClientes.getSelectionModel().getSelectedItem());
+            mostrarCliente();
+            cambiarImagen();
+            obtenerMedidas();
         } else {
             setCliente(new Cliente());
         }
-        mostrarCliente();
-        cambiarImagen();
-        obtenerMedidas();
     }
 
     public void selectMedida(int i) {

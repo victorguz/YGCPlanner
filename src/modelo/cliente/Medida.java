@@ -284,7 +284,7 @@ public class Medida {
                     return "Pequeña";
                 }
             default:
-                return null;
+                return "null";
         }
     }
 

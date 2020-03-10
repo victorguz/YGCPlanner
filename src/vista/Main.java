@@ -40,6 +40,10 @@ public class Main extends Application {
             stage.setTitle("Dieta y ejercicio - Planificador Yezid Guzman Coach");
             stage.setScene(scene);
             stage.getIcons().add(new Image("/imagen/icono/icono16.png"));
+            stage.setMinHeight(600);
+            stage.setMinWidth(550);
+            stage.setHeight(600);
+            stage.setWidth(550);
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();

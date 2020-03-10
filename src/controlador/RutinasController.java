@@ -214,6 +214,7 @@ public class RutinasController extends Controller<Plan> {
             Plan d = comboRutinas.getSelectionModel().getSelectedItem();
             textNombre.setText(d.getNombre());
             textDescripcion.setText(d.getDescripcion());
+            getBloque();
         }
     }
 
@@ -240,25 +241,7 @@ public class RutinasController extends Controller<Plan> {
         return null;
     }
 
-    public String getMomento() {
-        if (buttonBloque1.isSelected()) {
-            return EjxRut.BLOQUE1;
-        }
-        if (buttonBloque2.isSelected()) {
-            return EjxRut.BLOQUE2;
-        }
-        if (buttonBloque3.isSelected()) {
-            return EjxRut.BLOQUE3;
-        }
-        if (buttonBloque5.isSelected()) {
-            return EjxRut.BLOQUE4;
-        }
-        if (buttonBloque5.isSelected()) {
-            return EjxRut.BLOQUE5;
-        }
-        mensaje("Seleccione el bloque para el ejercicio", "aviso");
-        return null;
-    }
+
 
     public Plan getRutina() {
         if (comboRutinas.getItems().isEmpty()) {
@@ -311,122 +294,23 @@ public class RutinasController extends Controller<Plan> {
     }
 
     public String getDia() {
-        if (buttonDomingo.isSelected()) {
-            return EjxRut.DOMINGO;
-        }
-        if (buttonLunes.isSelected()) {
-            return EjxRut.LUNES;
-        }
-        if (buttonMartes.isSelected()) {
-            return EjxRut.MARTES;
-        }
-        if (buttonMiercoles.isSelected()) {
-            return EjxRut.MIERCOLES;
-        }
-        if (buttonJueves.isSelected()) {
-            return EjxRut.JUEVES;
-        }
-        if (buttonViernes.isSelected()) {
-            return EjxRut.VIERNES;
-        }
-        if (buttonSabado.isSelected()) {
-            return EjxRut.SABADO;
-        }
-        mensaje("Seleccione un día de la semana", "aviso");
-        return null;
+        return comboDia.getSelectionModel().getSelectedItem();
     }
 
-    public void getBloque1() throws DAOException {
-        String dia = getDia();
+    public String getMomento() {
+        return comboBloques.getSelectionModel().getSelectedItem();
+    }
+
+    public void getBloque() {
+        listView.getItems().clear();
         if (getRutina().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonBloque1.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonBloque1.setSelected(false);
-                } else {
-                    listView.setItems(getEjxruts().where(getRutina()
-                            .getPlankey(), getDia(), EjxRut.BLOQUE1));
-                }
-            } else {
-                listView.getItems().clear();
-            }
-        }
-    }
-
-    public void getBloque2() throws DAOException {
-        String dia = getDia();
-        if (getRutina().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonBloque2.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonBloque2.setSelected(false);
-                } else {
-                    listView.setItems(getEjxruts().where(getRutina()
-                            .getPlankey(), getDia(), EjxRut.BLOQUE2));
-                }
-            } else {
-                listView.getItems().clear();
-            }
-        }
-    }
-
-    public void getBloque3() throws DAOException {
-        String dia = getDia();
-        if (getRutina().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonBloque3.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonBloque3.setSelected(false);
-                } else {
-                    listView.setItems(getEjxruts().where(getRutina()
-                            .getPlankey(), getDia(), EjxRut.BLOQUE3));
-                }
-            } else {
-                listView.getItems().clear();
-            }
-        }
-    }
-
-    public void getBloque4() throws DAOException {
-        String dia = getDia();
-        if (getRutina().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonBloque4.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonBloque4.setSelected(false);
-                } else {
-                    listView.setItems(getEjxruts().where(getRutina()
-                            .getPlankey(), getDia(), EjxRut.BLOQUE4));
-                }
-            } else {
-                listView.getItems().clear();
-            }
-        }
-    }
-
-    public void getBloque5() throws DAOException {
-        String dia = getDia();
-        if (getRutina().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonBloque5.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonBloque5.setSelected(false);
-                } else {
-                    listView.setItems(getEjxruts().where(getRutina()
-                            .getPlankey(), getDia(), EjxRut.BLOQUE5));
-                }
-            } else {
-                listView.getItems().clear();
+            try {
+                listView.setItems(getEjxruts().where(getRutina()
+                        .getPlankey(), getDia(), getMomento()));
+            } catch (DAOException e) {
+                excepcion(e);
             }
         }
     }
