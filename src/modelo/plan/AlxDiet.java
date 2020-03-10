@@ -18,13 +18,13 @@ import java.util.ArrayList;
 public class AlxDiet extends BasePlan {
 
     //Momentos alimenticios
-    public static final String DESAYUNO = "DESAYUNO";
-    public static final String ALMUERZO = "ALMUERZO";
-    public static final String CENA = "CENA";
-    public static final String PREENTRENO = "PREENTRENO";
-    public static final String POSTENTRENO = "POSTENTRENO";
-    public static final String SNACKAM = "SNACK AM";
-    public static final String SNACKPM = "SNACK PM";
+    public static final String DESAYUNO = "Desayuno";
+    public static final String ALMUERZO = "Almuerzo";
+    public static final String CENA = "Cena";
+    public static final String PREENTRENO = "Preentreno";
+    public static final String POSTENTRENO = "Postentreno";
+    public static final String SNACKAM = "Snack AM";
+    public static final String SNACKPM = "Snack PM";
     private int alxdietkey;
     private Alimento alimento;
     private double cantidad = 0;

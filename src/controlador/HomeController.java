@@ -31,8 +31,6 @@ public class HomeController extends Controller<StackPane> {
     public static StackPane Clientes;
     public static StackPane Dietas;
     public static StackPane Rutinas;
-    public static StackPane Alimentos;
-    public static StackPane Ejercicios;
     public static StackPane Config;
     public static StackPane Dash;
     /**
@@ -84,9 +82,7 @@ public class HomeController extends Controller<StackPane> {
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
             Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
             Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
-            Alimentos = FXMLLoader.load(new File("src/vista/fxml/Alimentos.fxml").toURL());
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
-            Ejercicios = FXMLLoader.load(new File("src/vista/fxml/Ejercicios.fxml").toURL());
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
         } catch (MalformedURLException ex) {
             excepcion(ex);
@@ -119,24 +115,6 @@ public class HomeController extends Controller<StackPane> {
     private void switchRutinas() {
         if (buttonRutinas.isSelected()) {
             mostrar(Rutinas);
-        } else {
-            mostrar(Dash);
-        }
-    }
-
-    @FXML
-    private void switchAlimentos() {
-        if (buttonAlimentos.isSelected()) {
-            mostrar(Alimentos);
-        } else {
-            mostrar(Dash);
-        }
-    }
-
-    @FXML
-    private void switchEjercicios() {
-        if (buttonEjercicios.isSelected()) {
-            mostrar(Ejercicios);
         } else {
             mostrar(Dash);
         }

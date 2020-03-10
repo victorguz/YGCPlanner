@@ -6,7 +6,6 @@
 package controlador;
 
 import DAO.DAOException;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -81,64 +80,29 @@ public class RutinasController extends Controller<Plan> {
 
     @FXML
     private ListView<EjxRut> listView;
-
+    @FXML
+    private ComboBox<String> comboDia;
+    @FXML
+    private ComboBox<String> comboBloques;
 
     public void initialize(URL location, ResourceBundle resources) {
+
+        obtener();
+        obtenerEjercicios();
+    }
+
+    public void setCombos(){
         for (int i = 5; i <= 200; i = i + 5) {
             comboRepeticiones.getItems().add(i);
         }
         comboRepeticiones.getSelectionModel().select(0);
         comboSeries.getItems().setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         comboSeries.getSelectionModel().select(0);
-        setRutinasUpdated(true);
-        updated();
-        setEjerciciosUpdated(true);
+        comboDia.getItems().setAll("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
+        comboDia.getSelectionModel().select(0);
+        comboBloques.getItems().setAll("Bloque 1","Bloque 2","Bloque 3","Bloque 4","Bloque 5");
+        comboBloques.getSelectionModel().select(0);
     }
-
-
-    public void updated() {
-        Thread t = new Thread(new Runnable() {
-
-            public void run() {
-                Runnable updater = new Runnable() {
-
-                    public void run() {
-                        if (isRutinasUpdated()) {
-                            obtener();
-                        }
-                        if (isEjerciciosUpdated()) {
-                            try {
-                                comboEjercicios.getItems().clear();
-                                if (textBuscarEjercicio.getText().isEmpty()) {
-                                    ejercicios = getEjercicios().all();
-                                } else {
-                                    ejercicios = getEjercicios().where(textBuscarEjercicio.getText());
-                                }
-                                if (!ejercicios.isEmpty()) {
-                                    comboEjercicios.setItems(ejercicios);
-                                    comboEjercicios.getSelectionModel().select(0);
-                                }
-                            } catch (DAOException ex) {
-                                excepcion(ex);
-                            }
-                            setEjerciciosUpdated(false);
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
-    }
-
 
     public Plan captar() throws DAOException {
         Plan d = new Plan();
@@ -164,22 +128,7 @@ public class RutinasController extends Controller<Plan> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
-        setRutinasUpdated(false);
     }
-
-    public void obtenerEjercicios() {
-        try {
-            comboEjercicios.getItems().clear();
-            ejercicios = getEjercicios().where(textBuscarEjercicio.getText());
-            if (!ejercicios.isEmpty()) {
-                comboEjercicios.setItems(ejercicios);
-                comboEjercicios.getSelectionModel().select(0);
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
-
 
     public void registrar() {
         try {
@@ -356,7 +305,6 @@ public class RutinasController extends Controller<Plan> {
     public void actualizarUso(Ejercicio a) {
         try {
             getEjercicios().update(a);
-            setEjerciciosUpdated(true);
         } catch (DAOException ex) {
             excepcion(ex);
         }
@@ -482,4 +430,131 @@ public class RutinasController extends Controller<Plan> {
             }
         }
     }
+
+    /*Panel de ejercicios*/
+
+    @FXML
+    private ComboBox<Ejercicio> comboEjerciciosEjercicios;
+
+    @FXML
+    private TextField textBuscarEjercicioEjercicio;
+
+    @FXML
+    private TextField textNombreEjercicio;
+
+    @FXML
+    private TextArea textDescripcionEjercicio;
+
+    @FXML
+    private TextArea textComentariosEjercicio;
+
+    public void registrarEjercicio() {
+        try {
+            Ejercicio c = captarEjercicio();
+            if (c != null) {
+                if (c.isEmpty()) {
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+                } else {
+                    getEjercicios().insert(c);
+                    mensaje("Ejercicio registrado", "exito");
+                    obtenerEjercicios();
+                }
+            }
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void modificarEjercicio() {
+        if (!comboEjerciciosEjercicios.getItems().isEmpty()) {
+            try {
+                Ejercicio a = captarEjercicio();
+                if (!a.isEmpty()) {
+                    a.setEjerciciokey(comboEjerciciosEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
+                    getEjercicios().update(a);
+                    mensaje("Ejercicio modificado", "exito");
+                    obtenerEjercicios();
+                } else {
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+                }
+            } catch (DAOException ex) {
+                excepcion(ex);
+            }
+        } else {
+            mensaje("Seleccione un ejercicio", "aviso");
+
+        }
+    }
+
+    public void eliminarEjercicio() {
+        if (!comboEjerciciosEjercicios.getItems().isEmpty()) {
+            try {
+                Ejercicio a = captarEjercicio();
+                if (!a.isEmpty()) {
+                    a.setEjerciciokey(comboEjerciciosEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
+                    getEjercicios().delete(a);
+                    mensaje("Ejercicio eliminado", "exito");
+                    obtenerEjercicios();
+                } else {
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+                }
+            } catch (DAOException ex) {
+                excepcion(ex);
+            }
+        } else {
+            mensaje("Seleccione un ejercicio", "aviso");
+
+        }
+    }
+
+    public void limpiarEjercicio() {
+        textNombreEjercicio.setText("");
+        textDescripcionEjercicio.setText("");
+        textComentariosEjercicio.setText("");
+    }
+
+    public void mostrarEjercicio() {
+        if (!comboEjerciciosEjercicios.getItems().isEmpty()) {
+            Ejercicio c = comboEjerciciosEjercicios.getSelectionModel().getSelectedItem();
+            textNombreEjercicio.setText(c.getNombre());
+            textComentariosEjercicio.setText(c.getComentarios());
+            textDescripcionEjercicio.setText(c.getDescripcion());
+        }
+    }
+
+    public Ejercicio captarEjercicio() throws DAOException {
+        Ejercicio c = new Ejercicio();
+        c.setNombre(textNombreEjercicio.getText());
+        c.setDescripcion(textDescripcionEjercicio.getText());
+        c.setComentarios(textComentariosEjercicio.getText());
+        return c;
+    }
+
+    public void obtenerEjercicios() {
+        try {
+            comboEjerciciosEjercicios.getItems().clear();
+            if (textBuscarEjercicio.getText().isEmpty()) {
+                ejercicios = getEjercicios().all();
+            } else {
+                ejercicios = getEjercicios().where(textBuscarEjercicio.getText());
+            }
+            if (!ejercicios.isEmpty()) {
+                comboEjerciciosEjercicios.setItems(ejercicios);
+                comboEjercicios.setItems(ejercicios);
+                selectEjercicio(0);
+            }
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void selectEjercicio(int i) {
+        if (!comboEjerciciosEjercicios.getItems().isEmpty()) {
+            comboEjerciciosEjercicios.getSelectionModel().select(i);
+            comboEjercicios.getSelectionModel().select(i);
+            mostrarEjercicio();
+        }
+    }
+
+
 }

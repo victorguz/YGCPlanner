@@ -1,88 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" prefWidth="537.0" styleClass="vbox-fondo"
-           xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controlador.EjerciciosController">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefWidth="537.0" styleClass="vbox-fondo" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.EjerciciosController">
     <children>
         <VBox alignment="TOP_CENTER" styleClass="vbox-blanco">
             <children>
-                <HBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0">
-                    <children>
-                        <VBox>
-                            <children>
-                                <Label text="Buscar ejercicio" textFill="#b2b2b2">
-
-                                    <padding>
-                                        <Insets left="6.0"/>
-                                    </padding>
-                                </Label>
-                                <TextField fx:id="textBuscarEjercicio" onAction="#obtener" onKeyTyped="#consumeDigits"
-                                           prefWidth="130.0" promptText="Buscar ejercicio"/>
-                            </children>
-                        </VBox>
-                        <VBox>
-                            <children>
-                                <Label text="Seleccionar ejercicio" textFill="#b2b2b2">
-
-                                    <padding>
-                                        <Insets left="6.0"/>
-                                    </padding>
-                                </Label>
-                                <ComboBox fx:id="comboEjercicios" maxWidth="1.7976931348623157E308" minWidth="150.0"
-                                          onAction="#mostrar" promptText="EJERCICIOS"/>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <Label text="Información del ejercicio" textFill="#757575">
+                <Label text="Información de ejercicios" textFill="#757575">
                     <VBox.margin>
-                        <Insets/>
+                        <Insets />
                     </VBox.margin>
                 </Label>
-                <VBox>
-                    <children>
-                        <Label text="Nombre" textFill="#b2b2b2">
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                          <Label text="Buscar ejercicio" textFill="#b2b2b2">
+
+                              <padding>
+                                  <Insets left="6.0" />
+                              </padding>
+                          </Label>
+                          <TextField fx:id="textBuscarEjercicioEjercicio" onAction="#obtener" onKeyTyped="#consumeDigits" prefWidth="130.0" promptText="Buscar ejercicio" GridPane.columnIndex="1" />
+                          <Label text="Seleccionar ejercicio" textFill="#b2b2b2" GridPane.rowIndex="1">
+
+                              <padding>
+                                  <Insets left="6.0" />
+                              </padding>
+                          </Label>
+                          <ComboBox fx:id="comboEjerciciosEjercicios" maxWidth="1.7976931348623157E308" minWidth="150.0" onAction="#mostrar" promptText="EJERCICIOS" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Nombre" textFill="#b2b2b2" GridPane.rowIndex="2">
 
                             <padding>
-                                <Insets left="6.0"/>
+                                <Insets left="6.0" />
                             </padding>
                         </Label>
-                        <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre"/>
-                    </children>
-                </VBox>
-                <VBox>
-                    <children>
-                        <Label text="Descripción del ejercicio" textFill="#b2b2b2">
+                        <TextField fx:id="textNombreEjercicio" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Descripción del ejercicio" textFill="#b2b2b2" GridPane.rowIndex="3">
                             <padding>
-                                <Insets left="6.0"/>
+                                <Insets left="6.0" />
                             </padding>
                         </Label>
-                        <TextArea fx:id="textDescripcion" onKeyTyped="#consumeDigits" prefHeight="100.0"
-                                  promptText="Descripción del ejercicio (500 caracteres)" wrapText="true"/>
-                    </children>
-                </VBox>
-                <VBox>
-                    <children>
-                        <Label text="Comentarios o indicaciones acerca de este ejercicio" textFill="#b2b2b2">
+                        <TextArea fx:id="textDescripcionEjercicio" onKeyTyped="#consumeDigits" prefHeight="60.0" promptText="Descripción del ejercicio (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Comentarios o indicaciones acerca de este ejercicio" textFill="#b2b2b2" GridPane.rowIndex="4">
                             <padding>
-                                <Insets left="6.0"/>
+                                <Insets left="6.0" />
                             </padding>
                         </Label>
-                        <TextArea fx:id="textComentarios" onKeyTyped="#consumeDigits" prefHeight="100.0"
-                                  promptText="Comentarios o indicaciones acerca de este ejercicio (500 caracteres)"
-                                  wrapText="true"/>
-                    </children>
-                </VBox>
+                        <TextArea fx:id="textComentariosEjercicio" onKeyTyped="#consumeDigits" prefHeight="60.0" promptText="Comentarios o indicaciones acerca de este ejercicio (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
                 <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
                     <children>
                         <Button onAction="#eliminar" styleClass="delete-button" text="Eliminar">
                             <graphic>
                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/xb.png"/>
+                                        <Image url="@../../imagen/icono/xb.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -91,7 +87,7 @@
                             <graphic>
                                 <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/clearb.png"/>
+                                        <Image url="@../../imagen/icono/clearb.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -100,7 +96,7 @@
                             <graphic>
                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/updateb.png"/>
+                                        <Image url="@../../imagen/icono/updateb.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -109,7 +105,7 @@
                             <graphic>
                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../imagen/icono/doneb.png"/>
+                                        <Image url="@../../imagen/icono/doneb.png" />
                                     </image>
                                 </ImageView>
                             </graphic>

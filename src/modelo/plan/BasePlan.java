@@ -11,13 +11,13 @@ package modelo.plan;
 public abstract class BasePlan {
 
     //Dias
-    public static final String DOMINGO = "DOMINGO";
-    public static final String LUNES = "LUNES";
-    public static final String MARTES = "MARTES";
-    public static final String MIERCOLES = "MIERCOLES";
-    public static final String JUEVES = "JUEVES";
-    public static final String VIERNES = "VIERNES";
-    public static final String SABADO = "SABADO";
+    public static final String DOMINGO = "Domingo";
+    public static final String LUNES = "Lunes";
+    public static final String MARTES = "Martes";
+    public static final String MIERCOLES = "Miercoles";
+    public static final String JUEVES = "Jueves";
+    public static final String VIERNES = "Viernes";
+    public static final String SABADO = "Sabado";
     private String dia = "";
     private String momento = "";
     private Plan plan;

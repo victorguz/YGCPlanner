@@ -19,7 +19,7 @@
                                         <Insets left="6.0"/>
                                     </padding>
                                 </Label>
-                                <TextField fx:id="textBuscarEjercicio" onAction="#obtener" onKeyTyped="#consumeDigits"
+                                <TextField fx:id="textBuscarEjercicio" onAction="#obtenerEjercicios" onKeyTyped="#consumeDigits"
                                            prefWidth="130.0" promptText="Buscar ejercicio"/>
                             </children>
                         </VBox>
@@ -31,8 +31,8 @@
                                         <Insets left="6.0"/>
                                     </padding>
                                 </Label>
-                                <ComboBox fx:id="comboEjercicios" maxWidth="1.7976931348623157E308" minWidth="150.0"
-                                          onAction="#mostrar" promptText="EJERCICIOS"/>
+                                <ComboBox fx:id="comboEjerciciosEjercicios" maxWidth="1.7976931348623157E308" minWidth="150.0"
+                                          onAction="#mostrarEjercicio" promptText="EJERCICIOS"/>
                             </children>
                         </VBox>
                     </children>
@@ -50,7 +50,7 @@
                                 <Insets left="6.0"/>
                             </padding>
                         </Label>
-                        <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre"/>
+                        <TextField fx:id="textNombreEjercicio" onKeyTyped="#consumeDigits" promptText="Nombre"/>
                     </children>
                 </VBox>
                 <VBox>
@@ -60,7 +60,7 @@
                                 <Insets left="6.0"/>
                             </padding>
                         </Label>
-                        <TextArea fx:id="textDescripcion" onKeyTyped="#consumeDigits" prefHeight="100.0"
+                        <TextArea fx:id="textDescripcionEjercicio" onKeyTyped="#consumeDigits" prefHeight="100.0"
                                   promptText="Descripción del ejercicio (500 caracteres)" wrapText="true"/>
                     </children>
                 </VBox>
@@ -71,14 +71,14 @@
                                 <Insets left="6.0"/>
                             </padding>
                         </Label>
-                        <TextArea fx:id="textComentarios" onKeyTyped="#consumeDigits" prefHeight="100.0"
+                        <TextArea fx:id="textComentariosEjercicio" onKeyTyped="#consumeDigits" prefHeight="100.0"
                                   promptText="Comentarios o indicaciones acerca de este ejercicio (500 caracteres)"
                                   wrapText="true"/>
                     </children>
                 </VBox>
                 <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
                     <children>
-                        <Button onAction="#eliminar" styleClass="delete-button" text="Eliminar">
+                        <Button onAction="#eliminarEjercicio" styleClass="delete-button" text="Eliminar">
                             <graphic>
                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -87,7 +87,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button onAction="#limpiar" text="Limpiar">
+                        <Button onAction="#limpiarEjercicio" text="Limpiar">
                             <graphic>
                                 <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -96,7 +96,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button onAction="#modificar" text="Modificar">
+                        <Button onAction="#modificarEjercicio" text="Modificar">
                             <graphic>
                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -105,7 +105,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button onAction="#registrar" text="Registrar">
+                        <Button onAction="#registrarEjercicio" text="Registrar">
                             <graphic>
                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

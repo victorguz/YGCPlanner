@@ -27,6 +27,10 @@ public class DietasController extends Controller<Plan> {
     @FXML
     private ComboBox<Alimento> comboAlimentos;
     @FXML
+    private ComboBox<String> comboDia;
+    @FXML
+    private ComboBox<String> comboMomento;
+    @FXML
     private TextField textBuscarAlimento;
     @FXML
     private ComboBox<Plan> comboDieta;
@@ -43,43 +47,13 @@ public class DietasController extends Controller<Plan> {
     @FXML
     private TextField textProteinas;
     @FXML
-    private Label carbosDistribucion;
+    private TextField carbosDistribucion;
     @FXML
-    private Label proteinasDistribucion;
+    private TextField proteinasDistribucion;
     @FXML
-    private Label grasasDistribucion;
+    private TextField grasasDistribucion;
     @FXML
     private ListView<AlxDiet> listView;
-    @FXML
-    private ToggleButton buttonDomingo;
-    @FXML
-    private ToggleButton buttonLunes;
-    @FXML
-    private ToggleButton buttonMartes;
-    @FXML
-    private ToggleButton buttonMiercoles;
-    @FXML
-    private ToggleButton buttonJueves;
-    @FXML
-    private ToggleButton buttonViernes;
-    @FXML
-    private ToggleButton buttonSabado;
-    @FXML
-    private ToggleButton buttonDesayuno;
-    @FXML
-    private ToggleGroup momento;
-    @FXML
-    private ToggleButton buttonAlmuerzo;
-    @FXML
-    private ToggleButton buttonCena;
-    @FXML
-    private ToggleButton buttonPre;
-    @FXML
-    private ToggleButton buttonPost;
-    @FXML
-    private ToggleButton buttonAm;
-    @FXML
-    private ToggleButton buttonPm;
     @FXML
     private TextField textCantidad;
     @FXML
@@ -87,19 +61,30 @@ public class DietasController extends Controller<Plan> {
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        setDietasUpdated(true);
-        setAlimentosUpdated(true);
+        obtener();
+        obtenerAlimentos();
+        setCombos();
     }
+
+    public void setCombos(){
+        comboDia.getItems().setAll("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
+        comboDia.getSelectionModel().select(0);
+        comboMomento.getItems().setAll("Desayuno","Almuerzo","Cena","Preentreno","Postentreno","Snack AM", "Snack PM");
+        comboMomento.getSelectionModel().select(0);
+    }
+
 
     public void setKcal() {
         if (checkCal.isSelected()) {
-            textKcal.setText(getMedida().getSuperavitODeficit() + "");
-            textKcal.setDisable(true);
-        } else {
-            if (textKcal.getText().isEmpty()) {
-                textKcal.setText("2000");
+            if(!getMedida().isEmpty()) {
+                textKcal.setText(getMedida().getSuperavitODeficit() + "");
+                textKcal.setDisable(true);
+            }else{
+                if (textKcal.getText().isEmpty()) {
+                    textKcal.setText("2000");
+                }
+                mensaje("Este cliente no tiene medidas","aviso");
             }
-            textKcal.setDisable(false);
         }
     }
 
@@ -115,6 +100,9 @@ public class DietasController extends Controller<Plan> {
      * máximo de 100
      */
     public void calcular() {
+        if(textKcal.getText().isEmpty()) {
+            textKcal.setText("2000");
+        }else{
         //Obtener calorías
         double cal = (textProteinas.getText().isEmpty()) ? 0
                 : Double.parseDouble(textKcal.getText());
@@ -133,7 +121,7 @@ public class DietasController extends Controller<Plan> {
         proteinasDistribucion.setText(proteinas + "");
         grasasDistribucion.setText(grasas + "");
         carbosDistribucion.setText(carbohidratos + "");
-    }
+    }}
 
 
     public Plan captar() throws DAOException {
@@ -156,21 +144,6 @@ public class DietasController extends Controller<Plan> {
             if (!dietas.isEmpty()) {
                 comboDieta.setItems(dietas);
                 select(0);
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-        setDietasUpdated(false);
-    }
-
-    public void obtenerAlimentos() {
-        try {
-            comboAlimentos.getItems().clear();
-            alimentos = getAlimentos().where(textBuscarAlimento.getText());
-            if (!alimentos.isEmpty()) {
-                comboAlimentos.setItems(alimentos);
-                comboAlimentos.getSelectionModel().select(0);
-                selectAlimento();
             }
         } catch (DAOException ex) {
             excepcion(ex);
@@ -216,7 +189,6 @@ public class DietasController extends Controller<Plan> {
                         mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                     } else {
                         getPlanes().update(m);
-                        textBuscar.setText(textNombre.getText());
                         obtener();
                         mensaje("Plan de alimentación modificado", "exito");
                     }
@@ -275,7 +247,7 @@ public class DietasController extends Controller<Plan> {
     public void mostrar() {
         if (!comboDieta.getItems().isEmpty()) {
             Plan d = comboDieta.getSelectionModel().getSelectedItem();
-            textNombre.setText(d.getNombre());
+            textNombre.setText(Operacion.camelCase(d.getNombre()));
             textDescripcion.setText(d.getDescripcion());
         }
     }
@@ -344,194 +316,174 @@ public class DietasController extends Controller<Plan> {
     public void actualizarUso(Alimento a) {
         try {
             getAlimentos().update(a);
-            setAlimentosUpdated(true);
         } catch (DAOException ex) {
             excepcion(ex);
         }
     }
 
     public String getDia() {
-        if (buttonDomingo.isSelected()) {
-            return AlxDiet.DOMINGO;
-        }
-        if (buttonLunes.isSelected()) {
-            return AlxDiet.LUNES;
-        }
-        if (buttonMartes.isSelected()) {
-            return AlxDiet.MARTES;
-        }
-        if (buttonMiercoles.isSelected()) {
-            return AlxDiet.MIERCOLES;
-        }
-        if (buttonJueves.isSelected()) {
-            return AlxDiet.JUEVES;
-        }
-        if (buttonViernes.isSelected()) {
-            return AlxDiet.VIERNES;
-        }
-        if (buttonSabado.isSelected()) {
-            return AlxDiet.SABADO;
-        }
-        mensaje("Seleccione un día de la semana", "aviso");
-        return null;
+        return comboDia.getSelectionModel().getSelectedItem();
     }
 
     public String getMomento() {
-        if (buttonDesayuno.isSelected()) {
-            return AlxDiet.DESAYUNO;
-        }
-        if (buttonAlmuerzo.isSelected()) {
-            return AlxDiet.ALMUERZO;
-        }
-        if (buttonCena.isSelected()) {
-            return AlxDiet.CENA;
-        }
-        if (buttonPost.isSelected()) {
-            return AlxDiet.POSTENTRENO;
-        }
-        if (buttonPre.isSelected()) {
-            return AlxDiet.PREENTRENO;
-        }
-        if (buttonAm.isSelected()) {
-            return AlxDiet.SNACKAM;
-        }
-        if (buttonPm.isSelected()) {
-            return AlxDiet.SNACKPM;
-        }
-        mensaje("Seleccione el momento del menú", "aviso");
-        return null;
+        return comboMomento.getSelectionModel().getSelectedItem();
     }
 
-    public void getDesayuno() throws DAOException {
-        String dia = getDia();
+    public void getMenu() throws DAOException {
+        listView.getItems().clear();
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            if (buttonDesayuno.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonDesayuno.setSelected(false);
-                } else {
-                    listView.setItems(getAlxdiets().where(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.DESAYUNO));
-                }
-            } else {
-                listView.getItems().clear();
-            }
+            listView.setItems(getAlxdiets().where(getDieta().getPlankey(), getDia(), getMomento()));
         }
     }
 
-    public void getAlmuerzo() throws DAOException {
-        String dia = getDia();
-        if (getDieta().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonAlmuerzo.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonAlmuerzo.setSelected(false);
-                } else {
-                    listView.setItems(getAlxdiets().where(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.ALMUERZO));
-                }
+    /*Frame de alimentos:*/
+
+    @FXML
+    private ComboBox<Alimento> comboAlimentosAlimentos;
+
+    @FXML
+    private TextField textBuscarAlimentoAlimentos;
+
+    @FXML
+    private TextField textNombreAlimento;
+
+    @FXML
+    private TextField textKilocaloriasAlimentos;
+
+    @FXML
+    private TextField textProteinaAlimentos;
+
+    @FXML
+    private TextField textGrasasAlimentos;
+
+    @FXML
+    private TextField textCarbosAlimentos;
+
+
+    public void registrarAlimento() {
+        try {
+            Alimento c = captarAlimento();
+            if (c.isEmpty()) {
+                mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
             } else {
-                listView.getItems().clear();
+                getAlimentos().insert(c);
+                mensaje("Alimento registrado", "exito");
+                obtenerAlimentos();
             }
+        } catch (DAOException ex) {
+            excepcion(ex);
         }
     }
 
-    public void getCena() throws DAOException {
-        String dia = getDia();
-        if (getDieta().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonCena.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonCena.setSelected(false);
+
+    public void modificarAlimento() {
+        if (!comboAlimentosAlimentos.getItems().isEmpty()) {
+            try {
+                Alimento a = captarAlimento();
+                if (!a.isEmpty()) {
+                    a.setAlimentokey(comboAlimentosAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
+                    getAlimentos().update(a);
+                    textBuscarAlimentoAlimentos.setText(textNombreAlimento.getText());
+                    obtenerAlimentos();
+                    mensaje("Alimento modificado", "exito");
                 } else {
-                    listView.setItems(getAlxdiets().where(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.CENA));
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
-            } else {
-                listView.getItems().clear();
+            } catch (DAOException ex) {
+                excepcion(ex);
             }
+        } else {
+            mensaje("Seleccione un alimento", "aviso");
         }
     }
 
-    public void getSnackAm() throws DAOException {
-        String dia = getDia();
-        if (getDieta().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonAm.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonAm.setSelected(false);
+
+    public void eliminarAlimento() {
+        if (!comboAlimentosAlimentos.getItems().isEmpty()) {
+            try {
+                Alimento a = captarAlimento();
+                if (!a.isEmpty()) {
+                    a.setAlimentokey(comboAlimentosAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
+                    getAlimentos().delete(a);
+                    mensaje("Alimento eliminado", "exito");
+                    obtenerAlimentos();
                 } else {
-                    listView.setItems(getAlxdiets().where(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.SNACKAM));
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
-            } else {
-                listView.getItems().clear();
+            } catch (DAOException ex) {
+                excepcion(ex);
             }
+        } else {
+            mensaje("Seleccione un alimento", "aviso");
+
         }
     }
 
-    public void getSnackPm() throws DAOException {
-        String dia = getDia();
-        if (getDieta().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonPm.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonPm.setSelected(false);
-                } else {
-                    listView.setItems(getAlxdiets().where(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.SNACKPM));
-                }
-            } else {
-                listView.getItems().clear();
-            }
+
+    public void limpiarAlimento() {
+        textNombreAlimento.setText("");
+        textProteinaAlimentos.setText("");
+        textGrasasAlimentos.setText("");
+        textCarbosAlimentos.setText("");
+        textKilocaloriasAlimentos.setText("");
+    }
+
+
+    public void mostrarAlimento() {
+        if (!comboAlimentosAlimentos.getItems().isEmpty()) {
+            Alimento c = comboAlimentosAlimentos.getSelectionModel().getSelectedItem();
+            textNombreAlimento.setText(Operacion.camelCase(c.getNombre()));
+            textProteinaAlimentos.setText("" + c.getProteinas());
+            textGrasasAlimentos.setText("" + c.getGrasas());
+            textCarbosAlimentos.setText("" + c.getCarbohidratos());
+            textKilocaloriasAlimentos.setText("" + Operacion.redondear(c.getKilocalorias()));
         }
     }
 
-    public void getPre() throws DAOException {
-        String dia = getDia();
-        if (getDieta().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonPre.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonPre.setSelected(false);
-                } else {
-                    listView.setItems(getAlxdiets().where(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.PREENTRENO));
-                }
+
+    public Alimento captarAlimento() throws DAOException {
+        Alimento c = new Alimento();
+        c.setNombre(textNombreAlimento.getText());
+        c.setProteinas((textProteinaAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinaAlimentos.getText()));
+        c.setGrasas((textGrasasAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasasAlimentos.getText()));
+        c.setCarbohidratos((textCarbosAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbosAlimentos.getText()));
+        return c;
+    }
+
+
+    public void obtenerAlimentos() {
+        try {
+            comboAlimentosAlimentos.getItems().clear();
+            if (textBuscarAlimentoAlimentos.getText().isEmpty()) {
+                alimentos = getAlimentos().all();
             } else {
-                listView.getItems().clear();
+                alimentos = getAlimentos().where(textBuscarAlimentoAlimentos.getText());
             }
+            if (!alimentos.isEmpty()) {
+                comboAlimentosAlimentos.setItems(alimentos);
+                comboAlimentos.setItems(alimentos);
+                selectAlimento(0);
+            }
+        } catch (DAOException ex) {
+            excepcion(ex);
         }
     }
 
-    public void getPost() throws DAOException {
-        String dia = getDia();
-        if (getDieta().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
-            if (buttonPost.isSelected()) {
-                if (dia.isEmpty()) {
-                    mensaje("Seleccione un día primero", "aviso");
-                    buttonPost.setSelected(false);
-                } else {
-                    listView.setItems(getAlxdiets().where(getDieta()
-                            .getPlankey(), getDia(), AlxDiet.POSTENTRENO));
-                }
-            } else {
-                listView.getItems().clear();
-            }
+    public void selectAlimento(int i) {
+        if (!comboAlimentosAlimentos.getItems().isEmpty()) {
+            comboAlimentosAlimentos.getSelectionModel().select(i);
+            comboAlimentos.getSelectionModel().select(i);
+            mostrarAlimento();
         }
     }
+
+
+
+
+
+
+
+
 }

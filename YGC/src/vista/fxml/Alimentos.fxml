@@ -21,7 +21,7 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textBuscarAlimento" onAction="#obtener"
+                                        <TextField fx:id="textBuscarAlimentoAlimentos" onAction="#obtenerAlimentos"
                                                    onKeyTyped="#consumeDigits" prefWidth="130.0"
                                                    promptText="Buscar alimento"/>
                                     </children>
@@ -34,7 +34,7 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <ComboBox fx:id="comboAlimentos" maxWidth="300.0" onAction="#mostrar"
+                                        <ComboBox fx:id="comboAlimentosAlimentos" maxWidth="300.0" onAction="#mostrarAlimento"
                                                   promptText="ALIMENTOS"/>
                                     </children>
                                 </VBox>
@@ -59,7 +59,7 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textNombre" prefWidth="130.0" promptText="Nombre"/>
+                                        <TextField fx:id="textNombreAlimento" prefWidth="130.0" promptText="Nombre"/>
                                     </children>
                                 </VBox>
                                 <VBox>
@@ -70,7 +70,7 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textProteina" prefWidth="130.0" promptText="Proteinas"/>
+                                        <TextField fx:id="textProteinaAlimentos" prefWidth="130.0" promptText="Proteinas"/>
                                     </children>
                                 </VBox>
                                 <VBox>
@@ -81,7 +81,7 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textGrasas" prefWidth="130.0" promptText="Grasas"/>
+                                        <TextField fx:id="textGrasasAlimentos" prefWidth="130.0" promptText="Grasas"/>
                                     </children>
                                 </VBox>
                                 <VBox>
@@ -92,7 +92,7 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textCarbos" prefWidth="130.0" promptText="Carbohidratos"/>
+                                        <TextField fx:id="textCarbosAlimentos" prefWidth="130.0" promptText="Carbohidratos"/>
                                     </children>
                                 </VBox>
                                 <VBox>
@@ -103,7 +103,7 @@
                                                 <Insets left="6.0"/>
                                             </padding>
                                         </Label>
-                                        <TextField fx:id="textKilocalorias" editable="false" prefWidth="130.0"
+                                        <TextField fx:id="textKilocaloriasAlimentos" editable="false" prefWidth="130.0"
                                                    promptText="Kilocalorias"/>
                                     </children>
                                 </VBox>
@@ -111,7 +111,7 @@
                         </FlowPane>
                         <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
                             <children>
-                                <Button onAction="#eliminar" styleClass="delete-button" text="Eliminar">
+                                <Button onAction="#eliminarAlimento" styleClass="delete-button" text="Eliminar">
                                     <graphic>
                                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
                                                    preserveRatio="true">
@@ -121,7 +121,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button onAction="#limpiar" text="Limpiar">
+                                <Button onAction="#limpiarAlimento" text="Limpiar">
                                     <graphic>
                                         <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true"
                                                    preserveRatio="true">
@@ -131,7 +131,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button onAction="#modificar" text="Modificar">
+                                <Button onAction="#modificarAlimento" text="Modificar">
                                     <graphic>
                                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
                                                    preserveRatio="true">
@@ -141,7 +141,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button onAction="#registrar" text="Registrar">
+                                <Button onAction="#registrarAlimento" text="Registrar">
                                     <graphic>
                                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
                                                    preserveRatio="true">
