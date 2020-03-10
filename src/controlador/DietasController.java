@@ -43,11 +43,11 @@ public class DietasController extends Controller<Plan> {
     @FXML
     private TextField textProteinas;
     @FXML
-    private Label carbosDistribucion;
+    private TextField carbosDistribucion;
     @FXML
-    private Label proteinasDistribucion;
+    private TextField proteinasDistribucion;
     @FXML
-    private Label grasasDistribucion;
+    private TextField grasasDistribucion;
     @FXML
     private ListView<AlxDiet> listView;
     @FXML
@@ -87,8 +87,8 @@ public class DietasController extends Controller<Plan> {
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        setDietasUpdated(true);
-        setAlimentosUpdated(true);
+        obtener();
+        obtenerAlimentos();
     }
 
     public void setKcal() {
@@ -160,7 +160,6 @@ public class DietasController extends Controller<Plan> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
-        setDietasUpdated(false);
     }
 
     public void obtenerAlimentos() {
@@ -344,7 +343,6 @@ public class DietasController extends Controller<Plan> {
     public void actualizarUso(Alimento a) {
         try {
             getAlimentos().update(a);
-            setAlimentosUpdated(true);
         } catch (DAOException ex) {
             excepcion(ex);
         }

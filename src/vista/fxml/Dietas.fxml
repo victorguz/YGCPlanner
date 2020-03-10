@@ -6,363 +6,462 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.DietasController">
-    <children>
-        <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="vbox-fondo">
-            <children>
-                <VBox styleClass="vbox-blanco">
-                    <children>
-                        <FlowPane styleClass="flowpane-centrado">
-                            <children>
-                                <VBox>
-                                    <children>
-                                        <Label text="Buscar plan" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textBuscar" onAction="#obtener" onKeyTyped="#consumeDigits" prefWidth="130.0" promptText="Buscar plan" />
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Seleccionar plan" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <ComboBox fx:id="comboDieta" maxWidth="200.0" onAction="#mostrar" promptText="PLAN" visibleRowCount="5" />
-                                    </children>
-                                </VBox>
-                            </children>
-                        </FlowPane>
-                    </children>
-                </VBox>
-                <VBox styleClass="vbox-blanco">
-                    <children>
-                        <Label text="Información de la dieta" textFill="#757575">
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
-                        </Label>
-                        <FlowPane alignment="CENTER" styleClass="flowpane-centrado">
-                            <children>
-                                <VBox>
-                                    <children>
-                                        <Label text="Nombre*" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre" />
-                                        <Label text="Descripción del plan" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextArea fx:id="textDescripcion" prefHeight="70.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" />
-                                    </children>
-                                </VBox>
-                                <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
-                                    <children>
-                                        <Button onAction="#eliminar" styleClass="delete-button" text="Eliminar">
-                                            <graphic>
-                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../imagen/icono/xb.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                        </Button>
-                                        <Button onAction="#limpiar" text="Limpiar">
-                                            <graphic>
-                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../imagen/icono/clearb.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                        </Button>
-                                        <Button onAction="#modificar" text="Modificar">
-                                            <graphic>
-                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../imagen/icono/updateb.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                        </Button>
-                                        <Button onAction="#registrar" text="Registrar">
-                                            <graphic>
-                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../imagen/icono/doneb.png" />
-                                                    </image>
-                                                </ImageView>
-                                            </graphic>
-                                        </Button>
-                                    </children>
-                                </FlowPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
-                        </FlowPane>
-                    </children>
-                </VBox>
-                <VBox styleClass="vbox-blanco">
-                    <children>
-                        <Label text="Distribución porcentual de macronutrientes (%)" textFill="#757575" />
-                        <FlowPane styleClass="flowpane-centrado">
-                            <children>
-                                <VBox>
-                                    <children>
-                                        <Label text="KCal" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textKcal" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefWidth="83.0" promptText="KCal" />
-                                        <CheckBox fx:id="checkCal" onAction="#setKcal" text="Del cliente">
-                                            <VBox.margin>
-                                                <Insets top="5.0" />
-                                            </VBox.margin>
-                                        </CheckBox>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="\% Proteinas" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textProteinas" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefWidth="83.0" promptText="\% Proteinas" />
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="\% Carbos" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textCarbohidratos" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefWidth="83.0" promptText="\% Carbos" />
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="\% Grasas" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textGrasas" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefWidth="83.0" promptText="\% Grasas" />
-                                    </children>
-                                </VBox>
-                            </children>
-                        </FlowPane>
-                        <Label text="Gramos de macronutrientes según distribución de Kcalorías" textFill="#757575" />
-                        <FlowPane styleClass="flowpane-centrado">
-                            <children>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Proteinas" />
-                                        <Label fx:id="proteinasDistribucion" alignment="BASELINE_CENTER" text="0.0" />
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Carbos" />
-                                        <Label fx:id="carbosDistribucion" alignment="BASELINE_CENTER" text="0.0" />
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Grasas" />
-                                        <Label fx:id="grasasDistribucion" alignment="BASELINE_CENTER" text="0.0" />
-                                    </children>
-                                </VBox>
-                            </children>
-                        </FlowPane>
-                        <Label text="Gramos de macronutrientes en este menú" textFill="#757575" />
-                        <FlowPane styleClass="flowpane-centrado">
-                            <children>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="KCal" />
-                                        <Label fx:id="kcalMenu" alignment="BASELINE_CENTER" text="0.0" />
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Gramos de comida" />
-                                        <Label fx:id="gramosMenu" alignment="BASELINE_CENTER" text="0.0" />
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Proteinas" />
-                                        <Label fx:id="proteinasMenu" alignment="BASELINE_CENTER" text="0.0" />
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Carbos" />
-                                        <Label fx:id="carbosMenu" alignment="BASELINE_CENTER" text="0.0" />
-                                    </children>
-                                </VBox>
-                                <VBox alignment="TOP_CENTER" styleClass="x">
-                                    <children>
-                                        <Label alignment="BASELINE_CENTER" text="Grasas" />
-                                        <Label fx:id="grasasMenu" alignment="BASELINE_CENTER" text="0.0" />
-                                    </children>
-                                </VBox>
-                            </children>
-                        </FlowPane>
-                    </children>
-                </VBox>
-                <VBox styleClass="vbox-blanco">
-                    <children>
-                        <Label text="Alimentos de la dieta" textFill="#757575" />
-                        <FlowPane styleClass="flowpane-centrado">
-                            <children>
-                                <VBox>
-                                    <children>
-                                        <Label text="Buscar alimento" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textBuscarAlimento" onAction="#obtenerAlimentos" onKeyTyped="#consumeDigits" prefWidth="130.0" promptText="Buscar alimento" />
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label text="Seleccionar alimento" textFill="#b2b2b2">
-                                            <padding>
-                                                <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                              <HBox>
+   <children>
+      <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="vbox-fondo">
+         <children>
+            <VBox styleClass="vbox-blanco">
+               <children>
+                  <TabPane tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Planes de alimentación">
+                           <content>
+                              <VBox styleClass="vbox-blanco">
                                  <children>
-                                              <ComboBox fx:id="comboAlimentos" onAction="#selectAlimento" prefWidth="140.0" promptText="Seleccionar alimento" visibleRowCount="5" />
-                                    <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerAlimentos" text="Cargar alimentos">
-                                       <graphic>
-                                          <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../imagen/icono/updateb.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <padding>
-                                          <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                       </padding>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                                    </children>
-                                </VBox>
-                                <VBox>
-                                    <children>
-                                        <Label fx:id="labelunidad" text="Cantidad en gramos" textFill="#b2b2b2">
-                                            <padding>
+                                    <Label text="Información del plan" textFill="#757575">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Buscar plan" textFill="#b2b2b2">
+                                             <padding>
                                                 <Insets left="6.0" />
-                                            </padding>
-                                        </Label>
-                                        <TextField fx:id="textCantidad" onKeyTyped="#consumeIntegers" prefWidth="130.0" promptText="Cantidad en gramos" />
-                                    </children>
-                                </VBox>
-                            </children>
-                        </FlowPane>
-                        <Label text="Dia de la semana*" textFill="#757575">
-                            <padding>
-                                <Insets left="6.0" />
-                            </padding>
-                        </Label>
-                        <FlowPane hgap="10.0" styleClass="flowpane-centrado" vgap="10.0">
-                            <children>
-                                <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" prefWidth="90.0" text="Domingo">
-                                    <toggleGroup>
-                                        <ToggleGroup fx:id="dias" />
-                                    </toggleGroup>
-                                </ToggleButton>
-                                <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" prefWidth="90.0" text="Lunes" toggleGroup="$dias" />
-                                <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" prefWidth="90.0" text="Martes" toggleGroup="$dias" />
-                                <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" prefWidth="90.0" text="Miercoles" toggleGroup="$dias" />
-                                <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" prefWidth="90.0" text="Jueves" toggleGroup="$dias" />
-                                <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" prefWidth="90.0" text="Viernes" toggleGroup="$dias" />
-                                <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" prefWidth="90.0" text="Sábado" toggleGroup="$dias" />
-                            </children>
-                        </FlowPane>
-                        <Label text="Momento del día*" textFill="#757575">
-                            <padding>
-                                <Insets left="6.0" />
-                            </padding>
-                        </Label>
-                        <FlowPane fx:id="momentos" hgap="10.0" styleClass="flowpane-centrado" vgap="10.0">
-                            <children>
-                                <ToggleButton fx:id="buttonDesayuno" mnemonicParsing="false" onAction="#getDesayuno" prefWidth="90.0" text="Desayuno">
-                                    <toggleGroup>
-                                        <ToggleGroup fx:id="momento" />
-                                    </toggleGroup>
-                                </ToggleButton>
-                                <ToggleButton fx:id="buttonAm" mnemonicParsing="false" onAction="#getSnackAm" prefWidth="90.0" text="Snack AM" toggleGroup="$momento" />
-                                <ToggleButton fx:id="buttonAlmuerzo" mnemonicParsing="false" onAction="#getAlmuerzo" prefWidth="90.0" text="Almuerzo" toggleGroup="$momento" />
-                                <ToggleButton fx:id="buttonPm" mnemonicParsing="false" onAction="#getSnackPm" prefWidth="90.0" text="Snack PM" toggleGroup="$momento" />
-                                <ToggleButton fx:id="buttonCena" mnemonicParsing="false" onAction="#getCena" prefWidth="90.0" text="Cena" toggleGroup="$momento" />
-                                <ToggleButton fx:id="buttonPre" mnemonicParsing="false" onAction="#getPre" prefWidth="90.0" text="Pre-entreno" toggleGroup="$momento" />
-                                <ToggleButton fx:id="buttonPost" mnemonicParsing="false" onAction="#getPost" prefWidth="90.0" text="Post-entreno" toggleGroup="$momento" />
-                            </children>
-                        </FlowPane>
-                    </children>
-                </VBox>
-                <VBox styleClass="vbox-blanco">
-                    <children>
-                        <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
-                            <children>
-                                <HBox spacing="10.0">
-                                    <children>
-                                        <Button onAction="#addAlimento" pickOnBounds="false" prefWidth="1500.0" text="Añadir alimento al menú">
-                                            <graphic>
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textBuscar" onAction="#obtener" onKeyTyped="#consumeDigits" prefWidth="130.0" promptText="Buscar plan" GridPane.columnIndex="1" />
+                                          <Label text="Seleccionar plan" textFill="#b2b2b2" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <ComboBox fx:id="comboDieta" maxWidth="200.0" onAction="#mostrar" promptText="Seleccionar plan" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label minWidth="-Infinity" text="Nombre*" textFill="#b2b2b2" GridPane.rowIndex="2">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label minWidth="-Infinity" text="Descripción del plan" textFill="#b2b2b2" GridPane.rowIndex="3">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextArea fx:id="textDescripcion" promptText="Descripción del plan (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                    <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
+                                       <children>
+                                          <Button onAction="#eliminar" styleClass="delete-button" text="Eliminar">
+                                             <graphic>
                                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../imagen/icono/clearb.png" />
-                                                    </image>
+                                                   <image>
+                                                      <Image url="@../../imagen/icono/xb.png" />
+                                                   </image>
                                                 </ImageView>
-                                            </graphic>
-                                        </Button>
-                                        <Button onAction="#deleteAlx" pickOnBounds="false" prefWidth="1500.0" styleClass="delete-button" text="Eliminar alimento del menú">
-                                            <graphic>
+                                             </graphic>
+                                          </Button>
+                                          <Button onAction="#limpiar" text="Limpiar">
+                                             <graphic>
+                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../imagen/icono/clearb.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button onAction="#modificar" text="Modificar">
+                                             <graphic>
                                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../imagen/icono/trash2b.png" />
-                                                    </image>
+                                                   <image>
+                                                      <Image url="@../../imagen/icono/updateb.png" />
+                                                   </image>
                                                 </ImageView>
-                                            </graphic>
-                                        </Button>
-                                    </children>
-                                    <padding>
-                                        <Insets bottom="10.0" />
-                                    </padding>
-                                </HBox>
-                                <ListView fx:id="listView" prefHeight="200.0" />
-                            </children>
-                        </VBox>
-                    </children>
-                </VBox>
-            </children>
-        </VBox>
-    </children>
+                                             </graphic>
+                                          </Button>
+                                          <Button onAction="#registrar" text="Registrar">
+                                             <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../imagen/icono/doneb.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </Tab>
+                      <Tab text="Alimentos">
+                           <content>
+                              <VBox styleClass="vbox-fondo">
+                                 <children>
+                                    <Label text="Información de alimentos" textFill="#757575" />
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Buscar alimento" textFill="#b2b2b2">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textBuscarAlimento1" onAction="#obtener" onKeyTyped="#consumeDigits" prefWidth="130.0" promptText="Buscar alimento" GridPane.columnIndex="1" />
+                                          <Label text="Seleccionar alimento" textFill="#b2b2b2" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <ComboBox fx:id="comboAlimentos1" onAction="#mostrar" promptText="Seleccionar alimento" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label text="Nombre *" textFill="#b2b2b2" GridPane.rowIndex="2">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textNombre1" prefWidth="130.0" promptText="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label text="Proteinas *" textFill="#b2b2b2" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textProteina" prefWidth="130.0" promptText="Proteinas" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <Label text="Grasas *" textFill="#b2b2b2" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textGrasas2" prefWidth="130.0" promptText="Grasas" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                          <Label text="Carbohidratos *" textFill="#b2b2b2" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textCarbos" prefWidth="130.0" promptText="Carbohidratos" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                          <Label text="Kilocalorias *" textFill="#b2b2b2" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textKilocalorias" editable="false" prefWidth="130.0" promptText="Kilocalorias" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                          <Label text="Macros cada 100 gramos" textFill="#757575" GridPane.columnIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                    <FlowPane fx:id="botones1" alignment="CENTER" hgap="10.0" styleClass="flowpane">
+                                       <children>
+                                          <Button onAction="#eliminar" styleClass="delete-button" text="Eliminar">
+                                             <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../imagen/icono/xb.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button onAction="#limpiar" text="Limpiar">
+                                             <graphic>
+                                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../imagen/icono/clearb.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button onAction="#modificar" text="Modificar">
+                                             <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../imagen/icono/updateb.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button onAction="#registrar" text="Registrar">
+                                             <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../imagen/icono/doneb.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </FlowPane>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </VBox>
+            <VBox styleClass="vbox-blanco">
+               <children>
+                  <Label text="Distribuir macronutrientes con porcentaje" textFill="#757575" />
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="textKcal" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefWidth="83.0" promptText="Kilocalorías base" GridPane.columnIndex="1" />
+                        <Label text="\% Proteinas" textFill="#b2b2b2" GridPane.rowIndex="1">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="textProteinas" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefWidth="83.0" promptText="\% Proteinas" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="\% Carbohidratos" textFill="#b2b2b2" GridPane.rowIndex="2">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="textCarbohidratos" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefWidth="83.0" promptText="\% Carbos" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Label text="KCal" textFill="#b2b2b2">
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </Label>
+                              <CheckBox fx:id="checkCal" onAction="#setKcal" text="Usar las del cliente" />
+                           </children>
+                        </HBox>
+                        <Label text="\% Grasas" textFill="#b2b2b2" GridPane.rowIndex="3">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="textGrasas" onKeyReleased="#calcular" onKeyTyped="#consumeIntegers" prefWidth="83.0" promptText="\% Grasas" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Gramos segun porcentaje" textFill="#757575" GridPane.columnIndex="2" />
+                        <TextField fx:id="carbosDistribucion" editable="false" promptText="Gramos de carbohidratos" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <TextField fx:id="grasasDistribucion" editable="false" promptText="Gramos de grasa" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <TextField fx:id="proteinasDistribucion" editable="false" promptText="Gramos de proteina" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+                  <Label text="Gramos de macronutrientes en este menú" textFill="#757575" />
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField fx:id="kcalMenu" promptText="Kilocalorías" GridPane.columnIndex="1" />
+                        <TextField fx:id="gramosMenu" promptText="Gramos" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="proteinasMenu" promptText="Proteínas" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="carbosMenu" promptText="Carbohidratos" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="grasasMenu" promptText="Grasas" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="Kilocalorías" textFill="#b2b2b2">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <Label text="Gramos de comida" textFill="#b2b2b2" GridPane.rowIndex="1">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <Label text="Proteinas" textFill="#b2b2b2" GridPane.rowIndex="2">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <Label text="Carbohidratos" textFill="#b2b2b2" GridPane.rowIndex="3">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <Label text="Grasas" textFill="#b2b2b2" GridPane.rowIndex="4">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox styleClass="vbox-blanco">
+               <children>
+                  <Label text="Alimentos del plan" textFill="#757575" />
+                  <GridPane hgap="10.0" prefHeight="225.0" prefWidth="596.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Buscar alimento" textFill="#b2b2b2">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="textBuscarAlimento" onAction="#obtenerAlimentos" onKeyTyped="#consumeDigits" prefWidth="130.0" promptText="Buscar alimento" GridPane.columnIndex="1" />
+                        <Label text="Seleccionar alimento *" textFill="#b2b2b2" GridPane.rowIndex="1">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <ComboBox fx:id="comboAlimentos" onAction="#selectAlimento" promptText="Seleccionar alimento" visibleRowCount="5" />
+                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerAlimentos" text="Cargar alimentos">
+                                 <graphic>
+                                    <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/updateb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <padding>
+                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                 </padding>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <Label fx:id="labelunidad" text="Cantidad en gramos *" textFill="#b2b2b2" GridPane.rowIndex="2">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="textCantidad" onKeyTyped="#consumeIntegers" prefWidth="130.0" promptText="Cantidad en gramos" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="labelunidad1" text="Día de la semana *" textFill="#b2b2b2" GridPane.rowIndex="3">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="labelunidad11" text="Momento del día *" textFill="#b2b2b2" GridPane.rowIndex="4">
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </Label>
+                        <FlowPane hgap="10.0" styleClass="flowpane-izquierda" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false" prefWidth="90.0" text="Domingo">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="dias" />
+                                 </toggleGroup>
+                              </ToggleButton>
+                              <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" prefWidth="90.0" text="Lunes" toggleGroup="$dias" />
+                              <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" prefWidth="90.0" text="Martes" toggleGroup="$dias" />
+                              <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false" prefWidth="90.0" text="Miercoles" toggleGroup="$dias" />
+                              <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" prefWidth="90.0" text="Jueves" toggleGroup="$dias" />
+                              <ToggleButton fx:id="buttonViernes" mnemonicParsing="false" prefWidth="90.0" text="Viernes" toggleGroup="$dias" />
+                              <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" prefWidth="90.0" text="Sábado" toggleGroup="$dias" />
+                           </children>
+                        </FlowPane>
+                        <FlowPane fx:id="momentos" hgap="10.0" styleClass="flowpane-izquierda" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <ToggleButton fx:id="buttonDesayuno" mnemonicParsing="false" onAction="#getDesayuno" prefWidth="90.0" text="Desayuno">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="momento" />
+                                 </toggleGroup>
+                              </ToggleButton>
+                              <ToggleButton fx:id="buttonAm" mnemonicParsing="false" onAction="#getSnackAm" prefWidth="90.0" text="Snack AM" toggleGroup="$momento" />
+                              <ToggleButton fx:id="buttonAlmuerzo" mnemonicParsing="false" onAction="#getAlmuerzo" prefWidth="90.0" text="Almuerzo" toggleGroup="$momento" />
+                              <ToggleButton fx:id="buttonPm" mnemonicParsing="false" onAction="#getSnackPm" prefWidth="90.0" text="Snack PM" toggleGroup="$momento" />
+                              <ToggleButton fx:id="buttonCena" mnemonicParsing="false" onAction="#getCena" prefWidth="90.0" text="Cena" toggleGroup="$momento" />
+                              <ToggleButton fx:id="buttonPre" mnemonicParsing="false" onAction="#getPre" prefWidth="90.0" text="Pre-entreno" toggleGroup="$momento" />
+                              <ToggleButton fx:id="buttonPost" mnemonicParsing="false" onAction="#getPost" prefWidth="90.0" text="Post-entreno" toggleGroup="$momento" />
+                           </children>
+                        </FlowPane>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox styleClass="vbox-blanco">
+               <children>
+                  <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
+                     <children>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Button onAction="#addAlimento" pickOnBounds="false" prefWidth="1500.0" text="Añadir alimento al menú">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/clearb.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button onAction="#deleteAlx" pickOnBounds="false" prefWidth="1500.0" styleClass="delete-button" text="Eliminar alimento del menú">
+                                 <graphic>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../imagen/icono/trash2b.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </HBox>
+                        <ListView fx:id="listView" prefHeight="200.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
 </StackPane>

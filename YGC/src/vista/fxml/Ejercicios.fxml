@@ -50,7 +50,7 @@
                                 <Insets left="6.0"/>
                             </padding>
                         </Label>
-                        <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre"/>
+                        <TextField fx:id="textNombreEjercicio" onKeyTyped="#consumeDigits" promptText="Nombre"/>
                     </children>
                 </VBox>
                 <VBox>
@@ -60,7 +60,7 @@
                                 <Insets left="6.0"/>
                             </padding>
                         </Label>
-                        <TextArea fx:id="textDescripcion" onKeyTyped="#consumeDigits" prefHeight="100.0"
+                        <TextArea fx:id="textDescripcionEjercicio" onKeyTyped="#consumeDigits" prefHeight="100.0"
                                   promptText="Descripción del ejercicio (500 caracteres)" wrapText="true"/>
                     </children>
                 </VBox>
@@ -71,7 +71,7 @@
                                 <Insets left="6.0"/>
                             </padding>
                         </Label>
-                        <TextArea fx:id="textComentarios" onKeyTyped="#consumeDigits" prefHeight="100.0"
+                        <TextArea fx:id="textComentariosEjercicio" onKeyTyped="#consumeDigits" prefHeight="100.0"
                                   promptText="Comentarios o indicaciones acerca de este ejercicio (500 caracteres)"
                                   wrapText="true"/>
                     </children>

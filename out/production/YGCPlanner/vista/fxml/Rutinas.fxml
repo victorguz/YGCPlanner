@@ -39,7 +39,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox onMouseMoved="#updated" styleClass="vbox-blanco">
+                <VBox  styleClass="vbox-blanco">
                     <children>
                         <Label text="Información de la dieta" textFill="#757575">
                             <VBox.margin>
@@ -116,7 +116,7 @@
                         </FlowPane>
                     </children>
                 </VBox>
-                <VBox onMouseMoved="#updated" styleClass="vbox-blanco">
+                <VBox styleClass="vbox-blanco">
                     <children>
                         <Label text="Alimentos de la dieta" textFill="#757575"/>
                         <FlowPane styleClass="flowpane-centrado">
@@ -219,7 +219,7 @@
                         </FlowPane>
                     </children>
                 </VBox>
-                <VBox onMouseMoved="#updated" styleClass="vbox-blanco">
+                <VBox styleClass="vbox-blanco">
                     <children>
                         <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
                             <children>

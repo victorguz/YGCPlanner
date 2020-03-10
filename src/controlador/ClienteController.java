@@ -174,6 +174,8 @@ public class ClienteController extends Controller<Cliente> {
         comboObjetivos.getItems().setAll("Perder", "Aumentar", "Mantener");
         comboObjetivos.getSelectionModel().select(0);
         obtenerClientes();
+        obtenerDietas();
+        obtenerRutinas();
     }
 
     public Cliente captarCliente() throws DAOException {
@@ -207,6 +209,9 @@ public class ClienteController extends Controller<Cliente> {
             textEdad.setText(getCliente().getEdad() + "");
             selectCombo(comboSexo, getCliente().getSexo());
             cambiarImagen();
+        }else{
+            limpiarCliente();
+            limpiarMedida();
         }
     }
 
@@ -272,9 +277,8 @@ public class ClienteController extends Controller<Cliente> {
 
     public void imprimir() {
         try {
-            PDF f = new PDF();
+            PDF f = new PDF(getCliente(),"");
             f.createPDF();
-            f.setCliente(getCliente());
             if (buttonBienvenida.isSelected()) {
                 f.addBienvenida();
             }
@@ -518,12 +522,14 @@ public class ClienteController extends Controller<Cliente> {
             comboDietas.getSelectionModel().select(0);
         }
     }
+
     public void obtenerRutinas() {
         if (!rutinas.isEmpty()) {
             comboRutinas.setItems(rutinas);
             comboRutinas.getSelectionModel().select(0);
         }
     }
+
     public void cambiarImagen() {
         if (comboSexo.getSelectionModel().getSelectedItem().equalsIgnoreCase("hombre")) {
             img.setImage(new Image("/imagen/icono/man.png"));
@@ -559,23 +565,20 @@ public class ClienteController extends Controller<Cliente> {
         if (!comboMedidas.getItems().isEmpty()) {
             comboMedidas.getSelectionModel().select(i);
             setMedida(comboMedidas.getSelectionModel().getSelectedItem());
-            mostrarMedida();
         } else {
-            mostrarMedida();
             setMedida(new Medida());
         }
+        mostrarMedida();
     }
 
     public void selectMedida() {
         if (!comboMedidas.getItems().isEmpty()) {
             setMedida(comboMedidas.getSelectionModel().getSelectedItem());
-            mostrarMedida();
         } else {
             setMedida(new Medida());
-            mostrarMedida();
         }
+        mostrarMedida();
     }
-
 
     public void obtenerClientes() {
         try {
@@ -609,7 +612,5 @@ public class ClienteController extends Controller<Cliente> {
             }
         }
     }
-
-
 
 }

@@ -49,32 +49,12 @@ public abstract class Controller<T> implements Initializable {
     private static SQLiteDAOManager manager;
     private static Cliente cliente;
     private static Medida medida;
-    private static boolean dietasUpdated;
-    private static boolean rutinasUpdated;
-    private static boolean alimentosUpdated;
-    private static boolean ejerciciosUpdated;
     private static boolean onConfig;
     /**
      * TextField que está contenido en la mayoría de frames
      */
     @FXML
     protected TextField textBuscar;
-
-    public static boolean isEjerciciosUpdated() {
-        return ejerciciosUpdated;
-    }
-
-    public static void setEjerciciosUpdated(boolean updated) {
-        Controller.ejerciciosUpdated = updated;
-    }
-
-    public static boolean isAlimentosUpdated() {
-        return alimentosUpdated;
-    }
-
-    public static void setAlimentosUpdated(boolean updated) {
-        Controller.alimentosUpdated = updated;
-    }
 
     private static SQLiteDAOManager getManager() throws DAOException {
         if (manager == null) {
@@ -184,8 +164,6 @@ public abstract class Controller<T> implements Initializable {
             return "Este cliente ya tiene medidas en esta fecha";
         } else if (ex.contains("clientes.identificacion")) {
             return "Ya existe un cliente con esta identificación";
-        } else if (ex.contains("planes.nombre")) {
-            return "Ya existe un plan con este nombre";
         } else if (ex.contains("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento, alxdiet.dia, alxdiet.combinacion")) {
             return "Esta opcion ya contiene este alimento";
         } else if (ex.contains("ejercicios.nombre")) {
@@ -303,32 +281,6 @@ public abstract class Controller<T> implements Initializable {
 
     public static void setOnConfig(boolean aOnConfig) {
         onConfig = aOnConfig;
-    }
-
-    public static boolean isDietasUpdated() {
-        return dietasUpdated;
-    }
-
-    /**
-     * Cuando se actualiza la lista de dietas cambia estado a actualizado (true)
-     *
-     * @param c
-     */
-    public static void setDietasUpdated(boolean c) {
-        dietasUpdated = c;
-    }
-
-    public static boolean isRutinasUpdated() {
-        return rutinasUpdated;
-    }
-
-    /**
-     * Cuando se actualiza la lista de rutina cambia estado a actualizado (true)
-     *
-     * @param c
-     */
-    public static void setRutinasUpdated(boolean c) {
-        rutinasUpdated = c;
     }
 
     public void consumeIntegers(KeyEvent e) {

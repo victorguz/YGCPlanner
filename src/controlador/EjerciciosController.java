@@ -23,13 +23,13 @@ public class EjerciciosController extends Controller<Ejercicio> {
     @FXML
     private TextField textBuscarEjercicio;
     @FXML
-    private TextField textNombre;
+    private TextField textNombreEjercicio;
 
     @FXML
-    private TextArea textDescripcion;
+    private TextArea textDescripcionEjercicio;
 
     @FXML
-    private TextArea textComentarios;
+    private TextArea textComentariosEjercicio;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,7 +46,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     getEjercicios().insert(c);
                     mensaje("Ejercicio registrado", "exito");
                     obtener();
-                    setEjerciciosUpdated(true);
                 }
             }
         } catch (DAOException ex) {
@@ -62,9 +61,8 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     a.setEjerciciokey(comboEjercicios.getSelectionModel().getSelectedItem().getEjerciciokey());
                     getEjercicios().update(a);
                     mensaje("Ejercicio modificado", "exito");
-                    textBuscarEjercicio.setText(textNombre.getText());
+                    textBuscarEjercicio.setText(textNombreEjercicio.getText());
                     obtener();
-                    setEjerciciosUpdated(true);
                 } else {
                     mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
@@ -86,7 +84,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
                     getEjercicios().delete(a);
                     mensaje("Ejercicio eliminado", "exito");
                     obtener();
-                    setEjerciciosUpdated(true);
                 } else {
                     mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
@@ -100,25 +97,25 @@ public class EjerciciosController extends Controller<Ejercicio> {
     }
 
     public void limpiar() {
-        textNombre.setText("");
-        textDescripcion.setText("");
-        textComentarios.setText("");
+        textNombreEjercicio.setText("");
+        textDescripcionEjercicio.setText("");
+        textComentariosEjercicio.setText("");
     }
 
     public void mostrar() {
         if (!comboEjercicios.getItems().isEmpty()) {
             Ejercicio c = comboEjercicios.getSelectionModel().getSelectedItem();
-            textNombre.setText(c.getNombre());
-            textComentarios.setText(c.getComentarios());
-            textDescripcion.setText(c.getDescripcion());
+            textNombreEjercicio.setText(c.getNombre());
+            textComentariosEjercicio.setText(c.getComentarios());
+            textDescripcionEjercicio.setText(c.getDescripcion());
         }
     }
 
     public Ejercicio captar() throws DAOException {
         Ejercicio c = new Ejercicio();
-        c.setNombre(textNombre.getText());
-        c.setDescripcion(textDescripcion.getText());
-        c.setComentarios(textComentarios.getText());
+        c.setNombre(textNombreEjercicio.getText());
+        c.setDescripcion(textDescripcionEjercicio.getText());
+        c.setComentarios(textComentariosEjercicio.getText());
         return c;
     }
 
@@ -137,7 +134,6 @@ public class EjerciciosController extends Controller<Ejercicio> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
-        setEjerciciosUpdated(true);
     }
 
     public void selectEjercicio(int i) {

@@ -17,7 +17,6 @@
     -fx-background-radius: 0;
     -fx-spacing: 17;
     -fx-padding: 15;
-    -fx-alignment: TOP_CENTER;
 }
 .flowpane-centrado{
     -fx-row-valignment: center;
@@ -25,7 +24,11 @@
     -fx-vgap: 10;
     -fx-alignment: CENTER;
 }
-
+.flowpane-izquierda{
+    -fx-row-valignment: center;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
 .scroll-pane, .date-picker, .list-view, TextArea{
     -fx-background-insets: 0;
     -fx-padding: 0;
@@ -53,6 +56,14 @@
     -fx-border-radius: 4;
     -fx-border-width: 1;
     -fx-text-fill: white;
+}
+.another-button{
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-border-color:  rgb(230,230,230);
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-text-fill: black;
 }
 .toggle-button:selected{
     -fx-background-color: rgb(215,215,215);  

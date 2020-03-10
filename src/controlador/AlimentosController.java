@@ -62,7 +62,6 @@ public class AlimentosController extends Controller<Alimento> {
                 getAlimentos().insert(c);
                 mensaje("Alimento registrado", "exito");
                 obtener();
-                setAlimentosUpdated(true);
             }
         } catch (DAOException ex) {
             excepcion(ex);
@@ -79,7 +78,6 @@ public class AlimentosController extends Controller<Alimento> {
                     getAlimentos().update(a);
                     textBuscarAlimento.setText(textNombre.getText());
                     obtener();
-                    setAlimentosUpdated(true);
                     mensaje("Alimento modificado", "exito");
                 } else {
                     mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
@@ -103,7 +101,6 @@ public class AlimentosController extends Controller<Alimento> {
                     getAlimentos().delete(a);
                     mensaje("Alimento eliminado", "exito");
                     obtener();
-                    setAlimentosUpdated(true);
                 } else {
                     mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
                 }
@@ -172,7 +169,6 @@ public class AlimentosController extends Controller<Alimento> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
-        setAlimentosUpdated(true);
     }
 
     public void selectAlimento(int i) {

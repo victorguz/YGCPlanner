@@ -90,55 +90,9 @@ public class RutinasController extends Controller<Plan> {
         comboRepeticiones.getSelectionModel().select(0);
         comboSeries.getItems().setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         comboSeries.getSelectionModel().select(0);
-        setRutinasUpdated(true);
-        updated();
-        setEjerciciosUpdated(true);
+        obtener();
+        obtenerEjercicios();
     }
-
-
-    public void updated() {
-        Thread t = new Thread(new Runnable() {
-
-            public void run() {
-                Runnable updater = new Runnable() {
-
-                    public void run() {
-                        if (isRutinasUpdated()) {
-                            obtener();
-                        }
-                        if (isEjerciciosUpdated()) {
-                            try {
-                                comboEjercicios.getItems().clear();
-                                if (textBuscarEjercicio.getText().isEmpty()) {
-                                    ejercicios = getEjercicios().all();
-                                } else {
-                                    ejercicios = getEjercicios().where(textBuscarEjercicio.getText());
-                                }
-                                if (!ejercicios.isEmpty()) {
-                                    comboEjercicios.setItems(ejercicios);
-                                    comboEjercicios.getSelectionModel().select(0);
-                                }
-                            } catch (DAOException ex) {
-                                excepcion(ex);
-                            }
-                            setEjerciciosUpdated(false);
-                        }
-                    }
-                };
-                while (true) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    // UI update is run on the Application thread
-                    Platform.runLater(updater);
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
-    }
-
 
     public Plan captar() throws DAOException {
         Plan d = new Plan();
@@ -164,7 +118,6 @@ public class RutinasController extends Controller<Plan> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
-        setRutinasUpdated(false);
     }
 
     public void obtenerEjercicios() {
@@ -356,7 +309,6 @@ public class RutinasController extends Controller<Plan> {
     public void actualizarUso(Ejercicio a) {
         try {
             getEjercicios().update(a);
-            setEjerciciosUpdated(true);
         } catch (DAOException ex) {
             excepcion(ex);
         }
