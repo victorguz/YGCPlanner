@@ -13,13 +13,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
+import modelo.Referencia;
 import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
 import modelo.plan.Plan;
+import vista.Main;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -65,7 +70,8 @@ public class ClienteController extends Controller<Cliente> {
 
     @FXML
     TextField textEdad;
-
+    @FXML
+    private TextField textGuardar;
     /*Objetos del modulo de medidas*/
     @FXML
     private ImageView img;
@@ -157,6 +163,10 @@ public class ClienteController extends Controller<Cliente> {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
+        obtenerClientes();
+        obtenerDietas();
+        obtenerRutinas();
+        getRuta();
     }
 
     private void setCombos() {
@@ -173,9 +183,7 @@ public class ClienteController extends Controller<Cliente> {
         comboActividad.getSelectionModel().select(0);
         comboObjetivos.getItems().setAll("Perder", "Aumentar", "Mantener");
         comboObjetivos.getSelectionModel().select(0);
-        obtenerClientes();
-        obtenerDietas();
-        obtenerRutinas();
+
     }
 
     public Cliente captarCliente() throws DAOException {
@@ -209,7 +217,7 @@ public class ClienteController extends Controller<Cliente> {
             textEdad.setText(getCliente().getEdad() + "");
             selectCombo(comboSexo, getCliente().getSexo());
             cambiarImagen();
-        }else{
+        } else {
             limpiarCliente();
             limpiarMedida();
         }
@@ -276,14 +284,17 @@ public class ClienteController extends Controller<Cliente> {
     }
 
     public void imprimir() {
+        if(textGuardar.getText().isEmpty()) {
+            mensaje("Seleccione primero una ruta de guardado","aviso");
+        }else{
         try {
-            PDF f = new PDF(getCliente(),"");
+            PDF f = new PDF(getCliente(), textGuardar.getText());
             f.createPDF();
             if (buttonBienvenida.isSelected()) {
                 f.addBienvenida();
             }
             if (medidas.isEmpty()) {
-                mensaje("Este cliente no tiene medidas, ni planes asignados", "error");
+                mensaje("Este cliente no tiene medidas, ni planes asignados", "Aviso");
             } else {
                 if (buttonMedidas.isSelected()) {
                     f.addMedidas();
@@ -294,11 +305,11 @@ public class ClienteController extends Controller<Cliente> {
                 if (buttonDieta.isSelected()) {
                     f.addDieta();
                 }
+                f.close();
             }
-            f.close();
         } catch (DocumentException | IOException | DAOException ex) {
             excepcion(ex);
-        }
+        }}
     }
 
 
@@ -306,33 +317,21 @@ public class ClienteController extends Controller<Cliente> {
 
 
     public Medida captarMedida() {
-        if (clientes.isEmpty()) {
+        if (getCliente().isEmpty()) {
             return new Medida();
         } else {
             Medida k = new Medida();
             k.setCliente(getCliente());
             k.setFecha(datePicker.getValue());
-            if(comboRutinas.getItems().isEmpty()){
-                obtenerRutinas();
-                if(comboRutinas.getItems().isEmpty()){
-                    mensaje("Primero registe un plan de entrenamiento","aviso");
-                    return new Medida();
-                }else{
-                    k.setRutina(comboRutinas.getSelectionModel().getSelectedItem());
-                }
-            }else{
+            if (comboRutinas.getItems().isEmpty()) {
+                return new Medida();
+            } else {
                 k.setRutina(comboRutinas.getSelectionModel().getSelectedItem());
             }
 
-            if(comboDietas.getItems().isEmpty()){
-                obtenerRutinas();
-                if(comboDietas.getItems().isEmpty()){
-                    mensaje("Primero registe un plan de alimentación","aviso");
-                    return new Medida();
-                }else{
-                    k.setDieta(comboDietas.getSelectionModel().getSelectedItem());
-                }
-            }else{
+            if (comboDietas.getItems().isEmpty()) {
+                return new Medida();
+            } else {
                 k.setDieta(comboDietas.getSelectionModel().getSelectedItem());
             }
             k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
@@ -447,6 +446,22 @@ public class ClienteController extends Controller<Cliente> {
             selectCombo(comboActividad, getMedida().getActividad());
             selectCombo(comboActividad, getMedida().getActividad());
             selectCombo(comboObjetivos, getMedida().getObjetivo());
+            obtenerDietas();
+            for (int x = 0; x < comboDietas.getItems().size(); x++) {
+                if (comboDietas.getItems().get(x).getNombre().equalsIgnoreCase(getMedida().getDieta().getNombre())) {
+                    comboDietas.getSelectionModel().select(x);
+                    break;
+                }
+            }
+
+            obtenerRutinas();
+            for (int x = 0; x < comboRutinas.getItems().size(); x++) {
+                if (comboRutinas.getItems().get(x).getNombre().equalsIgnoreCase(getMedida().getRutina().getNombre())) {
+                    comboRutinas.getSelectionModel().select(x);
+                    break;
+                }
+            }
+
             datePicker.setValue(getMedida().getFecha());
             textPeso.setText("" + getMedida().getPeso());
             textAltura.setText("" + getMedida().getAltura());
@@ -519,22 +534,24 @@ public class ClienteController extends Controller<Cliente> {
 
     public void calcular() {
         Medida k = captarMedida();
-        textComplexion.setText("" + k.getComplexionText());
-        textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
-        textPesoIdealCreff.setText("" + k.getPesoIdealCreff() + " Kg");
-        textPesoIdealLorentz.setText("" + k.getPesoIdealLorentz() + " Kg");
-        textPesoIdealMonnerotDumaine.setText("" + k.getPesoIdealMonnerotDumaine() + " Kg");
-        textGradoObesidad.setText(k.getGradoObesidad());
-        textHarrys.setText("" + k.getTasaMetabolicaHarrys());
-        textSuperavit.setText("" + k.getSuperavitODeficit());
-        textMifflin.setText("" + k.getTasaMetabolicaMifflin());
-        textIMC.setText("" + k.getIndiceMasaCorporal() + " Kg/m2");
-        textDensidad.setText("" + k.getDensidadCorporalPorPliegues());
-        textPorcentajeGrasa.setText(k.getPorcentajeGrasaSiri() + " %");
-        textPesoGrasa.setText("" + k.getPesoGrasaCorporal() + " Kg");
-        textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
-        textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
-        labelObjetivo.setText("Calorías para " + k.getObjetivo().toLowerCase());
+        if (!k.isEmpty()) {
+            textComplexion.setText("" + k.getComplexionText());
+            textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
+            textPesoIdealCreff.setText("" + k.getPesoIdealCreff() + " Kg");
+            textPesoIdealLorentz.setText("" + k.getPesoIdealLorentz() + " Kg");
+            textPesoIdealMonnerotDumaine.setText("" + k.getPesoIdealMonnerotDumaine() + " Kg");
+            textGradoObesidad.setText(k.getGradoObesidad());
+            textHarrys.setText("" + k.getTasaMetabolicaHarrys());
+            textSuperavit.setText("" + k.getSuperavitODeficit());
+            textMifflin.setText("" + k.getTasaMetabolicaMifflin());
+            textIMC.setText("" + k.getIndiceMasaCorporal() + " Kg/m2");
+            textDensidad.setText("" + k.getDensidadCorporalPorPliegues());
+            textPorcentajeGrasa.setText(k.getPorcentajeGrasaSiri() + " %");
+            textPesoGrasa.setText("" + k.getPesoGrasaCorporal() + " Kg");
+            textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
+            textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
+            labelObjetivo.setText("Calorías para " + k.getObjetivo().toLowerCase());
+        }
     }
 
     public void obtenerDietas() {
@@ -563,8 +580,6 @@ public class ClienteController extends Controller<Cliente> {
         if (!comboClientes.getItems().isEmpty()) {
             comboClientes.getSelectionModel().select(i);
             setCliente(comboClientes.getSelectionModel().getSelectedItem());
-            mostrarCliente();
-            cambiarImagen();
             obtenerMedidas();
         } else {
             setCliente(new Cliente());
@@ -575,7 +590,6 @@ public class ClienteController extends Controller<Cliente> {
         if (!comboClientes.getItems().isEmpty()) {
             setCliente(comboClientes.getSelectionModel().getSelectedItem());
             mostrarCliente();
-            cambiarImagen();
             obtenerMedidas();
         } else {
             setCliente(new Cliente());
@@ -586,19 +600,19 @@ public class ClienteController extends Controller<Cliente> {
         if (!comboMedidas.getItems().isEmpty()) {
             comboMedidas.getSelectionModel().select(i);
             setMedida(comboMedidas.getSelectionModel().getSelectedItem());
+            mostrarMedida();
         } else {
             setMedida(new Medida());
         }
-        mostrarMedida();
     }
 
     public void selectMedida() {
         if (!comboMedidas.getItems().isEmpty()) {
             setMedida(comboMedidas.getSelectionModel().getSelectedItem());
+            mostrarMedida();
         } else {
             setMedida(new Medida());
         }
-        mostrarMedida();
     }
 
     public void obtenerClientes() {
@@ -612,7 +626,6 @@ public class ClienteController extends Controller<Cliente> {
             if (!clientes.isEmpty()) {
                 comboClientes.setItems(clientes);
                 selectCliente(0);
-                obtenerMedidas();
             }
         } catch (DAOException ex) {
             excepcion(ex);
@@ -633,5 +646,28 @@ public class ClienteController extends Controller<Cliente> {
             }
         }
     }
+
+    public void getRuta() {
+        try {
+            Referencia r = getReferencias().select("rutaguardado");
+            textGuardar.setText(r.getDato());
+        } catch (DAOException e) {
+            excepcion(e);
+        }
+    }
+
+    public void setRuta() {
+        DirectoryChooser dc = new DirectoryChooser();
+        File file = dc.showDialog(Main.stagestatic);
+        if (file != null) {
+            textGuardar.setText(file.getAbsolutePath());
+            try {
+                getReferencias().update(new Referencia("rutaguardado","ruta donde se guardaran los archivos pdf",file.getAbsolutePath()));
+            } catch (DAOException e) {
+                excepcion(e);
+            }
+        }
+    }
+
 
 }

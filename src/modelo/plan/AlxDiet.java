@@ -77,7 +77,15 @@ public class AlxDiet extends BasePlan {
 
     @Override
     public String toString() {
-        String a = ((getAlimento().getUnidad().contains("unidad")) ? " unidades de " : " gramos de ");
+        String unidad=getAlimento().getUnidad();
+        String a="";
+        if(unidad.contains("unidad")){
+            a=" unidades de";
+        }else if(unidad.contains("gramo")){
+            a=" gramos de ";
+        }else if(unidad.contains("mililitro")){
+            a=" mililitros de ";
+        }
         return getCantidad() + a + getAlimento().toString();
     }
 
@@ -90,8 +98,4 @@ public class AlxDiet extends BasePlan {
                 || getCantidad() <= 0;
     }
 
-    public ArrayList<String> toArray() {
-        ArrayList<String> n = new ArrayList<>();
-        return n;
-    }
 }

@@ -89,6 +89,7 @@ public class RutinasController extends Controller<Plan> {
 
         obtener();
         obtenerEjercicios();
+        getBloque();
     }
 
     public void setCombos(){

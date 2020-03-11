@@ -81,9 +81,9 @@ public class HomeController extends Controller<StackPane> {
         try {
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
             Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
-            Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
+            Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
         } catch (MalformedURLException ex) {
             excepcion(ex);
         } catch (IOException ex) {

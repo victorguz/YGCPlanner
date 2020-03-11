@@ -64,6 +64,7 @@ public class DietasController extends Controller<Plan> {
         obtener();
         obtenerAlimentos();
         setCombos();
+        getMenu();
     }
 
     public void setCombos(){
@@ -329,12 +330,16 @@ public class DietasController extends Controller<Plan> {
         return comboMomento.getSelectionModel().getSelectedItem();
     }
 
-    public void getMenu() throws DAOException {
+    public void getMenu() {
         listView.getItems().clear();
         if (getDieta().isEmpty()) {
             mensaje("Registre primero un plan", "aviso");
         } else {
-            listView.setItems(getAlxdiets().where(getDieta().getPlankey(), getDia(), getMomento()));
+            try {
+                listView.setItems(getAlxdiets().where(getDieta().getPlankey(), getDia(), getMomento()));
+            } catch (DAOException e) {
+                excepcion(e);
+            }
         }
     }
 
@@ -360,7 +365,8 @@ public class DietasController extends Controller<Plan> {
 
     @FXML
     private TextField textCarbosAlimentos;
-
+    @FXML
+    private TextField textUnidad;
 
     public void registrarAlimento() {
         try {
@@ -439,6 +445,7 @@ public class DietasController extends Controller<Plan> {
             textGrasasAlimentos.setText("" + c.getGrasas());
             textCarbosAlimentos.setText("" + c.getCarbohidratos());
             textKilocaloriasAlimentos.setText("" + Operacion.redondear(c.getKilocalorias()));
+            textUnidad.setText(c.getUnidad());
         }
     }
 
@@ -449,6 +456,7 @@ public class DietasController extends Controller<Plan> {
         c.setProteinas((textProteinaAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinaAlimentos.getText()));
         c.setGrasas((textGrasasAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasasAlimentos.getText()));
         c.setCarbohidratos((textCarbosAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbosAlimentos.getText()));
+        c.setUnidad((textUnidad.getText().isEmpty()) ? "gramos" : textUnidad.getText());
         return c;
     }
 

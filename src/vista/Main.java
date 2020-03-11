@@ -41,9 +41,9 @@ public class Main extends Application {
             stage.setScene(scene);
             stage.getIcons().add(new Image("/imagen/icono/icono16.png"));
             stage.setMinHeight(600);
-            stage.setMinWidth(550);
+            stage.setMinWidth(750);
             stage.setHeight(600);
-            stage.setWidth(550);
+            stage.setWidth(750);
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();

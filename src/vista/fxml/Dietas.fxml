@@ -83,7 +83,7 @@
                                                 <Insets left="6.0" />
                                              </padding>
                                           </Label>
-                                          <TextArea fx:id="textDescripcion" minWidth="20.0" promptText="Descripción del plan (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextArea fx:id="textDescripcion" promptText="Descripción del plan (500 caracteres)" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                     <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
@@ -193,6 +193,12 @@
                                           <TextField fx:id="textKilocaloriasAlimentos" editable="false" minWidth="20.0" promptText="Kilocalorias" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                                           <Label minWidth="100.0" text="Macros en 100 gramos" textFill="#757575" wrapText="true" GridPane.columnIndex="2" />
                                           <Label minWidth="100.0" text="Información de alimentos" textFill="#757575" wrapText="true" />
+                                          <Label minWidth="100.0" text="Unidad de medida" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="4">
+                                             <padding>
+                                                <Insets left="6.0" />
+                                             </padding>
+                                          </Label>
+                                          <TextField fx:id="textUnidad" minWidth="20.0" promptText="Unidad de medida" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                        </children>
                                     </GridPane>
                                     <FlowPane fx:id="botones1" alignment="CENTER" hgap="10.0" styleClass="flowpane">

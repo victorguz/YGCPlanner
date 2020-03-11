@@ -62,14 +62,7 @@
     /*-fx-pref-width: 100;*/
     -fx-pref-height: 25;
 }
-.another-button{
-    -fx-background-color: white;
-    -fx-background-radius: 4;
-    -fx-border-color:  rgb(230,230,230);
-    -fx-border-radius: 4;
-    -fx-border-width: 1;
-    -fx-text-fill: black;
-}
+
 .toggle-button:selected{
     -fx-background-color: rgb(215,215,215);  
 }
@@ -90,7 +83,6 @@
     -fx-border-radius: 4;
     -fx-text-fill: black;
 }
-
 .date-picker{
     -fx-background-color: white;
     -fx-border-radius: 4;  

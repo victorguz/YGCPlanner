@@ -42,7 +42,7 @@
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" text="More">
+                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setRuta" text="More">
                                  <graphic>
                                     <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -116,17 +116,9 @@
                         <ComboBox fx:id="comboClientes" onAction="#selectCliente" promptText="Seleccionar cliente" GridPane.columnIndex="3" />
                      </children>
                   </GridPane>
-                  <HBox alignment="CENTER">
-                     <children>
-                              <ImageView fx:id="img" fitHeight="172.0" fitWidth="146.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                      <Image url="@../../imagen/icono/man.png" />
-                                  </image>
-                              </ImageView>
-                     </children>
-                  </HBox>
                   <GridPane hgap="10.0" vgap="10.0">
                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
@@ -138,45 +130,50 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                                  <Label text="Tipo de documento*" textFill="#b2b2b2" GridPane.rowIndex="1">
+                                  <Label text="Tipo de documento*" textFill="#b2b2b2" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
-                                  <ComboBox fx:id="comboTipoDoc" promptText="Cédula de ciudadanía" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                  <ComboBox fx:id="comboTipoDoc" promptText="Cédula de ciudadanía" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin></ComboBox>
-                                  <Label text="N° documento*" textFill="#b2b2b2" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                  <Label text="N° documento*" textFill="#b2b2b2" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
-                                  <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" promptText="N° documento" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                  <Label text="Sexo*" textFill="#b2b2b2" GridPane.rowIndex="2">
+                                  <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" promptText="N° documento" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                  <Label text="Sexo*" textFill="#b2b2b2" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
-                                  <ComboBox fx:id="comboSexo" onAction="#cambiarImagen" promptText="Hombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                  <Label text="Edad*" textFill="#b2b2b2" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                  <ComboBox fx:id="comboSexo" onAction="#cambiarImagen" promptText="Hombre" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                  <Label text="Edad*" textFill="#b2b2b2" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
-                                  <TextField fx:id="textEdad" onKeyTyped="#consumeIntegers" prefWidth="50.0" promptText="Edad" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                  <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="1" />
-                                  <Label text="Nombre*" textFill="#b2b2b2">
+                                  <TextField fx:id="textEdad" onKeyTyped="#consumeIntegers" prefWidth="50.0" promptText="Edad" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                  <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="2" />
+                                  <Label text="Nombre*" textFill="#b2b2b2" GridPane.columnIndex="1">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
-                                  <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" promptText="Apellido" GridPane.columnIndex="3" />
-                                  <Label text="Apellido" textFill="#b2b2b2" GridPane.columnIndex="2">
+                                  <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" promptText="Apellido" GridPane.columnIndex="4" />
+                                  <Label text="Apellido" textFill="#b2b2b2" GridPane.columnIndex="3">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
+                              <ImageView fx:id="img" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                                  <image>
+                                      <Image url="@../../imagen/icono/man.png" />
+                                  </image>
+                              </ImageView>
                      </children>
                   </GridPane>
                         <FlowPane styleClass="flowpane-centrado">
