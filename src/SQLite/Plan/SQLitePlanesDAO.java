@@ -21,15 +21,15 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
             + "values (?, ?, ?, ?, ?)";
     private final String UPDATE = "UPDATE Planes SET nombre = ?, "
             + " descripcion = ?, usedate = ?, usetime = ? WHERE plankey = ? ";
-    private final String DELETE = "DELETE FROM Planes WHERE Plankey = ?";
+    private final String DELETE = "update planes set deleted=true WHERE Plankey = ?";
     private final String SELECT = "SELECT Plankey, nombre, "
             + " descripcion, tipo FROM Planes "
             + "where Plankey = ? ";
     private final String WHERE = "SELECT Plankey, nombre,"
             + " descripcion, tipo FROM Planes "
-            + "where tipo = ? order by nombre like ? desc";
+            + "where tipo = ? and deleted=false order by nombre like ? desc";
     private final String ALL = "SELECT Plankey, nombre, "
-            + " descripcion, tipo FROM Planes where tipo = ? "
+            + " descripcion, tipo FROM Planes where tipo = ? and deleted=false "
             + "order by usetime desc, usedate desc";
     private Connection conex;
 

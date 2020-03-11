@@ -85,24 +85,14 @@ public class RutinasController extends Controller<Plan> {
     @FXML
     private ComboBox<String> comboBloques;
 
+    String buscarejercicio = "";
+
     public void initialize(URL location, ResourceBundle resources) {
 
         obtener();
         obtenerEjercicios();
+        setCombos();
         getBloque();
-    }
-
-    public void setCombos(){
-        for (int i = 5; i <= 200; i = i + 5) {
-            comboRepeticiones.getItems().add(i);
-        }
-        comboRepeticiones.getSelectionModel().select(0);
-        comboSeries.getItems().setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        comboSeries.getSelectionModel().select(0);
-        comboDia.getItems().setAll("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
-        comboDia.getSelectionModel().select(0);
-        comboBloques.getItems().setAll("Bloque 1","Bloque 2","Bloque 3","Bloque 4","Bloque 5");
-        comboBloques.getSelectionModel().select(0);
     }
 
     public Plan captar() throws DAOException {
@@ -226,20 +216,17 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public EjxRut captarEjxRut() {
-        if (!comboRutinas.getItems().isEmpty()) {
-            EjxRut a = new EjxRut();
-            a.setPlan(getRutina());
-            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
-            a.setSeries(comboSeries.getSelectionModel().getSelectedItem());
-            a.setRepeticiones(comboRepeticiones.getSelectionModel().getSelectedItem());
-            a.setDia(getDia());
-            a.setDia(getMomento());
-            return a;
-        } else {
-            mensaje("Primero debe registrar un plan", "aviso");
+    public void setCombos() {
+        for (int i = 10; i <= 1000; i = i + 5) {
+            comboRepeticiones.getItems().add(i);
         }
-        return null;
+        comboRepeticiones.getSelectionModel().select(0);
+        comboSeries.getItems().setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        comboSeries.getSelectionModel().select(0);
+        comboDia.getItems().setAll("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado");
+        comboDia.getSelectionModel().select(0);
+        comboBloques.getItems().setAll("Bloque 1", "Bloque 2", "Bloque 3", "Bloque 4", "Bloque 5");
+        comboBloques.getSelectionModel().select(0);
     }
 
 
@@ -302,18 +289,20 @@ public class RutinasController extends Controller<Plan> {
         return comboBloques.getSelectionModel().getSelectedItem();
     }
 
-    public void getBloque() {
-        listView.getItems().clear();
-        if (getRutina().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
+    public EjxRut captarEjxRut() {
+        if (!comboRutinas.getItems().isEmpty()) {
+            EjxRut a = new EjxRut();
+            a.setPlan(getRutina());
+            a.setEjercicio(comboEjercicios.getSelectionModel().getSelectedItem());
+            a.setSeries(comboSeries.getSelectionModel().getSelectedItem());
+            a.setRepeticiones(comboRepeticiones.getSelectionModel().getSelectedItem());
+            a.setDia(getDia());
+            a.setMomento(getMomento());
+            return a;
         } else {
-            try {
-                listView.setItems(getEjxruts().where(getRutina()
-                        .getPlankey(), getDia(), getMomento()));
-            } catch (DAOException e) {
-                excepcion(e);
-            }
+            mensaje("Primero debe registrar un plan", "aviso");
         }
+        return null;
     }
 
     /*Panel de ejercicios*/
@@ -329,9 +318,6 @@ public class RutinasController extends Controller<Plan> {
 
     @FXML
     private TextArea textDescripcionEjercicio;
-
-    @FXML
-    private TextArea textComentariosEjercicio;
 
     public void registrarEjercicio() {
         try {
@@ -395,14 +381,12 @@ public class RutinasController extends Controller<Plan> {
     public void limpiarEjercicio() {
         textNombreEjercicio.setText("");
         textDescripcionEjercicio.setText("");
-        textComentariosEjercicio.setText("");
     }
 
     public void mostrarEjercicio() {
         if (!comboEjerciciosEjercicios.getItems().isEmpty()) {
             Ejercicio c = comboEjerciciosEjercicios.getSelectionModel().getSelectedItem();
             textNombreEjercicio.setText(c.getNombre());
-            textComentariosEjercicio.setText(c.getComentarios());
             textDescripcionEjercicio.setText(c.getDescripcion());
         }
     }
@@ -411,17 +395,33 @@ public class RutinasController extends Controller<Plan> {
         Ejercicio c = new Ejercicio();
         c.setNombre(textNombreEjercicio.getText());
         c.setDescripcion(textDescripcionEjercicio.getText());
-        c.setComentarios(textComentariosEjercicio.getText());
         return c;
+    }
+
+    public void getBloque() {
+        listView.getItems().clear();
+        if (!getRutina().isEmpty()) {
+            try {
+                listView.setItems(getEjxruts().where(getRutina()
+                        .getPlankey(), getDia(), getMomento()));
+            } catch (DAOException e) {
+                excepcion(e);
+            }
+        }
+    }
+
+    public void buscarEjercicio(ActionEvent e) {
+        TextField t = (TextField) e.getSource();
+        buscarejercicio = t.getText();
     }
 
     public void obtenerEjercicios() {
         try {
             comboEjerciciosEjercicios.getItems().clear();
-            if (textBuscarEjercicio.getText().isEmpty()) {
+            if (buscarejercicio.isEmpty()) {
                 ejercicios = getEjercicios().all();
             } else {
-                ejercicios = getEjercicios().where(textBuscarEjercicio.getText());
+                ejercicios = getEjercicios().where(buscarejercicio);
             }
             if (!ejercicios.isEmpty()) {
                 comboEjerciciosEjercicios.setItems(ejercicios);

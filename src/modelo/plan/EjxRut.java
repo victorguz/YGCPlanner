@@ -64,7 +64,7 @@ public class EjxRut extends BasePlan {
 
     @Override
     public String toString() {
-        return getSeries() + " x " + getRepeticiones() + " de " + getEjercicio().getNombre();
+        return getSeries() + " series x " + getRepeticiones() + " repeticiones de " + getEjercicio().getNombre();
     }
 
     @Override

@@ -185,7 +185,7 @@ public abstract class Controller<T> implements Initializable {
         } else if (ex.contains("no such column: ")) {
             String i = ex.substring(ex.indexOf("no such column: "));
             return "No se encontró la columna " + i + ", contacte al programador";
-        } else if (ex.contains("ejxrut.plankey, ejxrut.ejerciciokey, ejxrut.dia, ejxrut.combinacion")) {
+        } else if (ex.contains("ejxrut.plankey, ejxrut.ejerciciokey, ejxrut.dia, ejxrut.momento")) {
             return "Este bloque ya contiene este ejercicio";
         } else {
             return ex;

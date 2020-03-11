@@ -41,17 +41,15 @@
 .scroll-pane .corner {
     -fx-background-insets: 0;
 }
-.button, .toggle-button,.date-picker > .arrow-button{
-    -fx-background-color: white;
-    -fx-background-radius: 4;
-    -fx-border-color:  rgb(230,230,230);
-    -fx-border-radius: 4;
-    -fx-border-width: 1;
-    -fx-text-fill: black;
-    /*-fx-pref-width: 100;*/
-    -fx-pref-height: 25;
-}
-
+.button, .toggle-button, .date-picker > .arrow-button{
+     -fx-background-color: white;
+     -fx-background-radius: 4;
+     -fx-border-color:  rgb(230,230,230);
+     -fx-border-radius: 4;
+     -fx-border-width: 1;
+     -fx-text-fill: black;
+     -fx-pref-height: 25;
+ }
 .delete-button{
     -fx-background-color:  #f17777;
     -fx-background-radius: 4;

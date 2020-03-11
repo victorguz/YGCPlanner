@@ -92,9 +92,9 @@ public class PDF {
 
     public void setFile(String url) throws IOException {
         if (url.isEmpty()) {
-            url = System.getProperty("user.home") + "\\Desktop\\" + getCliente().getNombre() + "_" + getCliente().getApellido() + ".pdf";
+            url = System.getProperty("user.home") + "\\Desktop";
         }
-        this.file = new File(url);
+        this.file = new File(url + "\\" + getCliente().getNombre().toUpperCase() + "_" + getCliente().getApellido().toUpperCase() + ".pdf");
         if (!this.file.exists()) {
             this.file.createNewFile();
         }

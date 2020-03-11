@@ -6,7 +6,6 @@
 package controlador;
 
 import DAO.DAOException;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -332,9 +331,7 @@ public class DietasController extends Controller<Plan> {
 
     public void getMenu() {
         listView.getItems().clear();
-        if (getDieta().isEmpty()) {
-            mensaje("Registre primero un plan", "aviso");
-        } else {
+        if (!getDieta().isEmpty()) {
             try {
                 listView.setItems(getAlxdiets().where(getDieta().getPlankey(), getDia(), getMomento()));
             } catch (DAOException e) {

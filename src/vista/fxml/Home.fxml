@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <BorderPane stylesheets="@../estilo/Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.HomeController">
     <center>
         <ScrollPane fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pickOnBounds="false" styleClass="root" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
@@ -21,45 +15,53 @@
    <left>
       <VBox style="-fx-spacing: 30;" styleClass="vbox-blanco" BorderPane.alignment="CENTER">
          <children>
-                  <ToggleButton id="sidebuttons" fx:id="buttonClientes" alignment="TOP_LEFT" graphicTextGap="10.0" onAction="#switchClientes" prefWidth="148.0" text="Medidas" textFill="#757575">
-                      <graphic>
-                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../imagen/icono/1medidas.png" />
-                              </image>
-                          </ImageView>
-                      </graphic>
-                      <toggleGroup>
-                          <ToggleGroup fx:id="Home" />
-                      </toggleGroup>
+             <ToggleButton id="sidebuttons" fx:id="buttonClientes" alignment="TOP_LEFT" graphicTextGap="10.0"
+                           onAction="#switchClientes" prefWidth="148.0" styleClass="side-button" text="Medidas"
+                           textFill="#757575">
+                 <graphic>
+                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                         <image>
+                             <Image url="@../../imagen/icono/1medidas.png"/>
+                         </image>
+                     </ImageView>
+                 </graphic>
+                 <toggleGroup>
+                     <ToggleGroup fx:id="Home"/>
+                 </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton id="sidebuttons" fx:id="buttonDietas" alignment="TOP_LEFT" graphicTextGap="10.0" onAction="#switchDietas" prefWidth="148.0" text="Alimentación" textFill="#757575" toggleGroup="$Home">
-                      <graphic>
-                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../imagen/icono/2dieta.png" />
-                              </image>
-                          </ImageView>
-                      </graphic>
-                  </ToggleButton>
-                  <ToggleButton id="sidebuttons" fx:id="buttonRutinas" alignment="TOP_LEFT" graphicTextGap="10.0" onAction="#switchRutinas" prefWidth="148.0" text="Entrenamiento" textFill="#757575" toggleGroup="$Home">
-                      <graphic>
-                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../imagen/icono/3rutina.png" />
-                              </image>
-                          </ImageView>
-                      </graphic>
-                  </ToggleButton>
-                  <ToggleButton id="sidebuttons" fx:id="buttonConfig" alignment="TOP_LEFT" graphicTextGap="10.0" onAction="#switchConfig" prefWidth="148.0" text="Configuracion" textFill="#757575" toggleGroup="$Home">
-                      <graphic>
-                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                  <Image url="@../../imagen/icono/4config.png" />
-                              </image>
-                          </ImageView>
-                      </graphic>
-                  </ToggleButton>
+             <ToggleButton id="sidebuttons" fx:id="buttonDietas" alignment="TOP_LEFT" graphicTextGap="10.0"
+                           onAction="#switchDietas" prefWidth="148.0" styleClass="side-button" text="Alimentación"
+                           textFill="#757575" toggleGroup="$Home">
+                 <graphic>
+                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                         <image>
+                             <Image url="@../../imagen/icono/2dieta.png"/>
+                         </image>
+                     </ImageView>
+                 </graphic>
+             </ToggleButton>
+             <ToggleButton id="sidebuttons" fx:id="buttonRutinas" alignment="TOP_LEFT" graphicTextGap="10.0"
+                           onAction="#switchRutinas" prefWidth="148.0" styleClass="side-button" text="Entrenamiento"
+                           textFill="#757575" toggleGroup="$Home">
+                 <graphic>
+                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                         <image>
+                             <Image url="@../../imagen/icono/3rutina.png"/>
+                         </image>
+                     </ImageView>
+                 </graphic>
+             </ToggleButton>
+             <ToggleButton id="sidebuttons" fx:id="buttonConfig" alignment="TOP_LEFT" graphicTextGap="10.0"
+                           onAction="#switchConfig" prefWidth="148.0" styleClass="side-button" text="Configuracion"
+                           textFill="#757575" toggleGroup="$Home">
+                 <graphic>
+                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                         <image>
+                             <Image url="@../../imagen/icono/4config.png"/>
+                         </image>
+                     </ImageView>
+                 </graphic>
+             </ToggleButton>
          </children>
          <BorderPane.margin>
             <Insets />
