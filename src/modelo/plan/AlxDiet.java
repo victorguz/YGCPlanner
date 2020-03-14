@@ -7,8 +7,6 @@ package modelo.plan;
 
 import DAO.DAOException;
 
-import java.util.ArrayList;
-
 /**
  * Esta clase enlaza los alimentos con las dietas, teniendo en cuenta que su
  * relación es de muchos a muchos.
@@ -80,7 +78,7 @@ public class AlxDiet extends BasePlan {
         String unidad=getAlimento().getUnidad();
         String a="";
         if(unidad.contains("unidad")){
-            a=" unidades de";
+            a = " unidades de ";
         }else if(unidad.contains("gramo")){
             a=" gramos de ";
         }else if(unidad.contains("mililitro")){

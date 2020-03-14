@@ -249,6 +249,7 @@ public class DietasController extends Controller<Plan> {
             Plan d = comboDieta.getSelectionModel().getSelectedItem();
             textNombre.setText(Operacion.camelCase(d.getNombre()));
             textDescripcion.setText(d.getDescripcion());
+            getMenu();
         }
     }
 

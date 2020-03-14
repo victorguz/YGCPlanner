@@ -26,7 +26,7 @@
                   <Label text="Generar PDF" textFill="#757575" />
                   <GridPane hgap="10.0" vgap="10.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
                       <ColumnConstraints hgrow="SOMETIMES" />
                     </columnConstraints>
                     <rowConstraints>
@@ -37,22 +37,22 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="5.0">
                            <children>
-                              <Label text="Ruta de guardado" textFill="#b2b2b2">
+                              <Label text="Ruta de guardado" textFill="#b2b2b2" wrapText="true">
                                  <padding>
                                     <Insets left="6.0" />
                                  </padding>
                               </Label>
-                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setRuta" text="More">
-                                 <graphic>
-                                    <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/more.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <padding>
-                                    <Insets bottom="2.0" left="2.0" right="2.0" top="3.0" />
-                                 </padding>
+                               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setRuta" styleClass="little-button" text="More">
+                                   <graphic>
+                                       <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                           <image>
+                                               <Image url="@../../imagen/icono/more.png" />
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                                   <padding>
+                                       <Insets bottom="2.0" left="2.0" right="2.0" top="3.0" />
+                                   </padding>
                               </Button>
                            </children>
                         </HBox>
@@ -64,12 +64,12 @@
                                       <ToggleButton id="sidebuttons" fx:id="buttonRutina" prefWidth="100.0" text="Entrenamiento" textFill="#757575" />
                            </children>
                         </HBox>
-                        <Label text="Mostrar" textFill="#b2b2b2" GridPane.rowIndex="1">
+                        <Label text="Mostrar" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
                            <padding>
                               <Insets left="6.0" />
                            </padding>
                         </Label>
-                        <Label text="Generar PDF" textFill="#b2b2b2" GridPane.rowIndex="2">
+                        <Label text="Generar PDF" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
                            <padding>
                               <Insets left="6.0" />
                            </padding>
@@ -102,13 +102,13 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Buscar cliente" textFill="#b2b2b2">
+                        <Label minWidth="50.0" text="Buscar cliente" textFill="#b2b2b2" wrapText="true">
                            <padding>
                               <Insets left="6.0" />
                            </padding>
                         </Label>
                         <TextField fx:id="textBuscar" onAction="#obtenerClientes" onKeyTyped="#consumeDigits" promptText="Buscar cliente" GridPane.columnIndex="1" />
-                        <Label text="Seleccionar cliente" textFill="#b2b2b2" GridPane.columnIndex="2">
+                        <Label minWidth="50.0" text="Seleccionar cliente" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
                            <padding>
                               <Insets left="6.0" />
                            </padding>
@@ -130,7 +130,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                                  <Label text="Tipo de documento*" textFill="#b2b2b2" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                  <Label text="Tipo de documento*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
@@ -139,32 +139,32 @@
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin></ComboBox>
-                                  <Label text="N° documento*" textFill="#b2b2b2" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                  <Label text="N° documento*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
                                   <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" promptText="N° documento" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                  <Label text="Sexo*" textFill="#b2b2b2" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                  <Label text="Sexo*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
                                   <ComboBox fx:id="comboSexo" onAction="#cambiarImagen" promptText="Hombre" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                  <Label text="Edad*" textFill="#b2b2b2" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                  <Label text="Edad*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
                                   <TextField fx:id="textEdad" onKeyTyped="#consumeIntegers" prefWidth="50.0" promptText="Edad" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                                   <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="2" />
-                                  <Label text="Nombre*" textFill="#b2b2b2" GridPane.columnIndex="1">
+                                  <Label text="Nombre*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="1">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
                                   </Label>
                                   <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" promptText="Apellido" GridPane.columnIndex="4" />
-                                  <Label text="Apellido" textFill="#b2b2b2" GridPane.columnIndex="3">
+                                  <Label text="Apellido" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="3">
                                       <padding>
                                           <Insets left="6.0" />
                                       </padding>
@@ -272,17 +272,17 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
                                         <ComboBox fx:id="comboRutinas" promptText="Plan de entrenamiento" />
-                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerRutinas" text="Cargar alimentos">
-                                 <graphic>
-                                    <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/updateb.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <padding>
-                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                 </padding>
+                               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerRutinas" styleClass="little-button" text="Cargar alimentos">
+                                   <graphic>
+                                       <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                                           <image>
+                                               <Image url="@../../imagen/icono/updateb.png" />
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                                   <padding>
+                                       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                   </padding>
                               </Button>
                            </children>
                         </HBox>
@@ -294,17 +294,17 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                            <children>
                                         <ComboBox fx:id="comboDietas" promptText="Plan de alimentación" />
-                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerDietas" text="Cargar alimentos">
-                                 <graphic>
-                                    <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../imagen/icono/updateb.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <padding>
-                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                 </padding>
+                               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerDietas" styleClass="little-button" text="Cargar alimentos">
+                                   <graphic>
+                                       <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                                           <image>
+                                               <Image url="@../../imagen/icono/updateb.png" />
+                                           </image>
+                                       </ImageView>
+                                   </graphic>
+                                   <padding>
+                                       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                   </padding>
                               </Button>
                            </children>
                         </HBox>
@@ -415,9 +415,9 @@
                         <Label text="Pliegues cutaneos - milimetros" textFill="#757575" />
                   <GridPane hgap="10.0" vgap="10.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
                       <ColumnConstraints hgrow="SOMETIMES" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>

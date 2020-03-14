@@ -27,7 +27,7 @@ LicenseFile=
 InfoAfterFile=
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=C:\Users\Victor\Downloads\YGCPlanner-master\YGC\YGC
+OutputDir=C:\Users\Victor\IdeaProjects\YGCPlanner\YGC\
 OutputBaseFilename=dyesetup
 Password=
 Compression=lzma
@@ -42,8 +42,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 6.1; Check: not IsAdminInstallMode
 
 [Files]
-Source: "C:\Users\Victor\Downloads\YGCPlanner-master\YGC\YGC\dye.jar"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Victor\Downloads\YGCPlanner-master\YGC\YGC\Nueva carpeta\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Victor\IdeaProjects\YGCPlanner\YGC\dye.jar"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Victor\IdeaProjects\YGCPlanner\YGC\Nueva carpeta\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

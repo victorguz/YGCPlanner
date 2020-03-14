@@ -8,7 +8,6 @@ package controlador;
 import DAO.DAOException;
 import archivo.PDF;
 import com.itextpdf.text.DocumentException;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -24,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -584,6 +582,7 @@ public class ClienteController extends Controller<Cliente> {
         } else {
             setCliente(new Cliente());
         }
+        mostrarCliente();
     }
 
     public void selectCliente() {
@@ -594,6 +593,7 @@ public class ClienteController extends Controller<Cliente> {
         } else {
             setCliente(new Cliente());
         }
+        mostrarCliente();
     }
 
     public void selectMedida(int i) {

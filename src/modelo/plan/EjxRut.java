@@ -5,8 +5,6 @@
  */
 package modelo.plan;
 
-import java.util.ArrayList;
-
 /**
  * Esta clase enlaza la Plan con los ejercicios, teniendo en cuenta que la
  * relación es de muchos a muchos.
@@ -64,7 +62,19 @@ public class EjxRut extends BasePlan {
 
     @Override
     public String toString() {
-        return getSeries() + " series x " + getRepeticiones() + " repeticiones de " + getEjercicio().getNombre();
+        String s = "";
+        String r = "";
+        if (getSeries() == 1) {
+            s = " serie de ";
+        } else {
+            s = " series de ";
+        }
+        if (getRepeticiones() == 1) {
+            r = " repetición de ";
+        } else {
+            r = " repeticiones de ";
+        }
+        return getSeries() + s + getRepeticiones() + r + getEjercicio().getNombre();
     }
 
     @Override
@@ -77,8 +87,4 @@ public class EjxRut extends BasePlan {
                 || getDia().isEmpty();
     }
 
-    public ArrayList<String> toArray() {
-        ArrayList<String> n = new ArrayList<>();
-        return n;
-    }
 }

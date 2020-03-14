@@ -133,7 +133,7 @@ public class ConfigController extends Controller<Referencia> {
 
     public Referencia getRutina() {
         Referencia ref = new Referencia();
-        ref.setNombre("textrutina");
+        ref.setNombre("textorutina");
         ref.setDescripcion("texto de presentación para la rutina");
         ref.setDato(textRutina.getText());
         return ref;
@@ -145,7 +145,7 @@ public class ConfigController extends Controller<Referencia> {
 
     public Referencia getDieta() {
         Referencia ref = new Referencia();
-        ref.setNombre("textdieta");
+        ref.setNombre("textodieta");
         ref.setDescripcion("texto de presentación para la dieta");
         ref.setDato(textDieta.getText());
         return ref;
@@ -199,8 +199,8 @@ public class ConfigController extends Controller<Referencia> {
             setFace1(getReferencias().select("face1"));
             setTituloBienvenida(getReferencias().select("titulobienvenida"));
             setBienvenida(getReferencias().select("bienvenida"));
-            setRutina(getReferencias().select("textrutina"));
-            setDieta(getReferencias().select("textdieta"));
+            setRutina(getReferencias().select("textorutina"));
+            setDieta(getReferencias().select("textodieta"));
             setDash(getReferencias().select("dash"));
         } catch (DAOException ex) {
             excepcion(ex);

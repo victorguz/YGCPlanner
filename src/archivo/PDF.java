@@ -785,7 +785,7 @@ public class PDF {
 
             chapter = new Chapter(0);
             Image page;
-            page = Image.getInstance("/imagen/entrenamiento.jpg");
+            page = Image.getInstance("src/imagen/entrenamiento.jpg");
             page.scaleAbsolute(PageSize.LETTER);
             page.setAbsolutePosition(0, 0);
             chapter.add(page);

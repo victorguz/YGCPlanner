@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static controlador.Controller.excepcion;
-
 /**
  * @author 201621279487
  */
@@ -40,9 +38,9 @@ public class Main extends Application {
             stage.setTitle("Dieta y ejercicio - Planificador Yezid Guzman Coach");
             stage.setScene(scene);
             stage.getIcons().add(new Image("/imagen/icono/icono16.png"));
-            stage.setMinHeight(600);
+            stage.setMinHeight(450);
             stage.setMinWidth(750);
-            stage.setHeight(600);
+            stage.setHeight(550);
             stage.setWidth(750);
             stage.show();
         } catch (IOException ex) {

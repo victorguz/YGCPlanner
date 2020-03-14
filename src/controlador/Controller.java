@@ -168,8 +168,8 @@ public abstract class Controller<T> implements Initializable {
             return "Este cliente ya tiene medidas en esta fecha";
         } else if (ex.contains("clientes.identificacion")) {
             return "Ya existe un cliente con esta identificación";
-        } else if (ex.contains("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento, alxdiet.dia, alxdiet.combinacion")) {
-            return "Esta opcion ya contiene este alimento";
+        } else if (ex.contains("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento, alxdiet.dia")) {
+            return "Ya añadiste este alimento para este momento del día";
         } else if (ex.contains("ejercicios.nombre")) {
             return "Ya existe un ejercicio con este nombre";
         } else if (ex.contains("planes.nombre, planes.tipo")) {
