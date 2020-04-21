@@ -6,9 +6,10 @@
 <?import javafx.scene.layout.*?>
 <BorderPane stylesheets="@../estilo/Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.HomeController">
     <center>
-        <ScrollPane fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pickOnBounds="false" styleClass="root" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+        <ScrollPane fx:id="scroll" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pickOnBounds="false"
+                    styleClass="root" BorderPane.alignment="CENTER">
             <content>
-                <StackPane fx:id="holderPane" alignment="BASELINE_CENTER" styleClass="back" />
+                <StackPane fx:id="holderPane" alignment="BASELINE_CENTER" styleClass="back"/>
             </content>
         </ScrollPane>
     </center>

@@ -6,7 +6,6 @@
 package modelo.cliente;
 
 import controlador.Operacion;
-import modelo.plan.Plan;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,8 +20,6 @@ public class Medida {
 
     private int medidakey;
     private Cliente cliente;
-    private Plan dieta;
-    private Plan rutina;
     private LocalDate fecha;
     private double peso = 0;
     private double altura = 0;
@@ -194,23 +191,6 @@ public class Medida {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-
-    public Plan getDieta() {
-        return dieta;
-    }
-
-    public void setDieta(Plan dieta) {
-        this.dieta = dieta;
-    }
-
-    public Plan getRutina() {
-        return rutina;
-    }
-
-    public void setRutina(Plan rutina) {
-        this.rutina = rutina;
-    }
-
     public String getObjetivo() {
         return objetivo;
     }
@@ -266,7 +246,7 @@ public class Medida {
 
     public String getComplexionText() {
         double c = getAltura() / getMuneca();
-        switch (getCliente().getSexo()) {
+        switch (getCliente().getSexo().toLowerCase()) {
             case "hombre":
                 if (c < 9.6) {//Grande
                     return "Grande";
@@ -326,11 +306,11 @@ public class Medida {
     public double getPesoIdealCreff() {
         switch (getComplexionText()) {
             case "Grande":
-                return Operacion.redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.99);
+                return ((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.99;
             case "Mediana":
-                return Operacion.redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.9);
+                return ((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.9;
             case "Pequeña":
-                return Operacion.redondear(((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.81);
+                return ((getAltura() - 100) + (getCliente().getEdad()) / 10) * 0.81;
             default:
                 return -1;
         }
@@ -340,18 +320,18 @@ public class Medida {
      * Formula de peso ideal aproximado
      */
     public double getPesoIdealAprox() {
-        return Operacion.redondear(getAltura() - 100);
+        return getAltura() - 100;
     }
 
     /**
      * Formula de peso ideal de Lorentz
      */
     public double getPesoIdealLorentz() {
-        switch (getCliente().getSexo()) {
+        switch (getCliente().getSexo().toLowerCase()) {
             case "hombre":
-                return Operacion.redondear(getAltura() - 100 - (getAltura() - 150) / 4);
+                return getAltura() - 100 - (getAltura() - 150) / 4;
             case "mujer":
-                return Operacion.redondear(getAltura() - 100 - (getAltura() - 150) / 2.5);
+                return getAltura() - 100 - (getAltura() - 150) / 2.5;
             default:
                 return -1;
         }
@@ -361,7 +341,7 @@ public class Medida {
      * Formula de peso ideal de Lorentz
      */
     public double getPesoIdealMonnerotDumaine() {
-        return Operacion.redondear((getAltura() - 100 + 4 * getMuneca()) / 2);
+        return (getAltura() - 100 + 4 * getMuneca()) / 2;
     }
 
     /**
@@ -370,38 +350,30 @@ public class Medida {
      */
     public double getIndiceMasaCorporal() {
         double a = (getAltura() / 100) * (getAltura() / 100);
-        return Operacion.redondear((getPeso() / a));
-    }
-
-    /**
-     * Índice cinturaAlta-altura Es una medida de la distribución de la grasa
-     * corporal más preciso que el imc.
-     */
-    public double getIndiceCinturaAltura() {
-        return Operacion.redondear(getCinturaMedia() / getAltura());
+        return (getPeso() / a);
     }
 
     public double getTasaMetabolicaMifflin() {
-        switch (getCliente().getSexo()) {
+        switch (getCliente().getSexo().toLowerCase()) {
             case "mujer":
-                return Operacion.redondear(-161 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad());
+                return -161 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad();
             case "hombre":
-                return Operacion.redondear(5 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad());
+                return 5 + 10 * getPeso() + 6.25 * getAltura() - 5 * getCliente().getEdad();
             default:
-                return Operacion.redondear(-1);
+                return -1;
         }
     }
 
     public double getTasaMetabolicaHarrys() {
-        switch (getCliente().getSexo()) {
+        switch (getCliente().getSexo().toLowerCase()) {
             case "mujer":
-                return Operacion.redondear((665 + 9.6 * getPeso()
-                        + 1.85 * getAltura() - 4.7 * getCliente().getEdad()));
+                return (665 + 9.6 * getPeso()
+                        + 1.85 * getAltura() - 4.7 * getCliente().getEdad());
             case "hombre":
-                return Operacion.redondear((66.5 + 13.7 * getPeso()
-                        + 5 * getAltura() - 6.8 * getCliente().getEdad()));
+                return (66.5 + 13.7 * getPeso()
+                        + 5 * getAltura() - 6.8 * getCliente().getEdad());
             default:
-                return Operacion.redondear(-1);
+                return -1;
         }
     }
 
@@ -412,17 +384,17 @@ public class Medida {
      */
     public double getCaloriasMantenimiento() {
         double tasa = getTasaMetabolicaHarrys();
-        switch (getActividad()) {
+        switch (getActividad().toLowerCase()) {
             case "ninguno: 0 dias x semana":
-                return Operacion.redondear(tasa * 1.2);
+                return tasa * 1.2;
             case "ligero: 1 a 3 días x semana":
-                return Operacion.redondear(tasa * 1.375);
+                return tasa * 1.375;
             case "moderado: 3 a 5 días x semana":
-                return Operacion.redondear(tasa * 1.55);
+                return tasa * 1.55;
             case "deportista: 6 a 7 días x semana":
-                return Operacion.redondear(tasa * 1.72);
+                return tasa * 1.72;
             case "atleta: dos veces al dia":
-                return Operacion.redondear(tasa * 1.9);
+                return tasa * 1.9;
             default:
                 return -1;
         }
@@ -463,7 +435,7 @@ public class Medida {
 
     //m
     public double getCoeficienteM() {
-        switch (getCliente().getSexo()) {
+        switch (getCliente().getSexo().toLowerCase()) {
             case "hombre":
                 if (getCliente().getEdad() >= 16 && getCliente().getEdad() <= 19) {
                     return (0.0630);
@@ -499,17 +471,28 @@ public class Medida {
      * propuesta por Durning & Womersley en 1974
      */
     public double getDensidadCorporalPorPliegues() {
-        return Operacion.redondear(getCoeficienteC() - (getCoeficienteM()
+        if (getBicipital() == 0 && getTricipital() == 0 && getSubescapular() == 0 && getSuprailiaco() == 0) {
+            return -1;
+        }
+        return getCoeficienteC() - (getCoeficienteM()
                 * Math.log10(getTricipital() + getBicipital()
-                + getSubescapular() + getSuprailiaco())));
+                + getSubescapular() + getSuprailiaco()));
     }
 
     /**
      * La ecuación de Siri (1956) utiliza la densidad corporal para calcular el
      * porcentaje de masa grasa
      */
-    public double getPorcentajeGrasaSiri() {
-        return Operacion.redondear(((4.95 / getDensidadCorporalPorPliegues()) - 4.5) * 100);
+    public double getPorcentajeGrasa() {
+        if (getBicipital() == 0 || getTricipital() == 0 || getSubescapular() == 0 || getSuprailiaco() == 0) {
+            switch (getCliente().getSexo().toLowerCase()) {
+                case "hombre":
+                    return 1.39 * getIndiceMasaCorporal() + 0.16 * getCliente().getEdad() - 10.34 - 9;
+                case "mujer":
+                    return 1.39 * getIndiceMasaCorporal() + 0.16 * getCliente().getEdad() - 9;
+            }
+        }
+        return ((4.95 / getDensidadCorporalPorPliegues()) - 4.5) * 100;
     }
 
     /**
@@ -517,7 +500,7 @@ public class Medida {
      * masa grasa (Siri) y el peso en kg de la persona dividido entre 100.
      */
     public double getPesoGrasaCorporal() {
-        return Operacion.redondear(getPorcentajeGrasaSiri() * getPeso() / 100);
+        return getPorcentajeGrasa() * getPeso() / 100;
     }
 
     /**
@@ -525,7 +508,7 @@ public class Medida {
      * grasa (siri) entre el peso total en kg
      */
     public double getPorcentajeMasaMagra() {
-        return Operacion.redondear(100 - getPorcentajeGrasaSiri());
+        return 100 - getPorcentajeGrasa();
     }
 
     /**
@@ -533,50 +516,18 @@ public class Medida {
      * kg y el peso de grasa corporal (Siri)
      */
     public double getMasaLibreDeGrasa() {
-        return Operacion.redondear(getPeso() - getPesoGrasaCorporal());
+        return getPeso() - getPesoGrasaCorporal();
     }
 
     public double getSuperavitODeficit() {
-        switch (getObjetivo()) {
+        double mant = getCaloriasMantenimiento();
+        switch (getObjetivo().toLowerCase()) {
             case "aumentar":
-                return Operacion.redondear(getCaloriasMantenimiento() + getCaloriasMantenimiento() * 0.25);
+                return mant + mant * 0.25;
             case "perder":
-                return Operacion.redondear(getCaloriasMantenimiento() - getCaloriasMantenimiento() * 0.25);
+                return mant - mant * 0.25;
             case "mantener":
-                return Operacion.redondear(getCaloriasMantenimiento());
-        }
-        return -1;
-    }
-
-    public double getProteinas() {//PONER TEXTFIELD PARA SELECCIONAR CALORIAS Limite 4g
-        switch (getObjetivo()) {
-            case "aumentar":
-                return 4 * getPeso();
-            case "perder":
-                return 2 * getPeso();
-            case "mantener":
-                return 2.7 * getPeso();
-        }
-        return -1;
-    }
-
-    public double getCalorias() {
-        return getProteinas() * 4 + getCarbos() * 4 + getGrasas() * 9;
-    }
-
-    public double getCarbos() {
-        //
-        return Math.abs(getPeso() - getGrasas() - getProteinas());
-    }
-
-    public double getGrasas() {
-        switch (getObjetivo()) {
-            case "aumentar":
-                return 2 * getPeso();
-            case "perder":
-                return getPeso();
-            case "mantener":
-                return 1.5 * getPeso();
+                return mant;
         }
         return -1;
     }
@@ -591,95 +542,68 @@ public class Medida {
         if (getCliente() == null || getFecha() == null) {
             return true;
         }
-        return getCliente().isEmpty()
-                || getPeso() <= 0
-                || getAltura() <= 0
-                || getCinturaMedia() <= 0
-                || getBicipital() <= 0
-                || getTricipital() <= 0
-                || getSuprailiaco() <= 0
-                || getSubescapular() <= 0
-                || getObjetivo().isEmpty()
-                || getActividad().isEmpty();
-
-    }
-
-    public boolean isCalcular() {
-        if (getCliente() == null) {
-            return true;
-        }
-        return getCliente().isEmpty()
-                || getPeso() <= 0
-                || getAltura() <= 0
-                || getCinturaMedia() <= 0
-                || getBicipital() <= 0
-                || getTricipital() <= 0
-                || getSuprailiaco() <= 0
-                || getSubescapular() <= 0
-                || getObjetivo().isEmpty()
-                || getActividad().isEmpty()
-                || getDieta() == null
-                || getRutina() == null;
+        return getCliente().isEmpty();
 
     }
 
     public String[][] toArray() {
+
         String[][] n = new String[26][2];
 
-        n[0][0] = "FECHA DE MEDIDA";
+        n[0][0] = "FECHA";
         n[1][0] = "PESO";
-        n[2][0] = "GRADO DE ACTIVIDAD";
-        n[3][0] = "GRADO DE OBESIDAD";
-        n[4][0] = "% GRASA CORPORAL";
-        n[5][0] = "GRASA CORPORAL";
-        n[6][0] = "% MASA LIBRE DE GRASA";
-        n[7][0] = "MASA LIBRE DE GRASA";
-        n[8][0] = "KCAL MANTENIMIENTO";
-        n[9][0] = "KCAL SUPERAVIT";
-        n[10][0] = "PLIEGUE TRICIPITAL";
-        n[11][0] = "PLIEGUE BICIPITAL";
-        n[12][0] = "PLIEGUE SUPRAILIACO";
-        n[13][0] = "PLIEGUE SUBESCAPULAR";
+        n[2][0] = "GRADO ACTIVIDAD";
+        n[3][0] = "GRADO OBESIDAD";
+        n[4][0] = "% GRASA CORP.";
+        n[5][0] = "GRASA CORP.";
+        n[6][0] = "% MASA MAGRA";
+        n[7][0] = "MASA MAGRA";
+        n[8][0] = "KCAL MANT.";
+        n[9][0] = "KCAL OBJETIVO";
+        n[10][0] = "PLI. TRICIPITAL";
+        n[11][0] = "PLI. BICIPITAL";
+        n[12][0] = "PLI. SUPRAILIACO";
+        n[13][0] = "PLI. SUBESC.";
         n[14][0] = "CUELLO";
-        n[15][0] = "BICEP IZQUIERDO";
-        n[16][0] = "BICEP DERECHO";
+        n[15][0] = "BICEP IZQ.";
+        n[16][0] = "BICEP DER.";
         n[17][0] = "PECTORALES";
         n[18][0] = "CINTURA ALTA";
         n[19][0] = "CINTURA MEDIA";
         n[20][0] = "CINTURA BAJA";
         n[21][0] = "CADERA";
-        n[22][0] = "CUADRICEP IZQUIERDO";
-        n[23][0] = "CUADRICEP DERECHO";
-        n[24][0] = "PANTORRILLA IZQUIERDA";
-        n[25][0] = "PANTORRILLA DERECHA";
+        n[22][0] = "CUAD. IZQ.";
+        n[23][0] = "CUAD. DER.";
+        n[24][0] = "GEMELO IZQ.";
+        n[25][0] = "GEMELO DER.";
 
         n[0][1] = getFecha().format(DateTimeFormatter.ofPattern("d MMM Y")).toUpperCase();
-        n[1][1] = getPeso() + " Kg";
+        n[1][1] = Operacion.formatear(getPeso()).replaceAll("\\.0", "") + " Kg";
         int s = getActividad().indexOf(": ");
         n[2][1] = getActividad().substring(s + 1).toUpperCase();
         n[3][1] = getGradoObesidad().toUpperCase();
-        n[4][1] = getPorcentajeGrasaSiri() + " %";
-        n[5][1] = getPesoGrasaCorporal() + " Kg";
-        n[6][1] = getPorcentajeMasaMagra() + " %";
-        n[7][1] = getMasaLibreDeGrasa() + " Kg";
-        n[8][1] = getCaloriasMantenimiento() + "";
-        n[9][1] = getSuperavitODeficit() + "";
-        n[10][1] = getTricipital() + " mm";
-        n[11][1] = getBicipital() + " mm";
-        n[12][1] = getSuprailiaco() + " mm";
-        n[13][1] = getSubescapular() + " mm";
+        n[4][1] = Operacion.formatear(getPorcentajeGrasa()).replaceAll("\\.0", "") + " %";
+        n[5][1] = Operacion.formatear(getPesoGrasaCorporal()).replaceAll("\\.0", "") + " Kg";
+        n[6][1] = Operacion.formatear(getPorcentajeMasaMagra()).replaceAll("\\.0", "") + " %";
+        n[7][1] = Operacion.formatear(getMasaLibreDeGrasa()).replaceAll("\\.0", "") + " Kg";
+        n[8][1] = getCaloriasMantenimiento() + " kcal";
+        n[9][1] = Operacion.formatear(getSuperavitODeficit()).replaceAll("\\.0", "") + " kcal";
+        n[10][1] = Operacion.formatear(getTricipital()).replaceAll("\\.0", "") + " mm";
+        n[11][1] = Operacion.formatear(getBicipital()).replaceAll("\\.0", "") + " mm";
+        n[12][1] = Operacion.formatear(getSuprailiaco()).replaceAll("\\.0", "") + " mm";
+        n[13][1] = Operacion.formatear(getSubescapular()).replaceAll("\\.0", "") + " mm";
         n[14][1] = getCuello() + " cm";
-        n[15][1] = getBicepIzq() + " cm";
-        n[16][1] = getBicepDer() + " cm";
-        n[17][1] = getPectoral() + " cm";
-        n[18][1] = getCinturaAlta() + " cm";
-        n[19][1] = getCinturaMedia() + " cm";
-        n[20][1] = getCinturaBaja() + " cm";
-        n[21][1] = getCadera() + " cm";
-        n[22][1] = getCuadricepIzq() + " cm";
-        n[23][1] = getCuadricepDer() + " cm";
-        n[24][1] = getPantorrillaIzq() + " cm";
-        n[25][1] = getPantorrillaDer() + " cm";
+        n[15][1] = Operacion.formatear(getBicepIzq()).replaceAll("\\.0", "") + " cm";
+        n[16][1] = Operacion.formatear(getBicepDer()).replaceAll("\\.0", "") + " cm";
+        n[17][1] = Operacion.formatear(getPectoral()).replaceAll("\\.0", "") + " cm";
+        n[18][1] = Operacion.formatear(getCinturaAlta()).replaceAll("\\.0", "") + " cm";
+        n[19][1] = Operacion.formatear(getCinturaMedia()).replaceAll("\\.0", "") + " cm";
+        n[20][1] = Operacion.formatear(getCinturaBaja()).replaceAll("\\.0", "") + " cm";
+        n[21][1] = Operacion.formatear(getCadera()).replaceAll("\\.0", "") + " cm";
+        n[22][1] = Operacion.formatear(getCuadricepIzq()).replaceAll("\\.0", "") + " cm";
+        n[23][1] = Operacion.formatear(getCuadricepDer()).replaceAll("\\.0", "") + " cm";
+        n[24][1] = Operacion.formatear(getPantorrillaIzq()).replaceAll("\\.0", "") + " cm";
+        n[25][1] = Operacion.formatear(getPantorrillaDer()).replaceAll("\\.0", "") + " cm";
 
         return n;
     }

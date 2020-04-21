@@ -22,10 +22,12 @@ public class SQLiteClientesDAO implements ClientesDAO {
             + "tipoidentificacion, identificacion, edad "
             + "from clientes where clientekey = ?";
     static String WHERE = "SELECT clientekey, nombre, apellido, sexo, "
-            + "tipoidentificacion, identificacion, edad "
-            + "from clientes "
-            + "order by nombre like ? DESC,"
-            + " apellido like ? DESC";
+            + " tipoidentificacion, identificacion, edad "
+            + " from clientes "
+            + " where nombre like ? or "
+            + " apellido like ? "
+            + " order by nombre DESC, "
+            + " apellido DESC";
     final String INSERT = "INSERT INTO clientes (nombre, apellido, "
             + "sexo, tipoidentificacion, identificacion, edad, usedate, usetime) "
             + "values (?,?,?,?,?,?,?,?)";

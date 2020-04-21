@@ -6,6 +6,8 @@
 package modelo;
 
 
+import controlador.Operacion;
+
 /**
  * @author Victor
  */
@@ -74,13 +76,9 @@ public class Referencia {
         this.dato = dato;
     }
 
-    public void setLink(String link, String unQue) {
-        this.dato = link;
-    }
-
     @Override
     public String toString() {
-        return getNombre() + "\t" + getDescripcion() + "\t" + getDato();
+        return Operacion.toCamelCase(getNombre());
     }
 
     public boolean isEmpty() {

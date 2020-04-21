@@ -19,10 +19,11 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
 
     private final String INSERT = "INSERT INTO referencias (nombre, descripcion, link) values (?,?,?)";
     private final String SELECT = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where nombre = ?";
-    private final String SELECTWHERE = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where nombre like ? ";
+    private final String SELECTPLANTILLAS = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where descripcion = 'plantilla' ";
     private final String SELECTALL = "SELECT Referenciakey, nombre, descripcion, link FROM Referencias";
     private final String UPDATE = "UPDATE Referencias SET descripcion = ?, link = ? WHERE nombre = ?";
     private final String DELETE = "DELETE FROM Referencias WHERE Referenciakey = ?";
+    private final String SELECTWHERE = "SELECT Referenciakey, nombre, descripcion, link FROM referencias where descripcion = ? and link = ? ";
     private Connection conex;
 
     public SQLiteReferenciasDAO(Connection conex) {
@@ -38,7 +39,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
             s.setString(2, a.getDescripcion());
             s.setString(3, a.getDato());
             if (s.executeUpdate() == 0) {
-                throw new DAOException("Error al insertar Referencia");
+                throw new DAOException("Error al insertar la referencia: "+a.getNombre());
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -55,8 +56,6 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
 
     /**
      * @param a
-     * @param ignorar
-     * @param ignorarx2
      * @throws DAOException
      */
     @Override
@@ -68,7 +67,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
             s.setString(1, a.getDescripcion());
             s.setString(2, a.getDato());
             if (s.executeUpdate() == 0) {
-                throw new DAOException("Error al modificar Referencia");
+                throw new DAOException("Error al modificar la referencia: "+a.getNombre());
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -90,7 +89,7 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
             s = conex.prepareStatement(DELETE);
             s.setInt(1, a.getReferenciakey());
             if (s.executeUpdate() == 0) {
-                throw new DAOException("Error al eliminar Referencia");
+                throw new DAOException("Error al eliminar referencia: "+a.getNombre());
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -138,6 +137,11 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     }
 
     @Override
+    public ObservableList<Referencia> where(String dato) throws DAOException {
+        return null;
+    }
+
+    @Override
     public Referencia select(String equal) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
@@ -173,13 +177,12 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
     }
 
     @Override
-    public ObservableList<Referencia> where(String Referencia) throws DAOException {
+    public ObservableList<Referencia> obtenerPlantillas() throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<Referencia> l = FXCollections.observableArrayList();
         try {
-            s = conex.prepareStatement(SELECTWHERE);
-            s.setString(1, "%" + Referencia + "%");
+            s = conex.prepareStatement(SELECTPLANTILLAS);
             rs = s.executeQuery();
             while (rs.next()) {
                 l.add(convertir(rs));
@@ -204,7 +207,39 @@ public class SQLiteReferenciasDAO implements DAO.ReferenciasDAO {
         }
         return l;
     }
-
+    @Override
+    public ObservableList<Referencia> obtenerPresentaciones(String alimentoOejercicio) throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        ObservableList<Referencia> l = FXCollections.observableArrayList();
+        try {
+            s = conex.prepareStatement(SELECTWHERE);
+            s.setString(1,"presentacion");
+            s.setString(2,alimentoOejercicio);
+            rs = s.executeQuery();
+            while (rs.next()) {
+                l.add(convertir(rs));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+        return l;
+    }
     @Override
     public Referencia convertir(ResultSet rs) throws DAOException {
         if (rs == null) {

@@ -17,7 +17,6 @@ public class Plan {
 
     private int plankey;
     private String nombre = "";
-    private String descripcion = "";
     private String tipo = "";
 
     public Plan() {
@@ -39,14 +38,6 @@ public class Plan {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public String getTipo() {
         return tipo;
     }
@@ -57,7 +48,7 @@ public class Plan {
 
     @Override
     public String toString() {
-        return Operacion.camelCase(getNombre());
+        return Operacion.toCamelCase(getNombre());
     }
 
     public boolean isEmpty() {

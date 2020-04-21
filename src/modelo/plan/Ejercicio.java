@@ -18,7 +18,7 @@ public class Ejercicio {
 
     private int ejerciciokey;
     private String nombre = "";
-    private String descripcion = "";
+    private String plural = "";
     private String comentarios = "";
 
     public Ejercicio() {
@@ -40,12 +40,12 @@ public class Ejercicio {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getPlural() {
+        return plural;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setPlural(String plural) {
+        this.plural = plural;
     }
 
     public String getComentarios() {

@@ -6,12 +6,17 @@
 package controlador;
 
 import DAO.DAOException;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import modelo.Referencia;
 import modelo.plan.Alimento;
 import modelo.plan.AlxDiet;
+import modelo.plan.BasePlan;
 import modelo.plan.Plan;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,21 +27,13 @@ import java.util.ResourceBundle;
 public class DietasController extends Controller<Plan> {
 
     @FXML
-    CheckBox checkCal;
+    Button buttonCal;
     @FXML
-    private ComboBox<Alimento> comboAlimentos;
-    @FXML
-    private ComboBox<String> comboDia;
-    @FXML
-    private ComboBox<String> comboMomento;
-    @FXML
-    private TextField textBuscarAlimento;
+    private TextField textBuscarAlx;
     @FXML
     private ComboBox<Plan> comboDieta;
     @FXML
     private TextField textNombre;
-    @FXML
-    private TextArea textDescripcion;
     @FXML
     private TextField textKcal;
     @FXML
@@ -54,55 +51,129 @@ public class DietasController extends Controller<Plan> {
     @FXML
     private ListView<AlxDiet> listView;
     @FXML
-    private TextField textCantidad;
+    private TextField textBuscarAlimento;
     @FXML
-    private Label labelunidad;
+    private TextField textNombreAlimento;
+    @FXML
+    private TextField textPluralAlimento;
+    @FXML
+    private TextField textKilocaloriasAlimentos;
+    @FXML
+    private TextField textProteinaAlimentos;
+    @FXML
+    private TextField textGrasasAlimentos;
+    @FXML
+    private TextField textCarbosAlimentos;
+    @FXML
+    private TextField textKcalMenu;
 
+    @FXML
+    private TextField textGramosMenu;
+
+    @FXML
+    private TextField textProteinasMenu;
+
+    @FXML
+    private TextField textCarbosMenu;
+
+    @FXML
+    private TextField textGrasasMenu;
+
+    @FXML
+    private Spinner<Integer> spinnerCantidad;
+    @FXML
+    private Spinner<Integer> spinnerGramos;
+    @FXML
+    private ToggleButton buttonLunes;
+
+    @FXML
+    private ToggleButton buttonMartes;
+
+    @FXML
+    private ToggleButton buttonMiercoles;
+
+    @FXML
+    private ToggleButton buttonJueves;
+
+    @FXML
+    private ToggleButton buttonViernes;
+
+    @FXML
+    private ToggleButton buttonSabado;
+
+    @FXML
+    private ToggleButton buttonDomingo;
+
+    @FXML
+    private ToggleButton buttonDesayuno;
+
+    @FXML
+    private ToggleButton buttonAM;
+
+    @FXML
+    private ToggleButton buttonAlmuerzo;
+
+    @FXML
+    private ToggleButton buttonPM;
+
+    @FXML
+    private ToggleButton buttonCena;
+
+    @FXML
+    private ToggleButton buttonPre;
+
+    @FXML
+    private ToggleButton buttonPost;
+
+    @FXML
+    private TextField textNombreAlx;
+    @FXML
+    private TextField textPluralAlx;
+    @FXML
+    private Label labelPresentacion;
+    @FXML
+    private Label labelUnidad;
+    @FXML
+    private ComboBox<String> comboUnidades;
+
+    private AutoCompletionBinding autoCompletionAlx;
+
+    private AutoCompletionBinding autoCompletionAlimentos;
+    private AutoCompletionBinding autoCompletionPresentaciones;
+    private Alimento alimento;
+    @FXML
+    private TextField textPresentacion;
+    private ObservableList<Referencia> presentaciones;
 
     public void initialize(URL location, ResourceBundle resources) {
         obtener();
         obtenerAlimentos();
-        setCombos();
         getMenu();
+        calcular();
+        spinnerCantidad.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, 0));
+        spinnerGramos.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10000, 0));
+        comboUnidades.getItems().setAll(AlxDiet.UNIDADES);
+        comboUnidades.getSelectionModel().select(0);
+        cambiarLabelUnidad();
     }
-
-    public void setCombos(){
-        comboDia.getItems().setAll("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
-        comboDia.getSelectionModel().select(0);
-        comboMomento.getItems().setAll("Desayuno","Almuerzo","Cena","Preentreno","Postentreno","Snack AM", "Snack PM");
-        comboMomento.getSelectionModel().select(0);
-    }
-
 
     public void setKcal() {
-        if (checkCal.isSelected()) {
-            if(!getMedida().isEmpty()) {
-                textKcal.setText(getMedida().getSuperavitODeficit() + "");
-                textKcal.setDisable(true);
-            }else{
-                if (textKcal.getText().isEmpty()) {
-                    textKcal.setText("2000");
-                }
-                mensaje("Este cliente no tiene medidas","aviso");
-            }
+        if (getMedida().isEmpty()) {
+            mensaje("Este cliente no tiene medidas", "aviso");
+        } else {
+            textKcal.setText(Operacion.formatear(getMedida().getSuperavitODeficit()));
+            calcular();
         }
     }
 
     /**
      * Este método calcula los macronutrientes calculando la distribución
      * porcentual digitada por el usuario.
-     * <p>
-     * PD: Se puede hacer así: que al ingresar un numero en un textfield y la
-     * suma de lo que hay en los tres se pasa de 100, entonces la diferencia se
-     * divide entre dos y se le resta a los que no se están modificando. Si la
-     * resta excede el monto de 0 en uno, se le debe restar al otro y si el otro
-     * llega a cero, querrá decir que el que se está modificando llegó al tope
-     * máximo de 100
      */
     public void calcular() {
-        if(textKcal.getText().isEmpty()) {
+        if (textKcal.getText().isEmpty()) {
             textKcal.setText("2000");
-        }else{
+        }
         //Obtener calorías
         double cal = (textProteinas.getText().isEmpty()) ? 0
                 : Double.parseDouble(textKcal.getText());
@@ -114,24 +185,22 @@ public class DietasController extends Controller<Plan> {
         double car = ((textCarbohidratos.getText().isEmpty()) ? 0
                 : Double.parseDouble(textCarbohidratos.getText())) / 100;
         //Utilizar porcentajes para calcular gramos de macronutrientes
-        double proteinas = Operacion.redondear((cal * pro) / 4);
-        double grasas = Operacion.redondear((cal * gra) / 9);
-        double carbohidratos = Operacion.redondear((cal * car) / 4);
+        double proteinas = (cal * pro) / 4;
+        double grasas = (cal * gra) / 9;
+        double carbohidratos = (cal * car) / 4;
         //Los ponemos en las etiquetas asignadas
         proteinasDistribucion.setText(proteinas + "");
         grasasDistribucion.setText(grasas + "");
         carbosDistribucion.setText(carbohidratos + "");
-    }}
 
+    }
 
     public Plan captar() throws DAOException {
         Plan d = new Plan();
         d.setTipo("dieta");
         d.setNombre(textNombre.getText());
-        d.setDescripcion(textDescripcion.getText());
         return d;
     }
-
 
     public void obtener() {
         try {
@@ -148,18 +217,8 @@ public class DietasController extends Controller<Plan> {
         } catch (DAOException ex) {
             excepcion(ex);
         }
+        getMenu();
     }
-
-    public void selectAlimento() {
-        if (!comboAlimentos.getItems().isEmpty()) {
-            String a = Operacion.inicialMayuscula(
-                    comboAlimentos.getSelectionModel()
-                            .getSelectedItem().getUnidad());
-            labelunidad.setText(a);
-            textCantidad.setPromptText(a);
-        }
-    }
-
 
     public void registrar() {
         try {
@@ -178,19 +237,22 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-
     public void modificar() {
         try {
             if (!comboDieta.getItems().isEmpty()) {
-                Plan m = captar();
-                if (m != null) {
-                    m.setPlankey(comboDieta.getSelectionModel().getSelectedItem().getPlankey());
-                    if (m.isEmpty()) {
-                        mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-                    } else {
-                        getPlanes().update(m);
-                        obtener();
-                        mensaje("Plan de alimentación modificado", "exito");
+                if (comboDieta.getSelectionModel().getSelectedItem().getPlankey() == 2) {
+                    mensaje("El plan de ejemplo no se puede modificar", "aviso");
+                } else {
+                    Plan m = captar();
+                    if (m != null) {
+                        m.setPlankey(comboDieta.getSelectionModel().getSelectedItem().getPlankey());
+                        if (m.isEmpty()) {
+                            mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+                        } else {
+                            getPlanes().update(m);
+                            obtener();
+                            mensaje("Plan de alimentación modificado", "exito");
+                        }
                     }
                 }
             } else {
@@ -213,15 +275,19 @@ public class DietasController extends Controller<Plan> {
             }
         }
     }
-
+    /*Frame de alimentos:*/
 
     public void eliminar() {
         try {
             if (!comboDieta.getItems().isEmpty()) {
-                eliminarAlxDiets();
-                getPlanes().delete(comboDieta.getSelectionModel().getSelectedItem());
-                obtener();
-                mensaje("Plan de alimentación eliminado", "exito");
+                if (comboDieta.getSelectionModel().getSelectedItem().getPlankey() == 2) {
+                    mensaje("El plan de ejemplo no se puede eliminar", "aviso");
+                } else {
+                    eliminarAlxDiets();
+                    getPlanes().delete(comboDieta.getSelectionModel().getSelectedItem());
+                    obtener();
+                    mensaje("Plan de alimentación eliminado", "exito");
+                }
             } else {
                 mensaje("No hay planes de alimentación que eliminar", "aviso");
             }
@@ -230,25 +296,33 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-
     public void limpiar() {
         textBuscar.setText("");
         textNombre.setText("");
-        textDescripcion.setText("");
         textBuscar.setText("");
-        textCantidad.setText("");
         textKcal.setText("");
         textProteinas.setText("");
         textCarbohidratos.setText("");
         textGrasas.setText("");
-    }
+        listView.getItems().clear();
+        textNombreAlimento.setText("");
+        textProteinaAlimentos.setText("");
+        textGrasasAlimentos.setText("");
+        textCarbosAlimentos.setText("");
+        textKilocaloriasAlimentos.setText("");
+        textBuscarAlx.setText("");
+        textNombreAlx.setText("");
+        textPluralAlx.setText("");
+        textPluralAlimento.setText("");
+        spinnerCantidad.getEditor().setText("1");
+        spinnerGramos.getEditor().setText("1");
 
+    }
 
     public void mostrar() {
         if (!comboDieta.getItems().isEmpty()) {
             Plan d = comboDieta.getSelectionModel().getSelectedItem();
-            textNombre.setText(Operacion.camelCase(d.getNombre()));
-            textDescripcion.setText(d.getDescripcion());
+            textNombre.setText(Operacion.toCamelCase(d.getNombre()));
             getMenu();
         }
     }
@@ -260,24 +334,36 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    public AlxDiet getAlxDiet() {
-        if (!comboDieta.getItems().isEmpty()) {
-            AlxDiet a = new AlxDiet();
-            a.setPlan(getDieta());
-            a.setAlimento(comboAlimentos.getSelectionModel().getSelectedItem());
-            if (textCantidad.getText().isEmpty()) {
-                mensaje("Digite la cantidad de " + a.getAlimento().getNombre().toLowerCase(), "aviso");
-                return null;
-            } else {
-                a.setCantidad(Double.parseDouble(textCantidad.getText()));
-            }
-            a.setDia(getDia());
-            a.setMomento(getMomento());
-            return a;
-        } else {
-            mensaje("Primero debe registrar un plan", "aviso");
+    public AlxDiet getAlxDiet() throws DAOException {
+        AlxDiet a = new AlxDiet();
+        a.setPlan(getDieta());
+        a.setAlimento(getAlimento());
+        a.setCantidad(spinnerCantidad.getValue());
+        a.setDia(getDia());
+        a.setMomento(getMomento());
+        a.setCantidad(spinnerCantidad.getValue());
+        a.setGramos(spinnerGramos.getValue());
+        a.setUnidad(comboUnidades.getSelectionModel().getSelectedItem());
+        if(textPresentacion.getText().isEmpty()){
+            System.out.println("sin presentacion");
+            throw new DAOException("Digite primero una presentación");
         }
-        return null;
+            a.setPresentacion(textPresentacion.getText());
+        return a;
+    }
+
+    public Alimento getAlimento() throws DAOException {
+        if (alimento == null) {
+            throw new DAOException("No se ha seleccionado ningun alimento");
+        }
+        return alimento;
+    }
+
+    public void setAlimento(Alimento alimento) throws DAOException {
+        this.alimento = alimento;
+        if (alimento != null) {
+            mostrarAlimento();
+        }
     }
 
     public Plan getDieta() {
@@ -297,21 +383,31 @@ public class DietasController extends Controller<Plan> {
                 excepcion(ex);
             }
         }
+        getMacrosMenu();
     }
 
     public void addAlimento() {
-        try {
-            AlxDiet a = getAlxDiet();
-            if (a != null) {
-                if (!a.isEmpty()) {
-                    getAlxdiets().insert(a);
-                    actualizarUso(a.getAlimento());
-                    listView.getItems().add(a);
+        if (comboDieta.getItems().isEmpty()) {
+            mensaje("Primero guarde un plan de alimentacion", "aviso");
+        } else {
+            if (comboDieta.getSelectionModel().getSelectedItem().getPlankey() == 2) {
+                mensaje("El plan de ejemplo no se puede modificar", "aviso");
+            } else {
+                try {
+                    AlxDiet a = getAlxDiet();
+                    if (a != null) {
+                        if (!a.isEmpty()) {
+                            getAlxdiets().insert(a);
+                            actualizarUso(a.getAlimento());
+                            listView.getItems().add(a);
+                        }
+                    }
+                } catch (DAOException ex) {
+                    excepcion(ex);
                 }
             }
-        } catch (DAOException ex) {
-            excepcion(ex);
         }
+        getMacrosMenu();
     }
 
     public void actualizarUso(Alimento a) {
@@ -322,12 +418,44 @@ public class DietasController extends Controller<Plan> {
         }
     }
 
-    public String getDia() {
-        return comboDia.getSelectionModel().getSelectedItem();
+    public String getDia() throws DAOException {
+        if (buttonLunes.isSelected()) {
+            return BasePlan.LUNES;
+        } else if (buttonMartes.isSelected()) {
+            return BasePlan.MARTES;
+        } else if (buttonMiercoles.isSelected()) {
+            return BasePlan.MIERCOLES;
+        } else if (buttonJueves.isSelected()) {
+            return BasePlan.JUEVES;
+        } else if (buttonViernes.isSelected()) {
+            return BasePlan.VIERNES;
+        } else if (buttonSabado.isSelected()) {
+            return BasePlan.SABADO;
+        } else if (buttonDomingo.isSelected()) {
+            return BasePlan.DOMINGO;
+        } else {
+            throw new DAOException("Debe seleccionar un día");
+        }
     }
 
-    public String getMomento() {
-        return comboMomento.getSelectionModel().getSelectedItem();
+    public String getMomento() throws DAOException {
+        if (buttonDesayuno.isSelected()) {
+            return AlxDiet.DESAYUNO;
+        } else if (buttonAM.isSelected()) {
+            return AlxDiet.SNACKAM;
+        } else if (buttonAlmuerzo.isSelected()) {
+            return AlxDiet.ALMUERZO;
+        } else if (buttonPM.isSelected()) {
+            return AlxDiet.SNACKPM;
+        } else if (buttonCena.isSelected()) {
+            return AlxDiet.CENA;
+        } else if (buttonPre.isSelected()) {
+            return AlxDiet.PREENTRENO;
+        } else if (buttonPost.isSelected()) {
+            return AlxDiet.POSTENTRENO;
+        } else {
+            throw new DAOException("Debe seleccionar un momento");
+        }
     }
 
     public void getMenu() {
@@ -335,167 +463,295 @@ public class DietasController extends Controller<Plan> {
         if (!getDieta().isEmpty()) {
             try {
                 listView.setItems(getAlxdiets().where(getDieta().getPlankey(), getDia(), getMomento()));
+                getMacrosMenu();
             } catch (DAOException e) {
                 excepcion(e);
             }
         }
     }
 
-    /*Frame de alimentos:*/
+    public void getMacrosMenu() {
+        if (!listView.getItems().isEmpty()) {
+            double gramos = 0;
+            double prote = 0;
+            double carbos = 0;
+            double grasas = 0;
+            double kcal = 0;
+            for (AlxDiet alx :
+                    listView.getItems()) {
+                gramos += alx.getCantidad();
+                prote += alx.getProteinasxpeso();
+                carbos += alx.getCarbohidratosxpeso();
+                grasas += alx.getGrasasxpeso();
+                kcal += alx.getKilocaloriasxpeso();
+            }
+            textGramosMenu.setText(Operacion.formatear(gramos));
+            textProteinasMenu.setText(Operacion.formatear(prote));
+            textCarbosMenu.setText(Operacion.formatear(carbos));
+            textGrasasMenu.setText(Operacion.formatear(grasas));
+            textKcalMenu.setText(Operacion.formatear(kcal));
+        }
+    }
 
-    @FXML
-    private ComboBox<Alimento> comboAlimentosAlimentos;
+    public void duplicarPlan() {
+        if (!comboDieta.getItems().isEmpty()) {
+            try {
+                Plan copy = getDieta();
+                copy.setNombre(getDieta().getNombre() + " - copia");
+                getPlanes().insert(copy);
+                ObservableList<AlxDiet> LUNES = getAlxdiets().where(getDieta().getPlankey(), BasePlan.LUNES);
+                ObservableList<AlxDiet> MARTES = getAlxdiets().where(getDieta().getPlankey(), BasePlan.MARTES);
+                ObservableList<AlxDiet> MIERCOLES = getAlxdiets().where(getDieta().getPlankey(), BasePlan.MIERCOLES);
+                ObservableList<AlxDiet> JUEVES = getAlxdiets().where(getDieta().getPlankey(), BasePlan.JUEVES);
+                ObservableList<AlxDiet> VIERNES = getAlxdiets().where(getDieta().getPlankey(), BasePlan.VIERNES);
+                ObservableList<AlxDiet> SABADO = getAlxdiets().where(getDieta().getPlankey(), BasePlan.SABADO);
+                ObservableList<AlxDiet> DOMINGO = getAlxdiets().where(getDieta().getPlankey(), BasePlan.DOMINGO);
+                obtener();
+                for (int i = 0; i < comboDieta.getItems().size(); i++) {
+                    if (comboDieta.getItems().get(i).getNombre().equalsIgnoreCase(copy.getNombre())) {
+                        comboDieta.getSelectionModel().select(i);
+                        break;
+                    }
+                }
+                for (AlxDiet item :
+                        LUNES) {
+                    item.setPlan(getDieta());
+                    getAlxdiets().insert(item);
+                }
+                for (AlxDiet item :
+                        MARTES) {
+                    item.setPlan(getDieta());
+                    getAlxdiets().insert(item);
+                }
+                for (AlxDiet item :
+                        MIERCOLES) {
+                    item.setPlan(getDieta());
+                    getAlxdiets().insert(item);
+                }
+                for (AlxDiet item :
+                        JUEVES) {
+                    item.setPlan(getDieta());
+                    getAlxdiets().insert(item);
+                }
+                for (AlxDiet item :
+                        VIERNES) {
+                    item.setPlan(getDieta());
+                    getAlxdiets().insert(item);
+                }
+                for (AlxDiet item :
+                        SABADO) {
+                    item.setPlan(getDieta());
+                    getAlxdiets().insert(item);
+                }
+                for (AlxDiet item :
+                        DOMINGO) {
+                    item.setPlan(getDieta());
+                    getAlxdiets().insert(item);
+                }
+                mensaje("El plan ha sido duplicado", "exito");
+            } catch (DAOException e) {
+                excepcion(e);
+            }
 
-    @FXML
-    private TextField textBuscarAlimentoAlimentos;
-
-    @FXML
-    private TextField textNombreAlimento;
-
-    @FXML
-    private TextField textKilocaloriasAlimentos;
-
-    @FXML
-    private TextField textProteinaAlimentos;
-
-    @FXML
-    private TextField textGrasasAlimentos;
-
-    @FXML
-    private TextField textCarbosAlimentos;
-    @FXML
-    private TextField textUnidad;
+        }
+        getMenu();
+    }
 
     public void registrarAlimento() {
         try {
             Alimento c = captarAlimento();
-            if (c.isEmpty()) {
-                mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-            } else {
-                getAlimentos().insert(c);
-                mensaje("Alimento registrado", "exito");
-                obtenerAlimentos();
-            }
+            getAlimentos().insert(c);
+            mensaje("Alimento registrado", "exito");
+            obtenerAlimentos();
         } catch (DAOException ex) {
             excepcion(ex);
         }
     }
 
-
-    public void modificarAlimento() {
-        if (!comboAlimentosAlimentos.getItems().isEmpty()) {
-            try {
-                Alimento a = captarAlimento();
-                if (!a.isEmpty()) {
-                    a.setAlimentokey(comboAlimentosAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
-                    getAlimentos().update(a);
-                    textBuscarAlimentoAlimentos.setText(textNombreAlimento.getText());
-                    obtenerAlimentos();
-                    mensaje("Alimento modificado", "exito");
-                } else {
-                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-                }
-            } catch (DAOException ex) {
-                excepcion(ex);
+    public void modificarAlimento(ActionEvent e) {
+        try {
+            Control t = (Control) e.getSource();
+            String source = e.getSource().toString();
+            Alimento a = getAlimento();
+            Alimento c = null;
+            if (source.contains("textNombreAlx") || source.contains("textPluralAlx")) {
+                c = captarAlimentoAlx(textBuscarAlx.getText());
+            } else if (source.contains("button")) {
+                c = captarAlimento();
             }
-        } else {
-            mensaje("Seleccione un alimento", "aviso");
+            c.setAlimentokey(a.getAlimentokey());
+            getAlimentos().update(c);
+            obtenerAlimentos();
+            mensaje("Alimento modificado", "exito");
+            mostrarPresentaciones();
+        } catch (DAOException ex) {
+            excepcion(ex);
         }
     }
-
 
     public void eliminarAlimento() {
-        if (!comboAlimentosAlimentos.getItems().isEmpty()) {
-            try {
-                Alimento a = captarAlimento();
-                if (!a.isEmpty()) {
-                    a.setAlimentokey(comboAlimentosAlimentos.getSelectionModel().getSelectedItem().getAlimentokey());
-                    getAlimentos().delete(a);
-                    mensaje("Alimento eliminado", "exito");
-                    obtenerAlimentos();
-                } else {
-                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-                }
-            } catch (DAOException ex) {
-                excepcion(ex);
-            }
+        try {
+            Alimento a = captarAlimento();
+            getAlimentos().delete(a);
+            mensaje("Alimento eliminado", "exito");
+            obtenerAlimentos();
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void mostrarAlimento() throws DAOException {
+        if (!getAlimento().isEmpty()) {
+            textNombreAlimento.setText(getAlimento().toString());
+            textPluralAlimento.setText(Operacion.inicialMayuscula(getAlimento().getPlural()));
+            textProteinaAlimentos.setText(Operacion.formatear(getAlimento().getProteinas()));
+            textGrasasAlimentos.setText(Operacion.formatear(getAlimento().getGrasas()));
+            textCarbosAlimentos.setText(Operacion.formatear(getAlimento().getCarbohidratos()));
+            textKilocaloriasAlimentos.setText(Operacion.formatear(getAlimento().getKilocalorias()));
+
+            textBuscarAlimento.setText(getAlimento().toString());
+            textBuscarAlx.setText(getAlimento().toString());
+            textNombreAlx.setText(getAlimento().toString());
+            textPluralAlx.setText(Operacion.inicialMayuscula(getAlimento().getPlural()));
+            //mostrarPresentaciones();
         } else {
-            mensaje("Seleccione un alimento", "aviso");
-
+            limpiar();
         }
     }
-
-
-    public void limpiarAlimento() {
-        textNombreAlimento.setText("");
-        textProteinaAlimentos.setText("");
-        textGrasasAlimentos.setText("");
-        textCarbosAlimentos.setText("");
-        textKilocaloriasAlimentos.setText("");
-    }
-
-
-    public void mostrarAlimento() {
-        if (!comboAlimentosAlimentos.getItems().isEmpty()) {
-            Alimento c = comboAlimentosAlimentos.getSelectionModel().getSelectedItem();
-            textNombreAlimento.setText(Operacion.camelCase(c.getNombre()));
-            textProteinaAlimentos.setText("" + c.getProteinas());
-            textGrasasAlimentos.setText("" + c.getGrasas());
-            textCarbosAlimentos.setText("" + c.getCarbohidratos());
-            textKilocaloriasAlimentos.setText("" + Operacion.redondear(c.getKilocalorias()));
-            textUnidad.setText(c.getUnidad());
-        }
-    }
-
 
     public Alimento captarAlimento() throws DAOException {
         Alimento c = new Alimento();
+        if (textNombreAlimento.getText().isEmpty()) {
+            throw new DAOException("Digite el nombre del alimento");
+        }
+        if (textPluralAlimento.getText().isEmpty()) {
+            throw new DAOException("Digite el nombre plural para el alimento");
+        }
         c.setNombre(textNombreAlimento.getText());
+        c.setPlural(textPluralAlimento.getText());
         c.setProteinas((textProteinaAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinaAlimentos.getText()));
         c.setGrasas((textGrasasAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasasAlimentos.getText()));
         c.setCarbohidratos((textCarbosAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbosAlimentos.getText()));
-        c.setUnidad((textUnidad.getText().isEmpty()) ? "gramos" : textUnidad.getText());
         return c;
     }
 
-String buscar="";
-    public void buscarAlimento(ActionEvent e){
-        TextField t= (TextField) e.getSource();
-        buscar=t.getText();
-        obtenerAlimentos();
+    public Alimento captarAlimentoAlx(String buscar) throws DAOException {
+        Alimento c = getAlimento();
+        if (textNombreAlx.getText().isEmpty()) {
+            throw new DAOException("Digite el nombre del alimento");
+        }
+        if (textPluralAlx.getText().isEmpty()) {
+            throw new DAOException("Digite el nombre plural para el alimento");
+        }
+        c.setNombre(textNombreAlx.getText());
+        c.setPlural(textPluralAlx.getText());
+        c.setProteinas((textProteinaAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textProteinaAlimentos.getText()));
+        c.setGrasas((textGrasasAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textGrasasAlimentos.getText()));
+        c.setCarbohidratos((textCarbosAlimentos.getText().isEmpty()) ? 0 : Double.parseDouble(textCarbosAlimentos.getText()));
+        return c;
     }
+
     public void obtenerAlimentos() {
         try {
-            comboAlimentosAlimentos.getItems().clear();
-            comboAlimentos.getItems().clear();
-            if (buscar.isEmpty()) {
-                alimentos = getAlimentos().all();
-            } else {
-                alimentos = getAlimentos().where(buscar);
+            alimentos = getAlimentos().all();
+
+            if (autoCompletionAlimentos != null) {
+                autoCompletionAlimentos.dispose();
             }
-            if (!alimentos.isEmpty()) {
-                comboAlimentosAlimentos.setItems(alimentos);
-                comboAlimentos.setItems(alimentos);
-                selectAlimento(0);
+
+            if (autoCompletionAlx != null) {
+                autoCompletionAlx.dispose();
             }
+
+            autoCompletionAlimentos=TextFields.bindAutoCompletion(textBuscarAlimento, alimentos);
+            autoCompletionAlx=TextFields.bindAutoCompletion(textBuscarAlx, alimentos);
         } catch (DAOException ex) {
             excepcion(ex);
         }
     }
 
-    public void selectAlimento(int i) {
-        if (!comboAlimentosAlimentos.getItems().isEmpty()) {
-            comboAlimentosAlimentos.getSelectionModel().select(i);
-            comboAlimentos.getSelectionModel().select(i);
-            mostrarAlimento();
+    public void buscarAlimento(ActionEvent e) {
+        TextField t = (TextField) e.getSource();
+        if (t.getText().isEmpty()) {
+            mensaje("Digite el nombre del alimento a buscar", "aviso");
+        } else {
+            for (Alimento item : alimentos) {
+                if (item.getNombre().equals(t.getText().toLowerCase())) {
+                    try {
+                        setAlimento(item);
+                    } catch (DAOException ex) {
+                        excepcion(ex);
+                    }
+                    break;
+                }
+            }
         }
     }
 
+    public void mostrarPresentaciones() {
+        try {
+            AlxDiet alx = getAlxDiet();
+            labelPresentacion.setText(alx.calcularPresentacion());
+        } catch (DAOException e) {
+            excepcion(e);
+        }
+    }
 
+    public void cambiarLabelUnidad() {
+        labelUnidad.setText(comboUnidades.getSelectionModel().getSelectedItem());
+    }
 
+    public void insertarPresentacion() {
+        String presentacion = textPresentacion.getText();
+        if (presentacion.isEmpty()) {
+            mensaje("Digite primero una presentación", "aviso");
+        } else {
+            if (!(presentacion.contains("alimento") && presentacion.contains("cantidad") && presentacion.contains("unidad"))) {
+                mensaje("Debe usar al menos una palara clave: CANTIDAD, UNIDAD, ALIMENTO", "aviso");
+            } else {
+                Referencia ref = new Referencia();
+                ref.setNombre(presentacion.toLowerCase());
+                ref.setDescripcion("presentacion");
+                ref.setDato("alimento");
+                obtenerPresentaciones();
+                mensaje("Presentación guardada","exito");
+            }
+        }
+    }
 
+    public void eliminarPresentacion() {
+        String presentacion = textPresentacion.getText();
+        if (presentacion.isEmpty()) {
+            mensaje("Digite primero una presentación", "aviso");
+        } else {
+                Referencia ref;
+                for (Referencia item : presentaciones) {
+                    if (item.getNombre().equals(presentacion)) {
+                        try {
+                            getReferencias().delete(item);
+                            obtenerPresentaciones();
+                            mensaje("Presentación eliminada","exito");
+                            break;
+                        } catch (DAOException e) {
+                            excepcion(e);
+                        }
+                    }
+            }
+        }
+    }
 
+    public void obtenerPresentaciones() {
+        try {
+            presentaciones = getReferencias().obtenerPresentaciones("alimento");
 
+            if (autoCompletionPresentaciones != null) {
+                autoCompletionPresentaciones.dispose();
+            }
 
+            autoCompletionPresentaciones= TextFields.bindAutoCompletion(textPresentacion, presentaciones);
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+    }
 
 }

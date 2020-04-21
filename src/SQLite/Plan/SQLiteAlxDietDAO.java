@@ -20,14 +20,14 @@ import java.sql.SQLException;
 public class SQLiteAlxDietDAO implements AlxDietDAO {
 
     private final String INSERT = "INSERT INTO AlxDiet(plankey, alimentokey, "
-            + "momento, dia, cantidad) values (?, ?, ?, ?, ?)";
+            + "momento, dia, cantidad, unidad, presentacion, gramos) values (?, ?, ?, ?, ?, ?, ?, ?)";
     private final String DELETE = "DELETE FROM AlxDiet WHERE "
             + "plankey = ? and alimentokey = ? and dia = ? and momento = ?";
     private final String WHERE = "SELECT plankey, alxdietkey, alimentokey, "
-            + "momento, dia, cantidad FROM AlxDiet "
+            + "momento, dia, cantidad, unidad, presentacion, gramos FROM AlxDiet "
             + "WHERE plankey = ? and dia = ? and momento = ? order by alxdietkey asc";
     private final String ALL = "SELECT plankey, alxdietkey, alimentokey, "
-            + "momento, dia, cantidad FROM AlxDiet WHERE plankey = ? and dia = ? order by dia, momento";
+            + "momento, dia, cantidad, unidad, presentacion, gramos FROM AlxDiet WHERE plankey = ? and dia = ? order by dia, momento";
     private Connection conex;
 
     public SQLiteAlxDietDAO(Connection conex) {
@@ -43,7 +43,10 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             s.setInt(2, a.getAlimento().getAlimentokey());
             s.setString(3, a.getMomento());
             s.setString(4, a.getDia());
-            s.setDouble(5, a.getCantidad());
+            s.setInt(5, a.getCantidad());//, unidad, presentacion, gramos
+            s.setString(6, a.getUnidad());
+            s.setString(7, a.getPresentacion());
+            s.setInt(8, a.getGramos());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar AlxDiet");
             }
@@ -62,7 +65,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
 
     @Override
     public void update(AlxDiet a) throws DAOException {
-        throw new DAOException("Modificar AlxDietDAO:Este método no funciona");
+        throw new DAOException("Modificar AlxDietDAO: Este método no funciona");
     }
 
     @Override
@@ -182,7 +185,10 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             c.setAlimento(Controller.getAlimentos().select(rs.getInt("alimentokey")));
             c.setMomento(rs.getString("momento"));
             c.setDia(rs.getString("dia"));
-            c.setCantidad(rs.getDouble("cantidad"));
+            c.setCantidad(rs.getInt("cantidad"));
+            c.setGramos(rs.getInt("gramos"));
+            c.setUnidad(rs.getString("unidad"));
+            c.setPresentacion(rs.getString("presentacion"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

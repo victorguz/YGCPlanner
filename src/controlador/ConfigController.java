@@ -8,14 +8,22 @@ package controlador;
 import DAO.DAOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import modelo.Referencia;
+import vista.Main;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ConfigController extends Controller<Referencia> {
+    @FXML
+    private CheckBox checkdash;
 
     @FXML
     private TextField textTel1;
@@ -27,13 +35,22 @@ public class ConfigController extends Controller<Referencia> {
     private TextField textFace1;
 
     @FXML
-    private CheckBox checkdash;
+    private TextField textRutaWhite;
 
     @FXML
-    private TextField textTitulo;
+    private TextField textNombrePlantilla;
 
     @FXML
-    private TextArea textBienvenida;
+    private TextField textRutaEntrenamiento;
+
+    @FXML
+    private TextField textRutaAlimentacion;
+
+    @FXML
+    private TextField textRutaMedida;
+
+    @FXML
+    private ComboBox<Referencia> comboPlantillas;
 
     @FXML
     private TextArea textRutina;
@@ -41,9 +58,16 @@ public class ConfigController extends Controller<Referencia> {
     @FXML
     private TextArea textDieta;
 
+    private FileChooser fileChooser;
 
     public void initialize(URL location, ResourceBundle resources) {
         obtener();
+        obtenerPlantillas();
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JPG", "*.jpg")
+        );
+        seleccionarPlantilla();
     }
 
 
@@ -57,10 +81,6 @@ public class ConfigController extends Controller<Referencia> {
             getReferencias().insert(face1);
             Referencia insta1 = getInsta1();
             getReferencias().insert(insta1);
-            Referencia bienvenida = getBienvenida();
-            getReferencias().insert(bienvenida);
-            Referencia titulobienvenida = getTituloBienvenida();
-            getReferencias().insert(titulobienvenida);
             Referencia rutina = getRutina();
             getReferencias().insert(rutina);
             Referencia dieta = getDieta();
@@ -81,14 +101,10 @@ public class ConfigController extends Controller<Referencia> {
             getReferencias().update(face1);
             Referencia insta1 = getInsta1();
             getReferencias().update(insta1);
-            Referencia bienvenida = getBienvenida();
-            getReferencias().update(bienvenida);
             Referencia rutina = getRutina();
             getReferencias().update(rutina);
             Referencia dieta = getDieta();
             getReferencias().update(dieta);
-            Referencia titulobienvenida = getTituloBienvenida();
-            getReferencias().update(titulobienvenida);
             mensaje("Configuración modificada", "exito");
         } catch (DAOException ex) {
             excepcion(ex);
@@ -107,29 +123,6 @@ public class ConfigController extends Controller<Referencia> {
         textTel1.setText(ref.getDato());
     }
 
-    public Referencia getTituloBienvenida() {
-        Referencia ref = new Referencia();
-        ref.setNombre("titulobienvenida");
-        ref.setDescripcion("es el título de la hoja de bienvenida");
-        ref.setDato(textTitulo.getText());
-        return ref;
-    }
-
-    public void setTituloBienvenida(Referencia ref) {
-        textTitulo.setText(ref.getDato());
-    }
-
-    public Referencia getBienvenida() {
-        Referencia ref = new Referencia();
-        ref.setNombre("bienvenida");
-        ref.setDescripcion("es el texto de bienvenida que aparece en la página de bienvenida");
-        ref.setDato(textBienvenida.getText());
-        return ref;
-    }
-
-    public void setBienvenida(Referencia ref) {
-        textBienvenida.setText(ref.getDato());
-    }
 
     public Referencia getRutina() {
         Referencia ref = new Referencia();
@@ -197,14 +190,163 @@ public class ConfigController extends Controller<Referencia> {
             setTel1(getReferencias().select("tel1"));
             setInsta1(getReferencias().select("insta1"));
             setFace1(getReferencias().select("face1"));
-            setTituloBienvenida(getReferencias().select("titulobienvenida"));
-            setBienvenida(getReferencias().select("bienvenida"));
             setRutina(getReferencias().select("textorutina"));
             setDieta(getReferencias().select("textodieta"));
             setDash(getReferencias().select("dash"));
         } catch (DAOException ex) {
             excepcion(ex);
         }
+    }
+
+    public void registrarPlantilla() {
+        //nombre=plantilla+nombrePlantilla
+        //descripcion="whitepage/rutina/dieta"
+        //link="ruta de imagen"
+        if (textNombrePlantilla.getText().isEmpty()) {
+            mensaje("Digite un nombre de plantilla", "aviso");
+            return;
+        }
+        if (textRutaWhite.getText().isEmpty()) {
+            mensaje("Seleccione una ruta de imagen para la whitepage", "aviso");
+            return;
+        }
+        if (textRutaMedida.getText().isEmpty()) {
+            mensaje("Seleccione una ruta de imagen para las medidas", "aviso");
+            return;
+        }
+        if (textRutaEntrenamiento.getText().isEmpty()) {
+            mensaje("Seleccione una ruta de imagen para entrenamiento", "aviso");
+            return;
+        }
+        if (textRutaAlimentacion.getText().isEmpty()) {
+            mensaje("Seleccione una ruta de imagen para alimentacion", "aviso");
+            return;
+        }
+
+        try {
+
+            copiarImagen(textRutaWhite.getText(), "src/imagen/pdf/" + textNombrePlantilla.getText(), "whitepage");
+            copiarImagen(textRutaAlimentacion.getText(), "src/imagen/pdf/" + textNombrePlantilla.getText(), "alimentacion");
+            copiarImagen(textRutaEntrenamiento.getText(), "src/imagen/pdf/" + textNombrePlantilla.getText(), "entrenamiento");
+            copiarImagen(textRutaMedida.getText(), "src/imagen/pdf/" + textNombrePlantilla.getText() + "/", "medidas");
+
+            getReferencias().insert(new Referencia(textNombrePlantilla.getText(), "plantilla", "src/imagen/pdf/" + textNombrePlantilla.getText() + "/"));
+
+        } catch (DAOException e) {
+            excepcion(e);
+        } catch (Exception e) {
+            excepcion(e);
+        }
+
+    }
+
+    public void copiarImagen(String origen, String destino, String nombre) throws Exception {
+        File file = new File(origen);
+        if (file != null) {
+            if (file.exists()) {
+                BufferedImage imagen = ImageIO.read(new File(origen));
+                File folder = new File(destino);
+                if (!folder.exists()) {
+                    folder.mkdirs();
+                }
+                File outputfile = new File(folder, nombre + ".jpg");
+                outputfile.createNewFile();
+                ImageIO.write(imagen, "jpg", outputfile);
+            } else {
+                throw new Exception("El archivo " + file.getName() + " no existe.");
+            }
+        } else {
+            throw new Exception("El archivo " + file.getName() + " no existe.");
+        }
+    }
+
+    public void modificarPlantilla() {
+        //nombre=plantilla+nombrePlantilla
+        //descripcion="whitepage/rutina/dieta"
+        //link="ruta de imagen"
+
+    }
+
+    public void eliminarPlantilla() {
+        if (getPlantilla().getNombre().equalsIgnoreCase("principal") || getPlantilla().getNombre().equalsIgnoreCase("onlinefit")) {
+            mensaje("Esta plantilla no se puede eliminar.", "tip");
+        } else {
+            try {
+                getReferencias().delete(getPlantilla());
+            } catch (DAOException e) {
+                excepcion(e);
+            }
+        }
+    }
+
+    public void eliminarPlantilla(Referencia ref) {
+        try {
+            getReferencias().delete(ref);
+        } catch (DAOException e) {
+            excepcion(e);
+        }
+    }
+
+    public Referencia getPlantilla() {
+        return comboPlantillas.getSelectionModel().getSelectedItem();
+    }
+
+
+    public void obtenerPlantillas() {
+        try {
+            comboPlantillas.getItems().clear();
+            comboPlantillas.setItems(Controller.getReferencias().obtenerPlantillas());
+            if (!comboPlantillas.getItems().isEmpty()) {
+                comboPlantillas.getSelectionModel().select(0);
+            }
+        } catch (DAOException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void seleccionarPlantilla() {
+        if (!comboPlantillas.getItems().isEmpty()) {
+            Referencia ref = comboPlantillas.getSelectionModel().getSelectedItem();
+            textNombrePlantilla.setText(Operacion.toCamelCase(ref.getNombre()));
+            textRutaWhite.setText(new File(ref.getDato() + "whitepage.jpg").getAbsolutePath());
+            textRutaMedida.setText(new File(ref.getDato() + "medidas.jpg").getAbsolutePath());
+            textRutaEntrenamiento.setText(new File(ref.getDato() + "entrenamiento.jpg").getAbsolutePath());
+            textRutaAlimentacion.setText(new File(ref.getDato() + "alimentacion.jpg").getAbsolutePath());
+        }
+    }
+
+    public File setFile(String titulo) {
+        fileChooser.setTitle("Buscar imagen para página de " + titulo);
+        File file = fileChooser.showOpenDialog(Main.stagestatic);
+        if (file != null) {
+            fileChooser.setInitialDirectory(file.getParentFile());
+            return file;
+        }
+        return null;
+    }
+
+    public void setDieta() {
+        File file = setFile("alimentacion");
+        textRutaAlimentacion.setText((file == null) ?
+                "" : file.getAbsolutePath());
+    }
+
+    public void setWhitepage() {
+        File file = setFile("whitepage");
+        textRutaWhite.setText((file == null) ?
+                "" : file.getAbsolutePath());
+    }
+
+    public void setRutina() {
+        File file = setFile("entrenamiento");
+        textRutaEntrenamiento.setText((file == null) ?
+                "" : file.getAbsolutePath());
+    }
+
+    public void setMedida() {
+        File file = setFile("medidas");
+        textRutaMedida.setText((file == null) ?
+                "" : file.getAbsolutePath());
     }
 
 }

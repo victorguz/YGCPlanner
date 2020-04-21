@@ -37,37 +37,26 @@ public class ClienteController extends Controller<Cliente> {
 
     @FXML
     protected ListView<Medida> listView;
-
+    @FXML
+    TextField textEdad;
     @FXML
     private TextField textNombre;
-
     @FXML
     private TextField textApellido;
-
     @FXML
     private TextField textDocumento;
-
     @FXML
     private ComboBox<String> comboTipoDoc;
-
-    @FXML
-    private ToggleButton buttonBienvenida;
-
     @FXML
     private ToggleButton buttonMedidas;
-
     @FXML
     private ToggleButton buttonRutina;
-
     @FXML
     private ToggleButton buttonDieta;
     @FXML
     private ComboBox<Cliente> comboClientes;
     @FXML
     private ComboBox<String> comboSexo;
-
-    @FXML
-    TextField textEdad;
     @FXML
     private TextField textGuardar;
     /*Objetos del modulo de medidas*/
@@ -83,6 +72,8 @@ public class ClienteController extends Controller<Cliente> {
     private DatePicker datePicker;
     @FXML
     private ComboBox<String> comboActividad;
+    @FXML
+    private ComboBox<Referencia> comboPlantillas;
     @FXML
     private TextField textPeso;
     @FXML
@@ -154,7 +145,11 @@ public class ClienteController extends Controller<Cliente> {
     @FXML
     private TextField textSuperavit;
     @FXML
+    private TextField textMantenimiento;
+    @FXML
     private ComboBox<Medida> comboMedidas;
+    @FXML
+    private Spinner<Integer> spinnerCantidad;
 
     /*Logica de negocio o funciones*/
 
@@ -162,9 +157,9 @@ public class ClienteController extends Controller<Cliente> {
     public void initialize(URL url, ResourceBundle rb) {
         setCombos();
         obtenerClientes();
-        obtenerDietas();
-        obtenerRutinas();
+        obtenerPlanes();
         getRuta();
+        obtenerPlantillas();
     }
 
     private void setCombos() {
@@ -200,7 +195,6 @@ public class ClienteController extends Controller<Cliente> {
         textApellido.setText("");
         textDocumento.setText("");
         textEdad.setText("");
-        setCombos();
     }
 
     /**
@@ -208,16 +202,13 @@ public class ClienteController extends Controller<Cliente> {
      */
     public void mostrarCliente() {
         if (!getCliente().isEmpty()) {
-            textNombre.setText(Operacion.camelCase(getCliente().getNombre()));
-            textApellido.setText(Operacion.camelCase(getCliente().getApellido()));
+            textNombre.setText(Operacion.toCamelCase(getCliente().getNombre()));
+            textApellido.setText(Operacion.toCamelCase(getCliente().getApellido()));
             selectCombo(comboTipoDoc, getCliente().getTipoIdentificacion());
             textDocumento.setText(getCliente().getIdentificacion());
             textEdad.setText(getCliente().getEdad() + "");
             selectCombo(comboSexo, getCliente().getSexo());
             cambiarImagen();
-        } else {
-            limpiarCliente();
-            limpiarMedida();
         }
     }
 
@@ -281,60 +272,85 @@ public class ClienteController extends Controller<Cliente> {
         }
     }
 
-    public void imprimir() {
-        if(textGuardar.getText().isEmpty()) {
-            mensaje("Seleccione primero una ruta de guardado","aviso");
-        }else{
+    public Referencia getPlantilla() {
+        if (comboPlantillas.getItems().isEmpty()) {
+            return null;
+        } else {
+            return comboPlantillas.getSelectionModel().getSelectedItem();
+        }
+    }
+
+    public void obtenerPlantillas() {
         try {
-            PDF f = new PDF(getCliente(), textGuardar.getText());
-            f.createPDF();
-            if (buttonBienvenida.isSelected()) {
-                f.addBienvenida();
+            comboPlantillas.getItems().clear();
+            comboPlantillas.setItems(Controller.getReferencias().obtenerPlantillas());
+            if (!comboPlantillas.getItems().isEmpty()) {
+                comboPlantillas.getSelectionModel().select(0);
             }
-            if (medidas.isEmpty()) {
-                mensaje("Este cliente no tiene medidas, ni planes asignados", "Aviso");
-            } else {
-                if (buttonMedidas.isSelected()) {
-                    f.addMedidas();
-                }
-                if (buttonRutina.isSelected()) {
-                    f.addRutina();
-                }
-                if (buttonDieta.isSelected()) {
-                    f.addDieta();
-                }
-                f.close();
-            }
-        } catch (DocumentException | IOException | DAOException ex) {
+        } catch (DAOException ex) {
             excepcion(ex);
-        }}
+        }
+    }
+
+    public Plan getRutina() throws DAOException {
+        if (comboRutinas.getItems().isEmpty()) {
+            throw new DAOException("No hay planes de entrenamiento");
+        }
+        return comboRutinas.getSelectionModel().getSelectedItem();
+    }
+
+    public Plan getDieta() throws DAOException {
+        if (comboDietas.getItems().isEmpty()) {
+            throw new DAOException("No hay planes de alimentación");
+        }
+        return comboDietas.getSelectionModel().getSelectedItem();
+    }
+
+    public void imprimir() {
+        String ruta = textGuardar.getText();
+        if (ruta.isEmpty()) {
+            mensaje("Seleccione primero una ruta de guardado", "aviso");
+        } else {
+            if (new File(ruta).exists()) {
+                try {
+                    PDF f = new PDF(getCliente(), textGuardar.getText(), getPlantilla());
+                    if (medidas.isEmpty()) {
+                        mensaje("Este cliente no tiene medidas, ni planes asignados", "Aviso");
+                    } else {
+                        if (buttonMedidas.isSelected()) {
+                            f.addMedidas();
+                        }
+                        if (buttonRutina.isSelected()) {
+
+                            f.addRutina(getRutina());
+                        }
+                        if (buttonDieta.isSelected()) {
+                            f.addDieta(getDieta());
+                        }
+                        f.guardar();
+                    }
+                } catch (DocumentException | IOException | DAOException ex) {
+                    excepcion(ex);
+                }
+            } else {
+                mensaje("La ruta seleccionada no existe", "aviso");
+            }
+        }
     }
 
 
     /*Logica de negocio para medidas*/
 
 
-    public Medida captarMedida() {
+    public Medida captarMedida() throws DAOException {
         if (getCliente().isEmpty()) {
-            return new Medida();
+            throw new DAOException("Seleccione un cliente primero");
         } else {
             Medida k = new Medida();
             k.setCliente(getCliente());
             k.setFecha(datePicker.getValue());
-            if (comboRutinas.getItems().isEmpty()) {
-                return new Medida();
-            } else {
-                k.setRutina(comboRutinas.getSelectionModel().getSelectedItem());
-            }
-
-            if (comboDietas.getItems().isEmpty()) {
-                return new Medida();
-            } else {
-                k.setDieta(comboDietas.getSelectionModel().getSelectedItem());
-            }
             k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
-            k.setObjetivo(comboObjetivos.getSelectionModel()
-                    .getSelectedItem());
+            k.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
             k.setPeso((textPeso.getText().isEmpty()) ? 0
                     : Double.parseDouble((textPeso.getText())));
             k.setAltura((textAltura.getText().isEmpty()) ? 0
@@ -382,23 +398,23 @@ public class ClienteController extends Controller<Cliente> {
         if (getCliente().isEmpty()) {
             mensaje("Seleccione un cliente", "aviso");
         } else {
-            Medida m = captarMedida();
-            if (m.isEmpty()) {
-                mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-            } else {
-                try {
+            try {
+                Medida m = captarMedida();
+                if (m.isEmpty()) {
+                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+                } else {
                     getMedidas().insert(m);
                     mensaje("Medida registrada", "exito");
                     obtenerMedidas();
-                } catch (DAOException ex) {
-                    excepcion(ex);
+
                 }
+            } catch (DAOException ex) {
+                excepcion(ex);
             }
         }
     }
 
     public void limpiarMedida() {
-        datePicker.show();
         datePicker.setValue(LocalDate.now());
         textPeso.setText("");
         textAltura.setText("");
@@ -444,22 +460,6 @@ public class ClienteController extends Controller<Cliente> {
             selectCombo(comboActividad, getMedida().getActividad());
             selectCombo(comboActividad, getMedida().getActividad());
             selectCombo(comboObjetivos, getMedida().getObjetivo());
-            obtenerDietas();
-            for (int x = 0; x < comboDietas.getItems().size(); x++) {
-                if (comboDietas.getItems().get(x).getNombre().equalsIgnoreCase(getMedida().getDieta().getNombre())) {
-                    comboDietas.getSelectionModel().select(x);
-                    break;
-                }
-            }
-
-            obtenerRutinas();
-            for (int x = 0; x < comboRutinas.getItems().size(); x++) {
-                if (comboRutinas.getItems().get(x).getNombre().equalsIgnoreCase(getMedida().getRutina().getNombre())) {
-                    comboRutinas.getSelectionModel().select(x);
-                    break;
-                }
-            }
-
             datePicker.setValue(getMedida().getFecha());
             textPeso.setText("" + getMedida().getPeso());
             textAltura.setText("" + getMedida().getAltura());
@@ -511,18 +511,19 @@ public class ClienteController extends Controller<Cliente> {
             mensaje("Seleccione un cliente", "aviso");
         } else {
             if (!getMedida().isEmpty()) {
-                Medida k = captarMedida();
-                if (k.isEmpty()) {
-                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-                } else {
-                    try {
+                try {
+                    Medida k = captarMedida();
+                    if (k.isEmpty()) {
+                        mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
+                    } else {
                         k.setMedidakey(getMedida().getMedidakey());
                         getMedidas().update(k);
                         obtenerMedidas();
                         mensaje("Medida modificada", "exito");
-                    } catch (DAOException ex) {
-                        excepcion(ex);
+
                     }
+                } catch (DAOException ex) {
+                    excepcion(ex);
                 }
             } else {
                 mensaje("Aún no ha registrado ninguna medida", "aviso");
@@ -531,35 +532,49 @@ public class ClienteController extends Controller<Cliente> {
     }
 
     public void calcular() {
-        Medida k = captarMedida();
-        if (!k.isEmpty()) {
-            textComplexion.setText("" + k.getComplexionText());
-            textPesoIdealAprox.setText("" + k.getPesoIdealAprox() + " Kg");
-            textPesoIdealCreff.setText("" + k.getPesoIdealCreff() + " Kg");
-            textPesoIdealLorentz.setText("" + k.getPesoIdealLorentz() + " Kg");
-            textPesoIdealMonnerotDumaine.setText("" + k.getPesoIdealMonnerotDumaine() + " Kg");
-            textGradoObesidad.setText(k.getGradoObesidad());
-            textHarrys.setText("" + k.getTasaMetabolicaHarrys());
-            textSuperavit.setText("" + k.getSuperavitODeficit());
-            textMifflin.setText("" + k.getTasaMetabolicaMifflin());
-            textIMC.setText("" + k.getIndiceMasaCorporal() + " Kg/m2");
-            textDensidad.setText("" + k.getDensidadCorporalPorPliegues());
-            textPorcentajeGrasa.setText(k.getPorcentajeGrasaSiri() + " %");
-            textPesoGrasa.setText("" + k.getPesoGrasaCorporal() + " Kg");
-            textPorcentajeMasa.setText(k.getPorcentajeMasaMagra() + " %");
-            textMasaLibre.setText("" + k.getMasaLibreDeGrasa() + " Kg");
-            labelObjetivo.setText("Calorías para " + k.getObjetivo().toLowerCase());
+        Medida k = null;
+        try {
+            k = captarMedida();
+            if (!k.isEmpty()) {
+                if (textMuneca.getText().isEmpty()) {
+                    textComplexion.setText("Ingrese muñeca");
+                    textPesoIdealCreff.setText("Ingrese muñeca");
+                } else {
+                    textComplexion.setText("" + k.getComplexionText());
+                    textPesoIdealCreff.setText(Operacion.formatear(k.getPesoIdealCreff()) + " Kg");
+                }
+                textPesoIdealAprox.setText(Operacion.formatear(k.getPesoIdealAprox()) + " Kg");
+                textPesoIdealLorentz.setText(Operacion.formatear(k.getPesoIdealLorentz()) + " Kg");
+                textPesoIdealMonnerotDumaine.setText(Operacion.formatear(k.getPesoIdealMonnerotDumaine()) + " Kg");
+                textGradoObesidad.setText(k.getGradoObesidad());
+                textHarrys.setText(Operacion.formatear(k.getTasaMetabolicaHarrys()));
+                textMifflin.setText(Operacion.formatear(k.getTasaMetabolicaMifflin()));
+                textIMC.setText(Operacion.formatear(k.getIndiceMasaCorporal()) + " Kg/m2");
+                if (k.getBicipital() == 0 || k.getTricipital() == 0 || k.getSubescapular() == 0 || k.getSuprailiaco() == 0) {
+                    textDensidad.setText("Ingrese pliegues");
+
+                } else {
+                    textDensidad.setText(Operacion.formatear(k.getDensidadCorporalPorPliegues()));
+                }
+                textPorcentajeGrasa.setText(Operacion.formatear(k.getPorcentajeGrasa()) + " %");
+                textPesoGrasa.setText(Operacion.formatear(k.getPesoGrasaCorporal()) + " Kg");
+                textPorcentajeMasa.setText(Operacion.formatear(k.getPorcentajeMasaMagra()) + " %");
+                textMasaLibre.setText(Operacion.formatear(k.getMasaLibreDeGrasa()) + " Kg");
+                labelObjetivo.setText("Calorías para " + k.getObjetivo().toLowerCase());
+                textMantenimiento.setText(Operacion.formatear(k.getCaloriasMantenimiento()));
+                textSuperavit.setText(Operacion.formatear(k.getSuperavitODeficit()));
+            }
+        } catch (DAOException e) {
+            e.printStackTrace();
         }
+
     }
 
-    public void obtenerDietas() {
+    public void obtenerPlanes() {
         if (!dietas.isEmpty()) {
             comboDietas.setItems(dietas);
             comboDietas.getSelectionModel().select(0);
         }
-    }
-
-    public void obtenerRutinas() {
         if (!rutinas.isEmpty()) {
             comboRutinas.setItems(rutinas);
             comboRutinas.getSelectionModel().select(0);
@@ -579,8 +594,9 @@ public class ClienteController extends Controller<Cliente> {
             comboClientes.getSelectionModel().select(i);
             setCliente(comboClientes.getSelectionModel().getSelectedItem());
             obtenerMedidas();
+            mostrarCliente();
         } else {
-            setCliente(new Cliente());
+            limpiarCliente();
         }
         mostrarCliente();
     }
@@ -590,8 +606,10 @@ public class ClienteController extends Controller<Cliente> {
             setCliente(comboClientes.getSelectionModel().getSelectedItem());
             mostrarCliente();
             obtenerMedidas();
+            mostrarCliente();
         } else {
-            setCliente(new Cliente());
+            limpiarCliente();
+            limpiarMedida();
         }
         mostrarCliente();
     }
@@ -602,7 +620,7 @@ public class ClienteController extends Controller<Cliente> {
             setMedida(comboMedidas.getSelectionModel().getSelectedItem());
             mostrarMedida();
         } else {
-            setMedida(new Medida());
+            limpiarMedida();
         }
     }
 
@@ -611,7 +629,7 @@ public class ClienteController extends Controller<Cliente> {
             setMedida(comboMedidas.getSelectionModel().getSelectedItem());
             mostrarMedida();
         } else {
-            setMedida(new Medida());
+            limpiarMedida();
         }
     }
 
@@ -627,6 +645,7 @@ public class ClienteController extends Controller<Cliente> {
                 comboClientes.setItems(clientes);
                 selectCliente(0);
             }
+
         } catch (DAOException ex) {
             excepcion(ex);
         }
@@ -662,12 +681,10 @@ public class ClienteController extends Controller<Cliente> {
         if (file != null) {
             textGuardar.setText(file.getAbsolutePath());
             try {
-                getReferencias().update(new Referencia("rutaguardado","ruta donde se guardaran los archivos pdf",file.getAbsolutePath()));
+                getReferencias().update(new Referencia("rutaguardado", "ruta donde se guardaran los archivos pdf", file.getAbsolutePath()));
             } catch (DAOException e) {
                 excepcion(e);
             }
         }
     }
-
-
 }

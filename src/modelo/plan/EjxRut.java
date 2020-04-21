@@ -5,6 +5,8 @@
  */
 package modelo.plan;
 
+import controlador.Operacion;
+
 /**
  * Esta clase enlaza la Plan con los ejercicios, teniendo en cuenta que la
  * relación es de muchos a muchos.
@@ -19,10 +21,13 @@ public class EjxRut extends BasePlan {
     public static final String BLOQUE3 = "Bloque 3";
     public static final String BLOQUE4 = "Bloque 4";
     public static final String BLOQUE5 = "Bloque 5";
+    public static final String[] UNIDADES = new String[]{"Repeticiones", "Segundos", "Minutos", "Horas"};
     private int ejxrutkey;
     private Ejercicio ejercicio = new Ejercicio();
     private int repeticiones;
     private int series;
+    private String unidad = "Repeticiones";
+    private String presentacion = "cant unidad x # series de ejercicio";
 
     public EjxRut() {
 
@@ -44,7 +49,7 @@ public class EjxRut extends BasePlan {
         this.ejercicio = ejercicio;
     }
 
-    public int getRepeticiones() {
+    public int getCantidad() {
         return repeticiones;
     }
 
@@ -60,29 +65,65 @@ public class EjxRut extends BasePlan {
         this.series = series;
     }
 
+    public String getUnidad() {
+        return this.unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
+
+    public String getUnidadSingular() {
+        switch (getUnidad().toLowerCase()) {
+            case "repeticiones":
+                return "repeticion";
+            case "segundos":
+                return "segundo";
+            case "minutos":
+                return "minuto";
+            case "horas":
+                return "hora";
+            default:
+                return getUnidad().toLowerCase();
+        }
+    }
+
+    public String getUnidadPlural() {
+        return getUnidad().toLowerCase();
+    }
+
+    public String getPresentacion() {
+        return presentacion.toLowerCase();
+    }
+
+    public void setPresentacion(String presentacion) {
+        this.presentacion = presentacion;
+    }
+
+    public String calcularPresentacion() {
+        String nombre = ((getCantidad() == 1 || getSeries() == 1) ? getEjercicio().getNombre()
+                :(getEjercicio().getPlural().isEmpty())?
+                getEjercicio().getNombre():getEjercicio().getPlural() );
+        String unidad = ((getCantidad() == 1 || getSeries() == 1) ? getUnidadSingular() : getUnidadPlural());
+        nombre = ((unidad.contains("segundo") || unidad.contains("minuto") || unidad.contains("hora")) ? getEjercicio().getPlural() : nombre);
+
+        return getPresentacion().replaceAll("ejercicio",nombre)
+                //.replaceAll("plural", getEjercicio().getPlural())
+                .replaceAll("#cantidad", Operacion.formatear(getCantidad()))
+                .replaceAll("#series", Operacion.formatear(getSeries()))
+                .replaceAll("unidad",unidad);
+
+    }
+
     @Override
     public String toString() {
-        String s = "";
-        String r = "";
-        if (getSeries() == 1) {
-            s = " serie de ";
-        } else {
-            s = " series de ";
-        }
-        if (getRepeticiones() == 1) {
-            r = " repetición de ";
-        } else {
-            r = " repeticiones de ";
-        }
-        return getSeries() + s + getRepeticiones() + r + getEjercicio().getNombre();
+        return calcularPresentacion();
     }
 
     @Override
     public boolean isEmpty() {
         return getPlan().isEmpty()
                 || getEjercicio().isEmpty()
-                || getRepeticiones() <= 0
-                || getSeries() <= 0
                 || getPlan().isEmpty()
                 || getDia().isEmpty();
     }

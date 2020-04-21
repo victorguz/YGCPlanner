@@ -83,7 +83,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return Operacion.camelCase(getNombre() + " " + getApellido());
+        return Operacion.toCamelCase(getNombre() + " " + getApellido());
     }
 
     public boolean isEmpty() {

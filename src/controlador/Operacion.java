@@ -5,12 +5,14 @@
  */
 package controlador;
 
+import java.text.DecimalFormat;
+
 /**
  * @author 57300
  */
 public class Operacion {
 
-    public static String camelCase(String cadena) {
+    public static String toCamelCase(String cadena) {
         if (cadena.contains(" ")) {
             String[] b = cadena.split(" ");
             String k = "";
@@ -32,12 +34,28 @@ public class Operacion {
     }
 
     public static String inicialMayuscula(String cadena) {
+        if (cadena == null || cadena.isEmpty()) {
+            return "";
+        }
         String ini = cadena.substring(0, 1);
         String cad = cadena.substring(1);
         return ini.toUpperCase() + cad.toLowerCase();
     }
 
-    public static double redondear(double a) {
-        return Math.round(a * 100) / 100d;
+    public static String formatear(double valor) {
+        DecimalFormat df = new DecimalFormat("#.#");
+        return df.format(valor).replaceAll(",", "\\.").replaceAll("\\.0", "");
+    }
+
+    public static String youtube() throws Exception {
+        throw new Exception("Aquí iba a hacer algo pero se me olvidó");
+    }
+
+    public static String[] toCamelCase(String[] cadenas) {
+        String[] nuevas = new String[cadenas.length];
+        for (int i = 0; i < cadenas.length; i++) {
+            nuevas[i] = inicialMayuscula(cadenas[i]);
+        }
+        return nuevas;
     }
 }

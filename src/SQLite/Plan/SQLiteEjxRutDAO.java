@@ -20,13 +20,13 @@ import java.sql.SQLException;
 public class SQLiteEjxRutDAO implements EjxRutDAO {
 
     private final String INSERT = "INSERT INTO EjxRut(plankey, Ejerciciokey, "
-            + " dia, repeticiones, series, momento) values (?, ?, ?, ?, ?, ?)";
+            + " dia, repeticiones, series, momento, unidad, presentacion) values (?, ?, ?, ?, ?, ?, ?, ?)";
     private final String DELETE = "DELETE FROM EjxRut WHERE ejxrutkey=?";
     private final String WHERE = "SELECT ejxrutkey, plankey, Ejerciciokey, "
-            + " dia, repeticiones, series, momento FROM ejxrut "
+            + " dia, repeticiones, series, momento, unidad, presentacion FROM ejxrut "
             + "WHERE plankey = ? and dia = ? order by ejxrutkey asc";
     private final String WHERE2 = "SELECT ejxrutkey, plankey, Ejerciciokey, "
-            + " dia, repeticiones, series, momento FROM ejxrut "
+            + " dia, repeticiones, series, momento, unidad, presentacion FROM ejxrut "
             + "WHERE plankey = ? and dia = ? and momento = ? order by ejxrutkey asc";
     //int ejxrutkey, int plankey, int ejerciciokey, int repeticiones, String momento, String dia, double peso
     private Connection conex;
@@ -43,9 +43,11 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             s.setInt(1, a.getPlan().getPlankey());
             s.setInt(2, a.getEjercicio().getEjerciciokey());
             s.setString(3, a.getDia());
-            s.setInt(4, a.getRepeticiones());
+            s.setInt(4, a.getCantidad());
             s.setInt(5, a.getSeries());
             s.setString(6, a.getMomento());
+            s.setString(7, a.getUnidad());
+            s.setString(8, a.getPresentacion());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar EjxRut");
             }
@@ -150,6 +152,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             c.setSeries(rs.getInt("series"));
             c.setRepeticiones(rs.getInt("repeticiones"));
             c.setMomento(rs.getString("momento"));
+            c.setUnidad(rs.getString("unidad"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

@@ -17,21 +17,21 @@ import java.time.LocalTime;
 
 public class SQLiteAlimentosDAO implements AlimentosDAO {
 
-    private final String INSERT = "INSERT INTO ALIMENTOS(nombre, "
-            + "  proteinas, grasas, carbohidratos, usedate, usetime, unidad)"
-            + " values (?, ?, ?, ?, ?, ?, ?, ?,?)";
-    private final String SELECT = "SELECT alimentokey, nombre, "
-            + "  proteinas, grasas, carbohidratos, unidad FROM alimentos "
+    private final String INSERT = "INSERT INTO ALIMENTOS(nombre, plural, "
+            + "  proteinas, grasas, carbohidratos, usedate, usetime)"
+            + " values (?, ?, ?, ?, ?, ?,?)";
+    private final String SELECT = "SELECT alimentokey, nombre, plural, "
+            + "  proteinas, grasas, carbohidratos FROM alimentos "
             + "where alimentokey = ? ";
-    private final String ALL = "SELECT alimentokey, nombre, "
-            + "  proteinas, grasas, carbohidratos, unidad FROM alimentos order by usedate desc, usetime desc";
-    private final String WHERE = "SELECT alimentokey, nombre, "
-            + "  proteinas, grasas, carbohidratos, unidad FROM ALIMENTOS "
-            + " order by nombre like ? desc";
-    private final String UPDATE = "UPDATE ALIMENTOS SET  nombre = ?, "
+    private final String ALL = "SELECT alimentokey, nombre,  plural,"
+            + "  proteinas, grasas, carbohidratos FROM alimentos order by usedate desc, usetime desc";
+    private final String WHERE = "SELECT alimentokey, nombre, plural, "
+            + "  proteinas, grasas, carbohidratosFROM ALIMENTOS "
+            + " where NOMBRE = ?";
+    private final String UPDATE = "UPDATE ALIMENTOS SET  nombre = ?, plural=?, "
             + " proteinas = ?, grasas = ?, carbohidratos  = ? , "
-            + "usedate = ?, usetime = ? , unidad = ? WHERE alimentokey = ? ";
-    private final String DELETE = "DELETE FROM ALIMENTOS WHERE alimentokey = ?";
+            + "usedate = ?, usetime = ?  WHERE alimentokey = ? ";
+    private final String DELETE = "DELETE FROM ALIMENTOS WHERE nombre = ?";
     private Connection conex;
 
     public SQLiteAlimentosDAO(Connection conex) {
@@ -49,13 +49,13 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
-            s.setString(1, a.getNombre());
-            s.setDouble(2, a.getProteinas());
-            s.setDouble(3, a.getGrasas());
-            s.setDouble(4, a.getCarbohidratos());
-            s.setDate(5, Date.valueOf(LocalDate.now()));
-            s.setTime(6, Time.valueOf(LocalTime.now()));
-            s.setString(7, a.getUnidad());
+            s.setString(1, a.getNombre().toLowerCase());
+            s.setString(2, a.getPlural().toLowerCase());
+            s.setDouble(3, a.getProteinas());
+            s.setDouble(4, a.getGrasas());
+            s.setDouble(5, a.getCarbohidratos());
+            s.setDate(6, Date.valueOf(LocalDate.now()));
+            s.setTime(7, Time.valueOf(LocalTime.now()));
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar Alimento");
             }
@@ -77,13 +77,13 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
-            s.setString(1, a.getNombre());
-            s.setDouble(2, a.getProteinas());
-            s.setDouble(3, a.getGrasas());
-            s.setDouble(4, a.getCarbohidratos());
-            s.setDate(5, Date.valueOf(LocalDate.now()));
-            s.setTime(6, Time.valueOf(LocalTime.now()));
-            s.setString(7, a.getUnidad());
+            s.setString(1, a.getNombre().toLowerCase());
+            s.setString(2, a.getPlural().toLowerCase());
+            s.setDouble(3, a.getProteinas());
+            s.setDouble(4, a.getGrasas());
+            s.setDouble(5, a.getCarbohidratos());
+            s.setDate(6, Date.valueOf(LocalDate.now()));
+            s.setTime(7, Time.valueOf(LocalTime.now()));
             s.setInt(8, a.getAlimentokey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al modificar Alimento");
@@ -106,7 +106,7 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
-            s.setInt(1, a.getAlimentokey());
+            s.setString(1, a.getNombre().toLowerCase());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al eliminar Alimento");
             }
@@ -232,10 +232,10 @@ public class SQLiteAlimentosDAO implements AlimentosDAO {
             Alimento c = new Alimento();
             c.setAlimentokey(rs.getInt("alimentokey"));
             c.setNombre(rs.getString("nombre"));
+            c.setPlural(rs.getString("plural"));
             c.setCarbohidratos(rs.getDouble("carbohidratos"));
             c.setProteinas(rs.getDouble("proteinas"));
             c.setGrasas(rs.getDouble("grasas"));
-            c.setUnidad(rs.getString("unidad"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

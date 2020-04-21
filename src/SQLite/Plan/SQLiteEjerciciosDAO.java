@@ -18,18 +18,18 @@ import java.time.LocalTime;
 public class SQLiteEjerciciosDAO implements EjerciciosDAO {
 //int ejerciciokey, String nombre, String descripcion, String comentarios
 
-    private final String INSERT = "INSERT INTO EjercicioS(nombre, "
-            + "descripcion, comentario, usedate, usetime) values (?, ?, ?, ?, ?)";
-    private final String SELECTALL = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentario FROM EjercicioS order by usedate desc, usetime desc";
-    private final String SELECTWHERE = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentario FROM EjercicioS order by NOMBRE LIKE ? desc";
-    private final String SELECTONE = "SELECT Ejerciciokey, nombre, "
-            + "descripcion, comentario FROM EjercicioS WHERE ejerciciokey = ?";
-    private final String UPDATE = "UPDATE EjercicioS SET  nombre = ? , "
-            + "descripcion = ? , comentario  = ?, usedate = ?, usetime = ?  "
+    private final String INSERT = "INSERT INTO EjercicioS(nombre, plural,"
+            + " comentario, usedate, usetime) values (?, ?, ?, ?, ?, ?)";
+    private final String SELECTALL = "SELECT Ejerciciokey, nombre, plural,"
+            + " comentario FROM EjercicioS order by usedate desc, usetime desc";
+    private final String SELECTWHERE = "SELECT Ejerciciokey, nombre, plural,"
+            + " comentario FROM EjercicioS where NOMBRE LIKE ? order by nombre desc";
+    private final String SELECTONE = "SELECT Ejerciciokey, nombre, plural,"
+            + " comentario FROM EjercicioS WHERE ejerciciokey = ?";
+    private final String UPDATE = "UPDATE EjercicioS SET  nombre = ? , plural = ?,"
+            + " comentario  = ?, usedate = ?, usetime = ?  "
             + "WHERE ejerciciokey = ? ";
-    private final String DELETE = "DELETE FROM EjercicioS WHERE NOMBRE = ?";
+    private final String DELETE = "DELETE FROM EjercicioS WHERE nombre = ?";
     private Connection conex;
 
     public SQLiteEjerciciosDAO(Connection conex) {
@@ -48,8 +48,8 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
-            s.setString(1, a.getNombre());
-            s.setString(2, a.getDescripcion());
+            s.setString(1, a.getNombre().toLowerCase());
+            s.setString(2, a.getPlural().toLowerCase());
             s.setString(3, a.getComentarios());
             s.setDate(4, Date.valueOf(LocalDate.now()));
             s.setTime(5, Time.valueOf(LocalTime.now()));
@@ -74,8 +74,8 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(UPDATE);
-            s.setString(1, a.getNombre());
-            s.setString(2, a.getDescripcion());
+            s.setString(1, a.getNombre().toLowerCase());
+            s.setString(2, a.getPlural().toLowerCase());
             s.setString(3, a.getComentarios());
             s.setDate(4, Date.valueOf(LocalDate.now()));
             s.setTime(5, Time.valueOf(LocalTime.now()));
@@ -228,7 +228,7 @@ public class SQLiteEjerciciosDAO implements EjerciciosDAO {
             Ejercicio c = new Ejercicio();
             c.setEjerciciokey(rs.getInt("Ejerciciokey"));
             c.setNombre(rs.getString("nombre"));
-            c.setDescripcion(rs.getString("descripcion"));
+            c.setPlural(rs.getString("plural"));
             c.setComentarios(rs.getString("comentario"));
             return c;
         } catch (SQLException ex) {

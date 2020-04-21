@@ -8,6 +8,7 @@ package controlador;
 import DAO.DAOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 
@@ -61,6 +62,8 @@ public class HomeController extends Controller<StackPane> {
     @FXML
     private ToggleButton buttonConfig;
 
+    @FXML
+    private ScrollPane scroll;
 
     public void initialize(URL url, ResourceBundle rb) {
         cargar();
@@ -75,8 +78,8 @@ public class HomeController extends Controller<StackPane> {
         } catch (DAOException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
 
+    }
     public void cargar() {
         try {
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());

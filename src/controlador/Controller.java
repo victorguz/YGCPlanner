@@ -5,7 +5,6 @@
  */
 package controlador;
 
-import DAO.DAOException;
 import DAO.ReferenciasDAO;
 import DAO.cliente.ClientesDAO;
 import DAO.cliente.MedidasDAO;
@@ -57,7 +56,7 @@ public abstract class Controller<T> implements Initializable {
     @FXML
     protected TextField textBuscar;
 
-    private static SQLiteDAOManager getManager() throws DAOException {
+    private static SQLiteDAOManager getManager() {
         if (manager == null) {
             try {
                 manager = new SQLiteDAOManager();
@@ -68,40 +67,43 @@ public abstract class Controller<T> implements Initializable {
         return manager;
     }
 
-    public static ClientesDAO getClientes() throws DAOException {
+    public static ClientesDAO getClientes() {
         return getManager().getClientesDAO();
     }
 
-    public static MedidasDAO getMedidas() throws DAOException {
+    public static MedidasDAO getMedidas() {
         return getManager().getMedidasDAO();
     }
 
-    public static PlanesDAO getPlanes() throws DAOException {
+    public static PlanesDAO getPlanes() {
         return getManager().getPlanesDAO();
     }
 
-    public static AlimentosDAO getAlimentos() throws DAOException {
+    public static AlimentosDAO getAlimentos() {
         return getManager().getAlimentosDAO();
     }
 
-    public static EjerciciosDAO getEjercicios() throws DAOException {
+    public static EjerciciosDAO getEjercicios() {
         return getManager().getEjerciciosDAO();
     }
 
-    public static AlxDietDAO getAlxdiets() throws DAOException {
+    public static AlxDietDAO getAlxdiets() {
         return getManager().getAlimentosDietasDAO();
     }
 
-    public static EjxRutDAO getEjxruts() throws DAOException {
+    public static EjxRutDAO getEjxruts() {
         return getManager().getEjerciciosRutinasDAO();
     }
 
-    public static ReferenciasDAO getReferencias() throws DAOException {
+    public static ReferenciasDAO getReferencias() {
         return getManager().getReferenciasDAO();
     }
 
     public static Cliente getCliente() {
-        return cliente;
+        if (Controller.cliente == null) {
+            setCliente(new Cliente());
+        }
+        return Controller.cliente;
     }
 
     public static void setCliente(Cliente cliente) {
@@ -109,10 +111,10 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static Medida getMedida() {
-        if(medida==null){
-            medida=new Medida();
+        if (Controller.medida == null) {
+            setMedida(new Medida());
         }
-        return medida;
+        return Controller.medida;
     }
 
     public static void setMedida(Medida medida) {
@@ -121,35 +123,39 @@ public abstract class Controller<T> implements Initializable {
 
     public static void mensaje(String mensaje, String tipo) {
         NotifyTheme nt = NotifyTheme.Light;
-        nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
+        nt.setBgGrad(Color.white, Color.white);
         DesktopNotify.setDefaultTheme(nt);
         int notify = 0;
         if (tipo.equalsIgnoreCase("aviso")) {
             notify = DesktopNotify.TIP;
+            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, notify, 5000, null);
         } else if (tipo.equalsIgnoreCase("exito")) {
             notify = DesktopNotify.SUCCESS;
-        } else if (tipo.equalsIgnoreCase("info")) {
+            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, notify, 5000, null);
+        } else if (tipo.equalsIgnoreCase("tip")) {
             notify = DesktopNotify.INFORMATION;
-        } else if (tipo.equalsIgnoreCase("vacio")) {
-            notify = DesktopNotify.INPUT_REQUEST;
+            DesktopNotify.showDesktopMessage("INFORMACION", mensaje, notify, 5000);
+        } else {
+            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.DEFAULT, 5000);
         }
-        DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, notify, 5000, null);
     }
 
     public static void excepcion(Exception ex) {
         NotifyTheme nt = NotifyTheme.Light;
         nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
         DesktopNotify.setDefaultTheme(nt);
-        if (ex.getMessage().contains("sql")) {
-            DesktopNotify.showDesktopMessage("AVISO", getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
-                System.out.println(ex.getMessage());
-                ex.printStackTrace();
-            });
+        if (getResultOrException(ex.getMessage()) == null) {
+            if (ex.fillInStackTrace().toString().contains("DAOException")) {
+                DesktopNotify.showDesktopMessage("AVISO DE ERROR", ex.getMessage(), DesktopNotify.TIP, 5000, (e) -> {
+                    ex.printStackTrace();
+                });
+            } else {
+                DesktopNotify.showDesktopMessage("ERROR", "Ha ocurrido un error inesperado, si persiste contacte a soporte técnico", DesktopNotify.ERROR, 5000, (e) -> {
+                    ex.printStackTrace();
+                });
+            }
         } else {
-            DesktopNotify.showDesktopMessage("Error", getResultOrException(ex.getMessage()), DesktopNotify.ERROR, 10000, (e) -> {
-                System.out.println(ex.getMessage());
-                ex.printStackTrace();
-            });
+            DesktopNotify.showDesktopMessage("AVISO", getResultOrException(ex.getMessage()), DesktopNotify.TIP, 5000);
         }
     }
 
@@ -164,8 +170,11 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static String getResultOrException(String ex) {
-        if (ex.contains("medidas.clientekey, medidas.fecha")) {
+
+        if (ex.contains("medidas.clienteKey, medidas.fecha")) {
             return "Este cliente ya tiene medidas en esta fecha";
+        } else if (ex.contains("YezidGuzmanCoach.pdf")) {
+            return "Primero cierre el archivo PDF";
         } else if (ex.contains("clientes.identificacion")) {
             return "Ya existe un cliente con esta identificación";
         } else if (ex.contains("alxdiet.plankey, alxdiet.alimentokey, alxdiet.momento, alxdiet.dia")) {
@@ -179,16 +188,12 @@ public abstract class Controller<T> implements Initializable {
         } else if (ex.contains("NOT NULL")) {
             String i = ex.substring(ex.indexOf("NOT NULL"));
             return "Digite un " + i.substring(i.indexOf(".") + 1, i.indexOf(")"));
-        } else if (ex.contains("no such table: ")) {
-            String i = ex.substring(ex.indexOf("no such table: "), ex.indexOf(")")).toLowerCase();
-            return "No se encontró la tabla " + i + ", contacte al programador";
-        } else if (ex.contains("no such column: ")) {
-            String i = ex.substring(ex.indexOf("no such column: "));
-            return "No se encontró la columna " + i + ", contacte al programador";
         } else if (ex.contains("ejxrut.plankey, ejxrut.ejerciciokey, ejxrut.dia, ejxrut.momento")) {
             return "Este bloque ya contiene este ejercicio";
+        } else if (ex.contains("referencias.nombre")) {
+            return "Ya existe una plantilla con este nombre";
         } else {
-            return ex;
+            return null;
         }
     }
 
@@ -325,5 +330,6 @@ public abstract class Controller<T> implements Initializable {
             }
         }
     }
+
 
 }

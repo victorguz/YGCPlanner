@@ -12,12 +12,14 @@ import controlador.Operacion;
  */
 public class Alimento {
 
+
     private int alimentokey;
     private String nombre = "";
+    private String plural = "";
     private double proteinas;
     private double grasas;
     private double carbohidratos;
-    private String unidad;
+
 
     public Alimento() {
 
@@ -68,12 +70,12 @@ public class Alimento {
         this.carbohidratos = carbohidratos;
     }
 
-    public String getUnidad() {
-        return unidad;
+    public String getPlural() {
+        return plural;
     }
 
-    public void setUnidad(String unidad) {
-        this.unidad = unidad;
+    public void setPlural(String plural) {
+        this.plural = plural;
     }
 
     @Override

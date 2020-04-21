@@ -6,6 +6,7 @@
 package modelo.plan;
 
 import DAO.DAOException;
+import controlador.Operacion;
 
 /**
  * Esta clase enlaza los alimentos con las dietas, teniendo en cuenta que su
@@ -23,9 +24,17 @@ public class AlxDiet extends BasePlan {
     public static final String POSTENTRENO = "Postentreno";
     public static final String SNACKAM = "Snack AM";
     public static final String SNACKPM = "Snack PM";
+    public static final String[] UNIDADES = new String[]{"Unidades", "Gramos", "Mililitros",
+            "Litros", "Tazas", "Vasos", "Onzas", "Libras", "Rodajas", "Lonjas", "Torrejas", "Scoops",
+            "Cucharadas", "Porciones", "Al gusto"};
+
+
     private int alxdietkey;
     private Alimento alimento;
-    private double cantidad = 0;
+    private int cantidad;
+    private String unidad = "gramos";
+    private String presentacion = "cantidad unidad de alimento";
+    private int gramos;//gramos que equivale la porción
 
     public AlxDiet() {
     }
@@ -49,42 +58,107 @@ public class AlxDiet extends BasePlan {
         this.alimento = alimento;
     }
 
-    public double getCantidad() {
+    public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 
+    public String getUnidad() {
+        return this.unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
+
+    public String getUnidadSingular() {
+        switch (getUnidad().toLowerCase()) {
+            case "unidades":
+                return "unidad";
+            case "gramos":
+                return "g";
+            case "onzas":
+                return "Oz";
+            case "libras":
+                return "lb";
+            case "mililitros":
+                return "mL";
+            case "al gusto":
+                return "al gusto";
+            case "porciones":
+                return "porcion";
+            default:
+                return getUnidad().toLowerCase().substring(0, this.unidad.length() - 1);
+        }
+    }
+
+    public String getUnidadPlural() {
+        switch (getUnidad().toLowerCase()) {
+            case "gramos":
+                return "g";
+            case "onzas":
+                return "Oz";
+            case "libras":
+                return "lb";
+            case "mililitros":
+                return "mL";
+            case "al gusto":
+                return "al gusto";
+            default:
+                return getUnidad().toLowerCase();
+        }
+    }
+
+    public String getPresentacion() {
+        return presentacion.toLowerCase();
+    }
+
+    public void setPresentacion(String presentacion) {
+        this.presentacion = presentacion;
+    }
+
+    public int getGramos() {
+        return gramos;
+    }
+
+    public void setGramos(int gramos) {
+        this.gramos = gramos;
+    }
+
     public double getKilocaloriasxpeso() {
-        return getAlimento().getKilocalorias() * getCantidad() / 100;
+        return getAlimento().getKilocalorias() * getGramos() / 100;
     }
 
     public double getProteinasxpeso() {
-        return getAlimento().getProteinas() * getCantidad() / 100;
+        return getAlimento().getProteinas() * getGramos() / 100;
     }
 
     public double getGrasasxpeso() {
-        return getAlimento().getGrasas() * getCantidad() / 100;
+        return getAlimento().getGrasas() * getGramos() / 100;
     }
 
     public double getCarbohidratosxpeso() {
-        return getAlimento().getCarbohidratos() * getCantidad() / 100;
+        return getAlimento().getCarbohidratos() * getGramos() / 100;
     }
+
+    public String calcularPresentacion() {
+        String nombre = ((getCantidad() == 1) ? getAlimento().getNombre() 
+                : (getAlimento().getPlural().isEmpty())?
+                getAlimento().getNombre():getAlimento().getPlural());
+        String unidad = ((getCantidad() == 1) ? getUnidadSingular() : getUnidadPlural());
+        return getPresentacion().replaceAll("alimento",nombre)
+                //.replaceAll("plural", getAlimento().getPlural())
+                .replaceAll("cantidad",Operacion.formatear(getCantidad()))
+                .replaceAll("unidad",unidad);
+    }
+
 
     @Override
     public String toString() {
-        String unidad=getAlimento().getUnidad();
-        String a="";
-        if(unidad.contains("unidad")){
-            a = " unidades de ";
-        }else if(unidad.contains("gramo")){
-            a=" gramos de ";
-        }else if(unidad.contains("mililitro")){
-            a=" mililitros de ";
-        }
-        return getCantidad() + a + getAlimento().toString();
+        return calcularPresentacion();
     }
 
     @Override
