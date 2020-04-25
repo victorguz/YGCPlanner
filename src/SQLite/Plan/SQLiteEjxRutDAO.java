@@ -10,6 +10,7 @@ import DAO.plan.EjxRutDAO;
 import controlador.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import modelo.plan.AlxDiet;
 import modelo.plan.EjxRut;
 
 import java.sql.Connection;
@@ -28,7 +29,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
     private final String WHERE2 = "SELECT ejxrutkey, plankey, Ejerciciokey, "
             + " dia, repeticiones, series, momento, unidad, presentacion FROM ejxrut "
             + "WHERE plankey = ? and dia = ? and momento = ? order by ejxrutkey asc";
-    //int ejxrutkey, int plankey, int ejerciciokey, int repeticiones, String momento, String dia, double peso
+
     private Connection conex;
 
     public SQLiteEjxRutDAO(Connection conex) {
@@ -50,6 +51,37 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             s.setString(8, a.getPresentacion());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar EjxRut");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+    }
+
+    private void copy(ResultSet rs, String nombreCopy) throws DAOException {
+        PreparedStatement s = null;
+        try {
+            String INSERT = "INSERT INTO AlxDiet(plankey, ejerciciokey, "
+                    + "momento, dia, repeticiones, unidad, presentacion, series) " +
+                    "values ((select plankey from planes where lower(nombre)=?), ?, ?, ?, ?, ?, ?, ?)";
+            s = conex.prepareStatement(INSERT);
+            s.setString(1, nombreCopy.toLowerCase());
+            s.setInt(2, rs.getInt("ejerciciokey"));
+            s.setString(3, rs.getString("momento"));
+            s.setString(4, rs.getString("dia"));
+            s.setDouble(5, rs.getDouble("repeticiones"));
+            s.setString(6, rs.getString("unidad"));
+            s.setString(7, rs.getString("presentacion"));
+            s.setInt(8, rs.getInt("series"));
+            if (s.executeUpdate() == 0) {
+                throw new DAOException("Error al insertar AlxDiet");
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -153,6 +185,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
             c.setRepeticiones(rs.getInt("repeticiones"));
             c.setMomento(rs.getString("momento"));
             c.setUnidad(rs.getString("unidad"));
+            c.setPresentacion(rs.getString("presentacion"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -228,4 +261,38 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
         return l;
     }
 
+    @Override
+    public void whereCopy(String planOrig, String planCopy) throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        ObservableList<AlxDiet> l = FXCollections.observableArrayList();
+        try {
+            String WHERE = "SELECT ejxrutkey, plankey ," +
+                    "ejerciciokey,momento,series,dia,repeticiones,unidad,presentacion " +
+                    " FROM ejxrut inner join planes on planes.plankey=ejxrut.plankey where planes.nombre=?";
+            s = conex.prepareStatement(WHERE);
+            s.setString(1, planOrig);
+            rs = s.executeQuery();
+            while (rs.next()) {
+                copy(rs, planCopy);
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+    }
 }

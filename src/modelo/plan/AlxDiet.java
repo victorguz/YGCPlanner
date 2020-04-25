@@ -24,14 +24,18 @@ public class AlxDiet extends BasePlan {
     public static final String POSTENTRENO = "Postentreno";
     public static final String SNACKAM = "Snack AM";
     public static final String SNACKPM = "Snack PM";
-    public static final String[] UNIDADES = new String[]{"Unidades", "Gramos", "Mililitros",
-            "Litros", "Tazas", "Vasos", "Onzas", "Libras", "Rodajas", "Lonjas", "Torrejas", "Scoops",
-            "Cucharadas", "Porciones", "Al gusto"};
+    public static final String[] UNIDADES
+            = new String[]{
+            "Gramos", "Onzas", "Libras",
+            "Unidades", "Mililitros", "Litros", "Tazas",
+            "Vasos", "Rodajas", "Lonjas", "Torrejas",
+            "Scoops", "Cucharadas", "Porciones", "Al gusto"
+    };
 
 
     private int alxdietkey;
     private Alimento alimento;
-    private int cantidad;
+    private double cantidad;
     private String unidad = "gramos";
     private String presentacion = "cantidad unidad de alimento";
     private int gramos;//gramos que equivale la porción
@@ -58,11 +62,11 @@ public class AlxDiet extends BasePlan {
         this.alimento = alimento;
     }
 
-    public int getCantidad() {
+    public double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -77,7 +81,7 @@ public class AlxDiet extends BasePlan {
     public String getUnidadSingular() {
         switch (getUnidad().toLowerCase()) {
             case "unidades":
-                return "unidad";
+                return "";
             case "gramos":
                 return "g";
             case "onzas":
@@ -97,6 +101,8 @@ public class AlxDiet extends BasePlan {
 
     public String getUnidadPlural() {
         switch (getUnidad().toLowerCase()) {
+            case "unidades":
+                return "";
             case "gramos":
                 return "g";
             case "onzas":
@@ -145,14 +151,17 @@ public class AlxDiet extends BasePlan {
     }
 
     public String calcularPresentacion() {
-        String nombre = ((getCantidad() == 1) ? getAlimento().getNombre() 
-                : (getAlimento().getPlural().isEmpty())?
-                getAlimento().getNombre():getAlimento().getPlural());
+        String nombre = ((getCantidad() == 1) ? getAlimento().getNombre()
+                : (getAlimento().getPlural().isEmpty()) ?
+                getAlimento().getNombre() : getAlimento().getPlural());
         String unidad = ((getCantidad() == 1) ? getUnidadSingular() : getUnidadPlural());
-        return getPresentacion().replaceAll("alimento",nombre)
+        if (getPresentacion().isEmpty()) {
+            return Operacion.formatear(getCantidad()) + " " + unidad + (unidad.isEmpty() ? "" : " de ") + nombre;
+        }
+        return getPresentacion().replaceAll("#alimento", nombre)
                 //.replaceAll("plural", getAlimento().getPlural())
-                .replaceAll("cantidad",Operacion.formatear(getCantidad()))
-                .replaceAll("unidad",unidad);
+                .replaceAll("#cantidad", Operacion.formatear(getCantidad()))
+                .replaceAll("#unidad", unidad);
     }
 
 

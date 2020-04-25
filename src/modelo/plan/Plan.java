@@ -19,7 +19,8 @@ public class Plan {
     private String nombre = "";
     private String tipo = "";
 
-    public Plan() {
+    public Plan(String tipo) {
+        setTipo(tipo);
     }
 
     public int getPlankey() {
@@ -42,7 +43,7 @@ public class Plan {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    private void setTipo(String tipo) {
         this.tipo = tipo;
     }
 

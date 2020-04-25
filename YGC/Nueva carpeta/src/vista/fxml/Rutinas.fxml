@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171"
+           fx:controller="controlador.RutinasController">
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="vbox-fondo">
+            <children>
+                <VBox styleClass="vbox-blanco">
+                    <children>
+                        <TabPane tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Planes de entrenamiento">
+                                    <content>
+                                        <VBox styleClass="vbox-blanco">
+                                            <children>
+                                                <Label text="Información del plan" textFill="#757575">
+                                                    <VBox.margin>
+                                                        <Insets/>
+                                                    </VBox.margin>
+                                                </Label>
+                                                <GridPane hgap="10.0" vgap="10.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"
+                                                                           minWidth="50.0"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"
+                                                                           minWidth="50.0"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints vgrow="SOMETIMES"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label minWidth="100.0" text="Buscar plan" textFill="#b2b2b2">
+                                                            <padding>
+                                                                <Insets left="6.0"/>
+                                                            </padding>
+                                                        </Label>
+                                                        <TextField fx:id="textBuscar" minWidth="20.0"
+                                                                   onAction="#obtener" onKeyTyped="#consumeDigits"
+                                                                   promptText="Buscar plan" GridPane.columnIndex="1"/>
+                                                        <Label minWidth="100.0" text="Seleccionar plan"
+                                                               textFill="#b2b2b2" GridPane.columnIndex="2">
+                                                            <padding>
+                                                                <Insets left="6.0"/>
+                                                            </padding>
+                                                        </Label>
+                                                        <ComboBox fx:id="comboRutinas" minWidth="20.0"
+                                                                  onAction="#mostrar" promptText="Seleccionar plan"
+                                                                  visibleRowCount="5" GridPane.columnIndex="3"/>
+                                                    </children>
+                                                </GridPane>
+                                                <GridPane hgap="10.0" vgap="10.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"
+                                                                           minWidth="50.0"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints vgrow="SOMETIMES"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label minWidth="100.0" text="Nombre" textFill="#b2b2b2">
+                                                            <padding>
+                                                                <Insets left="6.0"/>
+                                                            </padding>
+                                                        </Label>
+                                                        <TextField fx:id="textNombre" minWidth="20.0"
+                                                                   promptText="Nombre" GridPane.columnIndex="1"/>
+                                                    </children>
+                                                </GridPane>
+                                                <FlowPane alignment="CENTER" hgap="10.0" styleClass="flowpane"
+                                                          vgap="10.0">
+                                                    <children>
+                                                        <Button onAction="#eliminar" styleClass="delete-button"
+                                                                text="Eliminar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="16.0" fitWidth="16.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/xb.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                        <Button onAction="#limpiar" text="Limpiar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="15.0" fitWidth="15.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/clearb.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                        <Button onAction="#modificar" text="Modificar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="16.0" fitWidth="16.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/updateb.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                        <Button onAction="#duplicarPlan" text="Duplicar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="16.0" fitWidth="16.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/copy.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                        <Button onAction="#registrar" text="Guardar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="16.0" fitWidth="16.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/doneb.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                    </children>
+                                                </FlowPane>
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                                <Tab text="Ejercicios">
+                                    <content>
+                                        <VBox styleClass="vbox-blanco">
+                                            <children>
+                                                <Label text="Información de ejercicios" textFill="#757575">
+                                                    <VBox.margin>
+                                                        <Insets/>
+                                                    </VBox.margin>
+                                                </Label>
+                                                <TextField fx:id="textBuscarEjercicio" minWidth="20.0"
+                                                           onAction="#buscarEjercicio" onKeyTyped="#consumeDigits"
+                                                           promptText="Buscar ejercicio"/>
+                                                <GridPane hgap="10.0" vgap="10.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints vgrow="SOMETIMES"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label minWidth="100.0" text="Nombre" textFill="#b2b2b2"
+                                                               wrapText="true">
+                                                            <padding>
+                                                                <Insets left="6.0"/>
+                                                            </padding>
+                                                        </Label>
+                                                        <TextField fx:id="textNombreEjercicio" minWidth="20.0"
+                                                                   onKeyTyped="#consumeDigits" promptText="Nombre"
+                                                                   GridPane.columnIndex="1"/>
+                                                        <Label minWidth="100.0" text="Nombre plural" textFill="#b2b2b2"
+                                                               wrapText="true" GridPane.columnIndex="2">
+                                                            <padding>
+                                                                <Insets left="6.0"/>
+                                                            </padding>
+                                                        </Label>
+                                                        <TextField fx:id="textPluralEjercicio" minWidth="20.0"
+                                                                   onKeyTyped="#consumeDigits"
+                                                                   promptText="Nombre plural" GridPane.columnIndex="3"/>
+                                                    </children>
+                                                </GridPane>
+                                                <FlowPane alignment="CENTER" hgap="10.0" styleClass="flowpane"
+                                                          vgap="10.0">
+                                                    <children>
+                                                        <Button onAction="#eliminarEjercicio" styleClass="delete-button"
+                                                                text="Eliminar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="16.0" fitWidth="16.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/xb.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                        <Button onAction="#limpiarEjercicio" text="Limpiar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="15.0" fitWidth="15.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/clearb.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                        <Button onAction="#modificarEjercicio" text="Modificar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="16.0" fitWidth="16.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/updateb.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                        <Button onAction="#registrarEjercicio" text="Guardar">
+                                                            <graphic>
+                                                                <ImageView fitHeight="16.0" fitWidth="16.0"
+                                                                           pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@../../imagen/icono/doneb.png"/>
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                        </Button>
+                                                    </children>
+                                                </FlowPane>
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </VBox>
+                <VBox styleClass="vbox-blanco">
+                    <children>
+                        <Label minWidth="100.0" text="Ejercicios del plan" textFill="#757575" wrapText="true"/>
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES"/>
+                                <ColumnConstraints hgrow="SOMETIMES"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <FlowPane hgap="5.0" styleClass="flowpane-centrado" vgap="5.0" GridPane.rowIndex="1">
+                                    <children>
+                                        <ToggleButton fx:id="buttonLunes" mnemonicParsing="false" onAction="#getBloque"
+                                                      selected="true" text="Lunes">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="dias"/>
+                                            </toggleGroup>
+                                        </ToggleButton>
+                                        <ToggleButton fx:id="buttonMartes" mnemonicParsing="false" onAction="#getBloque"
+                                                      text="Martes" toggleGroup="$dias"/>
+                                        <ToggleButton fx:id="buttonMiercoles" mnemonicParsing="false"
+                                                      onAction="#getBloque" text="Miercoles" toggleGroup="$dias"/>
+                                        <ToggleButton fx:id="buttonJueves" mnemonicParsing="false" onAction="#getBloque"
+                                                      text="Jueves" toggleGroup="$dias"/>
+                                        <ToggleButton fx:id="buttonViernes" mnemonicParsing="false"
+                                                      onAction="#getBloque" text="Viernes" toggleGroup="$dias"/>
+                                        <ToggleButton fx:id="buttonSabado" mnemonicParsing="false" onAction="#getBloque"
+                                                      text="Sabado" toggleGroup="$dias"/>
+                                        <ToggleButton fx:id="buttonDomingo" mnemonicParsing="false"
+                                                      onAction="#getBloque" text="Domingo" toggleGroup="$dias"/>
+                                    </children>
+                                </FlowPane>
+                                <FlowPane hgap="5.0" styleClass="flowpane-centrado" vgap="5.0" GridPane.columnIndex="1"
+                                          GridPane.rowIndex="1">
+                                    <children>
+                                        <ToggleButton fx:id="buttonB1" mnemonicParsing="false" onAction="#getBloque"
+                                                      selected="true" text="Bloque 1">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="momentos"/>
+                                            </toggleGroup>
+                                        </ToggleButton>
+                                        <ToggleButton fx:id="buttonB2" mnemonicParsing="false" onAction="#getBloque"
+                                                      text="Bloque 2" toggleGroup="$momentos"/>
+                                        <ToggleButton fx:id="buttonB3" mnemonicParsing="false" onAction="#getBloque"
+                                                      text="Bloque 3" toggleGroup="$momentos"/>
+                                        <ToggleButton fx:id="buttonB4" mnemonicParsing="false" onAction="#getBloque"
+                                                      text="Bloque 4" toggleGroup="$momentos"/>
+                                        <ToggleButton fx:id="buttonB5" mnemonicParsing="false" onAction="#getBloque"
+                                                      text="Bloque 5" toggleGroup="$momentos"/>
+                                    </children>
+                                </FlowPane>
+                                <Label fx:id="labelunidad211" text="Seleccionar día" textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0"/>
+                                    </padding>
+                                </Label>
+                                <Label fx:id="labelunidad2111" text="Seleccionar momento" textFill="#b2b2b2"
+                                       wrapText="true" GridPane.columnIndex="1">
+                                    <padding>
+                                        <Insets left="6.0"/>
+                                    </padding>
+                                </Label>
+                            </children>
+                        </GridPane>
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="130.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                                <RowConstraints vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <TextField fx:id="textBuscarEjx" onAction="#buscarEjercicio" onKeyTyped="#consumeDigits"
+                                           promptText="Buscar ejercicio" GridPane.columnIndex="1"/>
+                                <Label fx:id="labelUnidad" text="Cantidad" textFill="#b2b2b2" wrapText="true"
+                                       GridPane.columnIndex="4">
+                                    <padding>
+                                        <Insets left="6.0"/>
+                                    </padding>
+                                </Label>
+                                <Spinner fx:id="spinnerRepeticiones" editable="true"
+                                         onKeyReleased="#mostrarPresentaciones" onKeyTyped="#consumeIntegers"
+                                         onMouseClicked="#mostrarPresentaciones" GridPane.columnIndex="5"/>
+                                <Label text="Buscar ejercicio" textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0"/>
+                                    </padding>
+                                </Label>
+                                <Label text="Series" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2"
+                                       GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0"/>
+                                    </padding>
+                                </Label>
+                                <Spinner fx:id="spinnerSeries" editable="true" onKeyReleased="#mostrarPresentaciones"
+                                         onKeyTyped="#consumeIntegers" onMouseClicked="#mostrarPresentaciones"
+                                         GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                                <Label text="Seleccionar unidad" textFill="#b2b2b2" wrapText="true"
+                                       GridPane.columnIndex="2">
+                                    <padding>
+                                        <Insets left="6.0"/>
+                                    </padding>
+                                </Label>
+                                <ComboBox fx:id="comboUnidades" onAction="#mostrarPresentaciones"
+                                          onMouseClicked="#cambiarLabelUnidad" prefWidth="150.0"
+                                          GridPane.columnIndex="3"/>
+                                <Label text="Nombre ejercicio" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0"/>
+                                    </padding>
+                                </Label>
+                                <HBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <children>
+                                        <TextField fx:id="textNombreEjx" onAction="#modificarEjercicio"
+                                                   promptText="Nombre"/>
+                                        <TextField fx:id="textPluralEjx" onAction="#modificarEjercicio"
+                                                   promptText="Plural"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </GridPane>
+                        <VBox alignment="CENTER" spacing="5.0">
+                            <children>
+                                <GridPane hgap="10.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <TextField fx:id="textPresentacion" onAction="#mostrarPresentaciones"
+                                                   promptText="Elige cómo se presentan los datos usando las palabras clave #CANTIDAD, #SERIES, UNIDAD y EJERCICIO. Ej: &quot;#cantidad unidad #series de ejercicio&quot;"/>
+                                        <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false"
+                                                onAction="#insertarPresentacion" text="Guardar"
+                                                GridPane.columnIndex="1">
+                                            <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
+                                                           preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../imagen/icono/doneb.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false"
+                                                onAction="#eliminarPresentacion" text="Eliminar"
+                                                GridPane.columnIndex="2">
+                                            <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
+                                                           preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../imagen/icono/xb.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </GridPane>
+                                <Label fx:id="labelPresentacion" style="-fx-font-size: 14;" text="4 flexiones"
+                                       textAlignment="CENTER" wrapText="true"/>
+                                <Label text="Puedes modificar el nombre y el nombre plural del ejercicio presionando ENTER en las casillas &quot;Nombre&quot; y &quot;Plural&quot;"
+                                       textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0"/>
+                                    </padding>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+                <VBox styleClass="vbox-blanco">
+                    <children>
+                        <VBox alignment="CENTER" prefWidth="200.0" styleClass="x">
+                            <children>
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Button onAction="#addEjercicio" pickOnBounds="false" prefWidth="1500.0"
+                                                text="Añadir ejercicio al menú">
+                                            <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
+                                                           preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../imagen/icono/clearb.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Button onAction="#deleteEjx" pickOnBounds="false" prefWidth="1500.0"
+                                                styleClass="delete-button" text="Eliminar ejercicio del menú">
+                                            <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true"
+                                                           preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../imagen/icono/trash2b.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="10.0"/>
+                                    </padding>
+                                </HBox>
+                                <ListView fx:id="listView" prefHeight="200.0"/>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </children>
+</StackPane>

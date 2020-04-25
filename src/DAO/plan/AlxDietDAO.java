@@ -15,4 +15,6 @@ public interface AlxDietDAO extends DAO<AlxDiet, Integer> {
 
     ObservableList<AlxDiet> where(int plankey, String dia, String momento) throws DAOException;
 
+
+    void whereCopy(String planOrig, String planCopy) throws DAOException;
 }

@@ -10,24 +10,21 @@ import DAO.cliente.ClientesDAO;
 import DAO.cliente.MedidasDAO;
 import DAO.plan.*;
 import SQLite.SQLiteDAOManager;
-import ds.desktop.notify.DesktopNotify;
-import ds.desktop.notify.NotifyTheme;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
-import modelo.plan.Alimento;
-import modelo.plan.Ejercicio;
 import modelo.plan.Plan;
 
+import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -39,22 +36,14 @@ import java.util.regex.Pattern;
  */
 public abstract class Controller<T> implements Initializable {
 
-    public static ObservableList<Alimento> alimentos = FXCollections.observableArrayList();
     protected static ObservableList<Cliente> clientes = FXCollections.observableArrayList();
     protected static ObservableList<Medida> medidas = FXCollections.observableArrayList();
     protected static ObservableList<Plan> rutinas = FXCollections.observableArrayList();
     protected static ObservableList<Plan> dietas = FXCollections.observableArrayList();
-    protected static ObservableList<Ejercicio> ejercicios = FXCollections.observableArrayList();
     private static SQLiteDAOManager manager;
     private static Cliente cliente;
     private static Medida medida;
     private static boolean onConfig;
-
-    /**
-     * TextField que está contenido en la mayoría de frames
-     */
-    @FXML
-    protected TextField textBuscar;
 
     private static SQLiteDAOManager getManager() {
         if (manager == null) {
@@ -121,41 +110,89 @@ public abstract class Controller<T> implements Initializable {
         Controller.medida = medida;
     }
 
+
+    public static boolean opcion(String mensaje, String tipo) {
+        int x = JOptionPane.showConfirmDialog(null, mensaje
+                        + ".\n\nEsta acción no se puede deshacer",
+                tipo.toUpperCase(),
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null);
+        return x == 0;
+    }
+
     public static void mensaje(String mensaje, String tipo) {
-        NotifyTheme nt = NotifyTheme.Light;
-        nt.setBgGrad(Color.white, Color.white);
-        DesktopNotify.setDefaultTheme(nt);
-        int notify = 0;
-        if (tipo.equalsIgnoreCase("aviso")) {
-            notify = DesktopNotify.TIP;
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, notify, 5000, null);
-        } else if (tipo.equalsIgnoreCase("exito")) {
-            notify = DesktopNotify.SUCCESS;
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, notify, 5000, null);
-        } else if (tipo.equalsIgnoreCase("tip")) {
-            notify = DesktopNotify.INFORMATION;
-            DesktopNotify.showDesktopMessage("INFORMACION", mensaje, notify, 5000);
-        } else {
-            DesktopNotify.showDesktopMessage(tipo.toUpperCase(), mensaje, DesktopNotify.DEFAULT, 5000);
+        try {
+            //Obtain only one instance of the SystemTray object
+            SystemTray tray = SystemTray.getSystemTray();
+
+            // If you want to create an icon in the system tray to preview
+            java.awt.Image image = Toolkit.getDefaultToolkit().createImage("src/imagen/icono/copy.png");
+            //Alternative (if the icon is on the classpath):
+            //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
+
+            TrayIcon trayIcon = new TrayIcon(image, "Tooltip");
+            //Let the system resize the image if needed
+            trayIcon.setImageAutoSize(true);
+            //Set tooltip text for the tray icon
+            trayIcon.setToolTip("Tooltip For Icon");
+            tray.add(trayIcon);
+
+            TrayIcon.MessageType notify = TrayIcon.MessageType.NONE;
+
+            if (tipo.equalsIgnoreCase("aviso")) {
+                notify = TrayIcon.MessageType.WARNING;
+            } else if (tipo.equalsIgnoreCase("exito")) {
+                notify = TrayIcon.MessageType.INFO;
+            }
+
+            // Display info notification:
+            trayIcon.displayMessage(tipo.toUpperCase(), mensaje, notify);
+
+        } catch (Exception ex) {
+            java.awt.Image image = Toolkit.getDefaultToolkit().createImage("src/imagen/icono/copy.png");
+            TrayIcon trayIcon = new TrayIcon(image, "Tooltip");
+            trayIcon.displayMessage("Error de notificación", "Ocurrió el siguiente error con las notificaciones: " + ex.getMessage(), TrayIcon.MessageType.ERROR);
         }
     }
 
     public static void excepcion(Exception ex) {
-        NotifyTheme nt = NotifyTheme.Light;
-        nt.setBgGrad(Color.white, Color.LIGHT_GRAY);
-        DesktopNotify.setDefaultTheme(nt);
-        if (getResultOrException(ex.getMessage()) == null) {
-            if (ex.fillInStackTrace().toString().contains("DAOException")) {
-                DesktopNotify.showDesktopMessage("AVISO DE ERROR", ex.getMessage(), DesktopNotify.TIP, 5000, (e) -> {
+        try {
+            //Obtain only one instance of the SystemTray object
+            SystemTray tray = SystemTray.getSystemTray();
+
+            // If you want to create an icon in the system tray to preview
+            java.awt.Image image = Toolkit.getDefaultToolkit().createImage("src/imagen/icono/copy.png");
+            //Alternative (if the icon is on the classpath):
+            //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
+
+            TrayIcon trayIcon = new TrayIcon(image, "Tooltip", new PopupMenu());
+            //Let the system resize the image if needed
+            trayIcon.setImageAutoSize(true);
+            //Set tooltip text for the tray icon
+            trayIcon.setToolTip("Tooltip For Icon");
+            tray.add(trayIcon);
+
+            TrayIcon.MessageType notify = TrayIcon.MessageType.WARNING;
+            String tipo = "";
+            String mensaje = getResultOrException(ex.getMessage());
+
+            if (mensaje == null) {
+                if (ex.fillInStackTrace().toString().contains("SimpleException")) {
+                    tipo = "AVISO";
+                    mensaje = ex.getMessage();
+                } else {
+                    tipo = "ERROR";
+                    mensaje = "Ha ocurrido un error inesperado, si persiste contacte a soporte técnico";
+                    notify = TrayIcon.MessageType.ERROR;
                     ex.printStackTrace();
-                });
-            } else {
-                DesktopNotify.showDesktopMessage("ERROR", "Ha ocurrido un error inesperado, si persiste contacte a soporte técnico", DesktopNotify.ERROR, 5000, (e) -> {
-                    ex.printStackTrace();
-                });
+                }
             }
-        } else {
-            DesktopNotify.showDesktopMessage("AVISO", getResultOrException(ex.getMessage()), DesktopNotify.TIP, 5000);
+
+            trayIcon.displayMessage(tipo.toUpperCase(), mensaje, notify);
+
+        } catch (Exception e) {
+            java.awt.Image image = Toolkit.getDefaultToolkit().createImage("src/imagen/icono/copy.png");
+            TrayIcon trayIcon = new TrayIcon(image, "Tooltip");
+            trayIcon.displayMessage("Error de notificación", "Ocurrió el siguiente error con las notificaciones: " + e.getMessage(), TrayIcon.MessageType.ERROR);
         }
     }
 
@@ -199,9 +236,19 @@ public abstract class Controller<T> implements Initializable {
 
     public static void consume(KeyEvent e) {
         boolean backspace = e.getCharacter().equals("\b");
-        boolean tab = e.getCharacter().equals("\t");
-        boolean enter = e.getCharacter().getBytes()[0] == 13;
-        if (!(backspace || tab || enter)) {
+        if (!(backspace
+                || e.getCode().equals(KeyCode.ENTER)
+                || e.getCode().equals(KeyCode.BACK_SPACE)
+                || e.getCode().equals(KeyCode.BACK_QUOTE)
+                || e.getCode().equals(KeyCode.BACK_SLASH)
+                || e.getCode().equals(KeyCode.TAB)
+                || e.getCode().equals(KeyCode.UP)
+                || e.getCode().equals(KeyCode.DOWN)
+                || e.getCode().equals(KeyCode.RIGHT)
+                || e.getCode().equals(KeyCode.LEFT)
+                || e.getCode().equals(KeyCode.SHIFT)
+                || e.getCode().equals(KeyCode.SPACE)
+                || e.getCode().equals(KeyCode.DELETE))) {
             e.consume();
             Toolkit.getDefaultToolkit().beep();
         }
@@ -230,7 +277,7 @@ public abstract class Controller<T> implements Initializable {
     }
 
     public static boolean getLetters(KeyEvent e) {
-        Pattern patron = Pattern.compile("[A-Za-z]*\\s*[áéíóúñÁÉÍÓÚÑ]*");
+        Pattern patron = Pattern.compile("[A-Za-z]*\\s*[áéíóúñÁÉÍÓÚÑ#]*");
         Matcher mevento = patron.matcher(e.getCharacter());
         if (mevento.matches()) {
             return true;
@@ -319,6 +366,33 @@ public abstract class Controller<T> implements Initializable {
     public void consumeDigits(KeyEvent e) {
         getDigits(e);
     }
+
+    public void increaseOrDecrease(KeyEvent e) {
+        TextField spin = (TextField) e.getSource();
+        if (spin.getText().isEmpty()) {
+            spin.setText("1");
+        }
+        if (e.getCode().equals(KeyCode.DOWN)) {
+            if (Double.parseDouble(spin.getText()) > 1) {
+                if (spin.getText().contains(".")) {
+                    spin.setText((Double.parseDouble(spin.getText()) - 0.1) + "");
+                } else {
+                    spin.setText((Integer.parseInt(spin.getText()) - 1) + "");
+                }
+            }
+        }
+        if (e.getCode().equals(KeyCode.UP)) {
+            if (!(spin.getText().equalsIgnoreCase("0")
+                    || spin.getText().equalsIgnoreCase("0.0"))) {
+                if (spin.getText().contains(".")) {
+                    spin.setText((Double.parseDouble(spin.getText()) + 0.1) + "");
+                } else {
+                    spin.setText((Integer.parseInt(spin.getText()) + 1) + "");
+                }
+            }
+        }
+    }
+
 
     public void selectCombo(ComboBox<String> combo, String a) {
         if (!combo.getItems().isEmpty()) {

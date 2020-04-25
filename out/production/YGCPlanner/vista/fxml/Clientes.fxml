@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -21,172 +22,203 @@
     <children>
         <VBox styleClass="vbox-fondo">
             <children>
-            <VBox styleClass="vbox-blanco">
-               <children>
-                  <Label text="Generar PDF" textFill="#757575" />
-                  <GridPane hgap="10.0" vgap="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0">
-                           <children>
-                              <Label text="Ruta de guardado" textFill="#b2b2b2" wrapText="true">
-                                 <padding>
-                                    <Insets left="6.0" />
-                                 </padding>
-                              </Label>
-                               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setRuta" styleClass="little-button" text="More">
-                                   <graphic>
-                                       <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                           <image>
-                                               <Image url="@../../imagen/icono/more.png" />
-                                           </image>
-                                       </ImageView>
-                                   </graphic>
-                                   <padding>
-                                       <Insets bottom="2.0" left="2.0" right="2.0" top="3.0" />
-                                   </padding>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <children>
-                                      <ToggleButton id="sidebuttons" fx:id="buttonBienvenida" prefWidth="100.0" text="Bienvenida" textFill="#757575" />
-                                      <ToggleButton id="sidebuttons" fx:id="buttonMedidas" prefWidth="100.0" text="Medidas" textFill="#757575" />
-                                      <ToggleButton id="sidebuttons" fx:id="buttonDieta" prefWidth="100.0" text="Alimentacion" textFill="#757575" />
-                                      <ToggleButton id="sidebuttons" fx:id="buttonRutina" prefWidth="100.0" text="Entrenamiento" textFill="#757575" />
-                           </children>
-                        </HBox>
-                        <Label text="Mostrar" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
-                           <padding>
-                              <Insets left="6.0" />
-                           </padding>
-                        </Label>
-                        <Label text="Generar PDF" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
-                           <padding>
-                              <Insets left="6.0" />
-                           </padding>
-                        </Label>
-                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#imprimir" prefWidth="139.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <graphic>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../imagen/icono/doneb.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <TextField fx:id="textGuardar" prefHeight="25.0" prefWidth="215.0" promptText="Ruta de guardado" GridPane.columnIndex="1" />
-                     </children>
-                  </GridPane>
-               </children>
-            </VBox>
                 <VBox styleClass="vbox-blanco">
                     <children>
-                  <Label text="Información del cliente" textFill="#757575" />
-                  <GridPane hgap="10.0" vgap="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label minWidth="50.0" text="Buscar cliente" textFill="#b2b2b2" wrapText="true">
-                           <padding>
-                              <Insets left="6.0" />
-                           </padding>
-                        </Label>
-                        <TextField fx:id="textBuscar" onAction="#obtenerClientes" onKeyTyped="#consumeDigits" promptText="Buscar cliente" GridPane.columnIndex="1" />
-                        <Label minWidth="50.0" text="Seleccionar cliente" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
-                           <padding>
-                              <Insets left="6.0" />
-                           </padding>
-                        </Label>
-                        <ComboBox fx:id="comboClientes" onAction="#selectCliente" promptText="Seleccionar cliente" GridPane.columnIndex="3" />
-                     </children>
-                  </GridPane>
-                  <GridPane hgap="10.0" vgap="10.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                                  <Label text="Tipo de documento*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <ComboBox fx:id="comboTipoDoc" promptText="Cédula de ciudadanía" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin></ComboBox>
-                                  <Label text="N° documento*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" promptText="N° documento" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                  <Label text="Sexo*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <ComboBox fx:id="comboSexo" onAction="#cambiarImagen" promptText="Hombre" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                  <Label text="Edad*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textEdad" onKeyTyped="#consumeIntegers" prefWidth="50.0" promptText="Edad" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                                  <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="2" />
-                                  <Label text="Nombre*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" promptText="Apellido" GridPane.columnIndex="4" />
-                                  <Label text="Apellido" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="3">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                              <ImageView fx:id="img" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
-                                  <image>
-                                      <Image url="@../../imagen/icono/man.png" />
-                                  </image>
-                              </ImageView>
-                     </children>
-                  </GridPane>
-                        <FlowPane styleClass="flowpane-centrado">
+                        <Label styleClass="label-titulo" text="Generar PDF" textFill="#5a5a5a" />
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                            </rowConstraints>
                             <children>
-                                <VBox />
-                                <VBox />
-                                <VBox />
-                                <VBox />
-                                <VBox />
-                                <VBox />
+                                <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                    <children>
+                                        <Label styleClass="label-campo" text="Ruta de guardado" textFill="#b2b2b2" wrapText="true">
+                                            <padding>
+                                                <Insets left="6.0" />
+                                            </padding>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <children>
+                                        <ToggleButton id="sidebuttons" fx:id="buttonMedidas" prefWidth="100.0" text="Medidas" textFill="#757575" />
+                                        <ToggleButton id="sidebuttons" fx:id="buttonDieta" prefWidth="100.0" text="Alimentacion" textFill="#757575" />
+                                        <ToggleButton id="sidebuttons" fx:id="buttonRutina" prefWidth="100.0" text="Entrenamiento" textFill="#757575" />
+                                    </children>
+                                </HBox>
+                                <Label styleClass="label-campo" text="Mostrar" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Generar PDF" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="3">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                    <children>
+                                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#imprimir" prefWidth="139.0">
+                                            <graphic>
+                                                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../imagen/icono/doneb.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Label styleClass="label-campo" text="Seleccionar plantilla" textFill="#b2b2b2" wrapText="true">
+                                            <padding>
+                                                <Insets left="6.0" />
+                                            </padding>
+                                        </Label>
+                                        <ComboBox fx:id="comboPlantillas" promptText="Seleccionar plantilla" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1">
+                                    <children>
+                                        <TextField fx:id="textGuardar" prefWidth="300.0" promptText="Ruta de guardado" />
+                                        <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#setRuta" styleClass="little-button" text="More">
+                                            <graphic>
+                                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../imagen/icono/more.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                            <padding>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="3.0" />
+                                            </padding>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                                <Label styleClass="label-campo" text="Planes" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <children>
+                                        <ComboBox fx:id="comboDietas" promptText="Plan de alimentación" />
+                                        <ComboBox fx:id="comboRutinas" promptText="Plan de entrenamiento" />
+                                        <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerPlanes" styleClass="little-button" text="Cargar alimentos">
+                                            <graphic>
+                                                <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../imagen/icono/updateb.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                            <padding>
+                                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                            </padding>
+                                        </Button>
+                                    </children>
+                                </HBox>
                             </children>
-                        </FlowPane>
-                        <FlowPane fx:id="botones" alignment="CENTER" hgap="10.0" styleClass="flowpane">
+                        </GridPane>
+                    </children>
+                </VBox>
+                <VBox styleClass="vbox-blanco">
+                    <children>
+                        <Label styleClass="label-titulo" text="Información del cliente" textFill="#757575" />
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Label minWidth="50.0" styleClass="label-campo" text="Buscar cliente" textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textBuscar" onAction="#buscarCliente" onKeyReleased="#buscarCliente" onKeyTyped="#consumeLetters" promptText="Buscar cliente" GridPane.columnIndex="1" />
+                                <Label minWidth="50.0" styleClass="label-campo" text="Seleccionar cliente" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <ComboBox fx:id="comboClientes" onAction="#selectCliente" promptText="Seleccionar cliente" GridPane.columnIndex="3" />
+                            </children>
+                        </GridPane>
+                        <HBox spacing="10.0">
+                            <children>
+                                <ImageView fx:id="img" fitHeight="113.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../imagen/icono/man.png" />
+                                    </image>
+                                </ImageView>
+                                <GridPane hgap="10.0" vgap="10.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                        <RowConstraints vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <Label styleClass="label-campo" text="Tipo de documento*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
+                                            <padding>
+                                                <Insets left="6.0" />
+                                            </padding>
+                                        </Label>
+                                        <Label styleClass="label-campo" text="N° documento*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                            <padding>
+                                                <Insets left="6.0" />
+                                            </padding>
+                                        </Label>
+                                        <Label styleClass="label-campo" text="Sexo*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
+                                            <padding>
+                                                <Insets left="6.0" />
+                                            </padding>
+                                        </Label>
+                                        <Label styleClass="label-campo" text="Edad*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                            <padding>
+                                                <Insets left="6.0" />
+                                            </padding>
+                                        </Label>
+                                        <Label styleClass="label-campo" text="Nombre*" textFill="#b2b2b2" wrapText="true">
+                                            <padding>
+                                                <Insets left="6.0" />
+                                            </padding>
+                                        </Label>
+                                        <Label styleClass="label-campo" text="Apellido" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
+                                            <padding>
+                                                <Insets left="6.0" />
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="textNombre" onKeyTyped="#consumeDigits" promptText="Nombre" GridPane.columnIndex="1" />
+                                        <TextField fx:id="textApellido" onKeyTyped="#consumeDigits" promptText="Apellido" GridPane.columnIndex="3" />
+                                        <ComboBox fx:id="comboTipoDoc" promptText="Cédula de ciudadanía" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <GridPane.margin>
+                                                <Insets />
+                                            </GridPane.margin>
+                                        </ComboBox>
+                                        <TextField fx:id="textDocumento" onKeyTyped="#consumeIntegers" promptText="N° documento" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                        <ComboBox fx:id="comboSexo" onAction="#cambiarImagen" promptText="Hombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <TextField fx:id="textEdad" onKeyTyped="#consumeIntegers" prefWidth="50.0" promptText="Edad" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    </children>
+                                </GridPane>
+                            </children>
+                        </HBox>
+                        <FlowPane alignment="CENTER" hgap="10.0" styleClass="flowpane" vgap="10.0">
                             <children>
                                 <Button onAction="#eliminarCliente" styleClass="delete-button" text="Eliminar">
                                     <graphic>
@@ -215,7 +247,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button onAction="#registrarCliente" text="Registrar">
+                                <Button onAction="#registrarCliente" text="Guardar">
                                     <graphic>
                                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -230,229 +262,203 @@
                 </VBox>
                 <VBox styleClass="vbox-blanco">
                     <children>
-                        <Label text="Medidas antropométricas - kilogramos y centimetros" textFill="#757575" />
+                        <Label styleClass="label-titulo" text="Medidas antropométricas - kilogramos y centimetros" textFill="#757575" />
                   <GridPane hgap="10.0" vgap="10.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Seleccionar medida" textFill="#b2b2b2" wrapText="true">
-                           <padding>
-                              <Insets left="6.0" />
-                           </padding>
-                        </Label>
-                        <ComboBox fx:id="comboMedidas" onAction="#selectMedida" promptText="Seleccionar medida" GridPane.columnIndex="1" />
-                                  <Label text="Fecha de medida*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <DatePicker fx:id="datePicker" promptText="Fecha de medida" GridPane.columnIndex="3" />
-                                  <Label text="Plan de entrenamiento*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <children>
-                                        <ComboBox fx:id="comboRutinas" promptText="Plan de entrenamiento" />
-                               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerRutinas" styleClass="little-button" text="Cargar alimentos">
-                                   <graphic>
-                                       <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                           <image>
-                                               <Image url="@../../imagen/icono/updateb.png" />
-                                           </image>
-                                       </ImageView>
-                                   </graphic>
-                                   <padding>
-                                       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                   </padding>
-                              </Button>
-                           </children>
-                        </HBox>
-                                  <Label text="Plan de alimentacion*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                           <children>
-                                        <ComboBox fx:id="comboDietas" promptText="Plan de alimentación" />
-                               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#obtenerDietas" styleClass="little-button" text="Cargar alimentos">
-                                   <graphic>
-                                       <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                                           <image>
-                                               <Image url="@../../imagen/icono/updateb.png" />
-                                           </image>
-                                       </ImageView>
-                                   </graphic>
-                                   <padding>
-                                       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                   </padding>
-                              </Button>
-                           </children>
-                        </HBox>
-                                  <Label text="Grado de actividad*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <ComboBox fx:id="comboActividad" onAction="#calcular" promptText="Grado de actividad" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                  <Label text="Objetivo*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <ComboBox fx:id="comboObjetivos" onAction="#calcular" onMouseClicked="#calcular" promptText="Objetivo" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                  <Label text="Peso*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="3">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPeso" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Peso" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                  <Label text="Altura*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textAltura" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Altura" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                  <Label text="Muñeca*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="4">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textMuneca" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Muñeca" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                  <Label text="Bicep izq" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textBicepIzq" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicep Izq" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                                  <Label text="Bicep der" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="5">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textBicepDer" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicep Der" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                  <Label text="Cuello" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textCuello" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuello" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                                  <Label text="Pectorales" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="6">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPectorales" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pectorales/Busto" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                  <Label text="Cintura alta" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textCinturaAlta" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Alta" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                                  <Label text="Cintura media*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="7">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textCinturaMedia" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Media" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                  <Label text="Cintura baja" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textCinturaBaja" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Baja" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-                                  <Label text="Cadera" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="8">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textCadera" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cadera" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                  <Label text="Cuadricep izq" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="8">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textCuadricepIzq" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuadricep Izq" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-                                  <Label text="Cuadricep der" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="9">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textCuadricepDer" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuadriceps Der" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                                  <Label text="Pantorrilla izq" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="9">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPantorrillaIzq" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pantorrilla Izq" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-                                  <Label text="Pantorrilla der" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="10">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPantorrillaDer" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pantorrilla Der" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                     </children>
-                  </GridPane>
-                        <Label text="Pliegues cutaneos - milimetros" textFill="#757575" />
-                  <GridPane hgap="10.0" vgap="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                       <ColumnConstraints hgrow="SOMETIMES" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                                  <Label text="Tricipital*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <Label text="Bicipital*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <Label text="Subescapular*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <Label text="Suprailiaco*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textTricipital" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Tricipital" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                  <TextField fx:id="textBicipital" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicipital" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                  <TextField fx:id="textSubescapular" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Subescapular" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                  <TextField fx:id="textSuprailiaco" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Suprailiaco" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                <Label styleClass="label-campo" text="Seleccionar medida" textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <ComboBox fx:id="comboMedidas" onAction="#selectMedida" prefHeight="25.0" prefWidth="964.0" promptText="Seleccionar medida" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
-                        <FlowPane fx:id="botones1" alignment="CENTER" hgap="10.0" styleClass="flowpane">
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <DatePicker fx:id="datePicker" promptText="Fecha de medida" GridPane.columnIndex="1" />
+                        <FlowPane hgap="10.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <ToggleButton fx:id="buttonAumentar" mnemonicParsing="false" onAction="#calcular" text="Aumentar">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="objetivo" />
+                                 </toggleGroup>
+                              </ToggleButton>
+                              <ToggleButton fx:id="buttonMantener" mnemonicParsing="false" onAction="#calcular" text="Mantener" toggleGroup="$objetivo" />
+                              <ToggleButton fx:id="buttonPerder" mnemonicParsing="false" onAction="#calcular" text="Perder" toggleGroup="$objetivo" />
+                           </children>
+                        </FlowPane>
+                                <TextField fx:id="textPeso" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Peso" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <TextField fx:id="textAltura" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Altura" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <TextField fx:id="textMuneca" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Muñeca" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <TextField fx:id="textCinturaAlta" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Alta" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                <TextField fx:id="textCinturaMedia" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Media" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                <TextField fx:id="textCinturaBaja" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cintura Baja" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                <TextField fx:id="textCadera" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cadera" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                <ComboBox fx:id="comboActividad" onAction="#calcular" promptText="Grado de actividad" GridPane.columnIndex="3" />
+                                <TextField fx:id="textCuello" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuello" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                <TextField fx:id="textPectorales" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pectorales/Busto" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                <TextField fx:id="textBicepDer" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicep Der" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                <TextField fx:id="textBicepIzq" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicep Izq" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                <TextField fx:id="textCuadricepDer" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuadriceps Der" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                <TextField fx:id="textCuadricepIzq" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Cuadricep Izq" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                                <TextField fx:id="textPantorrillaDer" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pantorrilla Der" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                                <TextField fx:id="textPantorrillaIzq" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Pantorrilla Izq" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                                <Label styleClass="label-campo" text="Objetivo*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Peso*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Altura*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="3">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Fecha de medida*" textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Muñeca*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="4">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Bicep izq" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Bicep der" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Cuello" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Cintura alta" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="5">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Cintura baja" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="7">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Cuadricep izq" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Cuadricep der" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Pantorrilla izq" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Pantorrilla der" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Grado de actividad*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Cintura media*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="6">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Cadera" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="8">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Pectorales" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                        </GridPane>
+                        <Label styleClass="label-subtitulo" text="Pliegues cutaneos - milimetros" textFill="#757575" />
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Label styleClass="label-campo" text="Tricipital*" textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Bicipital*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Subescapular*" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <Label styleClass="label-campo" text="Suprailiaco*" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textTricipital" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Tricipital" GridPane.columnIndex="1" />
+                                <TextField fx:id="textBicipital" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Bicipital" GridPane.columnIndex="3" />
+                                <TextField fx:id="textSubescapular" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Subescapular" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField fx:id="textSuprailiaco" onKeyReleased="#calcular" onKeyTyped="#consumeDouble" prefWidth="130.0" promptText="Suprailiaco" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                            </children>
+                        </GridPane>
+                        <FlowPane fx:id="botones1" alignment="CENTER" hgap="10.0" styleClass="flowpane" vgap="10.0">
                             <children>
                                 <Button onAction="#eliminarMedida" styleClass="delete-button" text="Eliminar">
                                     <graphic>
@@ -481,7 +487,7 @@
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button onAction="#registrarMedida" text="Registrar">
+                                <Button onAction="#registrarMedida" text="Guardar">
                                     <graphic>
                                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -496,117 +502,132 @@
                 </VBox>
                 <VBox styleClass="vbox-blanco">
                     <children>
-                        <Label text="Cálculos a partir de las medidas antropométricas" textFill="#757575" />
-                  <GridPane hgap="10.0" vgap="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                                  <Label alignment="TOP_LEFT" text="Complexión física" textFill="#b2b2b2" wrapText="true">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textComplexion" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Complexión física" GridPane.columnIndex="1" />
-                                  <Label alignment="TOP_LEFT" text="Grado de obesidad" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textGradoObesidad" editable="false" prefHeight="27.0" promptText="Grado de obesidad" GridPane.columnIndex="3" />
-                                  <Label alignment="TOP_LEFT" text="Peso ideal aprox" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPesoIdealAprox" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal aprox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                  <Label alignment="TOP_LEFT" text="Peso ideal Creff" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPesoIdealCreff" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Creff" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                  <Label alignment="TOP_LEFT" text="Peso ideal Lorentz" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPesoIdealLorentz" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Lorentz" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                  <Label alignment="TOP_LEFT" text="Peso ideal Monnerot-Dumaine" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPesoIdealMonnerotDumaine" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Monnerot-Dumaine" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                  <Label alignment="TOP_LEFT" ellipsisString="corporal" text="Densidad corporal (Siri)" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textDensidad" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Densidad corporal (Siri)" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                  <Label alignment="TOP_LEFT" text="Indice de masa corporal" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="3">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textIMC" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Indice de masa corporal" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                  <Label alignment="TOP_LEFT" text="\% Grasa corporal (Siri)" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="4">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPorcentajeGrasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="\% Grasa corporal (Siri)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                  <Label alignment="TOP_LEFT" text="\% Masa magra (Siri)" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPorcentajeMasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="\% Masa magra (Siri)" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                                  <Label alignment="TOP_LEFT" text="Peso grasa corporal (Siri)" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="5">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textPesoGrasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso grasa corporal (Siri)" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                  <Label alignment="TOP_LEFT" text="Masa libre de grasa (Siri)" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textMasaLibre" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Masa libre de grasa (Siri)" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                                  <Label alignment="TOP_LEFT" text="TMB Harrys Benedict" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="6">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textHarrys" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="TMB Harrys Benedict" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                  <Label alignment="TOP_LEFT" text="TMB Mifflin St. Jeorge" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textMifflin" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="TMB Mifflin St. Jeorge" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                                  <Label fx:id="labelObjetivo" alignment="TOP_LEFT" text="Calorías en superavit" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="7">
-                                      <padding>
-                                          <Insets left="6.0" />
-                                      </padding>
-                                  </Label>
-                                  <TextField fx:id="textSuperavit" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Calorías en superavit" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                     </children>
-                  </GridPane>
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <Label minWidth="-Infinity" styleClass="label-titulo" text="Cálculos a partir de las medidas antropométricas " textFill="#757575" />
+                                <Label alignment="TOP_LEFT" text="Los campos señalados con * pueden requerirse para calcular algunas medidas" textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="Complexión física" textFill="#b2b2b2" wrapText="true">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textComplexion" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Complexión física" GridPane.columnIndex="1" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="Grado de obesidad" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textGradoObesidad" editable="false" prefHeight="27.0" promptText="Grado de obesidad" GridPane.columnIndex="3" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="Peso ideal aprox" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textPesoIdealAprox" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal aprox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="Peso ideal Creff" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textPesoIdealCreff" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Creff" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="Peso ideal Lorentz" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textPesoIdealLorentz" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Lorentz" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label alignment="TOP_LEFT" maxWidth="100.0" styleClass="label-campo" text="Peso ideal Monnerot-Dumaine" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textPesoIdealMonnerotDumaine" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso ideal Monnerot-Dumaine" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                <Label alignment="TOP_LEFT" ellipsisString="corporal" maxWidth="100.0" styleClass="label-campo" text="Densidad corporal (D&amp;W)" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textDensidad" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Densidad corporal (D&amp;W)" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="Indice de masa corporal" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="3">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textIMC" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Indice de masa corporal" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="\% Grasa corporal" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="4">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textPorcentajeGrasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="\% Grasa corporal" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="\% Masa magra " textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textPorcentajeMasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="\% Masa magra" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="Peso grasa corporal" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="5">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textPesoGrasa" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Peso grasa corporal" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="Masa libre de grasa" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textMasaLibre" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Masa libre de grasa" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="TMB Harrys Benedict" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="6">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textHarrys" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="TMB Harrys Benedict" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                <Label alignment="TOP_LEFT" styleClass="label-campo" text="TMB Mifflin St. Jeorge" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textMifflin" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="TMB Mifflin St. Jeorge" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                                <Label fx:id="labelObjetivo" alignment="TOP_LEFT" styleClass="label-campo" text="Calorías en superavit" textFill="#b2b2b2" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textSuperavit" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Calorías en superavit" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                                <Label fx:id="labelObjetivo1" alignment="TOP_LEFT" styleClass="label-campo" text="Calorías de mantenimiento" textFill="#b2b2b2" wrapText="true" GridPane.rowIndex="7">
+                                    <padding>
+                                        <Insets left="6.0" />
+                                    </padding>
+                                </Label>
+                                <TextField fx:id="textMantenimiento" editable="false" prefHeight="27.0" prefWidth="90.0" promptText="Calorías de mantenimiento" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                            </children>
+                        </GridPane>
                     </children>
                 </VBox>
             </children>

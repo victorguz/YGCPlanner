@@ -18,6 +18,7 @@ import vista.Main;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -232,15 +233,13 @@ public class ConfigController extends Controller<Referencia> {
 
             getReferencias().insert(new Referencia(textNombrePlantilla.getText(), "plantilla", "src/imagen/pdf/" + textNombrePlantilla.getText() + "/"));
 
-        } catch (DAOException e) {
-            excepcion(e);
-        } catch (Exception e) {
+        } catch (SimpleException | DAOException | IOException e) {
             excepcion(e);
         }
 
     }
 
-    public void copiarImagen(String origen, String destino, String nombre) throws Exception {
+    public void copiarImagen(String origen, String destino, String nombre) throws SimpleException, IOException {
         File file = new File(origen);
         if (file != null) {
             if (file.exists()) {
@@ -253,10 +252,10 @@ public class ConfigController extends Controller<Referencia> {
                 outputfile.createNewFile();
                 ImageIO.write(imagen, "jpg", outputfile);
             } else {
-                throw new Exception("El archivo " + file.getName() + " no existe.");
+                throw new SimpleException("El archivo " + file.getName() + " no existe.");
             }
         } else {
-            throw new Exception("El archivo " + file.getName() + " no existe.");
+            throw new SimpleException("El archivo " + file.getName() + " no existe.");
         }
     }
 

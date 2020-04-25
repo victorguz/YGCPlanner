@@ -16,4 +16,6 @@ public interface EjxRutDAO extends DAO<EjxRut, String> {
 
     ObservableList<EjxRut> where(int plankey, String dia, String momento) throws DAOException;
 
+    void whereCopy(String planOrig, String planCopy) throws DAOException;
+
 }

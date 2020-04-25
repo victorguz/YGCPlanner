@@ -1,71 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
 <BorderPane stylesheets="@../estilo/Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.HomeController">
     <center>
-        <ScrollPane fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pickOnBounds="false" styleClass="root" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+        <ScrollPane fx:id="scroll" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pickOnBounds="false" styleClass="root" BorderPane.alignment="CENTER">
             <content>
                 <StackPane fx:id="holderPane" alignment="BASELINE_CENTER" styleClass="back" />
             </content>
         </ScrollPane>
     </center>
-   <left>
-      <VBox style="-fx-spacing: 30;" styleClass="vbox-blanco" BorderPane.alignment="CENTER">
+   <top>
+      <HBox alignment="CENTER_LEFT" styleClass="box-blanco" BorderPane.alignment="CENTER">
          <children>
-             <ToggleButton id="sidebuttons" fx:id="buttonClientes" alignment="TOP_LEFT" graphicTextGap="10.0"
-                           onAction="#switchClientes" prefWidth="148.0" styleClass="side-button" text="Medidas"
-                           textFill="#757575">
+            <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" styleClass="label-titulo" text="YGCPlanner">
+               <HBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </Label>
+             <ToggleButton id="sidebuttons" fx:id="buttonClientes" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchClientes" styleClass="noborder-button" text="Clientes" textFill="#757575">
                  <graphic>
                      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                          <image>
-                             <Image url="@../../imagen/icono/1medidas.png"/>
+                             <Image url="@../../imagen/icono/1medidas.png" />
                          </image>
                      </ImageView>
                  </graphic>
                  <toggleGroup>
-                     <ToggleGroup fx:id="Home"/>
+                     <ToggleGroup fx:id="Home" />
                  </toggleGroup>
                   </ToggleButton>
-             <ToggleButton id="sidebuttons" fx:id="buttonDietas" alignment="TOP_LEFT" graphicTextGap="10.0"
-                           onAction="#switchDietas" prefWidth="148.0" styleClass="side-button" text="Alimentación"
-                           textFill="#757575" toggleGroup="$Home">
+             <ToggleButton id="sidebuttons" fx:id="buttonDietas" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchDietas" styleClass="noborder-button" text="Alimentación" textFill="#757575" toggleGroup="$Home">
                  <graphic>
                      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                          <image>
-                             <Image url="@../../imagen/icono/2dieta.png"/>
+                             <Image url="@../../imagen/icono/2dieta.png" />
                          </image>
                      </ImageView>
                  </graphic>
              </ToggleButton>
-             <ToggleButton id="sidebuttons" fx:id="buttonRutinas" alignment="TOP_LEFT" graphicTextGap="10.0"
-                           onAction="#switchRutinas" prefWidth="148.0" styleClass="side-button" text="Entrenamiento"
-                           textFill="#757575" toggleGroup="$Home">
+             <ToggleButton id="sidebuttons" fx:id="buttonRutinas" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchRutinas" styleClass="noborder-button" text="Entrenamiento" textFill="#757575" toggleGroup="$Home">
                  <graphic>
                      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                          <image>
-                             <Image url="@../../imagen/icono/3rutina.png"/>
+                             <Image url="@../../imagen/icono/3rutina.png" />
                          </image>
                      </ImageView>
                  </graphic>
              </ToggleButton>
-             <ToggleButton id="sidebuttons" fx:id="buttonConfig" alignment="TOP_LEFT" graphicTextGap="10.0"
-                           onAction="#switchConfig" prefWidth="148.0" styleClass="side-button" text="Configuracion"
-                           textFill="#757575" toggleGroup="$Home">
+             <ToggleButton id="sidebuttons" fx:id="buttonConfig" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchConfig" styleClass="noborder-button" text="Configuracion" textFill="#757575" toggleGroup="$Home">
                  <graphic>
                      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                          <image>
-                             <Image url="@../../imagen/icono/4config.png"/>
+                             <Image url="@../../imagen/icono/4config.png" />
                          </image>
                      </ImageView>
                  </graphic>
              </ToggleButton>
          </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </VBox>
-   </left>
+      </HBox>
+   </top>
 </BorderPane>

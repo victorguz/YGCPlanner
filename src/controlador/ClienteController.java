@@ -17,6 +17,8 @@ import modelo.Referencia;
 import modelo.cliente.Cliente;
 import modelo.cliente.Medida;
 import modelo.plan.Plan;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 import vista.Main;
 
 import java.io.File;
@@ -66,8 +68,6 @@ public class ClienteController extends Controller<Cliente> {
     private ComboBox<Plan> comboRutinas;
     @FXML
     private ComboBox<Plan> comboDietas;
-    @FXML
-    private ComboBox<String> comboObjetivos;
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -150,8 +150,15 @@ public class ClienteController extends Controller<Cliente> {
     private ComboBox<Medida> comboMedidas;
     @FXML
     private Spinner<Integer> spinnerCantidad;
+    @FXML
+    private ToggleButton buttonAumentar;
+    @FXML
+    private ToggleButton buttonMantener;
+    @FXML
+    private ToggleButton buttonPerder;
 
     /*Logica de negocio o funciones*/
+    private AutoCompletionBinding autoCompletionClientes;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -174,9 +181,31 @@ public class ClienteController extends Controller<Cliente> {
                 "Deportista: 6 a 7 días x semana",
                 "Atleta: dos veces al dia");
         comboActividad.getSelectionModel().select(0);
-        comboObjetivos.getItems().setAll("Perder", "Aumentar", "Mantener");
-        comboObjetivos.getSelectionModel().select(0);
+    }
 
+    public String getObjetivo() throws SimpleException {
+        if (buttonAumentar.isSelected()) {
+            return "Aumentar";
+        }
+        if (buttonMantener.isSelected()) {
+            return "Mantener";
+        }
+        if (buttonPerder.isSelected()) {
+            return "Perder";
+        }
+        throw new SimpleException("Seleccione un objetivo");
+    }
+
+    public void setObjetivo(String objetivo) throws SimpleException {
+        if (objetivo.equalsIgnoreCase("Aumentar")) {
+            buttonAumentar.setSelected(true);
+        } else if (objetivo.equalsIgnoreCase("Mantener")) {
+            buttonMantener.setSelected(true);
+        } else if (objetivo.equalsIgnoreCase("Perder")) {
+            buttonPerder.setSelected(true);
+        } else {
+            throw new SimpleException("Objetivo incorrecto");
+        }
     }
 
     public Cliente captarCliente() throws DAOException {
@@ -208,6 +237,18 @@ public class ClienteController extends Controller<Cliente> {
             textDocumento.setText(getCliente().getIdentificacion());
             textEdad.setText(getCliente().getEdad() + "");
             selectCombo(comboSexo, getCliente().getSexo());
+            cambiarImagen();
+        }
+    }
+
+    public void mostrarCliente(Cliente item) {
+        if (!item.isEmpty()) {
+            textNombre.setText(Operacion.toCamelCase(item.getNombre()));
+            textApellido.setText(Operacion.toCamelCase(item.getApellido()));
+            selectCombo(comboTipoDoc, item.getTipoIdentificacion());
+            textDocumento.setText(item.getIdentificacion());
+            textEdad.setText(item.getEdad() + "");
+            selectCombo(comboSexo, item.getSexo());
             cambiarImagen();
         }
     }
@@ -292,19 +333,22 @@ public class ClienteController extends Controller<Cliente> {
         }
     }
 
-    public Plan getRutina() throws DAOException {
+    public Plan getRutina() throws SimpleException {
         if (comboRutinas.getItems().isEmpty()) {
-            throw new DAOException("No hay planes de entrenamiento");
+            throw new SimpleException("No hay planes de entrenamiento");
         }
         return comboRutinas.getSelectionModel().getSelectedItem();
     }
 
-    public Plan getDieta() throws DAOException {
+    public Plan getDieta() throws SimpleException {
         if (comboDietas.getItems().isEmpty()) {
-            throw new DAOException("No hay planes de alimentación");
+            throw new SimpleException("No hay planes de alimentación");
         }
         return comboDietas.getSelectionModel().getSelectedItem();
     }
+
+
+    /*Logica de negocio para medidas*/
 
     public void imprimir() {
         String ruta = textGuardar.getText();
@@ -329,7 +373,7 @@ public class ClienteController extends Controller<Cliente> {
                         }
                         f.guardar();
                     }
-                } catch (DocumentException | IOException | DAOException ex) {
+                } catch (DocumentException | IOException | DAOException | SimpleException ex) {
                     excepcion(ex);
                 }
             } else {
@@ -338,19 +382,15 @@ public class ClienteController extends Controller<Cliente> {
         }
     }
 
-
-    /*Logica de negocio para medidas*/
-
-
-    public Medida captarMedida() throws DAOException {
+    public Medida captarMedida() throws SimpleException {
         if (getCliente().isEmpty()) {
-            throw new DAOException("Seleccione un cliente primero");
+            throw new SimpleException("Seleccione un cliente primero");
         } else {
             Medida k = new Medida();
             k.setCliente(getCliente());
             k.setFecha(datePicker.getValue());
             k.setActividad(comboActividad.getSelectionModel().getSelectedItem());
-            k.setObjetivo(comboObjetivos.getSelectionModel().getSelectedItem());
+            k.setObjetivo(getObjetivo());
             k.setPeso((textPeso.getText().isEmpty()) ? 0
                     : Double.parseDouble((textPeso.getText())));
             k.setAltura((textAltura.getText().isEmpty()) ? 0
@@ -393,7 +433,6 @@ public class ClienteController extends Controller<Cliente> {
         }
     }
 
-
     public void registrarMedida() {
         if (getCliente().isEmpty()) {
             mensaje("Seleccione un cliente", "aviso");
@@ -408,7 +447,7 @@ public class ClienteController extends Controller<Cliente> {
                     obtenerMedidas();
 
                 }
-            } catch (DAOException ex) {
+            } catch (DAOException | SimpleException ex) {
                 excepcion(ex);
             }
         }
@@ -436,7 +475,6 @@ public class ClienteController extends Controller<Cliente> {
         textSuprailiaco.setText("");
         textTricipital.setText("");
         comboActividad.getSelectionModel().select(0);
-        comboObjetivos.getSelectionModel().select(0);
         textComplexion.setText("");
         textGradoObesidad.setText("");
         textPesoIdealAprox.setText("");
@@ -454,12 +492,15 @@ public class ClienteController extends Controller<Cliente> {
         textSuperavit.setText("");
     }
 
-
     public void mostrarMedida() {
         if (!getMedida().isEmpty()) {
             selectCombo(comboActividad, getMedida().getActividad());
             selectCombo(comboActividad, getMedida().getActividad());
-            selectCombo(comboObjetivos, getMedida().getObjetivo());
+            try {
+                setObjetivo(getMedida().getObjetivo());
+            } catch (SimpleException e) {
+                excepcion(e);
+            }
             datePicker.setValue(getMedida().getFecha());
             textPeso.setText("" + getMedida().getPeso());
             textAltura.setText("" + getMedida().getAltura());
@@ -486,7 +527,6 @@ public class ClienteController extends Controller<Cliente> {
         }
     }
 
-
     public void eliminarMedida() {
         if (getCliente().isEmpty()) {
             mensaje("Seleccione un cliente", "aviso");
@@ -505,7 +545,6 @@ public class ClienteController extends Controller<Cliente> {
         }
     }
 
-
     public void modificarMedida() {
         if (getCliente().isEmpty()) {
             mensaje("Seleccione un cliente", "aviso");
@@ -522,7 +561,7 @@ public class ClienteController extends Controller<Cliente> {
                         mensaje("Medida modificada", "exito");
 
                     }
-                } catch (DAOException ex) {
+                } catch (DAOException | SimpleException ex) {
                     excepcion(ex);
                 }
             } else {
@@ -532,8 +571,8 @@ public class ClienteController extends Controller<Cliente> {
     }
 
     public void calcular() {
-        Medida k = null;
         try {
+            Medida k;
             k = captarMedida();
             if (!k.isEmpty()) {
                 if (textMuneca.getText().isEmpty()) {
@@ -564,8 +603,8 @@ public class ClienteController extends Controller<Cliente> {
                 textMantenimiento.setText(Operacion.formatear(k.getCaloriasMantenimiento()));
                 textSuperavit.setText(Operacion.formatear(k.getSuperavitODeficit()));
             }
-        } catch (DAOException e) {
-            e.printStackTrace();
+        } catch (SimpleException e) {
+            excepcion(e);
         }
 
     }
@@ -635,19 +674,33 @@ public class ClienteController extends Controller<Cliente> {
 
     public void obtenerClientes() {
         try {
+            clientes = getClientes().all();
+
+            if (autoCompletionClientes != null) {
+                autoCompletionClientes.dispose();
+            }
+
+            autoCompletionClientes = TextFields.bindAutoCompletion(textBuscar, clientes);
+
             comboClientes.getItems().clear();
-            if (textBuscar.getText().isEmpty()) {
-                clientes = getClientes().all();
-            } else {
-                clientes = getClientes().where(textBuscar.getText());
-            }
-            if (!clientes.isEmpty()) {
-                comboClientes.setItems(clientes);
-                selectCliente(0);
-            }
+            comboClientes.setItems(clientes);
+            selectCliente(0);
 
         } catch (DAOException ex) {
             excepcion(ex);
+        }
+    }
+
+    public void buscarCliente() throws SimpleException {
+        if (!textBuscar.getText().isEmpty()) {
+            for (int i = 0; i < comboClientes.getItems().size(); i++) {
+                if ((comboClientes.getItems().get(i)
+                        .getNombre() + " " + comboClientes.getItems().get(i)
+                        .getApellido()).toLowerCase().equalsIgnoreCase(textBuscar.getText().toLowerCase())) {
+                    selectCliente(i);
+                    break;
+                }
+            }
         }
     }
 

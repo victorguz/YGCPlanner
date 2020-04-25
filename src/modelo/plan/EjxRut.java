@@ -101,18 +101,19 @@ public class EjxRut extends BasePlan {
     }
 
     public String calcularPresentacion() {
-        String nombre = ((getCantidad() == 1 || getSeries() == 1) ? getEjercicio().getNombre()
-                :(getEjercicio().getPlural().isEmpty())?
-                getEjercicio().getNombre():getEjercicio().getPlural() );
-        String unidad = ((getCantidad() == 1 || getSeries() == 1) ? getUnidadSingular() : getUnidadPlural());
-        nombre = ((unidad.contains("segundo") || unidad.contains("minuto") || unidad.contains("hora")) ? getEjercicio().getPlural() : nombre);
-
-        return getPresentacion().replaceAll("ejercicio",nombre)
-                //.replaceAll("plural", getEjercicio().getPlural())
-                .replaceAll("#cantidad", Operacion.formatear(getCantidad()))
-                .replaceAll("#series", Operacion.formatear(getSeries()))
-                .replaceAll("unidad",unidad);
-
+        String nombre = ((getCantidad() != 1 || getSeries() != 1 || unidad.contains("segundo") || unidad.contains("minuto") || unidad.contains("hora")) ?
+                (getEjercicio().getPlural().isEmpty()) ?
+                        getEjercicio().getNombre() : getEjercicio().getPlural() : getEjercicio().getNombre());
+        String unidad = ((getCantidad() == 1 && getSeries() == 1) ? getUnidadSingular() : getUnidadPlural());
+        if (getPresentacion().isEmpty()) {
+            return getSeries() + " series " + getCantidad() + " " + unidad + " de " + nombre;
+        } else {
+            return getPresentacion().replaceAll("#ejercicio", nombre)
+                    //.replaceAll("plural", getEjercicio().getPlural())
+                    .replaceAll("#cantidad", Operacion.formatear(getCantidad()))
+                    .replaceAll("#series", Operacion.formatear(getSeries()))
+                    .replaceAll("#unidad", unidad);
+        }
     }
 
     @Override

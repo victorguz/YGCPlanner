@@ -21,7 +21,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
             + "values (?, ?, ?, ?)";
     private final String UPDATE = "UPDATE Planes SET nombre = ?, "
             + " usedate = ?, usetime = ? WHERE plankey = ? ";
-    private final String DELETE = "delete from planes where plankey = ?";//"update planes set deleted=true WHERE Plankey = ?";
+    private final String DELETE = "delete from planes where nombre = ? and tipo = ?";//"update planes set deleted=true WHERE Plankey = ?";
     private final String SELECT = "SELECT Plankey, nombre, "
             + "tipo FROM Planes "
             + " where Plankey = ? ";
@@ -42,7 +42,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(INSERT);
-            s.setString(1, a.getNombre());
+            s.setString(1, a.getNombre().toLowerCase());
             s.setString(2, a.getTipo());
             s.setDate(3, Date.valueOf(LocalDate.now()));
             s.setTime(4, Time.valueOf(LocalTime.now()));
@@ -96,7 +96,8 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
-            s.setInt(1, a.getPlankey());
+            s.setString(1, a.getNombre());
+            s.setString(2, a.getTipo());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al eliminar plan");
             }
@@ -298,10 +299,9 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
             throw new DAOException("Error al convertir plan");
         }
         try {
-            Plan c = new Plan();
+            Plan c = new Plan(rs.getString("tipo"));
             c.setPlankey(rs.getInt("Plankey"));
             c.setNombre(rs.getString("nombre"));
-            c.setTipo(rs.getString("tipo"));
             return c;
         } catch (SQLException ex) {
             throw new DAOException(ex);

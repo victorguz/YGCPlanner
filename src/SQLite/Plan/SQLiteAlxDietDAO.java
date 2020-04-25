@@ -43,10 +43,41 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             s.setInt(2, a.getAlimento().getAlimentokey());
             s.setString(3, a.getMomento());
             s.setString(4, a.getDia());
-            s.setInt(5, a.getCantidad());//, unidad, presentacion, gramos
+            s.setDouble(5, a.getCantidad());//, unidad, presentacion, gramos
             s.setString(6, a.getUnidad());
             s.setString(7, a.getPresentacion());
             s.setInt(8, a.getGramos());
+            if (s.executeUpdate() == 0) {
+                throw new DAOException("Error al insertar AlxDiet");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+    }
+
+    private void copy(ResultSet rs, String nombreCopy) throws DAOException {
+        PreparedStatement s = null;
+        try {
+            String INSERT = "INSERT INTO AlxDiet(plankey, alimentokey, "
+                    + "momento, dia, cantidad, unidad, presentacion, gramos) " +
+                    "values ((select plankey from planes where lower(nombre)=?), ?, ?, ?, ?, ?, ?, ?)";
+            s = conex.prepareStatement(INSERT);
+            s.setString(1, nombreCopy.toLowerCase());
+            s.setInt(2, rs.getInt("alimentokey"));
+            s.setString(3, rs.getString("momento"));
+            s.setString(4, rs.getString("dia"));
+            s.setDouble(5, rs.getDouble("cantidad"));
+            s.setString(6, rs.getString("unidad"));
+            s.setString(7, rs.getString("presentacion"));
+            s.setInt(8, rs.getInt("gramos"));
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al insertar AlxDiet");
             }
@@ -79,7 +110,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             s.setString(3, a.getDia());
             s.setString(4, a.getMomento());
             if (s.executeUpdate() == 0) {
-                throw new DAOException("Error al eliminar AlxDiet");
+                throw new DAOException("Alimento del plan no encontrado");
             }
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -171,6 +202,41 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
             }
         }
         return l;
+    }
+
+    @Override
+    public void whereCopy(String planOrig, String planCopy) throws DAOException {
+        PreparedStatement s = null;
+        ResultSet rs = null;
+        ObservableList<AlxDiet> l = FXCollections.observableArrayList();
+        try {
+            String WHERE = "SELECT alxdietkey, plankey ," +
+                    "alimentokey,momento,gramos,dia,cantidad,unidad,presentacion " +
+                    " FROM alxdiet inner join planes on planes.plankey=alxdiet.plankey where planes.nombre=?";
+            s = conex.prepareStatement(WHERE);
+            s.setString(1, planOrig);
+            rs = s.executeQuery();
+            while (rs.next()) {
+                copy(rs, planCopy);
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
     }
 
     @Override

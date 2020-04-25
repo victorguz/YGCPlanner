@@ -31,7 +31,9 @@ public class HomeController extends Controller<StackPane> {
     //
     public static StackPane Clientes;
     public static StackPane Dietas;
+    public static StackPane Dietas2;
     public static StackPane Rutinas;
+    public static StackPane Rutinas2;
     public static StackPane Config;
     public static StackPane Dash;
     /**
@@ -54,12 +56,6 @@ public class HomeController extends Controller<StackPane> {
     private ToggleButton buttonRutinas;
 
     @FXML
-    private ToggleButton buttonAlimentos;
-
-    @FXML
-    private ToggleButton buttonEjercicios;
-
-    @FXML
     private ToggleButton buttonConfig;
 
     @FXML
@@ -78,14 +74,16 @@ public class HomeController extends Controller<StackPane> {
         } catch (DAOException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
+
     public void cargar() {
         try {
             Config = FXMLLoader.load(new File("src/vista/fxml/Config.fxml").toURL());
             Dash = FXMLLoader.load(new File("src/vista/fxml/Dash.fxml").toURL());
             Dietas = FXMLLoader.load(new File("src/vista/fxml/Dietas.fxml").toURL());
+            Dietas2 = FXMLLoader.load(new File("src/vista/fxml/Dietas2.fxml").toURL());
             Rutinas = FXMLLoader.load(new File("src/vista/fxml/Rutinas.fxml").toURL());
+            Rutinas2 = FXMLLoader.load(new File("src/vista/fxml/Rutinas3.fxml").toURL());
             Clientes = FXMLLoader.load(new File("src/vista/fxml/Clientes.fxml").toURL());
         } catch (MalformedURLException ex) {
             excepcion(ex);
@@ -108,18 +106,18 @@ public class HomeController extends Controller<StackPane> {
     @FXML
     private void switchDietas() {
         if (buttonDietas.isSelected()) {
-            mostrar(Dietas);
+            mostrar(Dietas2);
         } else {
-            mostrar(Dash);
+            mostrar(Dietas);
         }
     }
 
     @FXML
     private void switchRutinas() {
         if (buttonRutinas.isSelected()) {
-            mostrar(Rutinas);
+            mostrar(Rutinas2);
         } else {
-            mostrar(Dash);
+            mostrar(Rutinas);
         }
     }
 

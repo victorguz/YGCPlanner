@@ -6,11 +6,13 @@
 package controlador;
 
 import DAO.DAOException;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import modelo.Referencia;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import modelo.plan.BasePlan;
 import modelo.plan.Ejercicio;
 import modelo.plan.EjxRut;
@@ -25,15 +27,9 @@ import java.util.ResourceBundle;
  * @author 201621279487
  */
 public class RutinasController extends Controller<Plan> {
-
+    public static ObservableList<Ejercicio> ejercicios = FXCollections.observableArrayList();
     @FXML
-    private TextField textBuscar;
-
-    @FXML
-    private ComboBox<Plan> comboRutinas;
-
-    @FXML
-    private TextField textNombre;
+    private TextField textRutina;
 
     @FXML
     private TextField textBuscarEjercicio;
@@ -46,9 +42,6 @@ public class RutinasController extends Controller<Plan> {
 
     @FXML
     private ToggleButton buttonLunes;
-
-    @FXML
-    private ToggleGroup dias;
 
     @FXML
     private ToggleButton buttonMartes;
@@ -69,93 +62,106 @@ public class RutinasController extends Controller<Plan> {
     private ToggleButton buttonDomingo;
 
     @FXML
-    private ToggleButton buttonB1;
-
-    @FXML
-    private ToggleGroup momentos;
-
-    @FXML
-    private ToggleButton buttonB2;
-
-    @FXML
-    private ToggleButton buttonB3;
-
-    @FXML
-    private ToggleButton buttonB4;
-
-    @FXML
-    private ToggleButton buttonB5;
-
-    @FXML
-    private Label labelPresentacion;
-
-    @FXML
-    private TextField textBuscarEjx;
-
-    @FXML
     private Label labelUnidad;
 
     @FXML
-    private Spinner<Integer> spinnerRepeticiones;
-
-    @FXML
-    private Spinner<Integer> spinnerSeries;
+    private TextField textSeries;
 
     @FXML
     private ComboBox<String> comboUnidades;
 
     @FXML
-    private TextField textNombreEjx;
+    private HBox boxRepeticiones;
 
     @FXML
-    private TextField textPluralEjx;
+    private TextField textRepeticiones;
 
     @FXML
-    private ListView<EjxRut> listView;
+    private TextField textBuscarEjx;
 
     @FXML
     private TextField textPresentacion;
 
-    private AutoCompletionBinding autoCompletionEjx;
+    @FXML
+    private Label labelPresentacion;
+
+    @FXML
+    private ListView<EjxRut> listBloque1;
+
+    @FXML
+    private ListView<EjxRut> listBloque2;
+
+    @FXML
+    private ListView<EjxRut> listBloque3;
+
+    @FXML
+    private ListView<EjxRut> listBloque4;
+
+    @FXML
+    private ListView<EjxRut> listBloque5;
+
+
+    private AutoCompletionBinding autoCompletionAlx;
+
     private AutoCompletionBinding autoCompletionEjercicios;
-    private Ejercicio ejercicio;
-    private AutoCompletionBinding autoCompletionPresentaciones;
-    private ObservableList<Referencia> presentaciones;
+    private AutoCompletionBinding autoCompletionRutinas;
 
     public void initialize(URL location, ResourceBundle resources) {
-
         obtener();
         obtenerEjercicios();
-        getBloque();
-        spinnerRepeticiones.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10000, 0));
-        spinnerSeries.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 0));
+        textRepeticiones.setText("1");
+        textSeries.setText("1");
         comboUnidades.getItems().setAll(EjxRut.UNIDADES);
         comboUnidades.getSelectionModel().select(0);
-        cambiarLabelUnidad();
+        mostrarPresentaciones();
+        setTooltips();
     }
 
-    public Plan captar() throws DAOException {
-        Plan d = new Plan();
-        d.setTipo("rutina");
-        d.setNombre(textNombre.getText());
+    public Plan captar() throws SimpleException {
+        Plan d = new Plan("rutina");
+        if (textRutina.getText().isEmpty()) {
+            throw new SimpleException("Seleccione un nombre de plan");
+        }
+        d.setNombre(textRutina.getText());
         return d;
     }
 
     public void obtener() {
         try {
-            comboRutinas.getItems().clear();
-            if (textBuscar.getText().isEmpty()) {
-                rutinas = getPlanes().allRutinas();
-            } else {
-                rutinas = getPlanes().whereRutinas(textBuscar.getText());
+            rutinas = getPlanes().allRutinas();
+            if (autoCompletionRutinas != null) {
+                autoCompletionRutinas.dispose();
             }
-            if (!rutinas.isEmpty()) {
-                comboRutinas.setItems(rutinas);
-                select(0);
-            }
+
+            autoCompletionRutinas = TextFields.bindAutoCompletion(textRutina, rutinas);
         } catch (DAOException ex) {
             excepcion(ex);
         }
+        getMenu();
+    }
+
+    public Plan buscarPlan(String e) throws SimpleException {
+        if (e.isEmpty()) {
+            throw new SimpleException("Digite el nombre del plan a buscar");
+        } else {
+            for (Plan item : rutinas) {
+                if (item.getNombre().equalsIgnoreCase(e)) {
+                    return item;
+                }
+            }
+        }
+        throw new SimpleException("No se encontró un plan con este nombre: " + e);
+    }
+
+    public Plan buscarPlanSilencioso(String e) {
+        if (!e.isEmpty()) {
+            for (Plan item : rutinas) {
+                if (item.getNombre().equalsIgnoreCase(e)) {
+                    return item;
+                }
+            }
+        }
+        return null;
     }
 
     public void registrar() {
@@ -170,43 +176,16 @@ public class RutinasController extends Controller<Plan> {
                     mensaje("Plan de entrenamiento registrado", "exito");
                 }
             }
-        } catch (DAOException ex) {
+        } catch (DAOException | SimpleException ex) {
             excepcion(ex);
         }
     }
 
-    public void modificar() {
-        try {
-            if (!comboRutinas.getItems().isEmpty()) {
-
-                if (comboRutinas.getSelectionModel().getSelectedItem().getPlankey() == 2) {
-                    mensaje("El plan de ejemplo no se puede modificar", "aviso");
-                } else {
-                    Plan m = captar();
-                    if (m != null) {
-                        m.setPlankey(comboRutinas.getSelectionModel().getSelectedItem().getPlankey());
-                        if (m.isEmpty()) {
-                            mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-                        } else {
-                            getPlanes().update(m);
-                            textBuscar.setText(textNombre.getText());
-                            obtener();
-                            mensaje("Plan de entrenamiento modificado", "exito");
-                        }
-                    }
-                }
-            } else {
-                mensaje("No hay planes de entrenamiento que modificar", "aviso");
-            }
-        } catch (DAOException ex) {
-            excepcion(ex);
-        }
-    }
 
     private void eliminarEjxRuts() {
-        if (!listView.getItems().isEmpty()) {
+        if (!listBloque1.getItems().isEmpty()) {
             for (EjxRut a :
-                    listView.getItems()) {
+                    listBloque1.getItems()) {
                 try {
                     getEjxruts().delete(a);
                 } catch (DAOException e) {
@@ -217,88 +196,196 @@ public class RutinasController extends Controller<Plan> {
     }
 
     public void eliminar() {
-        try {
-            if (!comboRutinas.getItems().isEmpty()) {
-                if (comboRutinas.getSelectionModel().getSelectedItem().getPlankey() == 1) {
-                    mensaje("El plan de ejemplo no se puede eliminar", "aviso");
-                } else {
-                    eliminarEjxRuts();
-                    getPlanes().delete(comboRutinas.getSelectionModel().getSelectedItem());
-                    obtener();
-                    mensaje("Plan de entrenamiento eliminado", "exito");
-                }
-            } else {
-                mensaje("No hay planes de entrenamiento que eliminar", "aviso");
+        if (opcion(
+                "¿Está seguro que desea eliminar el plan "
+                        + textRutina.getText().toUpperCase() + " ? \n\nNo podrás recuperarlo más tarde", "error"
+        )) {
+            eliminarEjxRuts();
+            try {
+                getPlanes().delete(captar());
+            } catch (DAOException | SimpleException e) {
+                excepcion(e);
             }
-        } catch (DAOException ex) {
-            excepcion(ex);
+            obtener();
+            mensaje("Plan de entrenamiento eliminado", "exito");
         }
     }
 
     public void limpiar() {
-        textBuscar.setText("");
-        textNombre.setText("");
-        listView.getItems().clear();
+        textRutina.setText("");
+        textRutina.setText("");
+        listBloque1.getItems().clear();
+        textNombreEjercicio.setText("");
+        textBuscarEjx.setText("");
+        textPluralEjercicio.setText("");
+        textRepeticiones.setText("1");
+        textSeries.setText("1");
+
     }
 
-    public void mostrar() {
-        if (!comboRutinas.getItems().isEmpty()) {
-            Plan d = comboRutinas.getSelectionModel().getSelectedItem();
-            textNombre.setText(d.getNombre());
-            getBloque();
-        }
+    public EjxRut getEjxRut(String momento) throws DAOException, SimpleException {
+        EjxRut a = new EjxRut();
+        a.setPlan(buscarPlan(textRutina.getText()));
+        a.setEjercicio(buscarEjercicio(textBuscarEjx.getText()));
+        a.setRepeticiones(Integer.parseInt(textRepeticiones.getText()));
+        a.setSeries(Integer.parseInt(textSeries.getText()));
+        a.setDia(getDia());
+        a.setMomento(momento);
+        a.setUnidad(comboUnidades.getSelectionModel().getSelectedItem());
+        a.setPresentacion(textPresentacion.getText());
+        return a;
     }
 
-    public void select(int i) {
-        if (!comboRutinas.getItems().isEmpty()) {
-            comboRutinas.getSelectionModel().select(i);
-            mostrar();
-        }
-    }
-
-    public Plan getRutina() {
-        if (comboRutinas.getItems().isEmpty()) {
-            return null;
-        } else {
-            return comboRutinas.getSelectionModel().getSelectedItem();
-        }
-    }
-
-    @FXML
-    void deleteEjx(ActionEvent event) {
-        if (listView.getSelectionModel().getSelectedIndex() == -1) {
+    public void deleteBloque1(ActionEvent event) {
+        if (listBloque1.getSelectionModel().getSelectedIndex() == -1) {
             mensaje("Seleccione un ejercicio en el menú", "aviso");
         } else {
             try {
-                EjxRut a = listView.getSelectionModel().getSelectedItem();
+                EjxRut a = listBloque1.getSelectionModel().getSelectedItem();
                 getEjxruts().delete(a);
-                listView.getItems().remove(a);
+                listBloque1.getItems().remove(a);
             } catch (DAOException ex) {
                 excepcion(ex);
             }
         }
     }
 
-    public void addEjercicio() {
-        if (comboRutinas.getItems().isEmpty()) {
-            mensaje("Primero guarde un plan de alimentacion", "aviso");
+    public void deleteAm(ActionEvent event) {
+        if (listBloque2.getSelectionModel().getSelectedIndex() == -1) {
+            mensaje("Seleccione un ejercicio en el menú", "aviso");
         } else {
-            if (comboRutinas.getSelectionModel().getSelectedItem().getPlankey() == 2) {
-                mensaje("El plan de ejemplo no se puede modificar", "aviso");
-            } else {
-                try {
-                    EjxRut a = getEjxRut();
-                    if (a != null) {
-                        if (!a.isEmpty()) {
-                            getEjxruts().insert(a);
-                            actualizarUso(a.getEjercicio());
-                            listView.getItems().add(a);
-                        }
-                    }
-                } catch (DAOException ex) {
-                    excepcion(ex);
+            try {
+                EjxRut a = listBloque2.getSelectionModel().getSelectedItem();
+                getEjxruts().delete(a);
+                listBloque2.getItems().remove(a);
+            } catch (DAOException ex) {
+                excepcion(ex);
+            }
+        }
+    }
+
+    public void deleteBloque3(ActionEvent event) {
+        if (listBloque3.getSelectionModel().getSelectedIndex() == -1) {
+            mensaje("Seleccione un ejercicio en el menú", "aviso");
+        } else {
+            try {
+                EjxRut a = listBloque3.getSelectionModel().getSelectedItem();
+                getEjxruts().delete(a);
+                listBloque3.getItems().remove(a);
+            } catch (DAOException ex) {
+                excepcion(ex);
+            }
+        }
+    }
+
+    public void deletePm(ActionEvent event) {
+        if (listBloque4.getSelectionModel().getSelectedIndex() == -1) {
+            mensaje("Seleccione un ejercicio en el menú", "aviso");
+        } else {
+            try {
+                EjxRut a = listBloque4.getSelectionModel().getSelectedItem();
+                getEjxruts().delete(a);
+                listBloque4.getItems().remove(a);
+            } catch (DAOException ex) {
+                excepcion(ex);
+            }
+        }
+    }
+
+    public void deleteBloque5(ActionEvent event) {
+        if (listBloque5.getSelectionModel().getSelectedIndex() == -1) {
+            mensaje("Seleccione un ejercicio en el menú", "aviso");
+        } else {
+            try {
+                EjxRut a = listBloque5.getSelectionModel().getSelectedItem();
+                getEjxruts().delete(a);
+                listBloque5.getItems().remove(a);
+            } catch (DAOException ex) {
+                excepcion(ex);
+            }
+        }
+    }
+
+    public void addBloque1() {
+        try {
+            EjxRut a = getEjxRut(EjxRut.BLOQUE1);
+            if (a != null) {
+                if (!a.isEmpty()) {
+                    getEjxruts().insert(a);
+                    actualizarUso(a.getEjercicio());
+                    listBloque1.getItems().add(a);
+                    listBloque1.getSelectionModel().select(listBloque1.getItems().size() - 1);
                 }
             }
+        } catch (DAOException | SimpleException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void addAm() {
+        try {
+            EjxRut a = getEjxRut(EjxRut.BLOQUE2);
+            if (a != null) {
+                if (!a.isEmpty()) {
+                    getEjxruts().insert(a);
+                    actualizarUso(a.getEjercicio());
+                    listBloque2.getItems().add(a);
+                    listBloque2.getSelectionModel().select(listBloque2.getItems().size() - 1);
+                }
+            }
+        } catch (DAOException | SimpleException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void addBloque3() {
+
+        try {
+            EjxRut a = getEjxRut(EjxRut.BLOQUE3);
+            if (a != null) {
+                if (!a.isEmpty()) {
+                    getEjxruts().insert(a);
+                    actualizarUso(a.getEjercicio());
+                    listBloque3.getItems().add(a);
+                    listBloque3.getSelectionModel().select(listBloque3.getItems().size() - 1);
+                }
+            }
+        } catch (DAOException | SimpleException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void addPm() {
+
+        try {
+            EjxRut a = getEjxRut(EjxRut.BLOQUE4);
+            if (a != null) {
+                if (!a.isEmpty()) {
+                    getEjxruts().insert(a);
+                    actualizarUso(a.getEjercicio());
+                    listBloque4.getItems().add(a);
+                    listBloque4.getSelectionModel().select(listBloque4.getItems().size() - 1);
+                }
+            }
+        } catch (DAOException | SimpleException ex) {
+            excepcion(ex);
+        }
+    }
+
+    public void addBloque5() {
+
+        try {
+            EjxRut a = getEjxRut(EjxRut.BLOQUE5);
+            if (a != null) {
+                if (!a.isEmpty()) {
+                    getEjxruts().insert(a);
+                    actualizarUso(a.getEjercicio());
+                    listBloque5.getItems().add(a);
+                    listBloque5.getSelectionModel().select(listBloque5.getItems().size() - 1);
+                }
+            }
+        } catch (DAOException | SimpleException ex) {
+            excepcion(ex);
         }
     }
 
@@ -310,7 +397,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public String getDia() throws DAOException {
+    public String getDia() throws SimpleException {
         if (buttonLunes.isSelected()) {
             return BasePlan.LUNES;
         } else if (buttonMartes.isSelected()) {
@@ -326,224 +413,109 @@ public class RutinasController extends Controller<Plan> {
         } else if (buttonDomingo.isSelected()) {
             return BasePlan.DOMINGO;
         } else {
-            throw new DAOException("Debe seleccionar un día");
+            throw new SimpleException("Debe seleccionar un día");
         }
     }
 
-    public String getMomento() throws DAOException {
-        if (buttonB1.isSelected()) {
-            return EjxRut.BLOQUE1;
-        } else if (buttonB2.isSelected()) {
-            return EjxRut.BLOQUE2;
-        } else if (buttonB3.isSelected()) {
-            return EjxRut.BLOQUE3;
-        } else if (buttonB4.isSelected()) {
-            return EjxRut.BLOQUE4;
-        } else if (buttonB5.isSelected()) {
-            return EjxRut.BLOQUE5;
-        } else {
-            throw new DAOException("Debe seleccionar un bloque");
-        }
-    }
 
-    public EjxRut getEjxRut() throws DAOException {
-        EjxRut a = new EjxRut();
-        a.setPlan(getRutina());
-        a.setEjercicio(getEjercicio());
-        a.setSeries(spinnerSeries.getValue());
-        a.setRepeticiones(spinnerRepeticiones.getValue());
-        a.setDia(getDia());
-        a.setMomento(getMomento());
-        a.setUnidad(comboUnidades.getSelectionModel().getSelectedItem());
-        if(textPresentacion.getText().isEmpty()){
-            System.out.println("sin presentacion");
-            throw new DAOException("Digite primero una presentación");
+    public void getMenu() {
+        if (!textRutina.getText().isEmpty()) {
+            try {
+                Plan rutina = buscarPlanSilencioso(textRutina.getText());
+                if (rutina != null) {
+                    listBloque1.setItems(getEjxruts().where(rutina.getPlankey(), getDia(), EjxRut.BLOQUE1));
+                    listBloque2.setItems(getEjxruts().where(rutina.getPlankey(), getDia(), EjxRut.BLOQUE2));
+                    listBloque3.setItems(getEjxruts().where(rutina.getPlankey(), getDia(), EjxRut.BLOQUE3));
+                    listBloque4.setItems(getEjxruts().where(rutina.getPlankey(), getDia(), EjxRut.BLOQUE4));
+                    listBloque5.setItems(getEjxruts().where(rutina.getPlankey(), getDia(), EjxRut.BLOQUE5));
+                }
+            } catch (DAOException | SimpleException e) {
+                excepcion(e);
+            }
         }
-        a.setPresentacion(textPresentacion.getText());
-        return a;
     }
 
     public void duplicarPlan() {
-        if (!comboRutinas.getItems().isEmpty()) {
-            try {
-                Plan copy = getRutina();
-                copy.setNombre(getRutina().getNombre() + " - copia");
-                getPlanes().insert(copy);
-                ObservableList<EjxRut> LUNES = getEjxruts().where(getRutina().getPlankey(), BasePlan.LUNES);
-                ObservableList<EjxRut> MARTES = getEjxruts().where(getRutina().getPlankey(), BasePlan.MARTES);
-                ObservableList<EjxRut> MIERCOLES = getEjxruts().where(getRutina().getPlankey(), BasePlan.MIERCOLES);
-                ObservableList<EjxRut> JUEVES = getEjxruts().where(getRutina().getPlankey(), BasePlan.JUEVES);
-                ObservableList<EjxRut> VIERNES = getEjxruts().where(getRutina().getPlankey(), BasePlan.VIERNES);
-                ObservableList<EjxRut> SABADO = getEjxruts().where(getRutina().getPlankey(), BasePlan.SABADO);
-                ObservableList<EjxRut> DOMINGO = getEjxruts().where(getRutina().getPlankey(), BasePlan.DOMINGO);
-                obtener();
-                for (int i = 0; i < comboRutinas.getItems().size(); i++) {
-                    if (comboRutinas.getItems().get(i).getNombre().equalsIgnoreCase(copy.getNombre())) {
-                        comboRutinas.getSelectionModel().select(i);
-                        break;
-                    }
-                }
-                for (EjxRut item :
-                        LUNES) {
-                    item.setPlan(getRutina());
-                    getEjxruts().insert(item);
-                }
-                for (EjxRut item :
-                        MARTES) {
-                    item.setPlan(getRutina());
-                    getEjxruts().insert(item);
-                }
-                for (EjxRut item :
-                        MIERCOLES) {
-                    item.setPlan(getRutina());
-                    getEjxruts().insert(item);
-                }
-                for (EjxRut item :
-                        JUEVES) {
-                    item.setPlan(getRutina());
-                    getEjxruts().insert(item);
-                }
-                for (EjxRut item :
-                        VIERNES) {
-                    item.setPlan(getRutina());
-                    getEjxruts().insert(item);
-                }
-                for (EjxRut item :
-                        SABADO) {
-                    item.setPlan(getRutina());
-                    getEjxruts().insert(item);
-                }
-                for (EjxRut item :
-                        DOMINGO) {
-                    item.setPlan(getRutina());
-                    getEjxruts().insert(item);
-                }
-                mensaje("El plan ha sido duplicado", "exito");
-            } catch (DAOException e) {
-                excepcion(e);
-            }
-
+        try {
+            Plan org = buscarPlan(textRutina.getText());
+            Plan copy = new Plan("rutina");
+            copy.setNombre(org.getNombre() + " - copia");
+            getPlanes().insert(copy);
+            getEjxruts().whereCopy(org.getNombre(), copy.getNombre());
+            obtener();
+            mensaje("El plan ha sido duplicado", "exito");
+        } catch (DAOException | SimpleException e) {
+            excepcion(e);
         }
+        getMenu();
     }
 
     public void registrarEjercicio() {
         try {
             Ejercicio c = captarEjercicio();
-            if (c != null) {
-                if (c.isEmpty()) {
-                    mensaje("Los campos señalados con asterisco son obligatorios.", "aviso");
-                } else {
-                    getEjercicios().insert(c);
-                    mensaje("Ejercicio registrado", "exito");
-                    obtenerEjercicios();
-                }
-            }
-        } catch (DAOException ex) {
+            getEjercicios().insert(c);
+            mensaje("Ejercicio registrado", "exito");
+            obtenerEjercicios();
+        } catch (DAOException | SimpleException ex) {
             excepcion(ex);
         }
     }
 
-    public void modificarEjercicio(ActionEvent e) {
-        try {
-            Control t = (Control) e.getSource();
-            String source = e.getSource().toString();
-            Ejercicio a = getEjercicio();
-            Ejercicio c = null;
-            if (source.contains("textNombreEjx") || source.contains("textPluralEjx")) {
-                c = captarEjercicioEjx(textBuscarEjx.getText());
-            } else if (source.contains("button")) {
-                c = captarEjercicio();
+    public void modificarEjercicio() {
+        if (opcion("Está a punto de modificar el ejercicio \"" + textBuscarEjercicio.getText().toUpperCase() + "\"."
+                + " \n\n¿Está seguro de esto?", "error")) {
+            try {
+                Ejercicio a = buscarEjercicio(textBuscarEjercicio.getText());
+                Ejercicio c = captarEjercicio();
+                c.setEjerciciokey(a.getEjerciciokey());
+                getEjercicios().update(c);
+                obtenerEjercicios();
+                mensaje("Ejercicio modificado", "exito");
+                mostrarPresentaciones();
+            } catch (DAOException | SimpleException ex) {
+                excepcion(ex);
             }
-            c.setEjerciciokey(a.getEjerciciokey());
-            getEjercicios().update(c);
-            obtenerEjercicios();
-            mensaje("Ejercicio modificado", "exito");
-            //mostrarPresentaciones();
-        } catch (DAOException ex) {
-            excepcion(ex);
         }
     }
 
     public void eliminarEjercicio() {
-        try {
-            Ejercicio a = captarEjercicio();
-            getEjercicios().delete(a);
-            mensaje("Ejercicio eliminado", "exito");
-            obtenerEjercicios();
-        } catch (DAOException ex) {
-            excepcion(ex);
+        if (opcion("Está a punto de eliminar el ejercicio \"" + textBuscarEjercicio.getText().toUpperCase() + "\"."
+                + " \n\n¿Está seguro de esto?", "error")) {
+            try {
+                Ejercicio a = captarEjercicio();
+                getEjercicios().delete(a);
+                mensaje("Ejercicio eliminado", "exito");
+                obtenerEjercicios();
+            } catch (DAOException | SimpleException ex) {
+                excepcion(ex);
+            }
         }
     }
 
-    public void limpiarEjercicio() {
-        textNombreEjercicio.setText("");
-    }
+    public void mostrarEjercicio(Ejercicio getEjercicio) throws DAOException {
+        if (!getEjercicio.isEmpty()) {
+            textNombreEjercicio.setText(getEjercicio.toString());
+            textPluralEjercicio.setText(Operacion.inicialMayuscula(getEjercicio.getPlural()));
 
-    public void mostrarEjercicio() throws DAOException {
-        if (!getEjercicio().isEmpty()) {
-            textNombreEjercicio.setText(getEjercicio().toString());
-            textPluralEjercicio.setText(Operacion.inicialMayuscula(getEjercicio().getPlural()));
-
-            textBuscarEjercicio.setText(getEjercicio().toString());
-            textBuscarEjx.setText(getEjercicio().toString());
-            textNombreEjx.setText(getEjercicio().toString());
-            textPluralEjx.setText(Operacion.inicialMayuscula(getEjercicio().getPlural()));
-            mostrarPresentaciones();
+            textBuscarEjercicio.setText(getEjercicio.toString());
+            textBuscarEjx.setText(getEjercicio.toString());
+            //mostrarPresentaciones();
         } else {
             limpiar();
         }
     }
 
-    public Ejercicio captarEjercicioEjx(String buscar) throws DAOException {
-        Ejercicio c = getEjercicio();
-        if (textNombreEjx.getText().isEmpty()) {
-            throw new DAOException("Digite el nombre del ejercicio");
-        }
-        if (textPluralEjx.getText().isEmpty()) {
-            throw new DAOException("Digite el nombre plural para el ejercicio");
-        }
-        c.setNombre(textNombreEjx.getText());
-        c.setPlural(textPluralEjx.getText());
-        return c;
-    }
-
-    public Ejercicio captarEjercicio() throws DAOException {
-        Ejercicio c = getEjercicio();
+    public Ejercicio captarEjercicio() throws SimpleException {
+        Ejercicio c = new Ejercicio();
         if (textNombreEjercicio.getText().isEmpty()) {
-            throw new DAOException("Digite el nombre del ejercicio");
+            throw new SimpleException("Digite el nombre del ejercicio");
         }
-        if (textPluralEjx.getText().isEmpty()) {
-            throw new DAOException("Digite el nombre plural para el ejercicio");
+        if (textPluralEjercicio.getText().isEmpty()) {
+            throw new SimpleException("Digite el nombre plural para el ejercicio");
         }
-        c.setNombre(textNombreEjx.getText());
-        c.setPlural(textPluralEjx.getText());
+        c.setNombre(textNombreEjercicio.getText());
+        c.setPlural(textPluralEjercicio.getText());
         return c;
-    }
-
-    public void getBloque() {
-        listView.getItems().clear();
-        if (!getRutina().isEmpty()) {
-            try {
-                listView.setItems(getEjxruts().where(getRutina()
-                        .getPlankey(), getDia(), getMomento()));
-            } catch (DAOException e) {
-                excepcion(e);
-            }
-        }
-    }
-
-    public Ejercicio getEjercicio() throws DAOException {
-        if (ejercicio == null) {
-            throw new DAOException("No se ha seleccionado ningun ejercicio");
-        }
-        return ejercicio;
-    }
-
-    public void setEjercicio(Ejercicio ejercicio) throws DAOException {
-        this.ejercicio = ejercicio;
-        if (ejercicio != null) {
-            mostrarEjercicio();
-        }
     }
 
     public void obtenerEjercicios() {
@@ -554,99 +526,142 @@ public class RutinasController extends Controller<Plan> {
                 autoCompletionEjercicios.dispose();
             }
 
-            if (autoCompletionEjx != null) {
-                autoCompletionEjx.dispose();
+            if (autoCompletionAlx != null) {
+                autoCompletionAlx.dispose();
             }
 
             autoCompletionEjercicios = TextFields.bindAutoCompletion(textBuscarEjercicio, ejercicios);
-            autoCompletionEjx = TextFields.bindAutoCompletion(textBuscarEjx, ejercicios);
+            autoCompletionAlx = TextFields.bindAutoCompletion(textBuscarEjx, ejercicios);
         } catch (DAOException ex) {
             excepcion(ex);
         }
     }
 
-    public void mostrarPresentaciones() {
-        try {
-            EjxRut ejx = getEjxRut();
-            labelPresentacion.setText(ejx.calcularPresentacion());
-        } catch (DAOException e) {
-            excepcion(e);
-        }
-    }
-
-    public void buscarEjercicio(ActionEvent e) {
-        TextField t = (TextField) e.getSource();
-        if (t.getText().isEmpty()) {
-            mensaje("Digite el nombre del ejercicio a buscar", "aviso");
+    public Ejercicio buscarEjercicio(String e) throws DAOException, SimpleException {
+        if (e.isEmpty()) {
+            throw new SimpleException("Digite el nombre del ejercicio a buscar");
         } else {
             for (Ejercicio item : ejercicios) {
-                if (item.getNombre().equals(t.getText().toLowerCase())) {
-                    try {
-                        setEjercicio(item);
-                    } catch (DAOException ex) {
-                        excepcion(ex);
-                    }
+                if (item.getNombre().equalsIgnoreCase(e)) {
+                    mostrarEjercicio(item);
+                    return item;
+                }
+            }
+        }
+        throw new SimpleException("No se encontró un ejercicio con este nombre: " + e);
+    }
+
+    public void buscarEjercicio() throws DAOException, SimpleException {
+        if (!textBuscarEjercicio.getText().isEmpty()) {
+            for (Ejercicio item : ejercicios) {
+                if (item.getNombre().equalsIgnoreCase(textBuscarEjercicio.getText())) {
+                    mostrarEjercicio(item);
                     break;
                 }
             }
         }
     }
 
+    public void mostrarPresentaciones() {
+        cambiarLabelUnidad();
+        EjxRut a = new EjxRut();
+        Ejercicio k = new Ejercicio();
+        k.setNombre(textBuscarEjx.getText());
+        a.setEjercicio(k);
+        a.setRepeticiones(Integer.parseInt(textRepeticiones.getText()));
+        a.setSeries(Integer.parseInt(textSeries.getText()));
+        a.setUnidad(comboUnidades.getSelectionModel().getSelectedItem());
+        a.setPresentacion(textPresentacion.getText());
+        labelPresentacion.setText(a.calcularPresentacion());
+    }
+
     public void cambiarLabelUnidad() {
+        if (comboUnidades.getSelectionModel().getSelectedItem().equalsIgnoreCase("gramos")) {
+            boxRepeticiones.setDisable(true);
+            textRepeticiones.setText(textSeries.getText());
+        } else if (comboUnidades.getSelectionModel().getSelectedItem().equalsIgnoreCase("libras")) {
+            boxRepeticiones.setDisable(true);
+            textRepeticiones.setText((Double.parseDouble(textSeries.getText()) / 453.592) + "");
+        } else if (comboUnidades.getSelectionModel().getSelectedItem().equalsIgnoreCase("onzas")) {
+            boxRepeticiones.setDisable(true);
+            textRepeticiones.setText((Double.parseDouble(textSeries.getText()) / 28.3495) + "");
+        } else {
+            boxRepeticiones.setDisable(false);
+            textRepeticiones.setText("0");
+        }
         labelUnidad.setText(comboUnidades.getSelectionModel().getSelectedItem());
     }
 
-    public void insertarPresentacion() {
-        String presentacion = textPresentacion.getText();
-        if (presentacion.isEmpty()) {
-            mensaje("Digite primero una presentación", "aviso");
+    public void increaseGrams() {
+        if (textSeries.getText().isEmpty()) {
+            textSeries.setText("1");
         } else {
-            if (!(presentacion.contains("alimento") && presentacion.contains("cantidad") && presentacion.contains("unidad"))) {
-                mensaje("Debe usar al menos una palara clave: CANTIDAD, UNIDAD, ALIMENTO", "aviso");
+            if (textSeries.getText().contains(".")) {
+                textSeries.setText((Double.parseDouble(textSeries.getText()) + 0.1) + "");
             } else {
-                Referencia ref = new Referencia();
-                ref.setNombre(presentacion.toLowerCase());
-                ref.setDescripcion("presentacion");
-                ref.setDato("ejercicio");
-                obtenerPresentaciones();
-                mensaje("Presentación guardada", "exito");
+                textSeries.setText((Integer.parseInt(textSeries.getText()) + 1) + "");
             }
         }
+        mostrarPresentaciones();
     }
 
-    public void eliminarPresentacion() {
-        String presentacion = textPresentacion.getText();
-        if (presentacion.isEmpty()) {
-            mensaje("Digite primero una presentación", "aviso");
+    public void increaseCant() {
+        if (textRepeticiones.getText().isEmpty()) {
+            textRepeticiones.setText("1");
         } else {
-            Referencia ref;
-            for (Referencia item : presentaciones) {
-                if (item.getNombre().equals(presentacion)) {
-                    try {
-                        getReferencias().delete(item);
-                        obtenerPresentaciones();
-                        mensaje("Presentación eliminada", "exito");
-                        break;
-                    } catch (DAOException e) {
-                        excepcion(e);
-                    }
+            if (textRepeticiones.getText().contains(".")) {
+                textRepeticiones.setText((Integer.parseInt(textRepeticiones.getText()) + 0.1) + "");
+            } else {
+                textRepeticiones.setText((Integer.parseInt(textRepeticiones.getText()) + 1) + "");
+            }
+        }
+        mostrarPresentaciones();
+    }
+
+    public void decreaseGrams() {
+        if (textSeries.getText().isEmpty()) {
+            textSeries.setText("1");
+        } else {
+            if (Double.parseDouble(textSeries.getText()) > 1.999999999999) {
+                if (textSeries.getText().contains(".")) {
+                    textSeries.setText((Double.parseDouble(textSeries.getText()) - 0.1) + "");
+                } else {
+                    textSeries.setText((Integer.parseInt(textSeries.getText()) - 1) + "");
                 }
             }
         }
+        mostrarPresentaciones();
     }
 
-    public void obtenerPresentaciones() {
-        try {
-            presentaciones = getReferencias().obtenerPresentaciones("ejercicio");
-
-            if (autoCompletionPresentaciones != null) {
-                autoCompletionPresentaciones.dispose();
+    public void decreaseCant() {
+        if (textRepeticiones.getText().isEmpty()) {
+            textRepeticiones.setText("1");
+        } else {
+            if (Integer.parseInt(textRepeticiones.getText()) > 1.999999999999) {
+                if (textRepeticiones.getText().contains(".")) {
+                    textRepeticiones.setText((Integer.parseInt(textRepeticiones.getText()) - 0.1) + "");
+                } else {
+                    textRepeticiones.setText((Integer.parseInt(textRepeticiones.getText()) - 1) + "");
+                }
             }
-
-            autoCompletionPresentaciones = TextFields.bindAutoCompletion(textPresentacion, presentaciones);
-        } catch (DAOException ex) {
-            excepcion(ex);
         }
+        mostrarPresentaciones();
+    }
+
+    public void forTextCantAndGrams(KeyEvent e) {
+        increaseOrDecrease(e);
+        mostrarPresentaciones();
+    }
+
+    public void setTooltips() {
+        Tooltip tool = new Tooltip();
+        tool.setGraphicTextGap(0);
+        tool.setText("En la presentación de los datos puedes usar las palabras" +
+                "\nclave \"#cantidad\", \"#series\", \"#unidad\" y \"#ejercicio\" para hacer " +
+                "\nuso de los datos del ejercicio de referencia que deseas añadir");
+        tool.setWrapText(true);
+        textPresentacion.setTooltip(tool);
+
     }
 
 }

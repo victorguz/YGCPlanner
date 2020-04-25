@@ -35,7 +35,7 @@ public class Main extends Application {
         try {
             root = FXMLLoader.load(getClass().getResource("fxml/Home.fxml"));
             Scene scene = new Scene(root);
-            stage.setTitle("Dieta y ejercicio - Planificador Yezid Guzman Coach");
+            stage.setTitle("YGCPlanner - Planificador Yezid Guzman Coach");
             stage.setScene(scene);
             stage.getIcons().add(new Image("/imagen/icono/icono16.png"));
             stage.setMinHeight(450);
