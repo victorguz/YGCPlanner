@@ -34,7 +34,7 @@ public class Alimento {
     }
 
     public String getNombre() {
-        return nombre;
+        return nombre.toLowerCase();
     }
 
     public void setNombre(String nombre) {

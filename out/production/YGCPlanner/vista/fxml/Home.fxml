@@ -13,63 +13,64 @@
 
 <BorderPane stylesheets="@../estilo/Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.HomeController">
     <center>
-        <ScrollPane fx:id="scroll" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pickOnBounds="false" styleClass="root" BorderPane.alignment="CENTER">
+        <ScrollPane fx:id="scroll" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" pannable="true" pickOnBounds="false" styleClass="root" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
             <content>
                 <StackPane fx:id="holderPane" alignment="BASELINE_CENTER" styleClass="back" />
             </content>
         </ScrollPane>
     </center>
-   <top>
-      <HBox alignment="CENTER_LEFT" styleClass="box-blanco" BorderPane.alignment="CENTER">
-         <children>
-            <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" styleClass="label-titulo" text="YGCPlanner">
-               <HBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </HBox.margin>
-               <padding>
-                  <Insets right="50.0" />
-               </padding>
-            </Label>
-             <ToggleButton id="sidebuttons" fx:id="buttonClientes" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchClientes" styleClass="noborder-button" text="Clientes" textFill="#757575">
-                 <graphic>
-                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                         <image>
-                             <Image url="@../../imagen/icono/1medidas.png" />
-                         </image>
-                     </ImageView>
-                 </graphic>
-                 <toggleGroup>
-                     <ToggleGroup fx:id="Home" />
-                 </toggleGroup>
-                  </ToggleButton>
-             <ToggleButton id="sidebuttons" fx:id="buttonDietas" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchDietas" styleClass="noborder-button" text="Alimentación" textFill="#757575" toggleGroup="$Home">
-                 <graphic>
-                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                         <image>
-                             <Image url="@../../imagen/icono/2dieta.png" />
-                         </image>
-                     </ImageView>
-                 </graphic>
-             </ToggleButton>
-             <ToggleButton id="sidebuttons" fx:id="buttonRutinas" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchRutinas" styleClass="noborder-button" text="Entrenamiento" textFill="#757575" toggleGroup="$Home">
-                 <graphic>
-                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                         <image>
-                             <Image url="@../../imagen/icono/3rutina.png" />
-                         </image>
-                     </ImageView>
-                 </graphic>
-             </ToggleButton>
-             <ToggleButton id="sidebuttons" fx:id="buttonConfig" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchConfig" styleClass="noborder-button" text="Configuracion" textFill="#757575" toggleGroup="$Home">
-                 <graphic>
-                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                         <image>
-                             <Image url="@../../imagen/icono/4config.png" />
-                         </image>
-                     </ImageView>
-                 </graphic>
-             </ToggleButton>
-         </children>
-      </HBox>
-   </top>
+    <top>
+        <HBox alignment="CENTER_LEFT" styleClass="box-blanco" BorderPane.alignment="CENTER">
+            <children>
+                <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" styleClass="label-titulo" text="YGCPlanner">
+                    <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                    </HBox.margin>
+                </Label>
+            <HBox alignment="CENTER_RIGHT" prefWidth="3000.0" spacing="10.0">
+               <children>
+                      <ToggleButton id="sidebuttons" fx:id="buttonClientes" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchClientes" styleClass="noborder-button" text="Clientes" textFill="#757575">
+                          <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../../imagen/icono/1medidas.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                          <toggleGroup>
+                              <ToggleGroup fx:id="Home" />
+                          </toggleGroup>
+                        </ToggleButton>
+                      <ToggleButton id="sidebuttons" fx:id="buttonDietas" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchDietas" styleClass="noborder-button" text="Alimentación" textFill="#757575" toggleGroup="$Home">
+                          <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../../imagen/icono/2dieta.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </ToggleButton>
+                      <ToggleButton id="sidebuttons" fx:id="buttonRutinas" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchRutinas" styleClass="noborder-button" text="Entrenamiento" textFill="#757575" toggleGroup="$Home">
+                          <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../../imagen/icono/3rutina.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </ToggleButton>
+                      <ToggleButton id="sidebuttons" fx:id="buttonConfig" alignment="CENTER_LEFT" graphicTextGap="10.0" minWidth="-Infinity" onAction="#switchConfig" styleClass="noborder-button" text="Configuracion" textFill="#757575" toggleGroup="$Home">
+                          <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../../imagen/icono/4config.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </ToggleButton>
+               </children>
+            </HBox>
+            </children>
+        </HBox>
+    </top>
 </BorderPane>

@@ -33,7 +33,7 @@ public class Ejercicio {
     }
 
     public String getNombre() {
-        return nombre;
+        return nombre.toLowerCase();
     }
 
     public void setNombre(String nombre) {

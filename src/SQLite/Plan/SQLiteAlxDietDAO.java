@@ -103,7 +103,7 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
     public void delete(AlxDiet a) throws DAOException {
         PreparedStatement s = null;
         try {
-            //plankey = ? and alimentokey = ? and dia = ? and momento = ? and combinacion = ?
+            //plankey = ? and alimentokey = ? and dia = ? and momento = ?
             s = conex.prepareStatement(DELETE);
             s.setInt(1, a.getPlan().getPlankey());
             s.setInt(2, a.getAlimento().getAlimentokey());
@@ -205,15 +205,16 @@ public class SQLiteAlxDietDAO implements AlxDietDAO {
     }
 
     @Override
-    public void whereCopy(String planOrig, String planCopy) throws DAOException {
+    public synchronized void whereCopy(String planOrig, String planCopy) throws DAOException {
         PreparedStatement s = null;
         ResultSet rs = null;
         ObservableList<AlxDiet> l = FXCollections.observableArrayList();
         try {
-            String WHERE = "SELECT alxdietkey, plankey ," +
+            String WHERE = "SELECT alxdietkey, alxdiet.plankey ," +
                     "alimentokey,momento,gramos,dia,cantidad,unidad,presentacion " +
                     " FROM alxdiet inner join planes on planes.plankey=alxdiet.plankey where planes.nombre=?";
             s = conex.prepareStatement(WHERE);
+            notifyAll();
             s.setString(1, planOrig);
             rs = s.executeQuery();
             while (rs.next()) {

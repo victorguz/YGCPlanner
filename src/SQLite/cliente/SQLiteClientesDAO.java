@@ -37,7 +37,7 @@ public class SQLiteClientesDAO implements ClientesDAO {
     final String DELETE = "DELETE from clientes where clientekey = ?";
     final String ALL = "SELECT clientekey, nombre, apellido, sexo, "
             + "tipoidentificacion, identificacion, edad "
-            + " from clientes order by usetime desc, usedate desc";
+            + " from clientes order by  usedate desc, usetime desc";
     Connection conex;
 
     public SQLiteClientesDAO(Connection conex) {

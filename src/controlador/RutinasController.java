@@ -8,7 +8,6 @@ package controlador;
 import DAO.DAOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
@@ -20,6 +19,7 @@ import modelo.plan.Plan;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -145,7 +145,7 @@ public class RutinasController extends Controller<Plan> {
             throw new SimpleException("Digite el nombre del plan a buscar");
         } else {
             for (Plan item : rutinas) {
-                if (item.getNombre().equalsIgnoreCase(e)) {
+                if (item.getNombre().equalsIgnoreCase(e.toLowerCase())) {
                     return item;
                 }
             }
@@ -156,7 +156,7 @@ public class RutinasController extends Controller<Plan> {
     public Plan buscarPlanSilencioso(String e) {
         if (!e.isEmpty()) {
             for (Plan item : rutinas) {
-                if (item.getNombre().equalsIgnoreCase(e)) {
+                if (item.getNombre().equalsIgnoreCase(e.toLowerCase())) {
                     return item;
                 }
             }
@@ -181,38 +181,23 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-
-    private void eliminarEjxRuts() {
-        if (!listBloque1.getItems().isEmpty()) {
-            for (EjxRut a :
-                    listBloque1.getItems()) {
-                try {
-                    getEjxruts().delete(a);
-                } catch (DAOException e) {
-                    excepcion(e);
-                }
-            }
-        }
-    }
-
     public void eliminar() {
         if (opcion(
                 "¿Está seguro que desea eliminar el plan "
                         + textRutina.getText().toUpperCase() + " ? \n\nNo podrás recuperarlo más tarde", "error"
         )) {
-            eliminarEjxRuts();
             try {
                 getPlanes().delete(captar());
             } catch (DAOException | SimpleException e) {
                 excepcion(e);
             }
             obtener();
+            limpiar();
             mensaje("Plan de entrenamiento eliminado", "exito");
         }
     }
 
     public void limpiar() {
-        textRutina.setText("");
         textRutina.setText("");
         listBloque1.getItems().clear();
         textNombreEjercicio.setText("");
@@ -221,9 +206,14 @@ public class RutinasController extends Controller<Plan> {
         textRepeticiones.setText("1");
         textSeries.setText("1");
 
+        listBloque1.getItems().clear();
+        listBloque2.getItems().clear();
+        listBloque3.getItems().clear();
+        listBloque4.getItems().clear();
+        listBloque5.getItems().clear();
     }
 
-    public EjxRut getEjxRut(String momento) throws DAOException, SimpleException {
+    public EjxRut getEjxRut(String momento) throws SimpleException {
         EjxRut a = new EjxRut();
         a.setPlan(buscarPlan(textRutina.getText()));
         a.setEjercicio(buscarEjercicio(textBuscarEjx.getText()));
@@ -236,7 +226,7 @@ public class RutinasController extends Controller<Plan> {
         return a;
     }
 
-    public void deleteBloque1(ActionEvent event) {
+    public void deleteBloque1() {
         if (listBloque1.getSelectionModel().getSelectedIndex() == -1) {
             mensaje("Seleccione un ejercicio en el menú", "aviso");
         } else {
@@ -250,7 +240,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public void deleteAm(ActionEvent event) {
+    public void deleteAm() {
         if (listBloque2.getSelectionModel().getSelectedIndex() == -1) {
             mensaje("Seleccione un ejercicio en el menú", "aviso");
         } else {
@@ -264,7 +254,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public void deleteBloque3(ActionEvent event) {
+    public void deleteBloque3() {
         if (listBloque3.getSelectionModel().getSelectedIndex() == -1) {
             mensaje("Seleccione un ejercicio en el menú", "aviso");
         } else {
@@ -278,7 +268,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public void deletePm(ActionEvent event) {
+    public void deletePm() {
         if (listBloque4.getSelectionModel().getSelectedIndex() == -1) {
             mensaje("Seleccione un ejercicio en el menú", "aviso");
         } else {
@@ -292,7 +282,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public void deleteBloque5(ActionEvent event) {
+    public void deleteBloque5() {
         if (listBloque5.getSelectionModel().getSelectedIndex() == -1) {
             mensaje("Seleccione un ejercicio en el menú", "aviso");
         } else {
@@ -417,12 +407,17 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-
     public void getMenu() {
         if (!textRutina.getText().isEmpty()) {
             try {
                 Plan rutina = buscarPlanSilencioso(textRutina.getText());
-                if (rutina != null) {
+                if (rutina == null) {
+                    listBloque1.getItems().clear();
+                    listBloque2.getItems().clear();
+                    listBloque3.getItems().clear();
+                    listBloque4.getItems().clear();
+                    listBloque5.getItems().clear();
+                } else {
                     listBloque1.setItems(getEjxruts().where(rutina.getPlankey(), getDia(), EjxRut.BLOQUE1));
                     listBloque2.setItems(getEjxruts().where(rutina.getPlankey(), getDia(), EjxRut.BLOQUE2));
                     listBloque3.setItems(getEjxruts().where(rutina.getPlankey(), getDia(), EjxRut.BLOQUE3));
@@ -436,6 +431,8 @@ public class RutinasController extends Controller<Plan> {
     }
 
     public void duplicarPlan() {
+        JOptionPane.showMessageDialog(null,
+                "Esto puede tardarse un momento. \n\nSe le avisará cuando haya terminado.", "Aviso", 0);
         try {
             Plan org = buscarPlan(textRutina.getText());
             Plan copy = new Plan("rutina");
@@ -443,6 +440,8 @@ public class RutinasController extends Controller<Plan> {
             getPlanes().insert(copy);
             getEjxruts().whereCopy(org.getNombre(), copy.getNombre());
             obtener();
+            textRutina.setText(copy.toString());
+            getMenu();
             mensaje("El plan ha sido duplicado", "exito");
         } catch (DAOException | SimpleException e) {
             excepcion(e);
@@ -492,7 +491,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public void mostrarEjercicio(Ejercicio getEjercicio) throws DAOException {
+    public void mostrarEjercicio(Ejercicio getEjercicio) {
         if (!getEjercicio.isEmpty()) {
             textNombreEjercicio.setText(getEjercicio.toString());
             textPluralEjercicio.setText(Operacion.inicialMayuscula(getEjercicio.getPlural()));
@@ -537,7 +536,7 @@ public class RutinasController extends Controller<Plan> {
         }
     }
 
-    public Ejercicio buscarEjercicio(String e) throws DAOException, SimpleException {
+    public Ejercicio buscarEjercicio(String e) throws SimpleException {
         if (e.isEmpty()) {
             throw new SimpleException("Digite el nombre del ejercicio a buscar");
         } else {
@@ -551,7 +550,7 @@ public class RutinasController extends Controller<Plan> {
         throw new SimpleException("No se encontró un ejercicio con este nombre: " + e);
     }
 
-    public void buscarEjercicio() throws DAOException, SimpleException {
+    public void buscarEjercicio() {
         if (!textBuscarEjercicio.getText().isEmpty()) {
             for (Ejercicio item : ejercicios) {
                 if (item.getNombre().equalsIgnoreCase(textBuscarEjercicio.getText())) {
@@ -587,7 +586,6 @@ public class RutinasController extends Controller<Plan> {
             textRepeticiones.setText((Double.parseDouble(textSeries.getText()) / 28.3495) + "");
         } else {
             boxRepeticiones.setDisable(false);
-            textRepeticiones.setText("0");
         }
         labelUnidad.setText(comboUnidades.getSelectionModel().getSelectedItem());
     }
@@ -663,5 +661,6 @@ public class RutinasController extends Controller<Plan> {
         textPresentacion.setTooltip(tool);
 
     }
+
 
 }

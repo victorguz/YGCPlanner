@@ -21,7 +21,7 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
             + "values (?, ?, ?, ?)";
     private final String UPDATE = "UPDATE Planes SET nombre = ?, "
             + " usedate = ?, usetime = ? WHERE plankey = ? ";
-    private final String DELETE = "delete from planes where nombre = ? and tipo = ?";//"update planes set deleted=true WHERE Plankey = ?";
+    private final String DELETE = "delete from planes where nombre = ? and tipo = ?";
     private final String SELECT = "SELECT Plankey, nombre, "
             + "tipo FROM Planes "
             + " where Plankey = ? ";
@@ -91,10 +91,36 @@ public class SQLitePlanesDAO implements DAO.plan.PlanesDAO {
         }
     }
 
+    private void deleteAlxOrEjx(Plan a) throws DAOException {
+        PreparedStatement s = null;
+        try {
+            if (a.getTipo().equalsIgnoreCase("dieta")) {
+                s = conex.prepareStatement("DELETE FROM ALXDIET WHERE PLANKEY=(select plankey from planes where nombre=?)");
+            } else {
+                s = conex.prepareStatement("DELETE FROM ejxrut WHERE PLANKEY=(select plankey from planes where nombre=?) ");
+            }
+            s.setString(1, a.getNombre());
+            if (s.executeUpdate() == 0) {
+                throw new DAOException("Error los elementos del plan");
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        } finally {
+            if (s != null) {
+                try {
+                    s.close();
+                } catch (SQLException ex) {
+                    throw new DAOException(ex);
+                }
+            }
+        }
+    }
+
     @Override
     public void delete(Plan a) throws DAOException {
         PreparedStatement s = null;
         try {
+            deleteAlxOrEjx(a);
             s = conex.prepareStatement(DELETE);
             s.setString(1, a.getNombre());
             s.setString(2, a.getTipo());

@@ -172,7 +172,7 @@ public abstract class Controller<T> implements Initializable {
             tray.add(trayIcon);
 
             TrayIcon.MessageType notify = TrayIcon.MessageType.WARNING;
-            String tipo = "";
+            String tipo = "ERROR";
             String mensaje = getResultOrException(ex.getMessage());
 
             if (mensaje == null) {
@@ -180,7 +180,6 @@ public abstract class Controller<T> implements Initializable {
                     tipo = "AVISO";
                     mensaje = ex.getMessage();
                 } else {
-                    tipo = "ERROR";
                     mensaje = "Ha ocurrido un error inesperado, si persiste contacte a soporte técnico";
                     notify = TrayIcon.MessageType.ERROR;
                     ex.printStackTrace();

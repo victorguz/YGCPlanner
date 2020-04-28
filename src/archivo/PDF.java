@@ -667,10 +667,12 @@ public class PDF {
         }
 
         chapter.setIndentationLeft(380);
-        chapter.setIndentationRight(13);
+        chapter.setIndentationRight(31);
 
         Referencia r = Controller.getReferencias().select("textorutina");
-        Paragraph n = new Paragraph((getCliente().getNombre() + " " + ((r.getDato().length() > 600) ? r.getDato().substring(0, 590) : r.getDato())).toUpperCase(), regular8);
+        Paragraph n = new Paragraph((getCliente().getNombre() + " "
+                + ((r.getDato().length() > 600) ? r.getDato().substring(0, 590)
+                : r.getDato())).toUpperCase(), regular8);
         n.setSpacingBefore(570);
         n.setAlignment(Element.ALIGN_RIGHT);
 

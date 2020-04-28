@@ -21,8 +21,10 @@ import java.sql.SQLException;
 public class SQLiteEjxRutDAO implements EjxRutDAO {
 
     private final String INSERT = "INSERT INTO EjxRut(plankey, Ejerciciokey, "
-            + " dia, repeticiones, series, momento, unidad, presentacion) values (?, ?, ?, ?, ?, ?, ?, ?)";
-    private final String DELETE = "DELETE FROM EjxRut WHERE ejxrutkey=?";
+            + " dia, repeticiones, series, momento, unidad, presentacion) " +
+            "values (?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String DELETE = "DELETE FROM EjxRut WHERE " +
+            "plankey = ? and momento = ? and dia = ? and ejerciciokey = ?";
     private final String WHERE = "SELECT ejxrutkey, plankey, Ejerciciokey, "
             + " dia, repeticiones, series, momento, unidad, presentacion FROM ejxrut "
             + "WHERE plankey = ? and dia = ? order by ejxrutkey asc";
@@ -106,7 +108,11 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
         PreparedStatement s = null;
         try {
             s = conex.prepareStatement(DELETE);
-            s.setInt(1, a.getEjxrutkey());
+            //plankey = ? and momento = ? and dia = ? and ejerciciokey = ?";
+            s.setInt(1, a.getPlan().getPlankey());
+            s.setString(2, a.getMomento());
+            s.setString(3, a.getDia());
+            s.setInt(4, a.getEjercicio().getEjerciciokey());
             if (s.executeUpdate() == 0) {
                 throw new DAOException("Error al eliminar EjxRut");
             }
@@ -179,6 +185,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
         try {
             EjxRut c = new EjxRut();
             c.setEjxrutkey(rs.getInt("ejxrutkey"));
+            c.setPlan(Controller.getPlanes().select(rs.getInt("plankey")));
             c.setEjercicio(Controller.getEjercicios().select(rs.getInt("Ejerciciokey")));
             c.setDia(rs.getString("dia"));
             c.setSeries(rs.getInt("series"));
@@ -267,7 +274,7 @@ public class SQLiteEjxRutDAO implements EjxRutDAO {
         ResultSet rs = null;
         ObservableList<AlxDiet> l = FXCollections.observableArrayList();
         try {
-            String WHERE = "SELECT ejxrutkey, plankey ," +
+            String WHERE = "SELECT ejxrutkey, ejxrut.plankey ," +
                     "ejerciciokey,momento,series,dia,repeticiones,unidad,presentacion " +
                     " FROM ejxrut inner join planes on planes.plankey=ejxrut.plankey where planes.nombre=?";
             s = conex.prepareStatement(WHERE);
